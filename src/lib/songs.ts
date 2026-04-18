@@ -5,8 +5,8 @@ import {
   resolvePublicStorageUrl,
 } from "@/lib/supabase/storage";
 
-/** Bundled copy of `Kissing 240227_04 .mp3` — served from `/public/audio` */
-export const KISSING_AUDIO_PATH = "/audio/kissing-240227.mp3";
+/** Bundled copy of `Come on Babe_V1 copy.flac` — served from `/public/audio` */
+export const COME_ON_BABE_AUDIO_PATH = "/audio/come-on-babe-v1.flac";
 
 const DEMO_AUDIO = [
   "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3",
@@ -16,10 +16,10 @@ const DEMO_AUDIO = [
 export const FALLBACK_SONGS: Song[] = [
   {
     id: "fallback-1",
-    title: "Kissing",
+    title: "Come on Babe",
     artist: "Shirwell Bancan",
     year: null,
-    audio_url: KISSING_AUDIO_PATH,
+    audio_url: COME_ON_BABE_AUDIO_PATH,
     cover_image: null,
     is_premium: false,
   },
@@ -94,14 +94,16 @@ export async function getSongs(): Promise<Song[]> {
   if (error || !data?.length) return FALLBACK_SONGS;
 
   const mapped = (data as SongRow[]).map((row) => mapRowToSong(url, row));
-  return applyBundledKissingAudio(mapped);
+  return applyBundledComeOnBabeAudio(mapped);
 }
 
-/** Use the bundled Kissing MP3 whenever the track title is "Kissing" */
-function applyBundledKissingAudio(songs: Song[]): Song[] {
+const COME_ON_BABE_TITLE = "come on babe";
+
+/** Use the bundled Come on Babe FLAC whenever the track title matches */
+function applyBundledComeOnBabeAudio(songs: Song[]): Song[] {
   return songs.map((s) =>
-    s.title?.trim().toLowerCase() === "kissing"
-      ? { ...s, audio_url: KISSING_AUDIO_PATH }
+    s.title?.trim().toLowerCase() === COME_ON_BABE_TITLE
+      ? { ...s, audio_url: COME_ON_BABE_AUDIO_PATH }
       : s
   );
 }
