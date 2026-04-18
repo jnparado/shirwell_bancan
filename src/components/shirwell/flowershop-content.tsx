@@ -1,8 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
-import { Phone } from "lucide-react";
 import { FlowershopHeader } from "./flowershop-header";
 import { BottomNav } from "./bottom-nav";
 import { AdSenseUnit } from "@/components/ads/adsense-unit";
@@ -24,9 +22,9 @@ export function FlowershopContent() {
           <div className="relative aspect-[4/5] w-full bg-black/50">
             <Image
               src="/flowershop-card.png"
-              alt=""
+              alt="Nati Roses — florals for special occasions"
               fill
-              className="object-cover object-[center_15%]"
+              className="object-cover object-center"
               sizes="(max-width: 512px) 100vw, 512px"
               priority
             />
@@ -34,36 +32,38 @@ export function FlowershopContent() {
 
           <div className="space-y-5 p-5 text-left text-sm leading-relaxed text-[#FFC107] sm:p-6 sm:text-[15px]">
             <p>
-              If you need a florist for weddings, funerals, or special occasions,
-              contact the link Nati Roses. Shirwell has been dealing with them for
-              over 40 years—highly recommends. At Middle Dural NSW, just 45 to 50
-              minutes drive with no traffic from Sydney—the heart—to the beautiful
-              farm Nati family.
-            </p>
-
-            <p className="flex flex-wrap items-center gap-2">
-              <Phone className="h-4 w-4 shrink-0 text-[#FFC107]" strokeWidth={2} aria-hidden />
-              <span>
-                You can just call{" "}
-                <a
-                  href="tel:+61296511375"
-                  className="font-semibold text-[#FFD54F] underline decoration-[#FFC107]/50 underline-offset-2"
-                >
-                  02 9651 1375
-                </a>
-              </span>
+              If you need a florist for weddings funerals special occasions contact
+              the link nati Roses. Shirwell has been dealing with them for over 40
+              years highly recommends At middle Dural NSW just 45 to 50 minutes
+              drive with no traffic from Sydney the heart To the beautiful Farm
+              nati family.
             </p>
 
             <p>
-              Professional florists ready—go to this link:{" "}
-              <Link
-                href="https://natiroses.com.au/"
+              Or you can just call{" "}
+              <a
+                href="tel:+61296511375"
+                className="font-semibold text-[#FFD54F] underline decoration-[#FFC107]/50 underline-offset-2"
+              >
+                02 9651 1375
+              </a>{" "}
+              Professional florists ready to go this link:{" "}
+              <a
+                href="https://natiroses.com.au/?srsltid=AfmBOopX1wDZUL2vd7bKZ-IyjA1tId5qxx5Fz65SngNS0JkvZgxrX6HH"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="break-all text-sky-400 underline underline-offset-2 hover:text-sky-300"
+                className="break-all text-[#3366ff] underline underline-offset-2 hover:text-[#5599ff]"
               >
-                https://natiroses.com.au/
-              </Link>
+                https://natiroses.com.au/?srsltid=AfmBOopX1wDZUL2vd7bKZ-IyjA1tId5qxx5Fz65SngNS0JkvZgxrX6HH
+              </a>
+            </p>
+
+            <p>
+              For weddings Aventis and funeral. Shirwell if you like to get his cheap
+              bunches of roses $10 or $20 Friday at Double Bay cosmopolitan next to
+              fruit shop 5pm or round the Bay you see him. Saturday at Sidney horse
+              races at 3pm on to finish times Other day you see him around castle
+              Hill shops About 5pm
             </p>
           </div>
         </article>

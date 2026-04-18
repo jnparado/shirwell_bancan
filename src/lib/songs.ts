@@ -16,7 +16,7 @@ const DEMO_AUDIO = [
 export const FALLBACK_SONGS: Song[] = [
   {
     id: "fallback-1",
-    title: "Come on Babe",
+    title: "Come on babe",
     artist: "Shirwell Bancan",
     year: null,
     audio_url: COME_ON_BABE_AUDIO_PATH,
@@ -34,10 +34,10 @@ export const FALLBACK_SONGS: Song[] = [
   },
   {
     id: "fallback-3",
-    title: "Lovely Forever",
+    title: "Come on babe",
     artist: "Shirwell Bancan",
     year: null,
-    audio_url: DEMO_AUDIO[1],
+    audio_url: COME_ON_BABE_AUDIO_PATH,
     cover_image: null,
     is_premium: false,
   },
@@ -97,13 +97,30 @@ export async function getSongs(): Promise<Song[]> {
   return applyBundledComeOnBabeAudio(mapped);
 }
 
-const COME_ON_BABE_TITLE = "come on babe";
+const DISPLAY_TITLE_COME_ON_BABE = "Come on babe";
 
-/** Use the bundled Come on Babe FLAC whenever the track title matches */
+/** Titles that map to the bundled Come on babe FLAC + display name */
+function isComeOnBabeTrack(title: string | null | undefined): boolean {
+  const t = title?.trim().toLowerCase() ?? "";
+  return (
+    t === "come on babe" ||
+    t === "kissing" ||
+    t === "lovely forever"
+  );
+}
+
+/**
+ * Normalize Kissing / Lovely Forever / Come on Babe variants to "Come on babe"
+ * and the local FLAC (`/public/audio/come-on-babe-v1.flac`).
+ */
 function applyBundledComeOnBabeAudio(songs: Song[]): Song[] {
   return songs.map((s) =>
-    s.title?.trim().toLowerCase() === COME_ON_BABE_TITLE
-      ? { ...s, audio_url: COME_ON_BABE_AUDIO_PATH }
+    isComeOnBabeTrack(s.title)
+      ? {
+          ...s,
+          title: DISPLAY_TITLE_COME_ON_BABE,
+          audio_url: COME_ON_BABE_AUDIO_PATH,
+        }
       : s
   );
 }
