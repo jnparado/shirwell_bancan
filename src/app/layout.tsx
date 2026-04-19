@@ -1,9 +1,13 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { PlayerProvider } from "@/contexts/player-context";
 import { SiteFooter } from "@/components/shirwell/site-footer";
 import { AdSenseScript } from "@/components/ads/adsense-script";
+import {
+  createRootMetadata,
+  getOrganizationWebsiteJsonLd,
+} from "@/lib/seo";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -16,9 +20,12 @@ const playfair = Playfair_Display({
   weight: ["400", "600", "700"],
 });
 
-export const metadata: Metadata = {
-  title: "Shirwell",
-  description: "Music player",
+export const metadata: Metadata = createRootMetadata();
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: "#080706",
 };
 
 export default function RootLayout({
@@ -32,6 +39,12 @@ export default function RootLayout({
       className={`${geistSans.variable} ${playfair.variable} h-full antialiased`}
     >
       <body className="min-h-full font-sans">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(getOrganizationWebsiteJsonLd()),
+          }}
+        />
         <AdSenseScript />
         <PlayerProvider>
           <div className="flex min-h-full flex-col">
