@@ -33,7 +33,7 @@ export function HomeContent({ songs }: HomeContentProps) {
         <section className="border-b border-white/[0.06] px-4 py-12 sm:px-6 sm:py-16">
           <div className="mx-auto max-w-6xl overflow-hidden rounded-3xl border border-[#FFC107]/15 bg-gradient-to-br from-[#1a1510] via-[#2a2218] to-[#14110e] p-[1px] shadow-[0_0_80px_rgba(255,193,7,0.08)]">
             <div className="rounded-[22px] bg-black/40 px-6 py-14 text-center backdrop-blur-md sm:px-12 sm:py-20">
-              <h2 className="mx-auto max-w-4xl font-serif text-3xl font-bold leading-[1.15] tracking-tight sm:text-4xl md:text-5xl">
+              <h1 className="mx-auto max-w-4xl font-serif text-3xl font-bold leading-[1.15] tracking-tight sm:text-4xl md:text-5xl">
                 <span className="block text-white">
                   Experience 45 years of song Writing and
                 </span>
@@ -41,7 +41,12 @@ export function HomeContent({ songs }: HomeContentProps) {
                   <span className="text-white">Talent From </span>
                   <span className="text-[#FFC107]">Shirwell Bancan.</span>
                 </span>
-              </h2>
+              </h1>
+              <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-zinc-400 sm:text-lg">
+                Official Shirwell music by Shirwell Bancan — stream songs and new
+                releases here. Find Shirwell Bancan music online: featured tracks,
+                full player, and flowers.
+              </p>
               <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
                 <a
                   href="#featured"
@@ -73,6 +78,14 @@ export function HomeContent({ songs }: HomeContentProps) {
           className="border-b border-white/[0.05] px-4 py-10 sm:px-6 sm:py-14"
         >
           <div className="mx-auto max-w-6xl">
+            <p className="mb-4 text-sm leading-relaxed text-zinc-500">
+              Shirwell music — songs by Shirwell Bancan. Press play on any card or open
+              the{" "}
+              <Link href="/music" className="text-[#FFC107] underline-offset-2 hover:underline">
+                music player
+              </Link>{" "}
+              for the full experience.
+            </p>
             <div className="mb-8 flex items-end justify-between gap-4">
               <h2 className="font-serif text-2xl font-bold tracking-tight text-[#FFC107] sm:text-3xl">
                 Featured Songs

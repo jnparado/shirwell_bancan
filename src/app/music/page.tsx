@@ -4,14 +4,14 @@ import { getSongs } from "@/lib/songs";
 import { SITE_NAME } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "Listen",
+  title: "Listen — Shirwell music",
   description:
-    "Play Shirwell Bancan tracks in the built-in music player — artwork, progress, and lyrics.",
+    "Shirwell music player — stream Shirwell Bancan songs online with artwork, progress ring, and lyrics. Official Shirwell Bancan listening experience.",
   alternates: { canonical: "/music" },
   openGraph: {
-    title: `Listen | ${SITE_NAME}`,
+    title: `Shirwell music | ${SITE_NAME}`,
     description:
-      "Stream Shirwell Bancan music with the full-screen player — featured songs and playback controls.",
+      "Listen to Shirwell Bancan music in the full-screen player — Shirwell songs, streaming, and controls.",
     url: "/music",
   },
 };

@@ -11,28 +11,53 @@ export const DEFAULT_DESCRIPTION =
 
 /** Home page meta description (leads with brand). */
 export const HOME_DESCRIPTION =
-  "Shirwell Bancan: stream original music, featured tracks, and decades of songwriting. Shop roses and special bundles — flowers through Nati Roses, NSW.";
+  "Shirwell Bancan official site — Shirwell music streaming, songs, and new releases. Listen to Shirwell Bancan online. Flowers + Nati Roses, NSW.";
 
 /** Hero / social share image (under `public/`) */
 export const DEFAULT_OG_IMAGE = "/shirwell-hero.png";
 
 /**
  * Canonical site URL for metadataBase, sitemap, and JSON-LD.
- * Set in production: `NEXT_PUBLIC_SITE_URL=https://yourdomain.com` (no trailing slash).
+ *
+ * Priority:
+ * 1. `NEXT_PUBLIC_SITE_URL` — set this to your final domain (e.g. `https://shirwell.com`).
+ * 2. `VERCEL_PROJECT_PRODUCTION_URL` — Vercel’s stable production host (cleaner than preview URLs).
+ * 3. `VERCEL_URL` — **preview** deploys get long URLs like `…-r4t334j9r-….vercel.app`; that’s normal.
+ *
+ * Google Search Console: `GOOGLE_SITE_VERIFICATION` = HTML tag `content` from Google.
  */
-export function getSiteUrl(): URL {
-  const raw = process.env.NEXT_PUBLIC_SITE_URL?.trim();
-  if (raw) {
-    try {
-      const normalized = raw.endsWith("/") ? raw.slice(0, -1) : raw;
-      return new URL(normalized);
-    } catch {
-      // fall through
-    }
+function tryParseSiteUrl(value: string): URL | null {
+  const v = value.trim();
+  if (!v) return null;
+  try {
+    const withProtocol =
+      v.startsWith("http://") || v.startsWith("https://")
+        ? v
+        : `https://${v.replace(/^\/+/, "").replace(/\/$/, "")}`;
+    const u = new URL(withProtocol);
+    return new URL(u.origin);
+  } catch {
+    return null;
   }
+}
+
+export function getSiteUrl(): URL {
+  const explicit = process.env.NEXT_PUBLIC_SITE_URL?.trim();
+  if (explicit) {
+    const u = tryParseSiteUrl(explicit);
+    if (u) return u;
+  }
+
+  const vercelProduction = process.env.VERCEL_PROJECT_PRODUCTION_URL?.trim();
+  if (vercelProduction) {
+    const u = tryParseSiteUrl(vercelProduction);
+    if (u) return u;
+  }
+
   if (process.env.VERCEL_URL) {
     return new URL(`https://${process.env.VERCEL_URL}`);
   }
+
   return new URL("http://localhost:3000");
 }
 
@@ -45,6 +70,8 @@ export function absoluteUrl(path: string): string {
 export function createRootMetadata(): Metadata {
   const base = getSiteUrl();
   const ogTitle = `${SITE_NAME} — Music & Flowers`;
+
+  const googleVerify = process.env.GOOGLE_SITE_VERIFICATION?.trim();
 
   return {
     metadataBase: base,
@@ -59,11 +86,16 @@ export function createRootMetadata(): Metadata {
     },
     keywords: [
       SITE_NAME,
+      "shirwell bancan",
+      "shirwell music",
       `${SITE_NAME} music`,
       `${SITE_NAME} songs`,
       `${SITE_NAME} official`,
+      `${SITE_NAME} website`,
+      "Shirwell Bancan official site",
+      "listen to Shirwell Bancan",
       SITE_NAME_SHORT,
-      "Shirwell music",
+      "Shirwell artist",
       "Bancan",
       "original music",
       "streaming",
@@ -120,6 +152,13 @@ export function createRootMetadata(): Metadata {
       apple: "/shirwell-logo.png",
     },
     category: "music",
+    ...(googleVerify
+      ? {
+          verification: {
+            google: googleVerify,
+          },
+        }
+      : {}),
   };
 }
 
@@ -153,7 +192,11 @@ export function getOrganizationWebsiteJsonLd(): Record<string, unknown> {
         "@type": "WebSite",
         "@id": `${origin}/#website`,
         name: SITE_NAME,
-        alternateName: `${SITE_NAME} official website`,
+        alternateName: [
+          `${SITE_NAME} official website`,
+          "Shirwell music",
+          "Shirwell Bancan music",
+        ],
         url: origin,
         description: DEFAULT_DESCRIPTION,
         inLanguage: "en-AU",
