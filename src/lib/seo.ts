@@ -162,35 +162,55 @@ export function createRootMetadata(): Metadata {
   };
 }
 
-/** JSON-LD: Shirwell Bancan as MusicGroup (solo artist) + WebSite. */
+/** Comma-separated profile URLs for JSON-LD `sameAs` (Spotify, YouTube, Instagram, etc.). */
+function parseSameAsEnv(): string[] {
+  const raw = process.env.NEXT_PUBLIC_SAME_AS?.trim();
+  if (!raw) return [];
+  return raw
+    .split(",")
+    .map((s) => s.trim())
+    .filter((s) => s.startsWith("http"));
+}
+
+/** JSON-LD: MusicGroup + WebSite + WebPage + SearchAction (helps Google connect brand ↔ URL). */
 export function getOrganizationWebsiteJsonLd(): Record<string, unknown> {
   const origin = getSiteUrl().origin;
   const logo = absoluteUrl("/shirwell-logo.png");
+  const hero = absoluteUrl(DEFAULT_OG_IMAGE);
   const artistId = `${origin}/#shirwell-bancan`;
+  const websiteId = `${origin}/#website`;
+  const webPageId = `${origin}/#home`;
+  const sameAs = parseSameAsEnv();
+
+  const musicGroup: Record<string, unknown> = {
+    "@type": "MusicGroup",
+    "@id": artistId,
+    name: SITE_NAME,
+    alternateName: [SITE_NAME_SHORT, "Shirwell Bancan music", "Shirwell music"],
+    description: DEFAULT_DESCRIPTION,
+    url: origin,
+    logo: {
+      "@type": "ImageObject",
+      url: logo,
+      caption: `${SITE_NAME} logo`,
+    },
+    image: hero,
+    areaServed: {
+      "@type": "Country",
+      name: "Australia",
+    },
+  };
+  if (sameAs.length > 0) {
+    musicGroup.sameAs = sameAs;
+  }
 
   return {
     "@context": "https://schema.org",
     "@graph": [
-      {
-        "@type": "MusicGroup",
-        "@id": artistId,
-        name: SITE_NAME,
-        alternateName: SITE_NAME_SHORT,
-        description: DEFAULT_DESCRIPTION,
-        url: origin,
-        logo: {
-          "@type": "ImageObject",
-          url: logo,
-          caption: `${SITE_NAME} logo`,
-        },
-        areaServed: {
-          "@type": "Country",
-          name: "Australia",
-        },
-      },
+      musicGroup,
       {
         "@type": "WebSite",
-        "@id": `${origin}/#website`,
+        "@id": websiteId,
         name: SITE_NAME,
         alternateName: [
           `${SITE_NAME} official website`,
@@ -202,6 +222,27 @@ export function getOrganizationWebsiteJsonLd(): Record<string, unknown> {
         inLanguage: "en-AU",
         publisher: { "@id": artistId },
         about: { "@id": artistId },
+        potentialAction: {
+          "@type": "SearchAction",
+          target: {
+            "@type": "EntryPoint",
+            urlTemplate: `${origin}/search?q={search_term_string}`,
+          },
+          "query-input": "required name=search_term_string",
+        },
+      },
+      {
+        "@type": "WebPage",
+        "@id": webPageId,
+        url: origin,
+        name: `${SITE_NAME} — Music & Flowers`,
+        description: HOME_DESCRIPTION,
+        isPartOf: { "@id": websiteId },
+        about: { "@id": artistId },
+        primaryImageOfPage: {
+          "@type": "ImageObject",
+          url: hero,
+        },
       },
     ],
   };
