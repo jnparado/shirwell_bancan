@@ -1,5 +1,8 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Crown } from "lucide-react";
 
 /** Matches marketing header — Shirwell gold luxury */
@@ -39,6 +42,9 @@ const social = [
 ] as const;
 
 export function SiteFooter() {
+  const pathname = usePathname();
+  if (pathname === "/music") return null;
+
   return (
     <footer className="mt-auto border-t border-[#FFC107]/15 bg-black/50 pb-[calc(5.5rem+env(safe-area-inset-bottom))] shadow-[0_-8px_32px_rgba(0,0,0,0.4)] backdrop-blur-2xl md:pb-12">
       {/* Premium — dark glass strip + inner glass cards */}

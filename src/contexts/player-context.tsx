@@ -8,6 +8,7 @@ import {
   useMemo,
   useReducer,
   useRef,
+  useState,
   type ReactNode,
 } from "react";
 import { Howl } from "howler";
@@ -84,6 +85,10 @@ interface PlayerContextValue {
   currentIndex: number;
   currentSong: Song | null;
   isPlaying: boolean;
+  /** Playback position in seconds */
+  currentTime: number;
+  /** Track length in seconds (0 until loaded) */
+  duration: number;
   setQueue: (songs: Song[]) => void;
   playSong: (song: Song) => void;
   toggle: () => void;
@@ -91,6 +96,7 @@ interface PlayerContextValue {
   pause: () => void;
   next: () => void;
   prev: () => void;
+  seek: (seconds: number) => void;
 }
 
 const PlayerContext = createContext<PlayerContextValue | null>(null);
@@ -104,6 +110,7 @@ const initialState: PlayerState = {
 export function PlayerProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(playerReducer, initialState);
   const howlRef = useRef<Howl | null>(null);
+  const [progress, setProgress] = useState({ current: 0, duration: 0 });
 
   const currentSong = state.queue[state.currentIndex] ?? null;
 
@@ -135,16 +142,33 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     dispatch({ type: "PREV" });
   }, []);
 
+  const seek = useCallback((seconds: number) => {
+    const h = howlRef.current;
+    if (!h) return;
+    const dur = h.duration() || 0;
+    const t = Math.max(0, Math.min(seconds, dur > 0 ? dur : seconds));
+    h.seek(t);
+    setProgress((p) => ({
+      current: t,
+      duration: dur > 0 ? dur : p.duration,
+    }));
+  }, []);
+
   useEffect(() => {
     const song = state.queue[state.currentIndex];
     howlRef.current?.unload();
     howlRef.current = null;
+    setProgress({ current: 0, duration: 0 });
 
     if (!song?.audio_url) return;
 
     const h = new Howl({
       src: [song.audio_url],
       html5: true,
+      onload: () => {
+        const dur = h.duration() || 0;
+        setProgress({ current: 0, duration: dur });
+      },
       onend: () => {
         dispatch({ type: "SET_PLAYING", isPlaying: false });
       },
@@ -153,7 +177,16 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     });
     howlRef.current = h;
 
+    const id = window.setInterval(() => {
+      const hh = howlRef.current;
+      if (!hh) return;
+      const dur = hh.duration() || 0;
+      const cur = hh.seek() as number;
+      setProgress({ current: cur, duration: dur });
+    }, 200);
+
     return () => {
+      clearInterval(id);
       h.unload();
       howlRef.current = null;
     };
@@ -172,6 +205,8 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
       currentIndex: state.currentIndex,
       currentSong,
       isPlaying: state.isPlaying,
+      currentTime: progress.current,
+      duration: progress.duration,
       setQueue,
       playSong,
       toggle,
@@ -179,12 +214,15 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
       pause,
       next,
       prev,
+      seek,
     }),
     [
       state.queue,
       state.currentIndex,
       state.isPlaying,
       currentSong,
+      progress.current,
+      progress.duration,
       setQueue,
       playSong,
       toggle,
@@ -192,6 +230,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
       pause,
       next,
       prev,
+      seek,
     ]
   );
 

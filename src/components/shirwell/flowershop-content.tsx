@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { FlowershopHeader } from "./flowershop-header";
+import { MarketingHeader } from "./marketing-header";
 import { BottomNav } from "./bottom-nav";
 import { AdSenseUnit } from "@/components/ads/adsense-unit";
 
@@ -11,7 +11,7 @@ const cardClass =
 export function FlowershopContent() {
   return (
     <div className="flowers-sparkle-page relative flex min-h-full flex-1 flex-col pb-36">
-      <FlowershopHeader />
+      <MarketingHeader />
 
       <main className="relative mx-auto w-full max-w-lg flex-1 px-4 py-8">
         <h1 className="mb-8 text-center font-serif text-4xl font-bold tracking-tight text-[#FFC107] sm:text-5xl">

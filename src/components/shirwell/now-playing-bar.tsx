@@ -1,14 +1,16 @@
 "use client";
 
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { Pause, Play, SkipBack, SkipForward } from "lucide-react";
 import { usePlayer } from "@/contexts/player-context";
 import { getPlayerArtworkSrc } from "@/lib/player-artwork";
 
 export function NowPlayingBar() {
+  const pathname = usePathname();
   const { currentSong, isPlaying, toggle, next, prev } = usePlayer();
 
-  if (!currentSong) return null;
+  if (pathname === "/music" || !currentSong) return null;
 
   const thumbSrc = getPlayerArtworkSrc(currentSong);
 

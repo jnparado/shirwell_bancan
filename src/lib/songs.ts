@@ -5,21 +5,22 @@ import {
   resolvePublicStorageUrl,
 } from "@/lib/supabase/storage";
 
-/** Bundled copy of `Come on Babe_V1 copy.flac` — served from `/public/audio` */
+/** Bundled `Kissing 240227_04 .mp3` */
+export const KISSING_AUDIO_PATH = "/audio/kissing-240227.mp3";
+
+/** `Come on Babe_V1 copy.flac` */
 export const COME_ON_BABE_AUDIO_PATH = "/audio/come-on-babe-v1.flac";
 
-const DEMO_AUDIO = [
-  "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3",
-  "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3",
-];
+/** Bundled copy of `I Want To Run Away_240225_V2-2.wav` */
+export const RUN_AWAY_AUDIO_PATH = "/audio/i-want-to-run-away.wav";
 
 export const FALLBACK_SONGS: Song[] = [
   {
     id: "fallback-1",
-    title: "Come on babe",
+    title: "Kissing",
     artist: "Shirwell Bancan",
     year: null,
-    audio_url: COME_ON_BABE_AUDIO_PATH,
+    audio_url: KISSING_AUDIO_PATH,
     cover_image: null,
     is_premium: false,
   },
@@ -28,7 +29,7 @@ export const FALLBACK_SONGS: Song[] = [
     title: "I Want to Run Away",
     artist: "Shirwell Bancan",
     year: null,
-    audio_url: DEMO_AUDIO[0],
+    audio_url: RUN_AWAY_AUDIO_PATH,
     cover_image: null,
     is_premium: false,
   },
@@ -94,25 +95,39 @@ export async function getSongs(): Promise<Song[]> {
   if (error || !data?.length) return FALLBACK_SONGS;
 
   const mapped = (data as SongRow[]).map((row) => mapRowToSong(url, row));
-  return applyBundledComeOnBabeAudio(mapped);
-}
-
-const DISPLAY_TITLE_COME_ON_BABE = "Come on babe";
-
-/** Titles that map to the bundled Come on babe FLAC + display name */
-function isComeOnBabeTrack(title: string | null | undefined): boolean {
-  const t = title?.trim().toLowerCase() ?? "";
-  return (
-    t === "come on babe" ||
-    t === "kissing" ||
-    t === "lovely forever"
+  return applyBundledRunAwayAudio(
+    applyBundledComeOnBabeAudio(applyBundledKissingAudio(mapped))
   );
 }
 
-/**
- * Normalize Kissing / Lovely Forever / Come on Babe variants to "Come on babe"
- * and the local FLAC (`/public/audio/come-on-babe-v1.flac`).
- */
+const DISPLAY_TITLE_KISSING = "Kissing";
+const DISPLAY_TITLE_COME_ON_BABE = "Come on babe";
+
+/** “Kissing” / legacy alias → bundled MP3 */
+function isKissingBundleTrack(title: string | null | undefined): boolean {
+  const t = title?.trim().toLowerCase() ?? "";
+  return t === "kissing" || t === "lovely forever";
+}
+
+function isComeOnBabeTrack(title: string | null | undefined): boolean {
+  const t = title?.trim().toLowerCase() ?? "";
+  return t === "come on babe";
+}
+
+/** Title “Kissing” + local MP3 */
+function applyBundledKissingAudio(songs: Song[]): Song[] {
+  return songs.map((s) =>
+    isKissingBundleTrack(s.title)
+      ? {
+          ...s,
+          title: DISPLAY_TITLE_KISSING,
+          audio_url: KISSING_AUDIO_PATH,
+        }
+      : s
+  );
+}
+
+/** Title “Come on babe” + local FLAC */
 function applyBundledComeOnBabeAudio(songs: Song[]): Song[] {
   return songs.map((s) =>
     isComeOnBabeTrack(s.title)
@@ -122,5 +137,17 @@ function applyBundledComeOnBabeAudio(songs: Song[]): Song[] {
           audio_url: COME_ON_BABE_AUDIO_PATH,
         }
       : s
+  );
+}
+
+function isRunAwayTrack(title: string | null | undefined): boolean {
+  const t = title?.trim().toLowerCase() ?? "";
+  return t === "i want to run away" || t === "i want to runaway";
+}
+
+/** Supabase rows for “I Want to Run Away” use the bundled WAV */
+function applyBundledRunAwayAudio(songs: Song[]): Song[] {
+  return songs.map((s) =>
+    isRunAwayTrack(s.title) ? { ...s, audio_url: RUN_AWAY_AUDIO_PATH } : s
   );
 }

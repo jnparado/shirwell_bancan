@@ -7,7 +7,7 @@ import { Disc3, Home, Search } from "lucide-react";
 const items = [
   { href: "/", label: "Home", Icon: Home },
   { href: "/search", label: "Search", Icon: Search },
-  { href: "/library", label: "Library", Icon: Disc3 },
+  { href: "/music", label: "Music", Icon: Disc3 },
 ] as const;
 
 export function BottomNav() {

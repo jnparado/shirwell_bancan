@@ -38,7 +38,7 @@ export function MarketingHeader() {
           <Link href="/" className={navLinkClass}>
             Home
           </Link>
-          <Link href="/#featured" className={navLinkClass}>
+          <Link href="/music" className={navLinkClass}>
             Music
           </Link>
           <Link href="/flowers" className={navLinkClass}>
@@ -71,7 +71,7 @@ export function MarketingHeader() {
         <Link href="/" className={`${navLinkClass} shrink-0`}>
           Home
         </Link>
-        <Link href="/#featured" className={`${navLinkClass} shrink-0`}>
+        <Link href="/music" className={`${navLinkClass} shrink-0`}>
           Music
         </Link>
         <Link href="/flowers" className={`${navLinkClass} shrink-0`}>
