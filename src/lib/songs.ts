@@ -8,8 +8,12 @@ import {
 /** Bundled `Kissing 240227_04 .mp3` */
 export const KISSING_AUDIO_PATH = "/audio/kissing-240227.mp3";
 
-/** `Come on Babe_V4_L2 1.wav` (louder) */
-export const COME_ON_BABE_AUDIO_PATH = "/audio/come-on-babe-v4-l2-v2.wav";
+/** `Come on Babe_V4_L2.wav` */
+export const COME_ON_BABE_AUDIO_PATH = "/audio/come-on-babe-v4-l2.wav";
+
+/** `Come on Babe_V4_L2 1.wav` (version 2 — most louder version) */
+export const COME_ON_BABE_V2_LOUDER_AUDIO_PATH =
+  "/audio/come-on-babe-v4-l2-louder.wav";
 
 /** Bundled copy of `I Want To Run Away_240225_V2-2.wav` */
 export const RUN_AWAY_AUDIO_PATH = "/audio/i-want-to-run-away.wav";
@@ -39,6 +43,15 @@ export const FALLBACK_SONGS: Song[] = [
     artist: "Shirwell Bancan",
     year: null,
     audio_url: COME_ON_BABE_AUDIO_PATH,
+    cover_image: null,
+    is_premium: false,
+  },
+  {
+    id: "fallback-4",
+    title: "Come on babe (Version 2 — louder)",
+    artist: "Shirwell Bancan",
+    year: null,
+    audio_url: COME_ON_BABE_V2_LOUDER_AUDIO_PATH,
     cover_image: null,
     is_premium: false,
   },
@@ -102,6 +115,7 @@ export async function getSongs(): Promise<Song[]> {
 
 const DISPLAY_TITLE_KISSING = "Kissing";
 const DISPLAY_TITLE_COME_ON_BABE = "Come on babe";
+const DISPLAY_TITLE_COME_ON_BABE_V2 = "Come on babe (Version 2 — louder)";
 
 /** “Kissing” / legacy alias → bundled MP3 */
 function isKissingBundleTrack(title: string | null | undefined): boolean {
@@ -112,6 +126,17 @@ function isKissingBundleTrack(title: string | null | undefined): boolean {
 function isComeOnBabeTrack(title: string | null | undefined): boolean {
   const t = title?.trim().toLowerCase() ?? "";
   return t === "come on babe";
+}
+
+function isComeOnBabeV2Track(title: string | null | undefined): boolean {
+  const t = title?.trim().toLowerCase() ?? "";
+  return (
+    t === "come on babe version 2" ||
+    t === "come on babe v2" ||
+    t === "come on babe (version 2 — louder)" ||
+    t === "come on babe (version 2 - louder)" ||
+    t === "come on babe v4 l2 1"
+  );
 }
 
 /** Title “Kissing” + local MP3 */
@@ -127,16 +152,22 @@ function applyBundledKissingAudio(songs: Song[]): Song[] {
   );
 }
 
-/** Title “Come on babe” + local FLAC */
+/** Title “Come on babe” + local WAV */
 function applyBundledComeOnBabeAudio(songs: Song[]): Song[] {
   return songs.map((s) =>
-    isComeOnBabeTrack(s.title)
+    isComeOnBabeV2Track(s.title)
       ? {
           ...s,
-          title: DISPLAY_TITLE_COME_ON_BABE,
-          audio_url: COME_ON_BABE_AUDIO_PATH,
+          title: DISPLAY_TITLE_COME_ON_BABE_V2,
+          audio_url: COME_ON_BABE_V2_LOUDER_AUDIO_PATH,
         }
-      : s
+      : isComeOnBabeTrack(s.title)
+        ? {
+            ...s,
+            title: DISPLAY_TITLE_COME_ON_BABE,
+            audio_url: COME_ON_BABE_AUDIO_PATH,
+          }
+        : s
   );
 }
 
