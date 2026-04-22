@@ -8,8 +8,8 @@ import {
 /** Bundled `Kissing 240227_04 .mp3` */
 export const KISSING_AUDIO_PATH = "/audio/kissing-240227.mp3";
 
-/** `Come on Babe_V4_L2.wav` */
-export const COME_ON_BABE_AUDIO_PATH = "/audio/come-on-babe-v4-l2.wav";
+/** `Come on Babe_V4_L2 1.wav` (louder) */
+export const COME_ON_BABE_AUDIO_PATH = "/audio/come-on-babe-v4-l2-v2.wav";
 
 /** Bundled copy of `I Want To Run Away_240225_V2-2.wav` */
 export const RUN_AWAY_AUDIO_PATH = "/audio/i-want-to-run-away.wav";
