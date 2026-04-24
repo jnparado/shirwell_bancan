@@ -13,3 +13,20 @@
 
 export const ADMOB_WEB_NOTE =
   "Use AdSense on web; add AdMob only in a native or Capacitor client.";
+
+/**
+ * Store your AdMob identifiers here for the native wrapper to consume (Android/iOS).
+ * These are not secrets, but we still avoid exposing them to client JS by default.
+ */
+export const ADMOB_APP_ID = process.env.ADMOB_APP_ID ?? "";
+
+/** Example: ca-app-pub-XXXXXXXXXXXXXXX/NNNNNNNNNN */
+export const ADMOB_APP_OPEN_AD_UNIT_ID =
+  process.env.ADMOB_APP_OPEN_AD_UNIT_ID ?? "";
+
+/** Example: ca-app-pub-XXXXXXXXXXXXXXX/NNNNNNNNNN */
+export const ADMOB_AD_UNIT_ID = process.env.ADMOB_AD_UNIT_ID ?? "";
+
+export function isAdmobConfigured(): boolean {
+  return Boolean(ADMOB_APP_ID && (ADMOB_APP_OPEN_AD_UNIT_ID || ADMOB_AD_UNIT_ID));
+}
