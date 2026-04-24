@@ -38,6 +38,9 @@ export default function RootLayout({
       lang="en-AU"
       className={`${geistSans.variable} ${playfair.variable} h-full antialiased`}
     >
+      <head>
+        <AdSenseScript />
+      </head>
       <body className="min-h-full font-sans">
         <script
           type="application/ld+json"
@@ -45,7 +48,6 @@ export default function RootLayout({
             __html: JSON.stringify(getOrganizationWebsiteJsonLd()),
           }}
         />
-        <AdSenseScript />
         <PlayerProvider>
           <div className="flex min-h-full flex-col">
             <div className="flex-1">{children}</div>

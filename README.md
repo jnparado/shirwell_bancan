@@ -35,3 +35,25 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
 # shirwell_bancan
+
+## Google AdSense (earn money)
+
+This project already includes:
+
+- `src/components/ads/adsense-script.tsx`: loads the AdSense script site-wide
+- `src/components/ads/adsense-unit.tsx`: a reusable ad unit component
+- `src/app/ads.txt/route.ts`: serves `https://your-domain.com/ads.txt` (required by AdSense)
+
+### Configure
+
+1. Copy `.env.example` → `.env.local`
+2. Set:
+   - `NEXT_PUBLIC_ADSENSE_CLIENT_ID=ca-pub-2495432679632375`
+   - (Optional) `NEXT_PUBLIC_ADSENSE_SLOT_BANNER=...` (your Ad Unit “slot id” number)
+
+### Verify
+
+- Visit `/ads.txt` on your deployed domain and confirm it returns a line like:
+  `google.com, pub-2495432679632375, DIRECT, f08c47fec0942fa0`
+- Deploy, then check the page source includes `adsbygoogle.js?client=ca-pub-...`
+
