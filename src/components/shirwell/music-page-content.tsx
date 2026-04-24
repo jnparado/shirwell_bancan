@@ -69,6 +69,21 @@ export function MusicPageContent({ songs }: MusicPageContentProps) {
   const title = currentSong?.title ?? "—";
   const artist = currentSong?.artist ?? "—";
 
+  function inferCopyrightYear(): number {
+    const fromField = currentSong?.year ?? null;
+    if (fromField && Number.isFinite(fromField)) return fromField;
+
+    const url = currentSong?.audio_url ?? "";
+    const m = url.match(/(?:_|-)(\d{6})(?:_|-|\.|$)/); // e.g. _240225_ or -240227.
+    if (m?.[1]) {
+      const yy = Number(m[1].slice(0, 2));
+      if (Number.isFinite(yy)) return 2000 + yy;
+    }
+    return new Date().getFullYear();
+  }
+
+  const copyrightYear = inferCopyrightYear();
+
   const progressRatio = useMemo(() => {
     if (duration <= 0) return 0;
     return Math.min(1, currentTime / duration);
@@ -231,6 +246,9 @@ export function MusicPageContent({ songs }: MusicPageContentProps) {
                     sizes="300px"
                     priority
                   />
+                  <span className="absolute bottom-0 right-0 rounded-tl bg-black/70 px-1.5 py-1 text-[10px] font-semibold tracking-wide text-[#FFC107]/90">
+                    (C) {copyrightYear} Shirwell™
+                  </span>
                 </div>
               </div>
             </div>
@@ -258,6 +276,9 @@ export function MusicPageContent({ songs }: MusicPageContentProps) {
                 {title}
               </h1>
               <p className="mt-1 truncate text-[15px] text-zinc-400">{artist}</p>
+              <p className="mt-1 text-[11px] font-medium tracking-wide text-[#FFC107]/80">
+                (C) {copyrightYear} Shirwell™ Bancan
+              </p>
             </div>
             <button
               type="button"

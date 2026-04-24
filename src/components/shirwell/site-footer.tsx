@@ -45,6 +45,8 @@ export function SiteFooter() {
   const pathname = usePathname();
   if (pathname === "/music") return null;
 
+  const year = new Date().getFullYear();
+
   return (
     <footer className="mt-auto border-t border-[#FFC107]/15 bg-black/50 pb-[calc(5.5rem+env(safe-area-inset-bottom))] shadow-[0_-8px_32px_rgba(0,0,0,0.4)] backdrop-blur-2xl md:pb-12">
       {/* Premium — dark glass strip + inner glass cards */}
@@ -90,6 +92,9 @@ export function SiteFooter() {
                   className="object-cover object-center"
                   sizes="220px"
                 />
+                <span className="absolute bottom-0 right-0 rounded-tl bg-black/70 px-1.5 py-1 text-[10px] font-semibold tracking-wide text-[#FFC107]/90">
+                  (C) {year} Shirwell™
+                </span>
               </div>
             </div>
 
@@ -195,7 +200,7 @@ export function SiteFooter() {
           </div>
 
           <p className="mt-10 text-center text-xs text-zinc-500">
-            © {new Date().getFullYear()} Shirwell Bancan. All rights reserved.
+            (C) {year} Shirwell™ Bancan. All rights reserved.
           </p>
         </div>
       </div>

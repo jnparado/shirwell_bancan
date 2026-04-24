@@ -4,6 +4,7 @@ import "./globals.css";
 import { PlayerProvider } from "@/contexts/player-context";
 import { SiteFooter } from "@/components/shirwell/site-footer";
 import { AdSenseScript } from "@/components/ads/adsense-script";
+import { SiteMarks } from "@/components/legal/site-marks";
 import {
   createRootMetadata,
   getOrganizationWebsiteJsonLd,
@@ -50,6 +51,7 @@ export default function RootLayout({
         />
         <PlayerProvider>
           <div className="flex min-h-full flex-col">
+            <SiteMarks />
             <div className="flex-1">{children}</div>
             <SiteFooter />
           </div>

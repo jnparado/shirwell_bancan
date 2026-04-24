@@ -9,6 +9,7 @@ const navLinkClass = `${glassCard} px-3 py-2 text-sm font-medium text-[#FFC107] 
 const navDisabledClass = `${glassCard} cursor-not-allowed px-3 py-2 text-sm font-medium text-[#FFC107]/35`;
 
 export function MarketingHeader() {
+  const year = new Date().getFullYear();
   return (
     <header className="sticky top-0 z-50 border-b border-[#FFC107]/15 bg-black/50 shadow-[0_8px_32px_rgba(0,0,0,0.45)] backdrop-blur-2xl">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3.5 sm:gap-4 sm:px-6 sm:py-4">
@@ -25,6 +26,9 @@ export function MarketingHeader() {
               sizes="44px"
               priority
             />
+            <span className="absolute bottom-0 right-0 rounded-tl bg-black/70 px-1 py-0.5 text-[8px] font-semibold tracking-wide text-[#FFC107]/90">
+              (C) {year} Shirwell™
+            </span>
           </span>
           <span className="truncate font-serif text-lg font-semibold tracking-tight text-[#FFC107] sm:text-xl">
             Shirwell Bancan
