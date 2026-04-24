@@ -83,6 +83,10 @@ export function MusicPageContent({ songs }: MusicPageContentProps) {
   }
 
   const copyrightYear = inferCopyrightYear();
+  const writtenLine =
+    title === "—"
+      ? null
+      : `${title} written ${copyrightYear} by ${artist} ©`;
 
   const progressRatio = useMemo(() => {
     if (duration <= 0) return 0;
@@ -247,7 +251,7 @@ export function MusicPageContent({ songs }: MusicPageContentProps) {
                     priority
                   />
                   <span className="absolute bottom-0 right-0 rounded-tl bg-black/70 px-1.5 py-1 text-[10px] font-semibold tracking-wide text-[#FFC107]/90">
-                    (C) {copyrightYear} Shirwell™
+                    © {copyrightYear} Shirwell™
                   </span>
                 </div>
               </div>
@@ -276,9 +280,11 @@ export function MusicPageContent({ songs }: MusicPageContentProps) {
                 {title}
               </h1>
               <p className="mt-1 truncate text-[15px] text-zinc-400">{artist}</p>
-              <p className="mt-1 text-[11px] font-medium tracking-wide text-[#FFC107]/80">
-                (C) {copyrightYear} Shirwell™ Bancan
-              </p>
+              {writtenLine ? (
+                <p className="mt-1 text-[11px] font-semibold tracking-wide text-[#FFC107]/85">
+                  {writtenLine}
+                </p>
+              ) : null}
             </div>
             <button
               type="button"

@@ -18,12 +18,37 @@ export const COME_ON_BABE_V2_LOUDER_AUDIO_PATH =
 /** Bundled copy of `I Want To Run Away_240225_V2-2.wav` */
 export const RUN_AWAY_AUDIO_PATH = "/audio/i-want-to-run-away.wav";
 
+function normalizeTitle(title: string | null | undefined): string {
+  return (title ?? "").trim().toLowerCase();
+}
+
+function applyWrittenYears(songs: Song[]): Song[] {
+  return songs.map((s) => {
+    const t = normalizeTitle(s.title);
+    // User-provided correct dates:
+    // - Kissing (sometimes mistyped as "pissing") written 2024
+    // - I Want to Run Away written 2025
+    // - Come on babe (all versions) written 1979
+    const forcedYear =
+      t === "kissing" || t === "pissing"
+        ? 2024
+        : t === "i want to run away" || t === "i want to runaway"
+          ? 2025
+          : t.startsWith("come on babe")
+            ? 1979
+            : null;
+
+    if (!forcedYear) return s;
+    return { ...s, year: forcedYear };
+  });
+}
+
 export const FALLBACK_SONGS: Song[] = [
   {
     id: "fallback-1",
     title: "Kissing",
     artist: "Shirwell Bancan",
-    year: null,
+    year: 2024,
     audio_url: KISSING_AUDIO_PATH,
     cover_image: null,
     is_premium: false,
@@ -32,7 +57,7 @@ export const FALLBACK_SONGS: Song[] = [
     id: "fallback-2",
     title: "I Want to Run Away",
     artist: "Shirwell Bancan",
-    year: null,
+    year: 2025,
     audio_url: RUN_AWAY_AUDIO_PATH,
     cover_image: null,
     is_premium: false,
@@ -41,7 +66,7 @@ export const FALLBACK_SONGS: Song[] = [
     id: "fallback-3",
     title: "Come on babe",
     artist: "Shirwell Bancan",
-    year: null,
+    year: 1979,
     audio_url: COME_ON_BABE_AUDIO_PATH,
     cover_image: null,
     is_premium: false,
@@ -50,7 +75,7 @@ export const FALLBACK_SONGS: Song[] = [
     id: "fallback-4",
     title: "Come on babe (Version 2 — louder)",
     artist: "Shirwell Bancan",
-    year: null,
+    year: 1979,
     audio_url: COME_ON_BABE_V2_LOUDER_AUDIO_PATH,
     cover_image: null,
     is_premium: false,
@@ -108,9 +133,10 @@ export async function getSongs(): Promise<Song[]> {
   if (error || !data?.length) return FALLBACK_SONGS;
 
   const mapped = (data as SongRow[]).map((row) => mapRowToSong(url, row));
-  return applyBundledRunAwayAudio(
+  const normalized = applyBundledRunAwayAudio(
     applyBundledComeOnBabeAudio(applyBundledKissingAudio(mapped))
   );
+  return applyWrittenYears(normalized);
 }
 
 const DISPLAY_TITLE_KISSING = "Kissing";
@@ -119,17 +145,17 @@ const DISPLAY_TITLE_COME_ON_BABE_V2 = "Come on babe (Version 2 — louder)";
 
 /** “Kissing” / legacy alias → bundled MP3 */
 function isKissingBundleTrack(title: string | null | undefined): boolean {
-  const t = title?.trim().toLowerCase() ?? "";
+  const t = normalizeTitle(title);
   return t === "kissing" || t === "lovely forever";
 }
 
 function isComeOnBabeTrack(title: string | null | undefined): boolean {
-  const t = title?.trim().toLowerCase() ?? "";
+  const t = normalizeTitle(title);
   return t === "come on babe";
 }
 
 function isComeOnBabeV2Track(title: string | null | undefined): boolean {
-  const t = title?.trim().toLowerCase() ?? "";
+  const t = normalizeTitle(title);
   return (
     t === "come on babe version 2" ||
     t === "come on babe v2" ||
@@ -172,7 +198,7 @@ function applyBundledComeOnBabeAudio(songs: Song[]): Song[] {
 }
 
 function isRunAwayTrack(title: string | null | undefined): boolean {
-  const t = title?.trim().toLowerCase() ?? "";
+  const t = normalizeTitle(title);
   return t === "i want to run away" || t === "i want to runaway";
 }
 

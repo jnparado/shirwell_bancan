@@ -93,7 +93,7 @@ export function SiteFooter() {
                   sizes="220px"
                 />
                 <span className="absolute bottom-0 right-0 rounded-tl bg-black/70 px-1.5 py-1 text-[10px] font-semibold tracking-wide text-[#FFC107]/90">
-                  (C) {year} Shirwell™
+                  © {year} Shirwell™
                 </span>
               </div>
             </div>
@@ -200,7 +200,7 @@ export function SiteFooter() {
           </div>
 
           <p className="mt-10 text-center text-xs text-zinc-500">
-            (C) {year} Shirwell™ Bancan. All rights reserved.
+            © {year} Shirwell™ Bancan. All rights reserved.
           </p>
         </div>
       </div>

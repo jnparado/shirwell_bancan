@@ -27,7 +27,7 @@ export function MarketingHeader() {
               priority
             />
             <span className="absolute bottom-0 right-0 rounded-tl bg-black/70 px-1 py-0.5 text-[8px] font-semibold tracking-wide text-[#FFC107]/90">
-              (C) {year} Shirwell™
+              © {year} Shirwell™
             </span>
           </span>
           <span className="truncate font-serif text-lg font-semibold tracking-tight text-[#FFC107] sm:text-xl">
