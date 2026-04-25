@@ -4,6 +4,8 @@ import "./globals.css";
 import { PlayerProvider } from "@/contexts/player-context";
 import { SiteFooter } from "@/components/shirwell/site-footer";
 import { AdSenseScript } from "@/components/ads/adsense-script";
+import { GoogleAnalyticsScripts } from "@/components/analytics/google-analytics";
+import { GoogleAnalyticsPageViews } from "@/components/analytics/google-analytics-page-views";
 import { SiteMarks } from "@/components/legal/site-marks";
 import {
   createRootMetadata,
@@ -40,9 +42,11 @@ export default function RootLayout({
       className={`${geistSans.variable} ${playfair.variable} h-full antialiased`}
     >
       <head>
+        <GoogleAnalyticsScripts />
         <AdSenseScript />
       </head>
       <body className="min-h-full font-sans">
+        <GoogleAnalyticsPageViews />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
