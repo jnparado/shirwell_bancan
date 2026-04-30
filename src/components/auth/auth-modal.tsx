@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useEffect, useId, useMemo, useState } from "react";
 import { Eye, EyeOff, Mail, Lock, User, X } from "lucide-react";
+import { createBrowserSupabaseClient } from "@/lib/supabase/client";
 
 type AuthMode = "login" | "signup";
 
@@ -40,6 +41,17 @@ export function AuthModalLauncher() {
   const [mode, setMode] = useState<AuthMode>("login");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [userEmail, setUserEmail] = useState<string | null>(null);
+
+  const supabase = useMemo(() => {
+    try {
+      return createBrowserSupabaseClient();
+    } catch {
+      return null;
+    }
+  }, []);
 
   const titleId = useId();
 
@@ -59,14 +71,56 @@ export function AuthModalLauncher() {
     };
   }, [open]);
 
+  useEffect(() => {
+    if (!supabase) return;
+
+    let mounted = true;
+    supabase.auth.getUser().then(({ data }) => {
+      if (!mounted) return;
+      setUserEmail(data.user?.email ?? null);
+    });
+
+    const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUserEmail(session?.user?.email ?? null);
+    });
+
+    return () => {
+      mounted = false;
+      sub.subscription.unsubscribe();
+    };
+  }, [supabase]);
+
   return (
     <>
       <div className="flex shrink-0 items-center gap-2 sm:gap-2.5">
+        {userEmail ? (
+          <div className="hidden items-center gap-2 sm:flex">
+            <span className="rounded-full border border-white/[0.08] bg-black/30 px-3 py-2 text-xs font-semibold text-zinc-200">
+              {userEmail}
+            </span>
+            <button
+              type="button"
+              onClick={async () => {
+                if (!supabase) return;
+                setBusy(true);
+                setError(null);
+                const { error: signOutError } = await supabase.auth.signOut();
+                setBusy(false);
+                if (signOutError) setError(signOutError.message);
+              }}
+              className="rounded-full border border-white/[0.10] bg-black/35 px-3 py-2 text-xs font-semibold text-zinc-200 transition hover:border-[#FFC107]/20 hover:text-[#FFC107]"
+              disabled={busy}
+            >
+              Log out
+            </button>
+          </div>
+        ) : null}
         <button
           type="button"
           onClick={() => {
             setMode("login");
             setOpen(true);
+            setError(null);
           }}
           className="rounded-full border border-[#FFC107]/30 bg-[rgba(255,255,255,0.05)] px-3 py-2 text-sm font-medium text-[#FFC107] backdrop-blur-md transition hover:border-[#FFC107]/50 hover:bg-[rgba(255,255,255,0.08)] sm:px-4"
         >
@@ -77,6 +131,7 @@ export function AuthModalLauncher() {
           onClick={() => {
             setMode("signup");
             setOpen(true);
+            setError(null);
           }}
           className="rounded-full border border-[#FFC107]/40 bg-[#FFC107] px-3 py-2 text-sm font-semibold text-stone-950 shadow-[0_0_28px_rgba(255,193,7,0.28)] transition hover:bg-[#e6ae06] sm:px-4"
         >
@@ -95,7 +150,7 @@ export function AuthModalLauncher() {
           }}
         >
           <div
-            className={`relative w-full max-w-[920px] overflow-hidden ${glassCard} shadow-[0_0_90px_rgba(0,0,0,0.7)]`}
+            className={`relative w-full max-w-[540px] overflow-hidden ${glassCard} shadow-[0_0_90px_rgba(0,0,0,0.7)]`}
           >
             <div className="absolute inset-0">
               <Image
@@ -103,7 +158,7 @@ export function AuthModalLauncher() {
                 alt=""
                 fill
                 className="object-cover opacity-70"
-                sizes="920px"
+                sizes="540px"
                 priority
               />
               <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/70 to-black/85" />
@@ -119,8 +174,8 @@ export function AuthModalLauncher() {
               <X className="h-5 w-5" />
             </button>
 
-            <div className="relative flex justify-center px-5 py-8 sm:px-8 sm:py-10">
-              <div className="w-full max-w-md">
+            <div className="relative max-h-[calc(100vh-2rem)] overflow-y-auto px-5 py-8 sm:px-8 sm:py-10">
+              <div className="mx-auto w-full max-w-md">
                 <div className="text-center">
                   <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#FFC107]/70">
                     Shirwell
@@ -140,8 +195,74 @@ export function AuthModalLauncher() {
 
                 <form
                   className="mt-7 space-y-3"
-                  onSubmit={(e) => {
+                  onSubmit={async (e) => {
                     e.preventDefault();
+
+                    if (!supabase) {
+                      setError(
+                        "Auth is not configured yet. Add NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY.",
+                      );
+                      return;
+                    }
+
+                    const form = e.currentTarget;
+                    const fd = new FormData(form);
+                    const email = String(fd.get("email") ?? "").trim();
+                    const password = String(fd.get("password") ?? "");
+                    const name = String(fd.get("name") ?? "").trim();
+                    const confirmPassword = String(fd.get("confirmPassword") ?? "");
+
+                    setBusy(true);
+                    setError(null);
+
+                    try {
+                      if (!email || !password) {
+                        setError("Please enter your email and password.");
+                        return;
+                      }
+
+                      if (mode === "signup") {
+                        if (password.length < 6) {
+                          setError("Password must be at least 6 characters.");
+                          return;
+                        }
+                        if (password !== confirmPassword) {
+                          setError("Passwords do not match.");
+                          return;
+                        }
+
+                        const { error: signUpError } = await supabase.auth.signUp({
+                          email,
+                          password,
+                          options: {
+                            data: name ? { full_name: name } : undefined,
+                          },
+                        });
+                        if (signUpError) {
+                          setError(signUpError.message);
+                          return;
+                        }
+
+                        setOpen(false);
+                        form.reset();
+                        return;
+                      }
+
+                      const { error: signInError } =
+                        await supabase.auth.signInWithPassword({
+                          email,
+                          password,
+                        });
+                      if (signInError) {
+                        setError(signInError.message);
+                        return;
+                      }
+
+                      setOpen(false);
+                      form.reset();
+                    } finally {
+                      setBusy(false);
+                    }
                   }}
                 >
                   {mode === "signup" ? (
@@ -219,10 +340,17 @@ export function AuthModalLauncher() {
 
                   <button
                     type="submit"
-                    className="mt-2 w-full rounded-xl bg-gradient-to-b from-[#FFC107] to-[#d99b03] py-3 text-sm font-semibold text-stone-950 shadow-[0_0_40px_rgba(255,193,7,0.22)] transition hover:from-[#ffd042] hover:to-[#e6ae06]"
+                    className="mt-2 w-full rounded-xl bg-gradient-to-b from-[#FFC107] to-[#d99b03] py-3 text-sm font-semibold text-stone-950 shadow-[0_0_40px_rgba(255,193,7,0.22)] transition hover:from-[#ffd042] hover:to-[#e6ae06] disabled:cursor-not-allowed disabled:opacity-70"
+                    disabled={busy}
                   >
-                    {mode === "signup" ? "Sign Up" : "Log In"}
+                    {busy ? "Please wait…" : mode === "signup" ? "Sign Up" : "Log In"}
                   </button>
+
+                  {error ? (
+                    <p className="rounded-xl border border-red-500/25 bg-red-500/10 px-4 py-3 text-sm text-red-200">
+                      {error}
+                    </p>
+                  ) : null}
 
                   <div className="my-3 flex items-center gap-3 text-xs text-zinc-400">
                     <span className="h-px flex-1 bg-white/[0.08]" />
@@ -232,7 +360,26 @@ export function AuthModalLauncher() {
 
                   <button
                     type="button"
-                    className="flex w-full items-center justify-center gap-3 rounded-xl border border-white/[0.10] bg-black/35 py-3 text-sm font-semibold text-zinc-100 transition hover:border-[#FFC107]/25 hover:bg-black/45"
+                    className="flex w-full items-center justify-center gap-3 rounded-xl border border-white/[0.10] bg-black/35 py-3 text-sm font-semibold text-zinc-100 transition hover:border-[#FFC107]/25 hover:bg-black/45 disabled:cursor-not-allowed disabled:opacity-70"
+                    disabled={busy}
+                    onClick={async () => {
+                      if (!supabase) {
+                        setError(
+                          "Auth is not configured yet. Add NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY.",
+                        );
+                        return;
+                      }
+                      setBusy(true);
+                      setError(null);
+                      const { error: oauthError } = await supabase.auth.signInWithOAuth({
+                        provider: "google",
+                        options: {
+                          redirectTo: `${window.location.origin}/`,
+                        },
+                      });
+                      setBusy(false);
+                      if (oauthError) setError(oauthError.message);
+                    }}
                   >
                     <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-white">
                       <span className="text-sm font-black text-black">G</span>
