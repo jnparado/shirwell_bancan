@@ -7,20 +7,25 @@ import { NextResponse } from "next/server";
  * We reuse the same publisher id as AdSense (NEXT_PUBLIC_ADSENSE_CLIENT_ID),
  * since AdMob and AdSense share the same `pub-...` seller identity.
  */
-export async function GET() {
-  const raw = process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID?.trim();
-  if (!raw?.startsWith("ca-pub-")) {
-    return new NextResponse(
-      "# Add NEXT_PUBLIC_ADSENSE_CLIENT_ID=ca-pub-... to .env\n",
-      {
-        status: 404,
-        headers: { "Content-Type": "text/plain; charset=utf-8" },
-      },
-    );
+function getPublisherId(): string | null {
+  const adsense = process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID?.trim();
+  if (adsense?.startsWith("ca-pub-")) {
+    return adsense.replace(/^ca-/, ""); // pub-...
   }
 
-  const pub = raw.replace(/^ca-/, "");
-  const body = `google.com, ${pub}, DIRECT, f08c47fec0942fa0\n`;
+  // Fallback: extract publisher from AdMob app id: ca-app-pub-XXXXXXXX~NNNNN
+  const admobAppId = process.env.ADMOB_APP_ID?.trim();
+  const match = admobAppId?.match(/^ca-app-(pub-\d+)(?:~\d+)?$/);
+  if (match?.[1]) return match[1];
+
+  return null;
+}
+
+export async function GET() {
+  const pub = getPublisherId();
+  const body = pub
+    ? `google.com, ${pub}, DIRECT, f08c47fec0942fa0\n`
+    : "# Missing seller id. Set NEXT_PUBLIC_ADSENSE_CLIENT_ID=ca-pub-... or ADMOB_APP_ID=ca-app-pub-...~...\n";
 
   return new NextResponse(body, {
     headers: {

@@ -4,20 +4,19 @@ import { NextResponse } from "next/server";
  * AdSense requires `ads.txt` at the site root authorizing the seller.
  * Uses `NEXT_PUBLIC_ADSENSE_CLIENT_ID` (format `ca-pub-XXXXXXXX`).
  */
-export async function GET() {
-  const raw = process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID?.trim();
-  if (!raw?.startsWith("ca-pub-")) {
-    return new NextResponse(
-      "# Add NEXT_PUBLIC_ADSENSE_CLIENT_ID=ca-pub-... to .env — see src/config/ads.ts\n",
-      {
-        status: 404,
-        headers: { "Content-Type": "text/plain; charset=utf-8" },
-      }
-    );
+function getPublisherId(): string | null {
+  const adsense = process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID?.trim();
+  if (adsense?.startsWith("ca-pub-")) {
+    return adsense.replace(/^ca-/, ""); // pub-...
   }
+  return null;
+}
 
-  const pub = raw.replace(/^ca-/, "");
-  const body = `google.com, ${pub}, DIRECT, f08c47fec0942fa0\n`;
+export async function GET() {
+  const pub = getPublisherId();
+  const body = pub
+    ? `google.com, ${pub}, DIRECT, f08c47fec0942fa0\n`
+    : "# Missing seller id. Set NEXT_PUBLIC_ADSENSE_CLIENT_ID=ca-pub-...\n";
 
   return new NextResponse(body, {
     headers: {

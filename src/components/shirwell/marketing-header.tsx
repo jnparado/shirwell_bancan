@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { AuthModalLauncher } from "@/components/auth/auth-modal";
 
 const glassCard =
   "rounded-xl border border-white/[0.06] bg-[rgba(255,255,255,0.05)] backdrop-blur-md";
@@ -54,20 +55,7 @@ export function MarketingHeader() {
           <span className={navDisabledClass}>Premium</span>
         </nav>
 
-        <div className="flex shrink-0 items-center gap-2 sm:gap-2.5">
-          <button
-            type="button"
-            className={`${glassCard} rounded-full border-[#FFC107]/30 px-3 py-2 text-sm font-medium text-[#FFC107] transition hover:border-[#FFC107]/50 hover:bg-[rgba(255,255,255,0.08)] sm:px-4`}
-          >
-            Log In
-          </button>
-          <button
-            type="button"
-            className="rounded-full border border-[#FFC107]/40 bg-[#FFC107] px-3 py-2 text-sm font-semibold text-stone-950 shadow-[0_0_28px_rgba(255,193,7,0.28)] transition hover:bg-[#e6ae06] sm:px-4"
-          >
-            Sign Up
-          </button>
-        </div>
+        <AuthModalLauncher />
       </div>
 
       {/* Mobile: glass nav strip */}
