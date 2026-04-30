@@ -119,22 +119,24 @@ export function AuthModalLauncher() {
               <X className="h-5 w-5" />
             </button>
 
-            <div className="relative grid gap-0 md:grid-cols-2">
-              <div className="p-6 sm:p-8 md:p-9">
-                <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#FFC107]/70">
-                  Shirwell
-                </p>
-                <h2
-                  id={titleId}
-                  className="mt-3 font-serif text-3xl font-semibold leading-tight text-[#FFC107] sm:text-4xl"
-                >
-                  {heading}
-                </h2>
-                <p className="mt-3 max-w-md text-sm leading-relaxed text-zinc-200/90">
-                  {mode === "signup"
-                    ? "Join Shirwell Bancan and experience original songs, updates, and releases."
-                    : "Log in to continue listening and manage your account."}
-                </p>
+            <div className="relative flex justify-center px-5 py-8 sm:px-8 sm:py-10">
+              <div className="w-full max-w-md">
+                <div className="text-center">
+                  <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#FFC107]/70">
+                    Shirwell
+                  </p>
+                  <h2
+                    id={titleId}
+                    className="mt-3 font-serif text-3xl font-semibold leading-tight text-[#FFC107] sm:text-4xl"
+                  >
+                    {heading}
+                  </h2>
+                  <p className="mx-auto mt-3 max-w-sm text-sm leading-relaxed text-zinc-200/90">
+                    {mode === "signup"
+                      ? "Join Shirwell Bancan and experience original songs, updates, and releases."
+                      : "Log in to continue listening and manage your account."}
+                  </p>
+                </div>
 
                 <form
                   className="mt-7 space-y-3"
@@ -265,28 +267,6 @@ export function AuthModalLauncher() {
                   </p>
                 </form>
               </div>
-
-              <aside className="relative hidden border-l border-white/[0.06] md:block">
-                <Image
-                  src="/auth/auth-promo.png"
-                  alt=""
-                  fill
-                  className="object-cover opacity-90"
-                  sizes="460px"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-transparent" />
-                <div className="absolute bottom-0 left-0 right-0 p-7">
-                  <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#FFC107]/75">
-                    Experience
-                  </p>
-                  <p className="mt-2 font-serif text-2xl font-semibold text-[#FFC107]">
-                    45 years of original songs
-                  </p>
-                  <p className="mt-3 text-sm leading-relaxed text-zinc-200/90">
-                    Celebrating a legacy of passion, storytelling, and timeless melodies.
-                  </p>
-                </div>
-              </aside>
             </div>
           </div>
         </div>
