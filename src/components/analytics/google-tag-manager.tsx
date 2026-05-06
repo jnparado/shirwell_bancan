@@ -1,5 +1,3 @@
-"use client";
-
 import Script from "next/script";
 import { GTM_ID, isGtmConfigured } from "@/config/gtm";
 
@@ -7,7 +5,7 @@ export function GoogleTagManagerHead() {
   if (!isGtmConfigured()) return null;
 
   return (
-    <Script id="gtm-init" strategy="afterInteractive">
+    <Script id="gtm-init" strategy="beforeInteractive">
       {`
 (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
