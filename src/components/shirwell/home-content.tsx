@@ -43,23 +43,16 @@ export function HomeContent({ songs }: HomeContentProps) {
                 </span>
               </h1>
               <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-zinc-400 sm:text-lg">
-                Official Shirwell music by Shirwell Bancan — stream songs and new
-                releases here. Find Shirwell Bancan music online: featured tracks,
-                full player, and flowers.
+                Official songs by Shirwell Bancan — stream releases here. Explore featured
+                tracks and the full player.
               </p>
               <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
                 <a
                   href="#featured"
                   className="inline-flex rounded-full bg-[#FFC107] px-8 py-3.5 text-base font-semibold text-stone-950 shadow-[0_0_32px_rgba(255,193,7,0.3)] transition hover:bg-[#e6ae06]"
                 >
-                  Explore Music
+                  Explore Songs
                 </a>
-                <Link
-                  href="/flowers"
-                  className="inline-flex rounded-full border border-[#FFC107]/45 bg-[rgba(255,255,255,0.05)] px-8 py-3.5 text-base font-semibold text-[#FFC107] backdrop-blur-md transition hover:border-[#FFC107]/65 hover:bg-[rgba(255,255,255,0.08)]"
-                >
-                  Shop Flowers
-                </Link>
               </div>
             </div>
           </div>

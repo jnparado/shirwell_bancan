@@ -54,9 +54,6 @@ export function MarketingHeader() {
           <Link href="/newsletter" className={linkClass(pathname === "/newsletter")}>
             Newsletter
           </Link>
-          <Link href="/flowers" className={linkClass(pathname === "/flowers")}>
-            Flowers
-          </Link>
           <span className={navDisabledClass}>Premium</span>
         </nav>
 
@@ -79,9 +76,6 @@ export function MarketingHeader() {
           className={`${linkClass(pathname === "/newsletter")} shrink-0`}
         >
           Newsletter
-        </Link>
-        <Link href="/flowers" className={`${linkClass(pathname === "/flowers")} shrink-0`}>
-          Flowers
         </Link>
         <span className={`${navDisabledClass} shrink-0`}>Premium</span>
       </nav>
