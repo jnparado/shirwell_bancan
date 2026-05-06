@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useEffect, useId, useMemo, useState } from "react";
 import { Eye, EyeOff, Mail, Lock, User, X } from "lucide-react";
-import { createBrowserSupabaseClient } from "@/lib/supabase/client";
+import { createBrowserSupabaseClientAsync } from "@/lib/supabase/client";
 
 type AuthMode = "login" | "signup";
 
@@ -45,12 +45,22 @@ export function AuthModalLauncher() {
   const [error, setError] = useState<string | null>(null);
   const [userEmail, setUserEmail] = useState<string | null>(null);
 
-  const supabase = useMemo(() => {
-    try {
-      return createBrowserSupabaseClient();
-    } catch {
-      return null;
-    }
+  const [supabase, setSupabase] = useState<Awaited<
+    ReturnType<typeof createBrowserSupabaseClientAsync>
+  > | null>(null);
+
+  useEffect(() => {
+    let mounted = true;
+    createBrowserSupabaseClientAsync()
+      .then((client) => {
+        if (mounted) setSupabase(client);
+      })
+      .catch(() => {
+        if (mounted) setSupabase(null);
+      });
+    return () => {
+      mounted = false;
+    };
   }, []);
 
   const titleId = useId();

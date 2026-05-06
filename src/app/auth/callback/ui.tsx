@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { createBrowserSupabaseClient } from "../../../lib/supabase/client";
+import { createBrowserSupabaseClientAsync } from "../../../lib/supabase/client";
 
 export function AuthCallbackClient() {
   const router = useRouter();
@@ -28,7 +28,7 @@ export function AuthCallbackClient() {
       }
 
       try {
-        const supabase = createBrowserSupabaseClient();
+        const supabase = await createBrowserSupabaseClientAsync();
         const { error: exchangeError } = await supabase.auth.exchangeCodeForSession(code);
         if (exchangeError) {
           setMessage(exchangeError.message);
