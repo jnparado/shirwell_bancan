@@ -1,5 +1,8 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { AuthModalLauncher } from "@/components/auth/auth-modal";
 
 const glassCard =
@@ -10,6 +13,12 @@ const navLinkClass = `${glassCard} px-3 py-2 text-sm font-medium text-[#FFC107] 
 const navDisabledClass = `${glassCard} cursor-not-allowed px-3 py-2 text-sm font-medium text-[#FFC107]/35`;
 
 export function MarketingHeader() {
+  const pathname = usePathname();
+  const isHome = pathname === "/" || pathname === "/home";
+
+  const linkClass = (active: boolean) =>
+    `${navLinkClass} ${active ? "ring-1 ring-[#FFC107]/35 border-[#FFC107]/40" : ""}`;
+
   return (
     <header className="sticky top-0 z-50 border-b border-[#FFC107]/15 bg-black/50 shadow-[0_8px_32px_rgba(0,0,0,0.45)] backdrop-blur-2xl">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3.5 sm:gap-4 sm:px-6 sm:py-4">
@@ -36,16 +45,16 @@ export function MarketingHeader() {
           className="hidden items-center gap-2 md:flex md:gap-2.5 lg:gap-3"
           aria-label="Main"
         >
-          <Link href="/" className={navLinkClass}>
+          <Link href="/home" className={linkClass(isHome)}>
             Home
           </Link>
-          <Link href="/music" className={navLinkClass}>
+          <Link href="/music" className={linkClass(pathname === "/music")}>
             Music
           </Link>
-          <Link href="/newsletter" className={navLinkClass}>
+          <Link href="/newsletter" className={linkClass(pathname === "/newsletter")}>
             Newsletter
           </Link>
-          <Link href="/flowers" className={navLinkClass}>
+          <Link href="/flowers" className={linkClass(pathname === "/flowers")}>
             Flowers
           </Link>
           <span className={navDisabledClass}>Premium</span>
@@ -59,16 +68,19 @@ export function MarketingHeader() {
         className="flex gap-2 overflow-x-auto border-t border-[#FFC107]/10 bg-[rgba(255,255,255,0.03)] px-4 py-2.5 backdrop-blur-md md:hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         aria-label="Main mobile"
       >
-        <Link href="/" className={`${navLinkClass} shrink-0`}>
+        <Link href="/home" className={`${linkClass(isHome)} shrink-0`}>
           Home
         </Link>
-        <Link href="/music" className={`${navLinkClass} shrink-0`}>
+        <Link href="/music" className={`${linkClass(pathname === "/music")} shrink-0`}>
           Music
         </Link>
-        <Link href="/newsletter" className={`${navLinkClass} shrink-0`}>
+        <Link
+          href="/newsletter"
+          className={`${linkClass(pathname === "/newsletter")} shrink-0`}
+        >
           Newsletter
         </Link>
-        <Link href="/flowers" className={`${navLinkClass} shrink-0`}>
+        <Link href="/flowers" className={`${linkClass(pathname === "/flowers")} shrink-0`}>
           Flowers
         </Link>
         <span className={`${navDisabledClass} shrink-0`}>Premium</span>

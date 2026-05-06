@@ -3,7 +3,6 @@ import type { MetadataRoute } from "next";
 import sitemap from "@/app/sitemap";
 
 function toIsoDate(d: Date): string {
-  // Sitemap uses date or datetime; datetime is fine.
   return d.toISOString();
 }
 
@@ -37,18 +36,14 @@ function renderSitemapXml(items: MetadataRoute.Sitemap): string {
     })
     .join("");
 
-  return `<?xml version="1.0" encoding="UTF-8"?>` +
+  return (
+    `<?xml version="1.0" encoding="UTF-8"?>` +
     `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">` +
     urls +
-    `</urlset>`;
+    `</urlset>`
+  );
 }
 
-/**
- * Google Search Console sometimes gets the sitemap URL wrong (e.g. `/home`).
- * This endpoint makes `/home` return a valid sitemap XML so it can be fetched.
- *
- * Preferred sitemap URL remains: `/sitemap.xml`
- */
 export async function GET() {
   const items = sitemap();
   const xml = renderSitemapXml(items);
