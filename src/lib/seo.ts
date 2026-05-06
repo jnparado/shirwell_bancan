@@ -7,11 +7,11 @@ export const SITE_NAME = "Shirwell Bancan";
 export const SITE_NAME_SHORT = "Shirwell";
 
 export const DEFAULT_DESCRIPTION =
-  "Shirwell Bancan — official site for music and flowers. Stream original songs and songwriting from Shirwell Bancan; roses and florals via Nati Roses (weddings, funerals, occasions).";
+  "Shirwell Bancan singer songwriter producer — official site. Stream original songs, music videos, and new releases from Shirwell Bancan.";
 
 /** Home page meta description (leads with brand). */
 export const HOME_DESCRIPTION =
-  "Shirwell Bancan official site — Shirwell music streaming, songs, and new releases. Listen to Shirwell Bancan online. Flowers + Nati Roses, NSW.";
+  "Shirwell Bancan singer songwriter producer — stream music, songs, and new releases. Listen to Shirwell Bancan online.";
 
 /** Hero / social share image (under `public/`) */
 export const DEFAULT_OG_IMAGE = "/shirwell-hero.png";
@@ -69,7 +69,7 @@ export function absoluteUrl(path: string): string {
 
 export function createRootMetadata(): Metadata {
   const base = getSiteUrl();
-  const ogTitle = `${SITE_NAME} — Music & Flowers`;
+  const ogTitle = `${SITE_NAME} — Singer Songwriter Producer`;
 
   const googleVerify = process.env.GOOGLE_SITE_VERIFICATION?.trim();
 
@@ -87,6 +87,8 @@ export function createRootMetadata(): Metadata {
     keywords: [
       SITE_NAME,
       "shirwell bancan",
+      "singer songwriter producer",
+      "Shirwell Bancan singer songwriter producer",
       "shirwell music",
       `${SITE_NAME} music`,
       `${SITE_NAME} songs`,
@@ -100,11 +102,8 @@ export function createRootMetadata(): Metadata {
       "original music",
       "streaming",
       "singer songwriter",
+      "producer",
       "Australian musician",
-      "flowers",
-      "roses",
-      "Nati Roses",
-      "Middle Dural",
       "New South Wales",
       "Australia",
     ],
@@ -137,7 +136,7 @@ export function createRootMetadata(): Metadata {
       images: [
         {
           url: DEFAULT_OG_IMAGE,
-          alt: `${SITE_NAME} — music and flowers`,
+          alt: `${SITE_NAME} — singer songwriter producer`,
         },
       ],
     },
@@ -235,7 +234,7 @@ export function getOrganizationWebsiteJsonLd(): Record<string, unknown> {
         "@type": "WebPage",
         "@id": webPageId,
         url: origin,
-        name: `${SITE_NAME} — Music & Flowers`,
+        name: `${SITE_NAME} — Singer Songwriter Producer`,
         description: HOME_DESCRIPTION,
         isPartOf: { "@id": websiteId },
         about: { "@id": artistId },

@@ -150,7 +150,7 @@ export function AuthModalLauncher() {
           }}
         >
           <div
-            className={`relative w-full max-w-[540px] overflow-hidden ${glassCard} shadow-[0_0_90px_rgba(0,0,0,0.7)]`}
+            className={`relative max-h-[calc(100vh-2rem)] w-full max-w-[540px] overflow-y-auto ${glassCard} shadow-[0_0_90px_rgba(0,0,0,0.7)]`}
           >
             <div className="absolute inset-0">
               <Image
@@ -174,7 +174,7 @@ export function AuthModalLauncher() {
               <X className="h-5 w-5" />
             </button>
 
-            <div className="relative max-h-[calc(100vh-2rem)] overflow-y-auto px-5 py-8 sm:px-8 sm:py-10">
+            <div className="relative flex min-h-[520px] items-center justify-center px-5 py-8 sm:min-h-[640px] sm:px-8 sm:py-10">
               <div className="mx-auto w-full max-w-md">
                 <div className="text-center">
                   <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#FFC107]/70">
