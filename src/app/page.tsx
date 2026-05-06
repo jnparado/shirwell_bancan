@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   description: HOME_DESCRIPTION,
   alternates: { canonical: "/" },
   openGraph: {
-    title: `${SITE_NAME} — Singer Songwriter Producer`,
+    title: `${SITE_NAME} singer songwriter producer`,
     description: HOME_DESCRIPTION,
     url: "/",
   },

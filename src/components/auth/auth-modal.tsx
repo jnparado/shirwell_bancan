@@ -141,7 +141,7 @@ export function AuthModalLauncher() {
 
       {open ? (
         <div
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm"
+          className="fixed inset-0 z-[100] flex min-h-[100dvh] overflow-y-auto bg-black/70 px-4 py-6 backdrop-blur-sm"
           role="dialog"
           aria-modal="true"
           aria-labelledby={titleId}
@@ -150,7 +150,7 @@ export function AuthModalLauncher() {
           }}
         >
           <div
-            className={`relative max-h-[calc(100vh-2rem)] w-full max-w-[540px] overflow-y-auto ${glassCard} shadow-[0_0_90px_rgba(0,0,0,0.7)]`}
+            className={`relative my-auto max-h-[calc(100dvh-3rem)] w-full max-w-[540px] overflow-y-auto ${glassCard} shadow-[0_0_90px_rgba(0,0,0,0.7)]`}
           >
             <div className="absolute inset-0">
               <Image

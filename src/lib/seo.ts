@@ -69,7 +69,7 @@ export function absoluteUrl(path: string): string {
 
 export function createRootMetadata(): Metadata {
   const base = getSiteUrl();
-  const ogTitle = `${SITE_NAME} — Singer Songwriter Producer`;
+  const ogTitle = `${SITE_NAME} singer songwriter producer`;
 
   const googleVerify = process.env.GOOGLE_SITE_VERIFICATION?.trim();
 
@@ -234,7 +234,7 @@ export function getOrganizationWebsiteJsonLd(): Record<string, unknown> {
         "@type": "WebPage",
         "@id": webPageId,
         url: origin,
-        name: `${SITE_NAME} — Singer Songwriter Producer`,
+        name: `${SITE_NAME} singer songwriter producer`,
         description: HOME_DESCRIPTION,
         isPartOf: { "@id": websiteId },
         about: { "@id": artistId },
