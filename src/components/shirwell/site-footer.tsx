@@ -92,9 +92,6 @@ export function SiteFooter() {
                   className="object-cover object-center"
                   sizes="220px"
                 />
-                <span className="absolute bottom-0 right-0 rounded-tl bg-black/70 px-1.5 py-1 text-[10px] font-semibold tracking-wide text-[#FFC107]/90">
-                  © {year} Shirwell™
-                </span>
               </div>
             </div>
 
