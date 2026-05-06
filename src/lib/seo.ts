@@ -7,11 +7,11 @@ export const SITE_NAME = "Shirwell Bancan";
 export const SITE_NAME_SHORT = "Shirwell";
 
 export const DEFAULT_DESCRIPTION =
-  "Shirwell Bancan singer songwriter producer — official site. Stream original songs, music videos, and new releases from Shirwell Bancan.";
+  "Shirwell Bancan singer songwriter producer — official site. Explore original songs, videos, and new releases from Shirwell Bancan.";
 
 /** Home page meta description (leads with brand). */
 export const HOME_DESCRIPTION =
-  "Shirwell Bancan singer songwriter producer — stream music, songs, and new releases. Listen to Shirwell Bancan online.";
+  "Shirwell Bancan singer songwriter producer — explore songs, videos, and new releases. Listen online.";
 
 /** Hero / social share image (under `public/`) */
 export const DEFAULT_OG_IMAGE = "/shirwell-hero.png";
@@ -89,8 +89,6 @@ export function createRootMetadata(): Metadata {
       "shirwell bancan",
       "singer songwriter producer",
       "Shirwell Bancan singer songwriter producer",
-      "shirwell music",
-      `${SITE_NAME} music`,
       `${SITE_NAME} songs`,
       `${SITE_NAME} official`,
       `${SITE_NAME} website`,
@@ -99,7 +97,7 @@ export function createRootMetadata(): Metadata {
       SITE_NAME_SHORT,
       "Shirwell artist",
       "Bancan",
-      "original music",
+      "original songs",
       "streaming",
       "singer songwriter",
       "producer",
@@ -150,7 +148,7 @@ export function createRootMetadata(): Metadata {
       icon: "/shirwell-logo.png",
       apple: "/shirwell-logo.png",
     },
-    category: "music",
+    category: "entertainment",
     ...(googleVerify
       ? {
           verification: {
@@ -185,7 +183,7 @@ export function getOrganizationWebsiteJsonLd(): Record<string, unknown> {
     "@type": "MusicGroup",
     "@id": artistId,
     name: SITE_NAME,
-    alternateName: [SITE_NAME_SHORT, "Shirwell Bancan music", "Shirwell music"],
+    alternateName: [SITE_NAME_SHORT, "Shirwell Bancan"],
     description: DEFAULT_DESCRIPTION,
     url: origin,
     logo: {
@@ -213,8 +211,7 @@ export function getOrganizationWebsiteJsonLd(): Record<string, unknown> {
         name: SITE_NAME,
         alternateName: [
           `${SITE_NAME} official website`,
-          "Shirwell music",
-          "Shirwell Bancan music",
+          "Shirwell Bancan",
         ],
         url: origin,
         description: DEFAULT_DESCRIPTION,

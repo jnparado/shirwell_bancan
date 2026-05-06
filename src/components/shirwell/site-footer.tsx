@@ -45,8 +45,6 @@ export function SiteFooter() {
   const pathname = usePathname();
   if (pathname === "/music") return null;
 
-  const year = new Date().getFullYear();
-
   return (
     <footer className="mt-auto border-t border-[#FFC107]/15 bg-black/50 pb-[calc(5.5rem+env(safe-area-inset-bottom))] shadow-[0_-8px_32px_rgba(0,0,0,0.4)] backdrop-blur-2xl md:pb-12">
       {/* Premium — dark glass strip + inner glass cards */}
@@ -213,7 +211,7 @@ export function SiteFooter() {
           </div>
 
           <p className="mt-10 text-center text-xs text-zinc-500">
-            © {year} Shirwell™ Bancan. All rights reserved.
+            Shirwell Bancan. All rights reserved.
           </p>
         </div>
       </div>
