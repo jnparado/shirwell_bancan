@@ -6,6 +6,10 @@ import { SiteFooter } from "@/components/shirwell/site-footer";
 import { AdSenseScript } from "@/components/ads/adsense-script";
 import { GoogleAnalyticsScripts } from "@/components/analytics/google-analytics";
 import { GoogleAnalyticsPageViews } from "@/components/analytics/google-analytics-page-views";
+import {
+  GoogleTagManagerHead,
+  GoogleTagManagerNoScript,
+} from "@/components/analytics/google-tag-manager";
 import { SiteMarks } from "@/components/legal/site-marks";
 import {
   createRootMetadata,
@@ -42,10 +46,12 @@ export default function RootLayout({
       className={`${geistSans.variable} ${playfair.variable} h-full antialiased`}
     >
       <head>
+        <GoogleTagManagerHead />
         <GoogleAnalyticsScripts />
         <AdSenseScript />
       </head>
       <body className="min-h-full font-sans">
+        <GoogleTagManagerNoScript />
         <GoogleAnalyticsPageViews />
         <script
           type="application/ld+json"

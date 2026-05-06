@@ -3,9 +3,12 @@ import {
   GA_MEASUREMENT_ID,
   isGoogleAnalyticsConfigured,
 } from "@/config/analytics";
+import { isGtmConfigured } from "@/config/gtm";
 
 /** Loads gtag.js once site-wide — use inside `<head>`. */
 export function GoogleAnalyticsScripts() {
+  // If GTM is installed, GA should be configured inside GTM to avoid double hits.
+  if (isGtmConfigured()) return null;
   if (!isGoogleAnalyticsConfigured()) return null;
 
   return (
