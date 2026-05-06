@@ -90,6 +90,30 @@ export function AuthModalLauncher() {
     };
   }, [supabase]);
 
+  async function upsertProfile(args: {
+    userId: string;
+    email: string | null | undefined;
+    fullName?: string | null;
+  }) {
+    if (!supabase) return;
+    const { userId, email, fullName } = args;
+    const { error: profileError } = await supabase.from("profiles").upsert(
+      {
+        id: userId,
+        email: email ?? null,
+        full_name: fullName?.trim() ? fullName.trim() : null,
+        updated_at: new Date().toISOString(),
+      },
+      { onConflict: "id" },
+    );
+    if (profileError) {
+      throw new Error(
+        profileError.message ||
+          "Could not save your profile. Create the `profiles` table in Supabase and enable RLS policies.",
+      );
+    }
+  }
+
   return (
     <>
       <div className="flex shrink-0 items-center gap-2 sm:gap-2.5">
@@ -231,7 +255,8 @@ export function AuthModalLauncher() {
                           return;
                         }
 
-                        const { error: signUpError } = await supabase.auth.signUp({
+                        const { data: signUpData, error: signUpError } =
+                          await supabase.auth.signUp({
                           email,
                           password,
                           options: {
@@ -243,12 +268,21 @@ export function AuthModalLauncher() {
                           return;
                         }
 
+                        // Save profile row (optional but recommended for app completeness).
+                        if (signUpData.user) {
+                          await upsertProfile({
+                            userId: signUpData.user.id,
+                            email: signUpData.user.email,
+                            fullName: name,
+                          });
+                        }
+
                         setOpen(false);
                         form.reset();
                         return;
                       }
 
-                      const { error: signInError } =
+                      const { data: signInData, error: signInError } =
                         await supabase.auth.signInWithPassword({
                           email,
                           password,
@@ -256,6 +290,18 @@ export function AuthModalLauncher() {
                       if (signInError) {
                         setError(signInError.message);
                         return;
+                      }
+
+                      // Ensure a profile row exists for this user (best-effort).
+                      if (signInData.user) {
+                        try {
+                          await upsertProfile({
+                            userId: signInData.user.id,
+                            email: signInData.user.email,
+                          });
+                        } catch {
+                          // Ignore: login should still succeed even if profile table isn't configured.
+                        }
                       }
 
                       setOpen(false);
