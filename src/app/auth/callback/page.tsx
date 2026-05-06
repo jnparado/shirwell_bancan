@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { AuthCallbackClient } from "../../../components/auth/auth-callback-client";
+import { AuthCallbackClient } from "./ui";
 
 export default function AuthCallbackPage() {
   return (
