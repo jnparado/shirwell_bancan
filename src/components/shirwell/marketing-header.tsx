@@ -51,8 +51,17 @@ export function MarketingHeader() {
           <Link href="/music" className={linkClass(pathname === "/music")}>
             Music
           </Link>
+          <Link href="/flowers" className={linkClass(pathname === "/flowers")}>
+            Flowers
+          </Link>
           <Link href="/newsletter" className={linkClass(pathname === "/newsletter")}>
             Newsletter
+          </Link>
+          <Link href="/products" className={linkClass(pathname === "/products")}>
+            Products
+          </Link>
+          <Link href="/cds" className={linkClass(pathname === "/cds")}>
+            CD&apos;s
           </Link>
           <span className={navDisabledClass}>Premium</span>
         </nav>
@@ -72,10 +81,25 @@ export function MarketingHeader() {
           Music
         </Link>
         <Link
+          href="/flowers"
+          className={`${linkClass(pathname === "/flowers")} shrink-0`}
+        >
+          Flowers
+        </Link>
+        <Link
           href="/newsletter"
           className={`${linkClass(pathname === "/newsletter")} shrink-0`}
         >
           Newsletter
+        </Link>
+        <Link
+          href="/products"
+          className={`${linkClass(pathname === "/products")} shrink-0`}
+        >
+          Products
+        </Link>
+        <Link href="/cds" className={`${linkClass(pathname === "/cds")} shrink-0`}>
+          CD&apos;s
         </Link>
         <span className={`${navDisabledClass} shrink-0`}>Premium</span>
       </nav>

@@ -2,13 +2,21 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Disc3, Home, Newspaper, Search } from "lucide-react";
+import {
+  Disc3,
+  Flower2,
+  Home,
+  Newspaper,
+  Package,
+} from "lucide-react";
 
 const items = [
   { href: "/", label: "Home", Icon: Home },
-  { href: "/search", label: "Search", Icon: Search },
-  { href: "/newsletter", label: "Newsletter", Icon: Newspaper },
   { href: "/music", label: "Music", Icon: Disc3 },
+  { href: "/flowers", label: "Flowers", Icon: Flower2 },
+  { href: "/newsletter", label: "Newsletter", Icon: Newspaper },
+  { href: "/products", label: "Products", Icon: Package },
+  { href: "/cds", label: "CD's", Icon: Disc3 },
 ] as const;
 
 export function BottomNav() {
