@@ -112,7 +112,6 @@ export function AuthModalLauncher() {
         id: userId,
         email: email ?? null,
         full_name: fullName?.trim() ? fullName.trim() : null,
-        updated_at: new Date().toISOString(),
       },
       { onConflict: "id" },
     );
