@@ -1,5 +1,8 @@
 import { NextResponse } from "next/server";
 
+const DEFAULT_PUBLISHER_ID = "pub-2495432679632375";
+const GOOGLE_CERT_AUTHORITY_ID = "f08c47fec0942fa0";
+
 /**
  * AdMob / app-ads.txt lives at the site root:
  *   https://your-domain.com/app-ads.txt
@@ -18,14 +21,12 @@ function getPublisherId(): string | null {
   const match = admobAppId?.match(/^ca-app-(pub-\d+)(?:~\d+)?$/);
   if (match?.[1]) return match[1];
 
-  return null;
+  return DEFAULT_PUBLISHER_ID;
 }
 
 export async function GET() {
   const pub = getPublisherId();
-  const body = pub
-    ? `google.com, ${pub}, DIRECT, f08c47fec0942fa0\n`
-    : "# Missing seller id. Set NEXT_PUBLIC_ADSENSE_CLIENT_ID=ca-pub-... or ADMOB_APP_ID=ca-app-pub-...~...\n";
+  const body = `google.com, ${pub}, DIRECT, ${GOOGLE_CERT_AUTHORITY_ID}\n`;
 
   return new NextResponse(body, {
     headers: {
