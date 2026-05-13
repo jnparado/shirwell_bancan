@@ -66,9 +66,9 @@ export function HomeContent({ songs }: HomeContentProps) {
               <div className="relative mx-auto aspect-[3/4] w-full max-w-md overflow-hidden rounded-3xl border border-white/[0.08] bg-black/40 shadow-[0_0_60px_rgba(16,185,129,0.12)] lg:mx-0 lg:max-w-none">
                 <Image
                   src="/home/princess-flower-shop.png"
-                  alt="Princess — Shirwell talent with roses"
+                  alt="Princess — head of dance, business and accounting for Shirwell"
                   fill
-                  className="object-cover object-[center_15%]"
+                  className="object-cover object-[center_20%]"
                   sizes="(max-width: 1024px) 100vw, 50vw"
                 />
                 <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/70 to-transparent" />
@@ -91,9 +91,11 @@ export function HomeContent({ songs }: HomeContentProps) {
                 <p className="mt-4 text-base leading-relaxed text-zinc-300 sm:text-lg">
                   <span className="font-semibold text-[#FFC107]">Princess</span> is highly
                   talented: she holds a bachelor&apos;s degree, works as an accountant and
-                  business consultant, and is a standout dancer. She should be signed up to
-                  the company—traveling the world with Shirwell as one of the dancers and
-                  pitching in on concerts and all the other work behind the scenes.
+                  business consultant, and is a standout dancer. She will head the dancing
+                  team for concerts, and while Shirwell is traveling she will cover business
+                  consulting and accounting—plus whatever else the road throws at the
+                  company. One amazing person Shirwell found; outstanding talent like this
+                  is not simple to find.
                 </p>
                 <p className="mt-6">
                   <Link
