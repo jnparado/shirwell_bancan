@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import type { Song } from "@/types/song";
 import { usePlayer } from "@/contexts/player-context";
@@ -53,6 +54,55 @@ export function HomeContent({ songs }: HomeContentProps) {
                 >
                   Explore Songs
                 </a>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Flower shop + Shirwell talent */}
+        <section className="border-b border-emerald-500/10 bg-gradient-to-b from-emerald-950/20 via-black/40 to-transparent px-4 py-12 sm:px-6 sm:py-16">
+          <div className="mx-auto max-w-6xl">
+            <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:items-center lg:gap-14">
+              <div className="relative mx-auto aspect-[3/4] w-full max-w-md overflow-hidden rounded-3xl border border-white/[0.08] bg-black/40 shadow-[0_0_60px_rgba(16,185,129,0.12)] lg:mx-0 lg:max-w-none">
+                <Image
+                  src="/home/princess-flower-shop.png"
+                  alt="Princess — Shirwell talent with roses"
+                  fill
+                  className="object-cover object-[center_15%]"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                />
+                <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/70 to-transparent" />
+                <p className="absolute bottom-4 left-4 right-4 text-center text-xs font-medium uppercase tracking-widest text-emerald-200/90">
+                  Flower shop & stage
+                </p>
+              </div>
+              <div className="text-pretty">
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-emerald-400/90">
+                  Nati Roses & Shirwell
+                </p>
+                <h2 className="mt-3 font-serif text-2xl font-bold tracking-tight text-white sm:text-3xl">
+                  Personal models, dancers, singers, and more
+                </h2>
+                <p className="mt-5 text-base leading-relaxed text-zinc-300 sm:text-lg">
+                  Shirwell has his own personal models, dancers, singers, and more—people
+                  who travel with the shows, step in for concerts, and help with everything
+                  else that keeps the music moving.
+                </p>
+                <p className="mt-4 text-base leading-relaxed text-zinc-300 sm:text-lg">
+                  <span className="font-semibold text-[#FFC107]">Princess</span> is highly
+                  talented: she holds a bachelor&apos;s degree, works as an accountant and
+                  business consultant, and is a standout dancer. She should be signed up to
+                  the company—traveling the world with Shirwell as one of the dancers and
+                  pitching in on concerts and all the other work behind the scenes.
+                </p>
+                <p className="mt-6">
+                  <Link
+                    href="/flower"
+                    className="inline-flex rounded-full border border-emerald-500/40 bg-emerald-950/40 px-6 py-3 text-sm font-semibold text-emerald-100 transition hover:border-emerald-400/60 hover:bg-emerald-900/50"
+                  >
+                    Flower shop — Nati Roses
+                  </Link>
+                </p>
               </div>
             </div>
           </div>
