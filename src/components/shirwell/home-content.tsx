@@ -11,6 +11,7 @@ import { HomePromo } from "./home-promo";
 import { BottomNav } from "./bottom-nav";
 import { NowPlayingBar } from "./now-playing-bar";
 import { AdSenseUnit } from "@/components/ads/adsense-unit";
+import { FloristHomePopup } from "./florist-home-popup";
 
 interface HomeContentProps {
   songs: Song[];
@@ -27,6 +28,7 @@ export function HomeContent({ songs }: HomeContentProps) {
 
   return (
     <div className="relative flex min-h-full flex-1 flex-col pb-36">
+      <FloristHomePopup />
       <MarketingHeader />
 
       <main className="relative flex-1">
@@ -92,10 +94,7 @@ export function HomeContent({ songs }: HomeContentProps) {
                 </Link>
               </div>
               <div className="text-pretty">
-                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-emerald-400/90">
-                  Nati Roses & Shirwell
-                </p>
-                <h2 className="mt-3 font-serif text-2xl font-bold tracking-tight text-white sm:text-3xl">
+                <h2 className="font-serif text-2xl font-bold tracking-tight text-emerald-400 sm:text-3xl">
                   Personal models, dancers, singers, and more
                 </h2>
                 <p className="mt-5 text-base leading-relaxed text-zinc-300 sm:text-lg">

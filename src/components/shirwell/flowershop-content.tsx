@@ -8,6 +8,9 @@ import { AdSenseUnit } from "@/components/ads/adsense-unit";
 const cardClass =
   "overflow-hidden rounded-xl border border-white/[0.1] bg-[rgba(255,255,255,0.05)] shadow-[0_0_40px_rgba(0,0,0,0.35)] backdrop-blur-md";
 
+const NATI_ROSES_URL =
+  "https://natiroses.com.au/?srsltid=AfmBOopX1wDZUL2vd7bKZ-IyjA1tId5qxx5Fz65SngNS0JkvZgxrX6HH";
+
 export function FlowershopContent() {
   return (
     <div className="flowers-sparkle-page relative flex min-h-full flex-1 flex-col pb-36">
@@ -32,6 +35,22 @@ export function FlowershopContent() {
 
           <div className="space-y-5 p-5 text-left text-sm leading-relaxed text-[#FFC107] sm:p-6 sm:text-[15px]">
             <p>
+              Nicole is one of Shirwell&apos;s promoters—she speaks out and recommends
+              his unique products. Here is{" "}
+              <a
+                href={NATI_ROSES_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-semibold text-[#FFD54F] underline decoration-[#FFC107]/50 underline-offset-2 hover:text-[#ffe082]"
+              >
+                Nati Roses
+              </a>
+              : Shirwell highly recommends them. Just ask Pat—if you personally know
+              Shirwell and ask for Pat, you can get a cheap, beautiful bunch of roses at
+              a great price.
+            </p>
+
+            <p>
               If you need a florist for weddings funerals special occasions contact
               the link nati Roses. Shirwell has been dealing with them for over 40
               years highly recommends At middle Dural NSW just 45 to 50 minutes
@@ -49,12 +68,12 @@ export function FlowershopContent() {
               </a>{" "}
               Professional florists ready to go this link:{" "}
               <a
-                href="https://natiroses.com.au/?srsltid=AfmBOopX1wDZUL2vd7bKZ-IyjA1tId5qxx5Fz65SngNS0JkvZgxrX6HH"
+                href={NATI_ROSES_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="break-all text-[#3366ff] underline underline-offset-2 hover:text-[#5599ff]"
               >
-                https://natiroses.com.au/?srsltid=AfmBOopX1wDZUL2vd7bKZ-IyjA1tId5qxx5Fz65SngNS0JkvZgxrX6HH
+                {NATI_ROSES_URL}
               </a>
             </p>
 
