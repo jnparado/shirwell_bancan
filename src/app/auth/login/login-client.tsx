@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Eye, EyeOff, Lock, Mail, User } from "lucide-react";
 import { upsertPublicProfile } from "@/lib/auth/upsert-public-profile";
+import { SocialAuthButtons } from "@/components/auth/social-auth-buttons";
 import { createBrowserSupabaseClientAsync } from "@/lib/supabase/client";
 import { SUPABASE_AUTH_SETUP_MESSAGE } from "@/lib/supabase/env";
 import { safeNextPath } from "@/lib/auth/safe-next-path";
@@ -111,8 +112,26 @@ export function LoginClient() {
               : "Log in to continue. You will be sent back automatically after signing in."}
           </p>
 
+          <div className="mt-6">
+            <SocialAuthButtons
+              supabase={supabase}
+              nextAfterAuth={redirectTarget}
+              busy={busy}
+              setBusy={setBusy}
+              setError={setError}
+              onMissingSupabase={() => setError(SUPABASE_AUTH_SETUP_MESSAGE)}
+              mode={mode}
+            />
+          </div>
+
+          <div className="my-5 flex items-center gap-3 text-xs text-zinc-400">
+            <span className="h-px flex-1 bg-white/[0.08]" />
+            <span className="shrink-0 text-center">Or continue with email</span>
+            <span className="h-px flex-1 bg-white/[0.08]" />
+          </div>
+
           <form
-            className="mt-7 space-y-3"
+            className="mt-2 space-y-3"
             onSubmit={async (e) => {
               e.preventDefault();
               setInfo(null);
@@ -208,6 +227,15 @@ export function LoginClient() {
               }
             }}
           >
+            {error ? (
+              <p
+                className="rounded-xl border border-red-500/25 bg-red-500/10 px-4 py-3 text-sm text-red-200"
+                role="alert"
+              >
+                {error}
+              </p>
+            ) : null}
+
             {mode === "signup" ? (
               <FieldShell icon={<User className="h-5 w-5" />}>
                 <input
@@ -289,52 +317,11 @@ export function LoginClient() {
               {busy ? "Please wait…" : mode === "signup" ? "Sign up" : "Log in"}
             </button>
 
-            {error ? (
-              <p className="rounded-xl border border-red-500/25 bg-red-500/10 px-4 py-3 text-sm text-red-200">
-                {error}
-              </p>
-            ) : null}
             {info ? (
               <p className="rounded-xl border border-[#FFC107]/25 bg-[#FFC107]/10 px-4 py-3 text-sm text-[#fff8e1]">
                 {info}
               </p>
             ) : null}
-
-            <div className="my-3 flex items-center gap-3 text-xs text-zinc-400">
-              <span className="h-px flex-1 bg-white/[0.08]" />
-              or
-              <span className="h-px flex-1 bg-white/[0.08]" />
-            </div>
-
-            <button
-              type="button"
-              disabled={busy}
-              className="flex w-full items-center justify-center gap-3 rounded-xl border border-white/[0.10] bg-black/35 py-3 text-sm font-semibold text-zinc-100 transition hover:border-[#FFC107]/25 hover:bg-black/45 disabled:cursor-not-allowed disabled:opacity-70"
-              onClick={async () => {
-                if (!supabase) {
-                  setError("Auth is not configured.");
-                  return;
-                }
-                setBusy(true);
-                setError(null);
-                const next = encodeURIComponent(redirectTarget);
-                const origin =
-                  typeof window !== "undefined" ? window.location.origin : "";
-                const { error: oauthError } = await supabase.auth.signInWithOAuth({
-                  provider: "google",
-                  options: {
-                    redirectTo: `${origin}/auth/callback?next=${next}`,
-                  },
-                });
-                setBusy(false);
-                if (oauthError) setError(oauthError.message);
-              }}
-            >
-              <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-white">
-                <span className="text-sm font-black text-black">G</span>
-              </span>
-              {mode === "signup" ? "Sign up with Google" : "Log in with Google"}
-            </button>
 
             <p className="pt-4 text-center text-sm text-zinc-300/90">
               {mode === "signup" ? (

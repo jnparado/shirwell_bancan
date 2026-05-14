@@ -1,10 +1,12 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useId, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Eye, EyeOff, Mail, Lock, User, X } from "lucide-react";
+import { Eye, EyeOff, LogOut, Mail, Lock, User, X } from "lucide-react";
 import { upsertPublicProfile } from "@/lib/auth/upsert-public-profile";
+import { SocialAuthButtons } from "@/components/auth/social-auth-buttons";
 import { createBrowserSupabaseClientAsync } from "@/lib/supabase/client";
 import { SUPABASE_AUTH_SETUP_MESSAGE } from "@/lib/supabase/env";
 
@@ -39,6 +41,31 @@ function FieldShell({
   );
 }
 
+type UserChip = {
+  email: string | null;
+  name: string;
+  avatarUrl: string | null;
+};
+
+function userToChip(user: { email?: string | null; user_metadata?: Record<string, unknown> } | null): UserChip | null {
+  if (!user) return null;
+  const meta = user.user_metadata ?? {};
+  const fullName = typeof meta.full_name === "string" ? meta.full_name.trim() : "";
+  const nameMeta = typeof meta.name === "string" ? meta.name.trim() : "";
+  const preferred =
+    typeof meta.preferred_username === "string" ? meta.preferred_username.trim() : "";
+  const name =
+    fullName ||
+    nameMeta ||
+    preferred ||
+    (user.email?.includes("@") ? user.email.split("@")[0] : null)?.trim() ||
+    "Account";
+  const avatarRaw = meta.avatar_url ?? meta.picture;
+  const avatarUrl =
+    typeof avatarRaw === "string" && avatarRaw.startsWith("http") ? avatarRaw : null;
+  return { email: user.email ?? null, name, avatarUrl };
+}
+
 export function AuthModalLauncher() {
   const router = useRouter();
   const [open, setOpen] = useState(false);
@@ -47,7 +74,7 @@ export function AuthModalLauncher() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [userEmail, setUserEmail] = useState<string | null>(null);
+  const [userChip, setUserChip] = useState<UserChip | null>(null);
 
   const [supabase, setSupabase] = useState<Awaited<
     ReturnType<typeof createBrowserSupabaseClientAsync>
@@ -91,11 +118,11 @@ export function AuthModalLauncher() {
     let mounted = true;
     supabase.auth.getUser().then(({ data }) => {
       if (!mounted) return;
-      setUserEmail(data.user?.email ?? null);
+      setUserChip(userToChip(data.user));
     });
 
     const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUserEmail(session?.user?.email ?? null);
+      setUserChip(userToChip(session?.user ?? null));
     });
 
     return () => {
@@ -107,11 +134,32 @@ export function AuthModalLauncher() {
   return (
     <>
       <div className="flex shrink-0 items-center gap-2 sm:gap-2.5">
-        {userEmail ? (
-          <div className="hidden items-center gap-2 sm:flex">
-            <span className="rounded-full border border-white/[0.08] bg-black/30 px-3 py-2 text-xs font-semibold text-zinc-200">
-              {userEmail}
-            </span>
+        {userChip ? (
+          <div className="flex items-center gap-2 sm:gap-2.5">
+            <Link
+              href="/profile"
+              className="group flex max-w-[min(100vw-8rem,220px)] items-center gap-2 rounded-full border border-white/[0.08] bg-black/30 py-1 pl-1 pr-3 transition hover:border-[#FFC107]/35 hover:bg-black/45"
+            >
+              <span className="relative h-9 w-9 shrink-0 overflow-hidden rounded-full bg-zinc-800 ring-2 ring-[#FFC107]/35">
+                {userChip.avatarUrl ? (
+                  <Image
+                    src={userChip.avatarUrl}
+                    alt=""
+                    fill
+                    className="object-cover"
+                    sizes="36px"
+                    unoptimized
+                  />
+                ) : (
+                  <span className="flex h-full w-full items-center justify-center text-sm font-bold text-[#FFC107]">
+                    {userChip.name.slice(0, 1).toUpperCase()}
+                  </span>
+                )}
+              </span>
+              <span className="truncate text-sm font-semibold text-zinc-100 group-hover:text-[#FFC107]">
+                {userChip.name}
+              </span>
+            </Link>
             <button
               type="button"
               onClick={async () => {
@@ -123,35 +171,40 @@ export function AuthModalLauncher() {
                 if (signOutError) setError(signOutError.message);
                 else router.refresh();
               }}
-              className="rounded-full border border-white/[0.10] bg-black/35 px-3 py-2 text-xs font-semibold text-zinc-200 transition hover:border-[#FFC107]/20 hover:text-[#FFC107]"
+              className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/[0.10] bg-black/35 text-zinc-300 transition hover:border-[#FFC107]/25 hover:text-[#FFC107]"
               disabled={busy}
+              aria-label="Log out"
+              title="Log out"
             >
-              Log out
+              <LogOut className="h-4 w-4" strokeWidth={2} />
             </button>
           </div>
-        ) : null}
-        <button
-          type="button"
-          onClick={() => {
-            setMode("login");
-            setOpen(true);
-            setError(null);
-          }}
-          className="rounded-full border border-[#FFC107]/30 bg-[rgba(255,255,255,0.05)] px-3 py-2 text-sm font-medium text-[#FFC107] backdrop-blur-md transition hover:border-[#FFC107]/50 hover:bg-[rgba(255,255,255,0.08)] sm:px-4"
-        >
-          Log In
-        </button>
-        <button
-          type="button"
-          onClick={() => {
-            setMode("signup");
-            setOpen(true);
-            setError(null);
-          }}
-          className="rounded-full border border-[#FFC107]/40 bg-[#FFC107] px-3 py-2 text-sm font-semibold text-stone-950 shadow-[0_0_28px_rgba(255,193,7,0.28)] transition hover:bg-[#e6ae06] sm:px-4"
-        >
-          Sign Up
-        </button>
+        ) : (
+          <>
+            <button
+              type="button"
+              onClick={() => {
+                setMode("login");
+                setOpen(true);
+                setError(null);
+              }}
+              className="rounded-full border border-[#FFC107]/30 bg-[rgba(255,255,255,0.05)] px-3 py-2 text-sm font-medium text-[#FFC107] backdrop-blur-md transition hover:border-[#FFC107]/50 hover:bg-[rgba(255,255,255,0.08)] sm:px-4"
+            >
+              Log In
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setMode("signup");
+                setOpen(true);
+                setError(null);
+              }}
+              className="rounded-full border border-[#FFC107]/40 bg-[#FFC107] px-3 py-2 text-sm font-semibold text-stone-950 shadow-[0_0_28px_rgba(255,193,7,0.28)] transition hover:bg-[#e6ae06] sm:px-4"
+            >
+              Sign Up
+            </button>
+          </>
+        )}
       </div>
 
       {open ? (
@@ -189,7 +242,7 @@ export function AuthModalLauncher() {
               <X className="h-5 w-5" />
             </button>
 
-            <div className="relative flex min-h-[520px] items-center justify-center px-5 py-8 sm:min-h-[640px] sm:px-8 sm:py-10">
+            <div className="relative flex min-h-0 items-start justify-center px-5 py-8 sm:px-8 sm:py-10">
               <div className="mx-auto w-full max-w-md">
                 <div className="text-center">
                   <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#FFC107]/70">
@@ -208,8 +261,27 @@ export function AuthModalLauncher() {
                   </p>
                 </div>
 
+                <div className="mt-6">
+                  <SocialAuthButtons
+                    supabase={supabase}
+                    busy={busy}
+                    setBusy={setBusy}
+                    setError={setError}
+                    onMissingSupabase={() =>
+                      setError(SUPABASE_AUTH_SETUP_MESSAGE)
+                    }
+                    mode={mode}
+                  />
+                </div>
+
+                <div className="my-5 flex items-center gap-3 text-xs text-zinc-400">
+                  <span className="h-px flex-1 bg-white/[0.08]" />
+                  <span className="shrink-0 text-center">Or continue with email</span>
+                  <span className="h-px flex-1 bg-white/[0.08]" />
+                </div>
+
                 <form
-                  className="mt-7 space-y-3"
+                  className="mt-2 space-y-3"
                   onSubmit={async (e) => {
                     e.preventDefault();
 
@@ -309,6 +381,15 @@ export function AuthModalLauncher() {
                     }
                   }}
                 >
+                  {error ? (
+                    <p
+                      className="rounded-xl border border-red-500/25 bg-red-500/10 px-4 py-3 text-sm text-red-200"
+                      role="alert"
+                    >
+                      {error}
+                    </p>
+                  ) : null}
+
                   {mode === "signup" ? (
                     <FieldShell icon={<User className="h-5 w-5" />}>
                       <input
@@ -388,47 +469,6 @@ export function AuthModalLauncher() {
                     disabled={busy}
                   >
                     {busy ? "Please wait…" : mode === "signup" ? "Sign Up" : "Log In"}
-                  </button>
-
-                  {error ? (
-                    <p className="rounded-xl border border-red-500/25 bg-red-500/10 px-4 py-3 text-sm text-red-200">
-                      {error}
-                    </p>
-                  ) : null}
-
-                  <div className="my-3 flex items-center gap-3 text-xs text-zinc-400">
-                    <span className="h-px flex-1 bg-white/[0.08]" />
-                    OR
-                    <span className="h-px flex-1 bg-white/[0.08]" />
-                  </div>
-
-                  <button
-                    type="button"
-                    className="flex w-full items-center justify-center gap-3 rounded-xl border border-white/[0.10] bg-black/35 py-3 text-sm font-semibold text-zinc-100 transition hover:border-[#FFC107]/25 hover:bg-black/45 disabled:cursor-not-allowed disabled:opacity-70"
-                    disabled={busy}
-                    onClick={async () => {
-                      if (!supabase) {
-                        setError(
-                          SUPABASE_AUTH_SETUP_MESSAGE,
-                        );
-                        return;
-                      }
-                      setBusy(true);
-                      setError(null);
-                      const { error: oauthError } = await supabase.auth.signInWithOAuth({
-                        provider: "google",
-                        options: {
-                          redirectTo: `${window.location.origin}/auth/callback`,
-                        },
-                      });
-                      setBusy(false);
-                      if (oauthError) setError(oauthError.message);
-                    }}
-                  >
-                    <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-white">
-                      <span className="text-sm font-black text-black">G</span>
-                    </span>
-                    {mode === "signup" ? "Sign up with Google" : "Log in with Google"}
                   </button>
 
                   <p className="pt-2 text-center text-sm text-zinc-300/90">
