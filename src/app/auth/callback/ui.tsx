@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { createBrowserSupabaseClientAsync } from "../../../lib/supabase/client";
+import { safeNextPath } from "@/lib/auth/safe-next-path";
+import { createBrowserSupabaseClientAsync } from "@/lib/supabase/client";
 
 export function AuthCallbackClient() {
   const router = useRouter();
@@ -14,6 +15,7 @@ export function AuthCallbackClient() {
 
     async function run() {
       const code = params.get("code");
+      const next = params.get("next");
       const error = params.get("error");
       const errorDescription = params.get("error_description");
 
@@ -36,7 +38,8 @@ export function AuthCallbackClient() {
         }
 
         if (!cancelled) {
-          router.replace("/");
+          router.replace(safeNextPath(next));
+          router.refresh();
         }
       } catch (e) {
         setMessage(e instanceof Error ? e.message : "Login failed. Please try again.");

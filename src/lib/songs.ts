@@ -118,7 +118,7 @@ function mapRowToSong(
 }
 
 export async function getSongs(): Promise<Song[]> {
-  const supabase = createServerSupabaseClient();
+  const supabase = await createServerSupabaseClient();
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
 
   if (!supabase || !url) return FALLBACK_SONGS;

@@ -4,7 +4,7 @@ import { MarketingHeader } from "@/components/shirwell/marketing-header";
 import { BottomNav } from "@/components/shirwell/bottom-nav";
 
 export default async function ProfilePage() {
-  const supabase = createServerSupabaseClient();
+  const supabase = await createServerSupabaseClient();
 
   if (!supabase) {
     return (
@@ -36,10 +36,18 @@ export default async function ProfilePage() {
             Profile
           </h1>
           <p className="mt-4 text-sm text-[#FFC107]/80">
-            You’re not logged in yet. Use the Log In button in the header.
+            You’re not logged in yet. Use{" "}
+            <span className="text-zinc-200">Log In</span> in the header, or open the
+            sign-in page directly.
           </p>
-          <p className="mt-3 text-sm">
-            <Link href="/home" className="text-[#FFC107] underline underline-offset-2">
+          <p className="mt-3 flex flex-wrap gap-4 text-sm">
+            <Link
+              href={`/auth/login?redirect=${encodeURIComponent("/profile")}`}
+              className="text-[#FFC107] underline underline-offset-2"
+            >
+              Sign in
+            </Link>
+            <Link href="/home" className="text-zinc-400 underline underline-offset-2">
               Go to Home
             </Link>
           </p>

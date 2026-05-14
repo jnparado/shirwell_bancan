@@ -2,7 +2,9 @@
 
 import Image from "next/image";
 import { useEffect, useId, useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
 import { Eye, EyeOff, Mail, Lock, User, X } from "lucide-react";
+import { upsertPublicProfile } from "@/lib/auth/upsert-public-profile";
 import { createBrowserSupabaseClientAsync } from "@/lib/supabase/client";
 
 type AuthMode = "login" | "signup";
@@ -37,6 +39,7 @@ function FieldShell({
 }
 
 export function AuthModalLauncher() {
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   const [mode, setMode] = useState<AuthMode>("login");
   const [showPassword, setShowPassword] = useState(false);
@@ -100,29 +103,6 @@ export function AuthModalLauncher() {
     };
   }, [supabase]);
 
-  async function upsertProfile(args: {
-    userId: string;
-    email: string | null | undefined;
-    fullName?: string | null;
-  }) {
-    if (!supabase) return;
-    const { userId, email, fullName } = args;
-    const { error: profileError } = await supabase.from("profiles").upsert(
-      {
-        id: userId,
-        email: email ?? null,
-        full_name: fullName?.trim() ? fullName.trim() : null,
-      },
-      { onConflict: "id" },
-    );
-    if (profileError) {
-      throw new Error(
-        profileError.message ||
-          "Could not save your profile. Create the `profiles` table in Supabase and enable RLS policies.",
-      );
-    }
-  }
-
   return (
     <>
       <div className="flex shrink-0 items-center gap-2 sm:gap-2.5">
@@ -140,6 +120,7 @@ export function AuthModalLauncher() {
                 const { error: signOutError } = await supabase.auth.signOut();
                 setBusy(false);
                 if (signOutError) setError(signOutError.message);
+                else router.refresh();
               }}
               className="rounded-full border border-white/[0.10] bg-black/35 px-3 py-2 text-xs font-semibold text-zinc-200 transition hover:border-[#FFC107]/20 hover:text-[#FFC107]"
               disabled={busy}
@@ -278,16 +259,23 @@ export function AuthModalLauncher() {
                         }
 
                         // Save profile row (optional but recommended for app completeness).
-                        if (signUpData.user) {
-                          await upsertProfile({
+                        if (signUpData.user && supabase) {
+                          const { error: profileErr } = await upsertPublicProfile(supabase, {
                             userId: signUpData.user.id,
                             email: signUpData.user.email,
                             fullName: name,
                           });
+                          if (profileErr) {
+                            setError(
+                              `${profileErr} If the table uses extra columns, add defaults or relax RLS for insert.`,
+                            );
+                            return;
+                          }
                         }
 
                         setOpen(false);
                         form.reset();
+                        router.refresh();
                         return;
                       }
 
@@ -302,19 +290,19 @@ export function AuthModalLauncher() {
                       }
 
                       // Ensure a profile row exists for this user (best-effort).
-                      if (signInData.user) {
-                        try {
-                          await upsertProfile({
-                            userId: signInData.user.id,
-                            email: signInData.user.email,
-                          });
-                        } catch {
-                          // Ignore: login should still succeed even if profile table isn't configured.
+                      if (signInData.user && supabase) {
+                        const { error: profileErr } = await upsertPublicProfile(supabase, {
+                          userId: signInData.user.id,
+                          email: signInData.user.email,
+                        });
+                        if (profileErr) {
+                          /* Login still succeeds; profile may be created by DB trigger. */
                         }
                       }
 
                       setOpen(false);
                       form.reset();
+                      router.refresh();
                     } finally {
                       setBusy(false);
                     }
