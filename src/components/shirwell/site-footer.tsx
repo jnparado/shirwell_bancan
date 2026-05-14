@@ -73,6 +73,9 @@ export function SiteFooter() {
             Explore Plans
           </Link>
         </div>
+        <p className="mx-auto mt-6 max-w-6xl text-center text-sm font-medium tracking-wide text-zinc-400">
+          unique products
+        </p>
       </div>
 
       <div className="px-4 py-12 sm:px-6 sm:py-14">

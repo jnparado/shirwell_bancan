@@ -18,10 +18,14 @@ export default function CdsPage() {
   return (
     <div className="relative flex min-h-full flex-1 flex-col pb-36">
       <MarketingHeader />
-      <main className="mx-auto w-full max-w-2xl px-4 py-10">
+      <main className="mx-auto w-full max-w-3xl px-4 py-10">
         <h1 className="font-serif text-3xl font-semibold tracking-tight text-[#FFC107]">
           CD&apos;s
         </h1>
+        <p className="mt-8 text-balance text-2xl font-medium leading-snug tracking-tight text-white sm:text-3xl md:text-4xl md:leading-tight">
+          cDs vinyl records coffee from the jungles and other unique products on
+          the premium be patient
+        </p>
       </main>
       <BottomNav />
     </div>
