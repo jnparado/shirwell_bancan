@@ -50,6 +50,7 @@ export function FlowershopContent() {
               a great price.
             </p>
 
+            <div className="mt-1 space-y-5 border-t border-[#FFC107]/20 pt-5">
             <p>
               If you need a florist for weddings funerals special occasions contact
               the link nati Roses. Shirwell has been dealing with them for over 40
@@ -84,6 +85,7 @@ export function FlowershopContent() {
               races at 3pm on to finish times Other day you see him around castle
               Hill shops About 5pm
             </p>
+            </div>
           </div>
         </article>
 

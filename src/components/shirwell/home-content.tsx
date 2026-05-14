@@ -11,7 +11,6 @@ import { HomePromo } from "./home-promo";
 import { BottomNav } from "./bottom-nav";
 import { NowPlayingBar } from "./now-playing-bar";
 import { AdSenseUnit } from "@/components/ads/adsense-unit";
-import { FloristHomePopup } from "./florist-home-popup";
 
 interface HomeContentProps {
   songs: Song[];
@@ -28,7 +27,6 @@ export function HomeContent({ songs }: HomeContentProps) {
 
   return (
     <div className="relative flex min-h-full flex-1 flex-col pb-36">
-      <FloristHomePopup />
       <MarketingHeader />
 
       <main className="relative flex-1">
@@ -65,7 +63,7 @@ export function HomeContent({ songs }: HomeContentProps) {
         <section className="border-b border-emerald-500/10 bg-gradient-to-b from-emerald-950/20 via-black/40 to-transparent px-4 py-12 sm:px-6 sm:py-16">
           <div className="mx-auto max-w-6xl">
             <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:items-start lg:gap-14">
-              <div className="mx-auto grid w-full max-w-lg grid-cols-2 gap-3 lg:mx-0 lg:max-w-none">
+              <div className="mx-auto w-full max-w-md lg:mx-0 lg:max-w-none">
                 <Link
                   href="/flowers"
                   aria-label="View more — photos and video"
@@ -76,20 +74,7 @@ export function HomeContent({ songs }: HomeContentProps) {
                     alt="Princess — head of dance, business and accounting for Shirwell"
                     fill
                     className="object-cover object-[center_20%] transition duration-300 group-hover:scale-[1.02]"
-                    sizes="(max-width: 1024px) 45vw, 22vw"
-                  />
-                </Link>
-                <Link
-                  href="/flowers"
-                  aria-label="View more — photos and video"
-                  className="group relative block aspect-[3/4] w-full cursor-pointer overflow-hidden rounded-2xl border border-white/[0.08] bg-black/40 shadow-[0_0_60px_rgba(16,185,129,0.12)] transition hover:border-emerald-400/35 hover:shadow-[0_0_72px_rgba(16,185,129,0.2)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-400 sm:rounded-3xl"
-                >
-                  <Image
-                    src="/home/princess-roses-balloons.png"
-                    alt="Princess — Shirwell talent"
-                    fill
-                    className="object-cover object-[center_12%] transition duration-300 group-hover:scale-[1.02]"
-                    sizes="(max-width: 1024px) 45vw, 22vw"
+                    sizes="(max-width: 1024px) 100vw, 50vw"
                   />
                 </Link>
               </div>
