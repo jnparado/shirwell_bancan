@@ -18,7 +18,7 @@ export function FlowershopContent() {
 
       <main className="relative mx-auto w-full max-w-lg flex-1 px-4 py-8">
         <h1 className="mb-8 text-center font-serif text-4xl font-bold tracking-tight text-[#FFC107] sm:text-5xl">
-          Weekly
+          Flowers
         </h1>
 
         <article className={cardClass}>

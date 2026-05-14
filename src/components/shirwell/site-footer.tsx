@@ -134,7 +134,7 @@ export function SiteFooter() {
                     href="/flowers"
                     className={`${glassCard} block rounded-lg px-3 py-2 text-zinc-300 transition hover:border-[#FFC107]/30 hover:text-[#FFC107]`}
                   >
-                    Photos &amp; Video
+                    Flowers
                   </Link>
                 </li>
                 <li

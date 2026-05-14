@@ -66,7 +66,7 @@ export function HomeContent({ songs }: HomeContentProps) {
               <div className="mx-auto w-full max-w-md lg:mx-0 lg:max-w-none">
                 <Link
                   href="/flowers"
-                  aria-label="View more — photos and video"
+                  aria-label="View more — flowers, photos and video"
                   className="group relative block aspect-[3/4] w-full cursor-pointer overflow-hidden rounded-2xl border border-white/[0.08] bg-black/40 shadow-[0_0_60px_rgba(16,185,129,0.12)] transition hover:border-emerald-400/35 hover:shadow-[0_0_72px_rgba(16,185,129,0.2)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-400 sm:rounded-3xl"
                 >
                   <Image
