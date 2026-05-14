@@ -1,15 +1,9 @@
 import { NextResponse } from "next/server";
+import { getSupabasePublicApiKey, getSupabaseUrl } from "@/lib/supabase/env";
 
 export async function GET() {
-  const supabaseUrl =
-    process.env.NEXT_PUBLIC_SUPABASE_URL?.trim() ??
-    process.env.SUPABASE_URL?.trim() ??
-    "";
-
-  const supabaseAnonKey =
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim() ??
-    process.env.SUPABASE_ANON_KEY?.trim() ??
-    "";
+  const supabaseUrl = getSupabaseUrl();
+  const supabaseAnonKey = getSupabasePublicApiKey();
 
   return NextResponse.json(
     {

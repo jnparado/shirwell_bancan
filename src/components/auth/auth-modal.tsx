@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { Eye, EyeOff, Mail, Lock, User, X } from "lucide-react";
 import { upsertPublicProfile } from "@/lib/auth/upsert-public-profile";
 import { createBrowserSupabaseClientAsync } from "@/lib/supabase/client";
+import { SUPABASE_AUTH_SETUP_MESSAGE } from "@/lib/supabase/env";
 
 type AuthMode = "login" | "signup";
 
@@ -214,7 +215,7 @@ export function AuthModalLauncher() {
 
                     if (!supabase) {
                       setError(
-                        "Auth is not configured yet. Add NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY.",
+                        SUPABASE_AUTH_SETUP_MESSAGE,
                       );
                       return;
                     }
@@ -408,7 +409,7 @@ export function AuthModalLauncher() {
                     onClick={async () => {
                       if (!supabase) {
                         setError(
-                          "Auth is not configured yet. Add NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY.",
+                          SUPABASE_AUTH_SETUP_MESSAGE,
                         );
                         return;
                       }

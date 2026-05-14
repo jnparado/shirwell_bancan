@@ -7,6 +7,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Eye, EyeOff, Lock, Mail, User } from "lucide-react";
 import { upsertPublicProfile } from "@/lib/auth/upsert-public-profile";
 import { createBrowserSupabaseClientAsync } from "@/lib/supabase/client";
+import { SUPABASE_AUTH_SETUP_MESSAGE } from "@/lib/supabase/env";
 import { safeNextPath } from "@/lib/auth/safe-next-path";
 
 type AuthMode = "login" | "signup";
@@ -117,7 +118,7 @@ export function LoginClient() {
               setInfo(null);
               if (!supabase) {
                 setError(
-                  "Auth is not configured. Add NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY.",
+                  SUPABASE_AUTH_SETUP_MESSAGE,
                 );
                 return;
               }

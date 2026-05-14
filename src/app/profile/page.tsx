@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { SUPABASE_AUTH_SETUP_MESSAGE } from "@/lib/supabase/env";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
 import { MarketingHeader } from "@/components/shirwell/marketing-header";
 import { BottomNav } from "@/components/shirwell/bottom-nav";
@@ -14,10 +15,7 @@ export default async function ProfilePage() {
           <h1 className="font-serif text-3xl font-semibold tracking-tight text-[#FFC107]">
             Profile
           </h1>
-          <p className="mt-4 text-sm text-[#FFC107]/80">
-            Supabase is not configured. Set `NEXT_PUBLIC_SUPABASE_URL` and
-            `NEXT_PUBLIC_SUPABASE_ANON_KEY`.
-          </p>
+          <p className="mt-4 text-sm text-[#FFC107]/80">{SUPABASE_AUTH_SETUP_MESSAGE}</p>
         </main>
         <BottomNav />
       </div>

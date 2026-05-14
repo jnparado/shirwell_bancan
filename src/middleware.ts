@@ -1,5 +1,6 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
+import { getSupabasePublicApiKey, getSupabaseUrl } from "@/lib/supabase/env";
 
 /**
  * Keeps Supabase Auth cookies fresh and forwards them on the response.
@@ -8,8 +9,8 @@ import { NextResponse, type NextRequest } from "next/server";
 export async function middleware(request: NextRequest) {
   let response = NextResponse.next({ request });
 
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim();
-  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim();
+  const url = getSupabaseUrl();
+  const key = getSupabasePublicApiKey();
   if (!url || !key) return response;
 
   const supabase = createServerClient(url, key, {

@@ -1,14 +1,15 @@
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 import type { SupabaseClient } from "@supabase/supabase-js";
+import { getSupabasePublicApiKey, getSupabaseUrl } from "@/lib/supabase/env";
 
 /**
  * Per-request Supabase client for Server Components / Route Handlers.
  * Reads the user session from cookies (same storage as `createBrowserClient` in the browser).
  */
 export async function createServerSupabaseClient(): Promise<SupabaseClient | null> {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim();
-  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim();
+  const url = getSupabaseUrl();
+  const key = getSupabasePublicApiKey();
   if (!url || !key) return null;
 
   const cookieStore = await cookies();
