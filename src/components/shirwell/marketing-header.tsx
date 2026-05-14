@@ -52,7 +52,7 @@ export function MarketingHeader() {
             Music
           </Link>
           <Link href="/flowers" className={linkClass(pathname === "/flowers")}>
-            Flowers
+            Photos &amp; Video
           </Link>
           <Link href="/newsletter" className={linkClass(pathname === "/newsletter")}>
             Newsletter
@@ -84,7 +84,7 @@ export function MarketingHeader() {
           href="/flowers"
           className={`${linkClass(pathname === "/flowers")} shrink-0`}
         >
-          Flowers
+          Photos &amp; Video
         </Link>
         <Link
           href="/newsletter"

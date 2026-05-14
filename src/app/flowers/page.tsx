@@ -3,12 +3,12 @@ import { FlowershopContent } from "@/components/shirwell/flowershop-content";
 import { SITE_NAME } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "Flowers",
+  title: "Photos & Video",
   description:
-    "Shirwell Bancan recommends Nati Roses — weddings, funerals, and special occasions. Roses and florals from Middle Dural NSW, near Sydney.",
+    "Photos, video, and Shirwell Bancan’s flowershop world — including Nati Roses for weddings, funerals, and special occasions.",
   alternates: { canonical: "/flowers" },
   openGraph: {
-    title: `Flowers | ${SITE_NAME}`,
+    title: `Photos & Video | ${SITE_NAME}`,
     description:
       "Order roses and florals through Nati Roses — trusted by Shirwell Bancan for over 40 years.",
     url: "/flowers",

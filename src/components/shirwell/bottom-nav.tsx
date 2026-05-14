@@ -2,18 +2,12 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import {
-  Disc3,
-  Flower2,
-  Home,
-  Newspaper,
-  Package,
-} from "lucide-react";
+import { Disc3, Home, Images, Newspaper, Package } from "lucide-react";
 
 const items = [
   { href: "/", label: "Home", Icon: Home },
   { href: "/music", label: "Music", Icon: Disc3 },
-  { href: "/flowers", label: "Flowers", Icon: Flower2 },
+  { href: "/flowers", label: "Photos & Video", Icon: Images },
   { href: "/newsletter", label: "Newsletter", Icon: Newspaper },
   { href: "/products", label: "Products", Icon: Package },
   { href: "/cds", label: "CD's", Icon: Disc3 },

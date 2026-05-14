@@ -59,22 +59,37 @@ export function HomeContent({ songs }: HomeContentProps) {
           </div>
         </section>
 
-        {/* Flower shop + Shirwell talent */}
+        {/* Shirwell talent */}
         <section className="border-b border-emerald-500/10 bg-gradient-to-b from-emerald-950/20 via-black/40 to-transparent px-4 py-12 sm:px-6 sm:py-16">
           <div className="mx-auto max-w-6xl">
-            <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:items-center lg:gap-14">
-              <div className="relative mx-auto aspect-[3/4] w-full max-w-md overflow-hidden rounded-3xl border border-white/[0.08] bg-black/40 shadow-[0_0_60px_rgba(16,185,129,0.12)] lg:mx-0 lg:max-w-none">
-                <Image
-                  src="/home/princess-flower-shop.png"
-                  alt="Princess — head of dance, business and accounting for Shirwell"
-                  fill
-                  className="object-cover object-[center_20%]"
-                  sizes="(max-width: 1024px) 100vw, 50vw"
-                />
-                <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/70 to-transparent" />
-                <p className="absolute bottom-4 left-4 right-4 text-center text-xs font-medium uppercase tracking-widest text-emerald-200/90">
-                  Flower shop & stage
-                </p>
+            <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:items-start lg:gap-14">
+              <div className="mx-auto grid w-full max-w-lg grid-cols-2 gap-3 lg:mx-0 lg:max-w-none">
+                <Link
+                  href="/flowers"
+                  aria-label="View more — photos and video"
+                  className="group relative block aspect-[3/4] w-full cursor-pointer overflow-hidden rounded-2xl border border-white/[0.08] bg-black/40 shadow-[0_0_60px_rgba(16,185,129,0.12)] transition hover:border-emerald-400/35 hover:shadow-[0_0_72px_rgba(16,185,129,0.2)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-400 sm:rounded-3xl"
+                >
+                  <Image
+                    src="/home/princess-flower-shop.png"
+                    alt="Princess — head of dance, business and accounting for Shirwell"
+                    fill
+                    className="object-cover object-[center_20%] transition duration-300 group-hover:scale-[1.02]"
+                    sizes="(max-width: 1024px) 45vw, 22vw"
+                  />
+                </Link>
+                <Link
+                  href="/flowers"
+                  aria-label="View more — photos and video"
+                  className="group relative block aspect-[3/4] w-full cursor-pointer overflow-hidden rounded-2xl border border-white/[0.08] bg-black/40 shadow-[0_0_60px_rgba(16,185,129,0.12)] transition hover:border-emerald-400/35 hover:shadow-[0_0_72px_rgba(16,185,129,0.2)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-400 sm:rounded-3xl"
+                >
+                  <Image
+                    src="/home/princess-roses-balloons.png"
+                    alt="Princess — Shirwell talent"
+                    fill
+                    className="object-cover object-[center_12%] transition duration-300 group-hover:scale-[1.02]"
+                    sizes="(max-width: 1024px) 45vw, 22vw"
+                  />
+                </Link>
               </div>
               <div className="text-pretty">
                 <p className="text-xs font-semibold uppercase tracking-[0.2em] text-emerald-400/90">
@@ -99,10 +114,10 @@ export function HomeContent({ songs }: HomeContentProps) {
                 </p>
                 <p className="mt-6">
                   <Link
-                    href="/flower"
-                    className="inline-flex rounded-full border border-emerald-500/40 bg-emerald-950/40 px-6 py-3 text-sm font-semibold text-emerald-100 transition hover:border-emerald-400/60 hover:bg-emerald-900/50"
+                    href="/flowers"
+                    className="text-sm font-semibold text-[#FFC107] underline-offset-4 transition hover:text-[#FFD54F] hover:underline"
                   >
-                    Flower shop — Nati Roses
+                    View more
                   </Link>
                 </p>
               </div>
