@@ -5,9 +5,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Eye, EyeOff, Lock, Mail, User } from "lucide-react";
-import { upsertPublicProfile } from "@/lib/auth/upsert-public-profile";
+import type { SupabaseClient } from "@supabase/supabase-js";
 import { SocialAuthButtons } from "@/components/auth/social-auth-buttons";
-import { createBrowserSupabaseClientAsync } from "@/lib/supabase/client";
+import { createBrowserSupabaseClient } from "@/lib/supabase/client";
 import { SUPABASE_AUTH_SETUP_MESSAGE } from "@/lib/supabase/env";
 import { safeNextPath } from "@/lib/auth/safe-next-path";
 
@@ -48,22 +48,14 @@ export function LoginClient() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [info, setInfo] = useState<string | null>(null);
-  const [supabase, setSupabase] = useState<Awaited<
-    ReturnType<typeof createBrowserSupabaseClientAsync>
-  > | null>(null);
+  const [supabase, setSupabase] = useState<SupabaseClient | null>(null);
 
   useEffect(() => {
-    let mounted = true;
-    createBrowserSupabaseClientAsync()
-      .then((c) => {
-        if (mounted) setSupabase(c);
-      })
-      .catch(() => {
-        if (mounted) setSupabase(null);
-      });
-    return () => {
-      mounted = false;
-    };
+    try {
+      setSupabase(createBrowserSupabaseClient());
+    } catch {
+      setSupabase(null);
+    }
   }, []);
 
   const heading = mode === "signup" ? "Create your account" : "Sign in";
@@ -179,18 +171,6 @@ export function LoginClient() {
                     return;
                   }
 
-                  if (signUpData.user) {
-                    const { error: profileErr } = await upsertPublicProfile(supabase, {
-                      userId: signUpData.user.id,
-                      email: signUpData.user.email,
-                      fullName: name,
-                    });
-                    if (profileErr) {
-                      setError(profileErr);
-                      return;
-                    }
-                  }
-
                   if (signUpData.session) {
                     router.replace(redirectTarget);
                     router.refresh();
@@ -208,16 +188,6 @@ export function LoginClient() {
                 if (signInError) {
                   setError(signInError.message);
                   return;
-                }
-
-                if (signInData.user) {
-                  const { error: profileErr } = await upsertPublicProfile(supabase, {
-                    userId: signInData.user.id,
-                    email: signInData.user.email,
-                  });
-                  if (profileErr) {
-                    /* ignore: optional row; DB trigger may create profile */
-                  }
                 }
 
                 router.replace(redirectTarget);

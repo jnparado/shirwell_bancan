@@ -18,6 +18,13 @@ export const COME_ON_BABE_V2_LOUDER_AUDIO_PATH =
 /** Bundled copy of `I Want To Run Away_240225_V2-2.wav` */
 export const RUN_AWAY_AUDIO_PATH = "/audio/i-want-to-run-away.wav";
 
+/** `Ride the Night Away (Thunderline Vocal Mix)` */
+export const RIDE_THE_NIGHT_AWAY_AUDIO_PATH =
+  "/audio/ride-the-night-away-thunderline-vocal-mix.mp3";
+
+/** `Never Be The Same` */
+export const NEVER_BE_THE_SAME_AUDIO_PATH = "/audio/never-be-the-same.mp3";
+
 function normalizeTitle(title: string | null | undefined): string {
   return (title ?? "").trim().toLowerCase();
 }
@@ -34,7 +41,11 @@ function applyWrittenYears(songs: Song[]): Song[] {
         ? 2024
         : t === "i want to run away" || t === "i want to runaway"
           ? 2025
-          : t.startsWith("come on babe")
+          : t === "ride the night away" || t.startsWith("ride the night away")
+            ? 2025
+            : t === "never be the same" || t.startsWith("never be the same")
+              ? 2025
+              : t.startsWith("come on babe")
             ? 1979
             : null;
 
@@ -77,6 +88,24 @@ export const FALLBACK_SONGS: Song[] = [
     artist: "Shirwell Bancan",
     year: 1979,
     audio_url: COME_ON_BABE_V2_LOUDER_AUDIO_PATH,
+    cover_image: null,
+    is_premium: false,
+  },
+  {
+    id: "fallback-5",
+    title: "Ride the Night Away",
+    artist: "Shirwell Bancan",
+    year: 2025,
+    audio_url: RIDE_THE_NIGHT_AWAY_AUDIO_PATH,
+    cover_image: null,
+    is_premium: false,
+  },
+  {
+    id: "fallback-6",
+    title: "Never Be The Same",
+    artist: "Shirwell Bancan",
+    year: 2025,
+    audio_url: NEVER_BE_THE_SAME_AUDIO_PATH,
     cover_image: null,
     is_premium: false,
   },
@@ -133,8 +162,16 @@ export async function getSongs(): Promise<Song[]> {
   if (error || !data?.length) return FALLBACK_SONGS;
 
   const mapped = (data as SongRow[]).map((row) => mapRowToSong(url, row));
-  const normalized = applyBundledRunAwayAudio(
-    applyBundledComeOnBabeAudio(applyBundledKissingAudio(mapped))
+  const normalized = ensureBundledTracksInList(
+    applyBundledRunAwayAudio(
+      applyBundledComeOnBabeAudio(
+        applyBundledKissingAudio(
+          applyBundledNeverBeTheSameAudio(
+            applyBundledRideTheNightAwayAudio(mapped)
+          )
+        )
+      )
+    )
   );
   return applyWrittenYears(normalized);
 }
@@ -207,4 +244,77 @@ function applyBundledRunAwayAudio(songs: Song[]): Song[] {
   return songs.map((s) =>
     isRunAwayTrack(s.title) ? { ...s, audio_url: RUN_AWAY_AUDIO_PATH } : s
   );
+}
+
+function isRideTheNightAwayTrack(title: string | null | undefined): boolean {
+  const t = normalizeTitle(title);
+  return t === "ride the night away" || t.startsWith("ride the night away");
+}
+
+/** Supabase rows for “Ride the Night Away” use the bundled MP3 */
+function applyBundledRideTheNightAwayAudio(songs: Song[]): Song[] {
+  return songs.map((s) =>
+    isRideTheNightAwayTrack(s.title)
+      ? {
+          ...s,
+          title: "Ride the Night Away",
+          audio_url: RIDE_THE_NIGHT_AWAY_AUDIO_PATH,
+        }
+      : s
+  );
+}
+
+function isNeverBeTheSameTrack(title: string | null | undefined): boolean {
+  const t = normalizeTitle(title);
+  return t === "never be the same" || t.startsWith("never be the same");
+}
+
+/** Supabase rows for “Never Be The Same” use the bundled MP3 */
+function applyBundledNeverBeTheSameAudio(songs: Song[]): Song[] {
+  return songs.map((s) =>
+    isNeverBeTheSameTrack(s.title)
+      ? {
+          ...s,
+          title: "Never Be The Same",
+          audio_url: NEVER_BE_THE_SAME_AUDIO_PATH,
+        }
+      : s
+  );
+}
+
+/** Ensures bundled tracks appear even when Supabase has other songs but not these yet */
+function ensureBundledTracksInList(songs: Song[]): Song[] {
+  let result = songs;
+
+  if (!result.some((s) => isRideTheNightAwayTrack(s.title))) {
+    result = [
+      {
+        id: "bundled-ride-the-night-away",
+        title: "Ride the Night Away",
+        artist: "Shirwell Bancan",
+        year: 2025,
+        audio_url: RIDE_THE_NIGHT_AWAY_AUDIO_PATH,
+        cover_image: null,
+        is_premium: false,
+      },
+      ...result,
+    ];
+  }
+
+  if (!result.some((s) => isNeverBeTheSameTrack(s.title))) {
+    result = [
+      {
+        id: "bundled-never-be-the-same",
+        title: "Never Be The Same",
+        artist: "Shirwell Bancan",
+        year: 2025,
+        audio_url: NEVER_BE_THE_SAME_AUDIO_PATH,
+        cover_image: null,
+        is_premium: false,
+      },
+      ...result,
+    ];
+  }
+
+  return result;
 }
