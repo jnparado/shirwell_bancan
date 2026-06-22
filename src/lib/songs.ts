@@ -290,7 +290,7 @@ function ensureBundledTracksInList(songs: Song[]): Song[] {
     result = [
       {
         id: "bundled-ride-the-night-away",
-        title: "Ride the Night Away",
+        title: "Black Horse",
         artist: "Shirwell Bancan",
         year: 2025,
         audio_url: RIDE_THE_NIGHT_AWAY_AUDIO_PATH,
