@@ -113,6 +113,15 @@ export const FALLBACK_SONGS: Song[] = [
     cover_image: null,
     is_premium: false,
   },
+  {
+    id: "fallback-7",
+    title: "Black Horse",
+    artist: "Shirwell Bancan",
+    year: 2025,
+    audio_url: BLACK_HORSE_AUDIO_PATH,
+    cover_image: null,
+    is_premium: false,
+  },
 ];
 
 type SongRow = {
