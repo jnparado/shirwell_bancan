@@ -28,6 +28,12 @@ export const NEVER_BE_THE_SAME_AUDIO_PATH = "/audio/never-be-the-same.mp3";
 /** `Black horse` */
 export const BLACK_HORSE_AUDIO_PATH = "/audio/black-horse.mp3";
 
+/** `Hay girls guy voice` */
+export const HAY_GIRLS_GUY_VOICE_AUDIO_PATH = "/audio/hay-girls-guy-voice.mp3";
+
+/** `Baby Gonna Rock` */
+export const BABY_GONNA_ROCK_AUDIO_PATH = "/audio/baby-gonna-rock.mp3";
+
 
 function normalizeTitle(title: string | null | undefined): string {
   return (title ?? "").trim().toLowerCase();
@@ -119,6 +125,24 @@ export const FALLBACK_SONGS: Song[] = [
     artist: "Shirwell Bancan",
     year: 2025,
     audio_url: BLACK_HORSE_AUDIO_PATH,
+    cover_image: null,
+    is_premium: false,
+  },
+  {
+    id: "fallback-8",
+    title: "Hay girls guy voice",
+    artist: "Shirwell Bancan",
+    year: 2025,
+    audio_url: HAY_GIRLS_GUY_VOICE_AUDIO_PATH,
+    cover_image: null,
+    is_premium: false,
+  },
+  {
+    id: "fallback-9",
+    title: "Baby Gonna Rock",
+    artist: "Shirwell Bancan",
+    year: 2025,
+    audio_url: BABY_GONNA_ROCK_AUDIO_PATH,
     cover_image: null,
     is_premium: false,
   },
