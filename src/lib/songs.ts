@@ -40,6 +40,9 @@ export const CRAZY_1_AUDIO_PATH = "/audio/crazy-1.mp3";
 /** `Rock-n-Roll Roll ` */
 export const ROCK_N_ROLL_ROLL_AUDIO_PATH = "/audio/rock-n-roll-roll.mp3";
 
+/** `Without Your Love` */
+export const WITHOUT_YOUR_LOVE_AUDIO_PATH = "/audio/without-your-love.mp3";
+
 
 function normalizeTitle(title: string | null | undefined): string {
   return (title ?? "").trim().toLowerCase();
@@ -167,6 +170,15 @@ export const FALLBACK_SONGS: Song[] = [
     artist: "Shirwell Bancan",
     year: 2025,
     audio_url: ROCK_N_ROLL_ROLL_AUDIO_PATH,
+    cover_image: null,
+    is_premium: false,
+  },
+  {
+    id: "fallback-12",
+    title: "Without Your Love",
+    artist: "Shirwell Bancan",
+    year: 2025,
+    audio_url: WITHOUT_YOUR_LOVE_AUDIO_PATH,
     cover_image: null,
     is_premium: false,
   },
