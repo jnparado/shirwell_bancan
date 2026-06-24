@@ -34,6 +34,9 @@ export const HAY_GIRLS_GUY_VOICE_AUDIO_PATH = "/audio/hay-girls-guy-voice.mp3";
 /** `Baby Gonna Rock` */
 export const BABY_GONNA_ROCK_AUDIO_PATH = "/audio/baby-gonna-rock.mp3";
 
+/** `Crazy ` */
+export const CRAZY_1_AUDIO_PATH = "/audio/crazy-1.mp3";
+
 
 function normalizeTitle(title: string | null | undefined): string {
   return (title ?? "").trim().toLowerCase();
@@ -103,7 +106,7 @@ export const FALLBACK_SONGS: Song[] = [
   },
   {
     id: "fallback-5",
-    title: "Black horse(",
+    title: "Ride the Night Away",
     artist: "Shirwell Bancan",
     year: 2025,
     audio_url: RIDE_THE_NIGHT_AWAY_AUDIO_PATH,
@@ -140,6 +143,15 @@ export const FALLBACK_SONGS: Song[] = [
   {
     id: "fallback-9",
     title: "Baby Gonna Rock",
+    artist: "Shirwell Bancan",
+    year: 2025,
+    audio_url: BABY_GONNA_ROCK_AUDIO_PATH,
+    cover_image: null,
+    is_premium: false,
+  },
+  {
+    id: "fallback-9",
+    title: "Crazy 1  ",
     artist: "Shirwell Bancan",
     year: 2025,
     audio_url: BABY_GONNA_ROCK_AUDIO_PATH,
