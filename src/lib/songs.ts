@@ -112,7 +112,7 @@ export const FALLBACK_SONGS: Song[] = [
   },
   {
     id: "fallback-5",
-    title: "Ride the Night Away",
+    title: "Black Horse",
     artist: "Shirwell Bancan",
     year: 2025,
     audio_url: RIDE_THE_NIGHT_AWAY_AUDIO_PATH,
@@ -125,15 +125,6 @@ export const FALLBACK_SONGS: Song[] = [
     artist: "Shirwell Bancan",
     year: 2025,
     audio_url: NEVER_BE_THE_SAME_AUDIO_PATH,
-    cover_image: null,
-    is_premium: false,
-  },
-  {
-    id: "fallback-7",
-    title: "Black Horse",
-    artist: "Shirwell Bancan",
-    year: 2025,
-    audio_url: BLACK_HORSE_AUDIO_PATH,
     cover_image: null,
     is_premium: false,
   },
@@ -388,6 +379,7 @@ function ensureBundledTracksInList(songs: Song[]): Song[] {
       ...result,
     ];
   }
+  
 
   return result;
 }
