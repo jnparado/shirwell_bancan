@@ -25,8 +25,6 @@ export const RIDE_THE_NIGHT_AWAY_AUDIO_PATH =
 /** `Never Be The Same` */
 export const NEVER_BE_THE_SAME_AUDIO_PATH = "/audio/never-be-the-same.mp3";
 
-/** `Black horse` */
-export const BLACK_HORSE_AUDIO_PATH = "/audio/black-horse.mp3";
 
 /** `Hay girls guy voice` */
 export const HAY_GIRLS_GUY_VOICE_AUDIO_PATH = "/audio/hay-girls-guy-voice.mp3";
@@ -63,6 +61,8 @@ function applyWrittenYears(songs: Song[]): Song[] {
         ? 2024
         : t === "i want to run away" || t === "i want to runaway"
           ? 2025
+          : t === "1000 minutes apart" || t.startsWith("1000 minutes apart")
+            ? 2025
           : t === "ride the night away" || t.startsWith("ride the night away")
             ? 2025
             : t === "never be the same" || t.startsWith("never be the same")
@@ -256,6 +256,8 @@ const DISPLAY_TITLE_KISSING = "Kissing";
 const DISPLAY_TITLE_COME_ON_BABE = "Come on babe";
 const DISPLAY_TITLE_COME_ON_BABE_V2 = "Come on babe (Version 2 — louder)";
 
+
+
 /** “Kissing” / legacy alias → bundled MP3 */
 function isKissingBundleTrack(title: string | null | undefined): boolean {
   const t = normalizeTitle(title);
@@ -391,7 +393,77 @@ function ensureBundledTracksInList(songs: Song[]): Song[] {
       ...result,
     ];
   }
-  
-
+  function isOneThousandMinutesApartTrack(title: string | null | undefined): boolean {
+    const t = normalizeTitle(title);
+    return t === "1000 minutes apart" || t.startsWith("1000 minutes apart");
+  }
+  if (!result.some((s) => isOneThousandMinutesApartTrack(s.title))) {
+    result = [
+      {
+        id: "bundled-one-thousand-minutes-apart",
+        title: "1000 Minutes Apart",
+        artist: "Shirwell Bancan",
+        year: 2025,
+        audio_url: ONE_THOUSAND_MINUTES_APART_AUDIO_PATH,
+        cover_image: null,
+        is_premium: false,
+      },
+      ...result,
+    ];
+  }
+  function isRockNRollRollTrack(title: string | null | undefined): boolean {
+    const t = normalizeTitle(title);
+    return t === "rock-n-roll roll" || t.startsWith("rock-n-roll roll");
+  }
+  if (!result.some((s) => isRockNRollRollTrack(s.title))) {
+    result = [
+      {
+        id: "bundled-rock-n-roll-roll",
+        title: "Rock-n-Roll Roll",
+        artist: "Shirwell Bancan",
+        year: 2025,
+        audio_url: ROCK_N_ROLL_ROLL_AUDIO_PATH,
+        cover_image: null,
+        is_premium: false,
+      },
+      ...result,
+    ];
+  }
+  function isWithoutYourLoveTrack(title: string | null | undefined): boolean {
+    const t = normalizeTitle(title);
+    return t === "without your love" || t.startsWith("without your love");
+  }
+  if (!result.some((s) => isWithoutYourLoveTrack(s.title))) {
+    result = [
+      {
+        id: "bundled-without-your-love",
+        title: "Without Your Love",
+        artist: "Shirwell Bancan",
+        year: 2025,
+        audio_url: WITHOUT_YOUR_LOVE_AUDIO_PATH,
+        cover_image: null,
+        is_premium: false,
+      },
+      ...result,
+    ];
+  }
+  function isCrazy1Track(title: string | null | undefined): boolean {
+    const t = normalizeTitle(title);
+    return t === "crazy 1" || t.startsWith("crazy 1");
+  }
+  if (!result.some((s) => isCrazy1Track(s.title))) {
+    result = [
+      {
+        id: "bundled-crazy-1",
+        title: "Crazy 1",
+        artist: "Shirwell Bancan",
+        year: 2025,
+        audio_url: CRAZY_1_AUDIO_PATH,
+        cover_image: null,
+        is_premium: false,
+      },
+      ...result,
+    ];
+  }
   return result;
 }
