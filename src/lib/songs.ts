@@ -379,6 +379,10 @@ function ensureBundledTracksInList(songs: Song[]): Song[] {
     ];
   }
 
+  function isNeverBeTheSameTrack(title: string | null | undefined): boolean {
+    const t = normalizeTitle(title);
+    return t === "never be the same" || t.startsWith("never be the same");
+  }
   if (!result.some((s) => isNeverBeTheSameTrack(s.title))) {
     result = [
       {
@@ -393,6 +397,7 @@ function ensureBundledTracksInList(songs: Song[]): Song[] {
       ...result,
     ];
   }
+
   function isOneThousandMinutesApartTrack(title: string | null | undefined): boolean {
     const t = normalizeTitle(title);
     return t === "1000 minutes apart" || t.startsWith("1000 minutes apart");
@@ -503,6 +508,8 @@ function ensureBundledTracksInList(songs: Song[]): Song[] {
     ];
   } 
 
-  
+
+
+
   return result;
 }
