@@ -43,6 +43,9 @@ export const ROCK_N_ROLL_ROLL_AUDIO_PATH = "/audio/rock-n-roll-roll.mp3";
 /** `Without Your Love` */
 export const WITHOUT_YOUR_LOVE_AUDIO_PATH = "/audio/without-your-love.mp3";
 
+/** `1000-minutes apart` */
+export const ONE_THOUSAND_MINUTES_APART_AUDIO_PATH = "/audio/1000-minutes-apart.mp3";
+
 
 function normalizeTitle(title: string | null | undefined): string {
   return (title ?? "").trim().toLowerCase();
@@ -148,7 +151,7 @@ export const FALLBACK_SONGS: Song[] = [
   },
   {
     id: "fallback-10",
-    title: "Crazy 1  ",
+    title: "Crazy 1",
     artist: "Shirwell Bancan",
     year: 2025,
     audio_url: CRAZY_1_AUDIO_PATH,
@@ -170,6 +173,15 @@ export const FALLBACK_SONGS: Song[] = [
     artist: "Shirwell Bancan",
     year: 2025,
     audio_url: WITHOUT_YOUR_LOVE_AUDIO_PATH,
+    cover_image: null,
+    is_premium: false,
+  },
+  {
+    id: "fallback-12",
+    title: "1000 Minutes Apart",
+    artist: "Shirwell Bancan",
+    year: 2025,
+    audio_url: ONE_THOUSAND_MINUTES_APART_AUDIO_PATH,
     cover_image: null,
     is_premium: false,
   },
