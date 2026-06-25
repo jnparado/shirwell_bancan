@@ -25,6 +25,9 @@ export const RIDE_THE_NIGHT_AWAY_AUDIO_PATH =
 /** `Never Be The Same` */
 export const NEVER_BE_THE_SAME_AUDIO_PATH = "/audio/never-be-the-same.mp3";
 
+/** `Black horse` */
+export const BLACK_HORSE_AUDIO_PATH = "/audio/black-horse.mp3";
+
 /** `Hay girls guy voice` */
 export const HAY_GIRLS_GUY_VOICE_AUDIO_PATH = "/audio/hay-girls-guy-voice.mp3";
 
