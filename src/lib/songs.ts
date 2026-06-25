@@ -418,7 +418,7 @@ function ensureBundledTracksInList(songs: Song[]): Song[] {
   if (!result.some((s) => isRockNRollRollTrack(s.title))) {
     result = [
       {
-        id: "bundled-rock-n-roll-roll",
+        id: "bundled-rock-n-roll-roll",     
         title: "Rock-n-Roll Roll",
         artist: "Shirwell Bancan",
         year: 2025,
@@ -429,6 +429,7 @@ function ensureBundledTracksInList(songs: Song[]): Song[] {
       ...result,
     ];
   }
+
   function isWithoutYourLoveTrack(title: string | null | undefined): boolean {
     const t = normalizeTitle(title);
     return t === "without your love" || t.startsWith("without your love");
@@ -465,5 +466,43 @@ function ensureBundledTracksInList(songs: Song[]): Song[] {
       ...result,
     ];
   }
+  function isBabyGonnaRockTrack(title: string | null | undefined): boolean {
+    const t = normalizeTitle(title);
+    return t === "baby gonna rock" || t.startsWith("baby gonna rock");
+  }
+  if (!result.some((s) => isBabyGonnaRockTrack(s.title))) {
+    result = [
+      {
+        id: "bundled-baby-gonna-rock",
+        title: "Baby Gonna Rock",
+        artist: "Shirwell Bancan",
+        year: 2025,
+        audio_url: BABY_GONNA_ROCK_AUDIO_PATH,
+        cover_image: null,
+        is_premium: false,
+      },
+      ...result,
+    ];
+  }
+  function isHayGirlsGuyVoiceTrack(title: string | null | undefined): boolean {
+    const t = normalizeTitle(title);
+    return t === "hay girls guy voice" || t.startsWith("hay girls guy voice");
+  } 
+  if (!result.some((s) => isHayGirlsGuyVoiceTrack(s.title))) {
+    result = [
+      {
+        id: "bundled-hay-girls-guy-voice",
+        title: "Hay Girls Guy Voice",
+        artist: "Shirwell Bancan",
+        year: 2025,
+        audio_url: HAY_GIRLS_GUY_VOICE_AUDIO_PATH,
+        cover_image: null,
+        is_premium: false,
+      },
+      ...result,
+    ];
+  } 
+
+  
   return result;
 }
