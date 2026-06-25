@@ -184,10 +184,10 @@ export default function PrivacyPage() {
             <p>
               Questions about this policy:{" "}
               <a
-                href="mailto:hello@shirwell.example"
+                href="mailto:shirwellentertainment@gmail.com"
                 className="text-[#FFC107] underline-offset-2 hover:underline"
               >
-                hello@shirwell.example
+              shirwellentertainment@gmail.com
               </a>
               , or the{" "}
               <Link href="/search" className="text-[#FFC107] underline-offset-2 hover:underline">
