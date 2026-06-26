@@ -9,9 +9,8 @@ export function AdSenseScript() {
     <Script
       id="adsense-init"
       async
-      src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT_ID}`}
+      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2495432679632375"
       crossOrigin="anonymous"
-      strategy="afterInteractive"
     />
   );
 }

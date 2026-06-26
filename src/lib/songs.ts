@@ -67,6 +67,16 @@ function applyWrittenYears(songs: Song[]): Song[] {
             ? 2025
             : t === "never be the same" || t.startsWith("never be the same")
               ? 2025
+              : t === "without your love" || t.startsWith("without your love")
+                ? 2025
+              : t === "rock-n-roll roll" || t.startsWith("rock-n-roll roll")
+                ? 2025
+              : t === "crazy 1" || t.startsWith("crazy 1")
+                ? 2025
+              : t === "baby gonna rock" || t.startsWith("baby gonna rock")
+                ? 2025
+              : t === "hay girls guy voice" || t.startsWith("hay girls guy voice")
+                ? 2025
               : t.startsWith("come on babe")
             ? 1979
             : null;
@@ -169,7 +179,7 @@ export const FALLBACK_SONGS: Song[] = [
   },
   {
     id: "fallback-12",
-    title: "Without Your Love",
+    title: "Without YourLove",
     artist: "Shirwell Bancan",
     year: 2025,
     audio_url: WITHOUT_YOUR_LOVE_AUDIO_PATH,
