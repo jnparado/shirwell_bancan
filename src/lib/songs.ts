@@ -511,7 +511,7 @@ function ensureBundledTracksInList(songs: Song[]): Song[] {
         id: "bundled-baby-gonna-rock",
         title: "Baby Gonna Rock",
         artist: "Shirwell Bancan",
-        desc: "Shirwell Bancan",
+        desc: "Dancing version just the demonstration written in my 19 80 there is another one coming that will be completed in the studio this is hybrid dance version demonstration hybrid",
         year: 2025,
         audio_url: BABY_GONNA_ROCK_AUDIO_PATH,
         cover_image: null,
