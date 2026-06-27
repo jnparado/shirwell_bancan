@@ -90,7 +90,7 @@ export const FALLBACK_SONGS: Song[] = [
   {
     id: "fallback-1",
     title: "Kissing",
-    artist: "Shirwell Bancan",
+    artist: "Written by Shirwell Bancan",
     desc: "Shirwell Bancan",
     year: 2024,
     audio_url: KISSING_AUDIO_PATH,
@@ -100,7 +100,7 @@ export const FALLBACK_SONGS: Song[] = [
   {
     id: "fallback-2",
     title: "I Want to Run Away",
-    artist: "Shirwell Bancan",
+    artist: "Written by Shirwell Bancan",
     desc: "Shirwell Bancan",
     year: 2025,
     audio_url: RUN_AWAY_AUDIO_PATH,
@@ -110,7 +110,7 @@ export const FALLBACK_SONGS: Song[] = [
   {
     id: "fallback-3",
     title: "Come on babe",
-    artist: "Shirwell Bancan",
+    artist: "Written by Shirwell Bancan",
     desc: "Shirwell Bancan",
     year: 1979,
     audio_url: COME_ON_BABE_AUDIO_PATH,
@@ -120,7 +120,7 @@ export const FALLBACK_SONGS: Song[] = [
   {
     id: "fallback-4",
     title: "Come on babe (Version 2 — louder)",
-    artist: "Shirwell Bancan",
+    artist: "Written by Shirwell Bancan",
     desc: "Shirwell Bancan",
     year: 1979,
     audio_url: COME_ON_BABE_V2_LOUDER_AUDIO_PATH,
@@ -130,7 +130,7 @@ export const FALLBACK_SONGS: Song[] = [
   {
     id: "fallback-5",
     title: "Black Horse",
-    artist: "Shirwell Bancan",
+    artist: "Written by Shirwell Bancan",
     desc: "Shirwell Bancan",
     year: 2025,
     audio_url: RIDE_THE_NIGHT_AWAY_AUDIO_PATH,
@@ -140,7 +140,7 @@ export const FALLBACK_SONGS: Song[] = [
   {
     id: "fallback-6",
     title: "Never Be The Same",
-    artist: "Shirwell Bancan",
+    artist: "Written by Shirwell Bancan",
     desc: "Shirwell Bancan",
     year: 2025,
     audio_url: NEVER_BE_THE_SAME_AUDIO_PATH,
@@ -150,7 +150,7 @@ export const FALLBACK_SONGS: Song[] = [
   {
     id: "fallback-8",
     title: "Hay girls guy voice",
-    artist: "Written by Shirwell Bancan,",
+    artist: "Written by Shirwell Bancan",
     desc: "Shirwell Bancan",
     year: 2026,
     audio_url: HAY_GIRLS_GUY_VOICE_AUDIO_PATH,
@@ -170,7 +170,7 @@ export const FALLBACK_SONGS: Song[] = [
   {
     id: "fallback-10",
     title: "Crazy 1",
-    artist: "Shirwell Bancan",
+    artist: "Written by Shirwell Bancan",
     desc: "Shirwell Bancan",
     year: 2025,
     audio_url: CRAZY_1_AUDIO_PATH,
@@ -180,7 +180,7 @@ export const FALLBACK_SONGS: Song[] = [
   {
     id: "fallback-11",
     title: "Rock-n-Roll Roll  ",
-    artist: "Shirwell Bancan",
+    artist: "Written by Shirwell Bancan",
     desc: "Shirwell Bancan",
     year: 2025,
     audio_url: ROCK_N_ROLL_ROLL_AUDIO_PATH,
