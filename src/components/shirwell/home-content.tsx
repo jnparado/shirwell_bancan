@@ -12,6 +12,9 @@ import { BottomNav } from "./bottom-nav";
 import { NowPlayingBar } from "./now-playing-bar";
 import { AdSenseUnit } from "@/components/ads/adsense-unit";
 
+
+
+
 interface HomeContentProps {
   songs: Song[];
 }

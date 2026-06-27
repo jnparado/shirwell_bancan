@@ -3,6 +3,7 @@ export interface Song {
   id: string;
   title: string | null;
   artist: string | null;
+  desc: string | null;
   year: number | null;
   /** Resolved absolute URL (storage public URL or external http(s)) */
   audio_url: string | null;

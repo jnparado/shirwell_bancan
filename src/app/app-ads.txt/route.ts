@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-const DEFAULT_PUBLISHER_ID = "pub-2495432679632375";
+const DEFAULT_PUBLISHER_ID = "ca-pub-2495432679632375";
 const GOOGLE_CERT_AUTHORITY_ID = "f08c47fec0942fa0";
 
 /**
