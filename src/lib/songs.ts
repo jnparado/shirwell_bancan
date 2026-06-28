@@ -44,6 +44,9 @@ export const WITHOUT_YOUR_LOVE_AUDIO_PATH = "/audio/without-your-love.mp3";
 /** `1000-minutes apart` */
 export const ONE_THOUSAND_MINUTES_APART_AUDIO_PATH = "/audio/one_thousand_minutes_apart.mp3";
 
+/** `how-could-i-find-someone-like-you ` */
+export const HOW_COULD_I_FIND_SOMEONE_LIKE_YOU_AUDIO_PATH = "/audio/how-could-i-find-someone-like-you.mp3";
+ 
 
 function normalizeTitle(title: string | null | undefined): string {
   return (title ?? "").trim().toLowerCase();
@@ -77,6 +80,9 @@ function applyWrittenYears(songs: Song[]): Song[] {
                 ? 2025
               : t === "hay girls guy voice" || t.startsWith("hay girls guy voice")
                 ? 2025
+                : t === "how could i find someone like you" || t.startsWith("how could i find someone like you")
+                ? 2025
+                
           
             : null;
 
@@ -203,6 +209,17 @@ export const FALLBACK_SONGS: Song[] = [
     desc: "Shirwell Bancan",
     year: 2025,
     audio_url: ONE_THOUSAND_MINUTES_APART_AUDIO_PATH,
+    cover_image: null,
+    is_premium: false,
+  },
+
+  {
+    id: "fallback-13",
+    title: "How could i find someone like you",
+    artist: "Written by Shirwell Bancan",
+    desc: "Shirwell Bancan",
+    year: 2025,
+    audio_url: HOW_COULD_I_FIND_SOMEONE_LIKE_YOU_AUDIO_PATH,
     cover_image: null,
     is_premium: false,
   },
@@ -543,11 +560,11 @@ function ensureBundledTracksInList(songs: Song[]): Song[] {
       },
       ...result,
     ];
-
+   
+  
+  
 
   } 
-
-
 
 
   return result;
