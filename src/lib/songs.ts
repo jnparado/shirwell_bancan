@@ -33,7 +33,7 @@ export const HAY_GIRLS_GUY_VOICE_AUDIO_PATH = "/audio/hay-girls-guy-voice.mp3";
 export const BABY_GONNA_ROCK_AUDIO_PATH = "/audio/baby-gonna-rock.mp3";
 
 /** `Crazy ` */
-export const CRAZY_1_AUDIO_PATH = "/audio/crazy-1.mp3";
+export const CRAZY_1_AUDIO_PATH = "/audio/crazy.mp3";
 
 /** `Rock-n-Roll Roll ` */
 export const ROCK_N_ROLL_ROLL_AUDIO_PATH = "/audio/rock-n-roll-roll.mp3";
@@ -42,7 +42,7 @@ export const ROCK_N_ROLL_ROLL_AUDIO_PATH = "/audio/rock-n-roll-roll.mp3";
 export const WITHOUT_YOUR_LOVE_AUDIO_PATH = "/audio/without-your-love.mp3";
 
 /** `1000-minutes apart` */
-export const ONE_THOUSAND_MINUTES_APART_AUDIO_PATH = "/audio/1000-minutes-apart.mp3";
+export const ONE_THOUSAND_MINUTES_APART_AUDIO_PATH = "/audio/one_thousand_minutes_apart.mp3";
 
 
 function normalizeTitle(title: string | null | undefined): string {
@@ -77,8 +77,7 @@ function applyWrittenYears(songs: Song[]): Song[] {
                 ? 2025
               : t === "hay girls guy voice" || t.startsWith("hay girls guy voice")
                 ? 2025
-              : t.startsWith("come on babe")
-            ? 1979
+          
             : null;
 
     if (!forcedYear) return s;
@@ -148,7 +147,7 @@ export const FALLBACK_SONGS: Song[] = [
     is_premium: false,
   },
   {
-    id: "fallback-8",
+    id: "fallback-7",
     title: "Hay girls guy voice",
     artist: "Written by Shirwell Bancan",
     desc: "Shirwell Bancan",
@@ -158,7 +157,7 @@ export const FALLBACK_SONGS: Song[] = [
     is_premium: false,
   },
   {
-    id: "fallback-9",
+    id: "fallback-8",
     title: "Baby Gonna Rock",
     artist: "Written by Shirwell Bancan",
     desc: "Dancing version just the demonstration written in my 19 80 there is another one coming that will be completed in the studio this is hybrid dance version demonstration hybrid",
@@ -168,7 +167,7 @@ export const FALLBACK_SONGS: Song[] = [
     is_premium: false,
   },
   {
-    id: "fallback-10",
+    id: "fallback-9",
     title: "Crazy 1",
     artist: "Written by Shirwell Bancan",
     desc: "Shirwell Bancan",
@@ -178,7 +177,7 @@ export const FALLBACK_SONGS: Song[] = [
     is_premium: false,
   },
   {
-    id: "fallback-11",
+    id: "fallback-10",
     title: "Rock-n-Roll Roll  ",
     artist: "Written by Shirwell Bancan",
     desc: "Shirwell Bancan",
@@ -188,9 +187,9 @@ export const FALLBACK_SONGS: Song[] = [
     is_premium: false,
   },
   {
-    id: "fallback-12",
+    id: "fallback-11",
     title: "Without YourLove",
-    artist: "Shirwell Bancan",
+    artist: "Written by Shirwell Bancan",
     desc: "Shirwell Bancan",
     year: 2025,
     audio_url: WITHOUT_YOUR_LOVE_AUDIO_PATH,
@@ -200,7 +199,7 @@ export const FALLBACK_SONGS: Song[] = [
   {
     id: "fallback-12",
     title: "1000 Minutes Apart",
-    artist: "Shirwell Bancan",
+    artist: "Written by Shirwell Bancan",
     desc: "Shirwell Bancan",
     year: 2025,
     audio_url: ONE_THOUSAND_MINUTES_APART_AUDIO_PATH,
@@ -255,7 +254,7 @@ export async function getSongs(): Promise<Song[]> {
   const { data, error } = await supabase
     .from("songs")
     .select(
-      "id, title, artist, year, audio_url, cover_image, is_premium, created_at"
+      "id, title, desc, artist, year, audio_url, cover_image, is_premium, created_at"
     )
     .order("created_at", { ascending: false });
 
@@ -279,6 +278,7 @@ export async function getSongs(): Promise<Song[]> {
 const DISPLAY_TITLE_KISSING = "Kissing";
 const DISPLAY_TITLE_COME_ON_BABE = "Come on babe";
 const DISPLAY_TITLE_COME_ON_BABE_V2 = "Come on babe (Version 2 — louder)";
+
 
 
 
@@ -312,6 +312,8 @@ function applyBundledKissingAudio(songs: Song[]): Song[] {
           ...s,
           title: DISPLAY_TITLE_KISSING,
           audio_url: KISSING_AUDIO_PATH,
+ 
+        
         }
       : s
   );
@@ -333,6 +335,7 @@ function applyBundledComeOnBabeAudio(songs: Song[]): Song[] {
             audio_url: COME_ON_BABE_AUDIO_PATH,
           }
         : s
+        
   );
 }
 
@@ -384,6 +387,8 @@ function applyBundledNeverBeTheSameAudio(songs: Song[]): Song[] {
   );
 }
 
+
+
 /** Ensures bundled tracks appear even when Supabase has other songs but not these yet */
 function ensureBundledTracksInList(songs: Song[]): Song[] {
   let result = songs;
@@ -413,7 +418,7 @@ function ensureBundledTracksInList(songs: Song[]): Song[] {
       {
         id: "bundled-never-be-the-same",
         title: "Never Be The Same",
-        artist: "Shirwell Bancan",
+        artist: "Written by Shirwell Bancan",
         desc: "Shirwell Bancan",
         year: 2025,
         audio_url: NEVER_BE_THE_SAME_AUDIO_PATH,
@@ -433,7 +438,7 @@ function ensureBundledTracksInList(songs: Song[]): Song[] {
       {
         id: "bundled-one-thousand-minutes-apart",
         title: "1000 Minutes Apart",
-        artist: "Shirwell Bancan",
+        artist: "Written by Shirwell Bancan",
         desc: "Shirwell Bancan",
         year: 2025,
         audio_url: ONE_THOUSAND_MINUTES_APART_AUDIO_PATH,
@@ -452,7 +457,7 @@ function ensureBundledTracksInList(songs: Song[]): Song[] {
       {
         id: "bundled-rock-n-roll-roll",     
         title: "Rock-n-Roll Roll",
-        artist: "Shirwell Bancan",
+        artist: "Written by Shirwell Bancan",
         desc: "Shirwell Bancan",
         year: 2025,
         audio_url: ROCK_N_ROLL_ROLL_AUDIO_PATH,
@@ -472,7 +477,7 @@ function ensureBundledTracksInList(songs: Song[]): Song[] {
       {
         id: "bundled-without-your-love",
         title: "Without Your Love",
-        artist: "Shirwell Bancan",
+        artist: "Written by Shirwell Bancan",
         desc: "Shirwell Bancan",
         year: 2025,
         audio_url: WITHOUT_YOUR_LOVE_AUDIO_PATH,
@@ -491,7 +496,7 @@ function ensureBundledTracksInList(songs: Song[]): Song[] {
       {
         id: "bundled-crazy-1",
         title: "Crazy 1",
-        artist: "Shirwell Bancan",
+        artist: "Written by Shirwell Bancan",
         desc: "Shirwell Bancan",
         year: 2025,
         audio_url: CRAZY_1_AUDIO_PATH,
@@ -510,7 +515,7 @@ function ensureBundledTracksInList(songs: Song[]): Song[] {
       {
         id: "bundled-baby-gonna-rock",
         title: "Baby Gonna Rock",
-        artist: "Shirwell Bancan",
+        artist: "Written by Shirwell Bancan",
         desc: "Dancing version just the demonstration written in my 19 80 there is another one coming that will be completed in the studio this is hybrid dance version demonstration hybrid",
         year: 2025,
         audio_url: BABY_GONNA_ROCK_AUDIO_PATH,
@@ -529,7 +534,7 @@ function ensureBundledTracksInList(songs: Song[]): Song[] {
       {
         id: "bundled-hay-girls-guy-voice",
         title: "Hay Girls Guy Voice",
-        artist: "Shirwell Bancan",
+        artist: "Written by Shirwell Bancan",
         desc: "Shirwell Bancan",
         year: 2025,
         audio_url: HAY_GIRLS_GUY_VOICE_AUDIO_PATH,
@@ -538,6 +543,8 @@ function ensureBundledTracksInList(songs: Song[]): Song[] {
       },
       ...result,
     ];
+
+
   } 
 
 
