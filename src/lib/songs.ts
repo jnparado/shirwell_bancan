@@ -30,7 +30,7 @@ export const NEVER_BE_THE_SAME_AUDIO_PATH = "/audio/never-be-the-same.mp3";
 export const HAY_GIRLS_GUY_VOICE_AUDIO_PATH = "/audio/hay-girls-guy-voice.mp3";
 
 /** `Baby Gonna Rock` */
-export const BABY_GONNA_ROCK_AUDIO_PATH = "/audio/baby-gonna-rock.mp3";
+export const BABY_GONNA_ROCK_AUDIO_PATH = "/audio/Baby_gonna_Rock.mp3"
 
 /** `Crazy ` */
 export const CRAZY_1_AUDIO_PATH = "/audio/crazy.mp3";
@@ -166,7 +166,7 @@ export const FALLBACK_SONGS: Song[] = [
     id: "fallback-8",
     title: "Baby Gonna Rock",
     artist: "Written by Shirwell Bancan",
-    desc: "Dancing version just the demonstration written in my 19 80 there is another one coming that will be completed in the studio this is hybrid dance version demonstration hybrid",
+    desc: "Shirwell",
     year: 2025,
     audio_url: BABY_GONNA_ROCK_AUDIO_PATH,
     cover_image: null,
@@ -525,7 +525,7 @@ function ensureBundledTracksInList(songs: Song[]): Song[] {
   }
   function isBabyGonnaRockTrack(title: string | null | undefined): boolean {
     const t = normalizeTitle(title);
-    return t === "baby gonna rock" || t.startsWith("baby gonna rock");
+    return t === "Baby Gonna Rock" || t.startsWith("Baby Gonna Rock");
   }
   if (!result.some((s) => isBabyGonnaRockTrack(s.title))) {
     result = [
@@ -533,8 +533,8 @@ function ensureBundledTracksInList(songs: Song[]): Song[] {
         id: "bundled-baby-gonna-rock",
         title: "Baby Gonna Rock",
         artist: "Written by Shirwell Bancan",
-        desc: "Dancing version just the demonstration written in my 19 80 there is another one coming that will be completed in the studio this is hybrid dance version demonstration hybrid",
-        year: 2025,
+        desc: "shirwell",
+          year: 2025,
         audio_url: BABY_GONNA_ROCK_AUDIO_PATH,
         cover_image: null,
         is_premium: false,
