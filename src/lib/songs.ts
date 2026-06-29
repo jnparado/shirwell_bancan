@@ -42,7 +42,7 @@ export const ROCK_N_ROLL_ROLL_AUDIO_PATH = "/audio/rock-n-roll-roll.mp3";
 export const WITHOUT_YOUR_LOVE_AUDIO_PATH = "/audio/without-your-love.mp3";
 
 /** `1000-minutes apart` */
-export const ONE_THOUSAND_MINUTES_APART_AUDIO_PATH = "/audio/one_thousand_minutes_apart.mp3";
+export const ONE_THOUSAND_MINUTES_APART_AUDIO_PATH = "/audio/1000_minutes_apart.mp3";
 
 /** `how-could-i-find-someone-like-you ` */
 export const HOW_COULD_I_FIND_SOMEONE_LIKE_YOU_AUDIO_PATH = "/audio/how-could-i-find-someone-like-you.mp3";
