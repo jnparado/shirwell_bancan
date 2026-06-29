@@ -36,7 +36,7 @@ export const BABY_GONNA_ROCK_AUDIO_PATH = "/audio/Baby_gonna_Rock.mp3"
 export const CRAZY_1_AUDIO_PATH = "/audio/crazy.mp3";
 
 /** `Rock-n-Roll Roll ` */
-export const ROCK_N_ROLL_ROLL_AUDIO_PATH = "/audio/rock-n-roll-roll.mp3";
+
 
 /** `Without Your Love` */
 export const WITHOUT_YOUR_LOVE_AUDIO_PATH = "/audio/without-your-love.mp3";
@@ -173,16 +173,7 @@ export const FALLBACK_SONGS: Song[] = [
     cover_image: null,
     is_premium: false,
   },
-  {
-    id: "fallback-10",
-    title: "Rock-n-Roll Roll  ",
-    artist: "Written by Shirwell Bancan",
-    desc: "Shirwell Bancan",
-    year: 2025,
-    audio_url: ROCK_N_ROLL_ROLL_AUDIO_PATH,
-    cover_image: null,
-    is_premium: false,
-  },
+ 
   {
     id: "fallback-11",
     title: "Without YourLove",
@@ -448,25 +439,7 @@ function ensureBundledTracksInList(songs: Song[]): Song[] {
       ...result,
     ];
   }
-  function isRockNRollRollTrack(title: string | null | undefined): boolean {
-    const t = normalizeTitle(title);
-    return t === "rock-n-roll roll" || t.startsWith("rock-n-roll roll");
-  }
-  if (!result.some((s) => isRockNRollRollTrack(s.title))) {
-    result = [
-      {
-        id: "bundled-rock-n-roll-roll",     
-        title: "Rock-n-Roll Roll",
-        artist: "Written by Shirwell Bancan",
-        desc: "Shirwell Bancan",
-        year: 2025,
-        audio_url: ROCK_N_ROLL_ROLL_AUDIO_PATH,
-        cover_image: null,
-        is_premium: false,
-      },
-      ...result,
-    ];
-  }
+
 
   function isWithoutYourLoveTrack(title: string | null | undefined): boolean {
     const t = normalizeTitle(title);
