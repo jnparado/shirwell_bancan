@@ -9,7 +9,7 @@ import {
 export const KISSING_AUDIO_PATH = "/audio/kissing-240227.mp3";
 
 /** `Come on Babe_V4_L2.wav` */
-export const COME_ON_BABE_AUDIO_PATH = "/audio/come-on-babe-v4-l2.wav";
+//export const COME_ON_BABE_AUDIO_PATH = "/audio/come-on-babe-v4-l2.wav";
 
 /** `Come on Babe_L2_V5.wav` (Version 2 — louder) */
 export const COME_ON_BABE_V2_LOUDER_AUDIO_PATH =
@@ -112,16 +112,7 @@ export const FALLBACK_SONGS: Song[] = [
     cover_image: null,
     is_premium: false,
   },
-  {
-    id: "fallback-3",
-    title: "Come on babe",
-    artist: "Written by Shirwell Bancan",
-    desc: "Shirwell Bancan",
-    year: 1979,
-    audio_url: COME_ON_BABE_AUDIO_PATH,
-    cover_image: null,
-    is_premium: false,
-  },
+
   {
     id: "fallback-4",
     title: "Come on babe (Version 2 — louder)",
@@ -293,7 +284,6 @@ export async function getSongs(): Promise<Song[]> {
 }
 
 const DISPLAY_TITLE_KISSING = "Kissing";
-const DISPLAY_TITLE_COME_ON_BABE = "Come on babe";
 const DISPLAY_TITLE_COME_ON_BABE_V2 = "Come on babe (Version 2 — louder)";
 
 
@@ -345,15 +335,8 @@ function applyBundledComeOnBabeAudio(songs: Song[]): Song[] {
           title: DISPLAY_TITLE_COME_ON_BABE_V2,
           audio_url: COME_ON_BABE_V2_LOUDER_AUDIO_PATH,
         }
-      : isComeOnBabeTrack(s.title)
-        ? {
-            ...s,
-            title: DISPLAY_TITLE_COME_ON_BABE,
-            audio_url: COME_ON_BABE_AUDIO_PATH,
-          }
         : s
-        
-  );
+      );
 }
 
 function isRunAwayTrack(title: string | null | undefined): boolean {
