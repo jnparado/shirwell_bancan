@@ -44,6 +44,10 @@ export const WITHOUT_YOUR_LOVE_AUDIO_PATH = "/audio/without-your-love.mp3";
 /** `1000-minutes apart` */
 export const ONE_THOUSAND_MINUTES_APART_AUDIO_PATH = "/audio/1000_minutes_apart.mp3";
 
+/** `How Could I Find Someone Like You` */
+export const LILY_THE_DANCING_MACHINE_AUDIO_PATH = "/audio/lily-the-dancing-machine.mp3";
+
+
 
  
 
@@ -190,6 +194,16 @@ export const FALLBACK_SONGS: Song[] = [
     desc: "Shirwell Bancan",
     year: 2026,
     audio_url: ONE_THOUSAND_MINUTES_APART_AUDIO_PATH,
+    cover_image: null,
+    is_premium: false,
+  },
+  {
+    id: "fallback-13",
+    title: "The Dancing Machine",
+    artist: "Written by Shirwell Bancan",
+    desc: "Shirwell Bancan",
+    year: 2026,
+    audio_url: LILY_THE_DANCING_MACHINE_AUDIO_PATH,
     cover_image: null,
     is_premium: false,
   },
@@ -505,6 +519,7 @@ function ensureBundledTracksInList(songs: Song[]): Song[] {
       },
       ...result,
     ];
+
   }
   function isHayGirlsGuyVoiceTrack(title: string | null | undefined): boolean {
     const t = normalizeTitle(title);
@@ -525,10 +540,28 @@ function ensureBundledTracksInList(songs: Song[]): Song[] {
       ...result,
     ];
    
-  
-  
 
+  function isLilyTheDancingMachineTrack(title: string | null | undefined): boolean {
+    const t = normalizeTitle(title);
+    return t === "lily the dancing machine" || t.startsWith("lily the dancing machine");
+  }
+  if (!result.some((s) => isLilyTheDancingMachineTrack(s.title))) {
+    result = [
+      {
+        id: "bundled-lily-the-dancing-machine",
+        title: "The Dancing Machine",
+        artist: "Written by Shirwell Bancan",
+        desc: "Shirwell Bancan",
+        year: 2025,
+        audio_url: LILY_THE_DANCING_MACHINE_AUDIO_PATH,
+        cover_image: null,
+        is_premium: false,
+      },
+      ...result,
+     ];
   } 
+
+  }
 
 
   return result;
