@@ -172,16 +172,7 @@ export const FALLBACK_SONGS: Song[] = [
     cover_image: null,
     is_premium: false,
   },
-  {
-    id: "fallback-10",
-    title: "My Baby's Going To Rock ",
-    artist: "Written by Shirwell Bancan",
-    desc: "Baby Gonna Rock This is the Male Version",
-    year: 1980,
-    audio_url: ROCK_N_ROLL_ROLL_AUDIO_PATH,
-    cover_image: null,
-    is_premium: false,
-  },
+
   {
     id: "fallback-11",
     title: "Without YourLove",
