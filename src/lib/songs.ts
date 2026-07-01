@@ -157,7 +157,7 @@ export const FALLBACK_SONGS: Song[] = [
     title: "Baby Gonna Rock",
     artist: "Written by Shirwell Bancan",
     desc: "Shirwell",
-    year: 2025,
+    year: 1980,
     audio_url: BABY_GONNA_ROCK_AUDIO_PATH,
     cover_image: null,
     is_premium: false,
