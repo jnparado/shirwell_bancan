@@ -127,7 +127,7 @@ export const FALLBACK_SONGS: Song[] = [
     title: "Black Horse",
     artist: "Written by Shirwell Bancan",
     desc: "Shirwell Bancan",
-    year: 2025,
+    year: 1990,
     audio_url: RIDE_THE_NIGHT_AWAY_AUDIO_PATH,
     cover_image: null,
     is_premium: false,
