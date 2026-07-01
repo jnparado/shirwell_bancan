@@ -137,7 +137,7 @@ export const FALLBACK_SONGS: Song[] = [
     title: "Never Be The Same",
     artist: "Written by Shirwell Bancan",
     desc: "Shirwell Bancan",
-    year: 2025,
+    year: 2026,
     audio_url: NEVER_BE_THE_SAME_AUDIO_PATH,
     cover_image: null,
     is_premium: false,
