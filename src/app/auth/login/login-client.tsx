@@ -80,9 +80,9 @@ export function LoginClient() {
           <Image
             src="/shirwell-wordmark.png"
             alt="Shirwell"
-            width={140}
-            height={38}
-            className="h-9 w-auto object-contain"
+            width={519}
+            height={96}
+            className="block h-9 w-auto max-w-[148px] object-contain"
           />
         </Link>
 

@@ -137,9 +137,9 @@ export function MusicPageContent({ songs }: MusicPageContentProps) {
           <Image
             src="/shirwell-wordmark.png"
             alt="Shirwell"
-            width={160}
-            height={44}
-            className="h-10 w-auto object-contain"
+            width={519}
+            height={96}
+            className="block h-9 w-auto max-w-[168px] object-contain"
             priority
           />
         </Link>
