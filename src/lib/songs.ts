@@ -44,8 +44,9 @@ export const WITHOUT_YOUR_LOVE_AUDIO_PATH = "/audio/without-your-love.mp3";
 /** `1000-minutes apart` */
 export const ONE_THOUSAND_MINUTES_APART_AUDIO_PATH = "/audio/1000_minutes_apart.mp3";
 
-/** `How Could I Find Someone Like You` */
-export const DANCING_MACHINE_AUDIO_PATH = "/audio/Dancing-Machine.mp3";
+/** `The Dancing Machine (Turbo Club Mix)` */
+export const DANCING_MACHINE_AUDIO_PATH =
+  "/audio/dancing-machine-turbo-club-mix.mp3";
 
 
 
@@ -83,8 +84,16 @@ function applyWrittenYears(songs: Song[]): Song[] {
                 ? 2025
               : t === "hay girls guy voice" || t.startsWith("hay girls guy voice")
                 ? 2025
-                : t === "how could i find someone like you" || t.startsWith("how could i find someone like you")
+              : t === "the dancing machine" ||
+                  t.startsWith("the dancing machine") ||
+                  t === "dancing machine" ||
+                  t.startsWith("dancing machine") ||
+                  t === "lily the dancing machine" ||
+                  t.startsWith("lily the dancing machine")
                 ? 2025
+                : t === "how could i find someone like you" ||
+                    t.startsWith("how could i find someone like you")
+                  ? 2025
                 
           
             : null;
@@ -202,7 +211,7 @@ export const FALLBACK_SONGS: Song[] = [
     title: "The Dancing Machine",
     artist: "Written by Shirwell Bancan",
     desc: "Shirwell Bancan",
-    year: 2026,
+    year: 2019,
     audio_url: DANCING_MACHINE_AUDIO_PATH,
     cover_image: null,
     is_premium: false,
@@ -269,7 +278,9 @@ export async function getSongs(): Promise<Song[]> {
       applyBundledComeOnBabeAudio(
         applyBundledKissingAudio(
           applyBundledNeverBeTheSameAudio(
-            applyBundledRideTheNightAwayAudio(mapped)
+            applyBundledDancingMachineAudio(
+              applyBundledRideTheNightAwayAudio(mapped)
+            )
           )
         )
       )
@@ -377,6 +388,31 @@ function applyBundledNeverBeTheSameAudio(songs: Song[]): Song[] {
           ...s,
           title: "Never Be The Same",
           audio_url: NEVER_BE_THE_SAME_AUDIO_PATH,
+        }
+      : s
+  );
+}
+
+function isDancingMachineTrack(title: string | null | undefined): boolean {
+  const t = normalizeTitle(title);
+  return (
+    t === "the dancing machine" ||
+    t.startsWith("the dancing machine") ||
+    t === "dancing machine" ||
+    t.startsWith("dancing machine") ||
+    t === "lily the dancing machine" ||
+    t.startsWith("lily the dancing machine")
+  );
+}
+
+/** Supabase rows for “The Dancing Machine” use the bundled Turbo Club Mix MP3 */
+function applyBundledDancingMachineAudio(songs: Song[]): Song[] {
+  return songs.map((s) =>
+    isDancingMachineTrack(s.title)
+      ? {
+          ...s,
+          title: "The Dancing Machine",
+          audio_url: DANCING_MACHINE_AUDIO_PATH,
         }
       : s
   );
@@ -539,16 +575,23 @@ function ensureBundledTracksInList(songs: Song[]): Song[] {
       },
       ...result,
     ];
-   
-
-  function isLilyTheDancingMachineTrack(title: string | null | undefined): boolean {
-    const t = normalizeTitle(title);
-    return t === "lily the dancing machine" || t.startsWith("lily the dancing machine");
   }
-  if (!result.some((s) => isLilyTheDancingMachineTrack(s.title))) {
+
+  function isDancingMachineTrack(title: string | null | undefined): boolean {
+    const t = normalizeTitle(title);
+    return (
+      t === "the dancing machine" ||
+      t.startsWith("the dancing machine") ||
+      t === "dancing machine" ||
+      t.startsWith("dancing machine") ||
+      t === "lily the dancing machine" ||
+      t.startsWith("lily the dancing machine")
+    );
+  }
+  if (!result.some((s) => isDancingMachineTrack(s.title))) {
     result = [
       {
-        id: "bundled-lily-the-dancing-machine",
+        id: "bundled-dancing-machine",
         title: "The Dancing Machine",
         artist: "Written by Shirwell Bancan",
         desc: "Shirwell Bancan",
@@ -558,11 +601,8 @@ function ensureBundledTracksInList(songs: Song[]): Song[] {
         is_premium: false,
       },
       ...result,
-     ];
-  } 
-
+    ];
   }
-
 
   return result;
 }
