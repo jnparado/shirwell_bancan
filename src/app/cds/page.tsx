@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import { MarketingHeader } from "@/components/shirwell/marketing-header";
 import { BottomNav } from "@/components/shirwell/bottom-nav";
 import { SITE_NAME } from "@/lib/seo";
@@ -41,6 +42,32 @@ export default function CdsPage() {
             priority
           />
         </div>
+
+        <article className="mt-10 space-y-5 text-sm leading-relaxed text-zinc-300 sm:text-[15px]">
+          <h2 className="font-serif text-2xl font-semibold text-[#FFC107]">
+            Black Horse — limited edition vinyl
+          </h2>
+          <p>
+            <span className="font-semibold text-zinc-100">Shirwell Bancan</span> celebrates
+            45 years of original songwriting with <em>Black Horse</em> — a curated collection
+            of the greatest songs he wrote across his career, pressed to premium vinyl.
+          </p>
+          <p>
+            The album artwork captures Shirwell on a rearing black horse, guitar raised against
+            gold stage curtains — the same theatrical spirit fans know from live shows. Each
+            limited-edition copy is part of a one-time release celebrating decades of independent
+            music.
+          </p>
+          <p>
+            Alongside vinyl, this page will list CDs and other physical releases as they become
+            available. Jungle coffee and other unique products from Shirwell&apos;s travels will
+            also appear in the{" "}
+            <Link href="/products" className="font-semibold text-[#FFC107] underline-offset-2 hover:underline">
+              Products
+            </Link>{" "}
+            section.
+          </p>
+        </article>
       </main>
       <BottomNav />
     </div>

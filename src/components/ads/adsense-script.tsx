@@ -1,7 +1,7 @@
 import Script from "next/script";
 import { ADSENSE_CLIENT_ID, isAdsenseConfigured } from "@/config/ads";
 
-/** Loads `adsbygoogle.js` once site-wide (required for AdSense). */
+/** Loads AdSense after hydration to avoid head DOM mismatches with GTM. */
 export function AdSenseScript() {
   if (!isAdsenseConfigured()) return null;
 

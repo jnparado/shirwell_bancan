@@ -1,9 +1,11 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
 import {
   ADSENSE_CLIENT_ID,
   ADSENSE_SLOT_BANNER,
+  isAdSenseAllowedPath,
   isAdsenseConfigured,
 } from "@/config/ads";
 
@@ -32,11 +34,13 @@ export function AdSenseUnit({
   format = "auto",
   minHeight = 100,
 }: AdSenseUnitProps) {
+  const pathname = usePathname();
   const slot = slotProp ?? ADSENSE_SLOT_BANNER;
   const pushed = useRef(false);
+  const adsAllowed = isAdSenseAllowedPath(pathname);
 
   useEffect(() => {
-    if (!slot || !isAdsenseConfigured()) return;
+    if (!adsAllowed || !slot || !isAdsenseConfigured()) return;
     if (pushed.current) return;
     try {
       (window.adsbygoogle = window.adsbygoogle || []).push({});
@@ -44,9 +48,9 @@ export function AdSenseUnit({
     } catch {
       /* ignore */
     }
-  }, [slot]);
+  }, [adsAllowed, slot]);
 
-  if (!isAdsenseConfigured() || !slot) return null;
+  if (!adsAllowed || !isAdsenseConfigured() || !slot) return null;
 
   return (
     <div

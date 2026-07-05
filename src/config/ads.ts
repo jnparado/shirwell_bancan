@@ -15,7 +15,11 @@
  *     or the native AdMob SDK there — separate from this codebase.
  */
 
-export const ADSENSE_CLIENT_ID = process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID ?? "";
+/** Shirwell Bancan publisher id — public in the AdSense snippet. */
+export const DEFAULT_ADSENSE_CLIENT_ID = "ca-pub-2495432679632375";
+
+export const ADSENSE_CLIENT_ID =
+  process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID?.trim() || DEFAULT_ADSENSE_CLIENT_ID;
 
 export const ADSENSE_SLOT_BANNER =
   process.env.NEXT_PUBLIC_ADSENSE_SLOT_BANNER ?? "";
@@ -30,4 +34,29 @@ export function isAdsenseConfigured(): boolean {
 
 export function isAdsenseUnitConfigured(): boolean {
   return isAdsenseConfigured() && ADSENSE_SLOT_BANNER.length > 0;
+}
+
+/**
+ * AdSense Program Policies: do not serve ads on screens without publisher content,
+ * under construction, or used mainly for navigation / alerts / auth.
+ * @see https://support.google.com/adsense/answer/1346295
+ */
+const ADSENSE_ALLOWED_PATHS = new Set([
+  "/",
+  "/home",
+  "/music",
+  "/flowers",
+  "/flower",
+  "/newsletter",
+  "/cds",
+]);
+
+export function normalizePathname(pathname: string): string {
+  const path = pathname.split("?")[0]?.split("#")[0] ?? "/";
+  if (path.length > 1 && path.endsWith("/")) return path.slice(0, -1);
+  return path || "/";
+}
+
+export function isAdSenseAllowedPath(pathname: string): boolean {
+  return ADSENSE_ALLOWED_PATHS.has(normalizePathname(pathname));
 }

@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { headers } from "next/headers";
 import { Geist, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { PlayerProvider } from "@/contexts/player-context";
@@ -11,6 +12,7 @@ import {
   GoogleTagManagerNoScript,
 } from "@/components/analytics/google-tag-manager";
 import { SiteMarks } from "@/components/legal/site-marks";
+import { isAdSenseAllowedPath } from "@/config/ads";
 import {
   createRootMetadata,
   getOrganizationWebsiteJsonLd,
@@ -35,11 +37,15 @@ export const viewport: Viewport = {
   themeColor: "#080706",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const headersList = await headers();
+  const pathname = headersList.get("x-pathname") ?? "/";
+  const showAdSense = isAdSenseAllowedPath(pathname);
+
   return (
     <html
       lang="en-AU"
@@ -48,7 +54,7 @@ export default function RootLayout({
       <head>
         <GoogleTagManagerHead />
         <GoogleAnalyticsScripts />
-        <AdSenseScript />
+        {showAdSense ? <AdSenseScript /> : null}
       </head>
       <body className="min-h-full font-sans">
         <GoogleTagManagerNoScript />

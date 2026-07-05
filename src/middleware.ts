@@ -7,7 +7,10 @@ import { getSupabasePublicApiKey, getSupabaseUrl } from "@/lib/supabase/env";
  * Without this, server `getUser()` can miss or drop sessions.
  */
 export async function middleware(request: NextRequest) {
+  const pathname = request.nextUrl.pathname;
+
   let response = NextResponse.next({ request });
+  response.headers.set("x-pathname", pathname);
 
   const url = getSupabaseUrl();
   const key = getSupabasePublicApiKey();
@@ -23,6 +26,7 @@ export async function middleware(request: NextRequest) {
           request.cookies.set(name, value);
         });
         response = NextResponse.next({ request });
+        response.headers.set("x-pathname", pathname);
         cookiesToSet.forEach(({ name, value, options }) => {
           response.cookies.set(name, value, options);
         });
@@ -31,6 +35,7 @@ export async function middleware(request: NextRequest) {
   });
 
   await supabase.auth.getUser();
+  response.headers.set("x-pathname", pathname);
   return response;
 }
 
