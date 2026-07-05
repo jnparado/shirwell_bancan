@@ -74,18 +74,16 @@ export function LoginClient() {
       <div className="relative mx-auto w-full max-w-md">
         <Link
           href="/"
-          className="mb-8 inline-flex items-center gap-2 text-sm font-medium text-[#FFC107] underline-offset-4 hover:underline"
+          className="mb-8 inline-flex items-center underline-offset-4 hover:opacity-90"
+          aria-label="Shirwell Bancan — home"
         >
-          <span className="relative h-9 w-9 shrink-0 overflow-hidden rounded-lg bg-black/50 ring-1 ring-[#FFC107]/25">
-            <Image
-              src="/shirwell-logo.png"
-              alt=""
-              fill
-              className="object-cover object-[center_22%]"
-              sizes="36px"
-            />
-          </span>
-          Shirwell Bancan
+          <Image
+            src="/shirwell-wordmark.png"
+            alt="Shirwell"
+            width={140}
+            height={38}
+            className="h-9 w-auto object-contain"
+          />
         </Link>
 
         <div className={`${glassCard} px-6 py-8 sm:px-8 sm:py-10`}>

@@ -45,7 +45,7 @@ export const WITHOUT_YOUR_LOVE_AUDIO_PATH = "/audio/without-your-love.mp3";
 export const ONE_THOUSAND_MINUTES_APART_AUDIO_PATH = "/audio/1000_minutes_apart.mp3";
 
 /** `How Could I Find Someone Like You` */
-export const LILY_THE_DANCING_MACHINE_AUDIO_PATH = "/audio/lily-the-dancing-machine.mp3";
+export const DANCING_MACHINE_AUDIO_PATH = "/audio/Dancing-Machine.mp3";
 
 
 
@@ -203,7 +203,7 @@ export const FALLBACK_SONGS: Song[] = [
     artist: "Written by Shirwell Bancan",
     desc: "Shirwell Bancan",
     year: 2026,
-    audio_url: LILY_THE_DANCING_MACHINE_AUDIO_PATH,
+    audio_url: DANCING_MACHINE_AUDIO_PATH,
     cover_image: null,
     is_premium: false,
   },
@@ -553,7 +553,7 @@ function ensureBundledTracksInList(songs: Song[]): Song[] {
         artist: "Written by Shirwell Bancan",
         desc: "Shirwell Bancan",
         year: 2025,
-        audio_url: LILY_THE_DANCING_MACHINE_AUDIO_PATH,
+        audio_url: DANCING_MACHINE_AUDIO_PATH,
         cover_image: null,
         is_premium: false,
       },

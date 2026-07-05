@@ -131,21 +131,17 @@ export function MusicPageContent({ songs }: MusicPageContentProps) {
       <header className="shrink-0 border-b border-white/[0.06] bg-black/60 px-4 py-3.5 backdrop-blur-xl">
         <Link
           href="/"
-          className="mx-auto flex max-w-lg items-center justify-center gap-3"
+          className="mx-auto flex max-w-lg items-center justify-center"
+          aria-label="Shirwell — home"
         >
-          <span className="relative h-10 w-10 shrink-0 overflow-hidden rounded-full bg-black/50 ring-2 ring-[#FFC107]/45">
-            <Image
-              src="/shirwell-logo.png"
-              alt=""
-              fill
-              className="object-cover object-[center_22%]"
-              sizes="40px"
-              priority
-            />
-          </span>
-          <span className="font-serif text-xl font-semibold tracking-tight text-[#FFC107]">
-            Shirwell
-          </span>
+          <Image
+            src="/shirwell-wordmark.png"
+            alt="Shirwell"
+            width={160}
+            height={44}
+            className="h-10 w-auto object-contain"
+            priority
+          />
         </Link>
       </header>
 
