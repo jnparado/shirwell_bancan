@@ -44,7 +44,7 @@ export const WITHOUT_YOUR_LOVE_AUDIO_PATH = "/audio/without-your-love.mp3";
 /** `1000-minutes apart` */
 export const ONE_THOUSAND_MINUTES_APART_AUDIO_PATH = "/audio/1000_minutes_apart.mp3";
 
-/** `The Dancing Machine (Turbo Club Mix)` */
+/** `The Dancing Machine` */
 export const DANCING_MACHINE_AUDIO_PATH =
   "/audio/dancing-machine-turbo-club-mix.mp3";
 
