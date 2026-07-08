@@ -27,6 +27,9 @@ function formatTime(seconds: number): string {
   return `${m}:${s.toString().padStart(2, "0")}`;
 }
 
+const glassCard =
+  "rounded-xl border border-white/[0.06] bg-[rgba(255,255,255,0.05)] backdrop-blur-md";
+
 interface MusicPageContentProps {
   songs: Song[];
 }
@@ -132,17 +135,22 @@ export function MusicPageContent({ songs }: MusicPageContentProps) {
       <header className="shrink-0 border-b border-white/[0.06] bg-black/60 px-4 py-3.5 backdrop-blur-xl">
         <Link
           href="/"
-          className="mx-auto flex max-w-lg items-center justify-center"
+          className={`mx-auto flex max-w-lg items-center justify-center gap-3 ${glassCard} px-3 py-2`}
           aria-label="Shirwell — home"
         >
-          <Image
-            src="/shirwell-wordmark.png"
-            alt="Shirwell"
-            width={519}
-            height={96}
-            className="block h-9 w-auto max-w-[168px] object-contain"
-            priority
-          />
+          <span className="relative h-10 w-10 shrink-0 overflow-hidden rounded-full bg-black/60 ring-2 ring-[#FFC107]/45">
+            <Image
+              src="/shirwell-logo-emblem.png"
+              alt=""
+              fill
+              className="object-cover object-[center_32%] scale-[1.08]"
+              sizes="40px"
+              priority
+            />
+          </span>
+          <span className="font-serif text-xl font-semibold tracking-tight text-[#FFC107]">
+            Shirwell
+          </span>
         </Link>
       </header>
 

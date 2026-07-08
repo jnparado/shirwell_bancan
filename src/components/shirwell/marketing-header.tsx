@@ -24,17 +24,22 @@ export function MarketingHeader() {
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3.5 sm:gap-4 sm:px-6 sm:py-4">
         <Link
           href="/"
-          className="flex shrink-0 items-center py-0.5"
+          className={`flex min-w-0 items-center gap-3 ${glassCard} px-2.5 py-2 pr-4`}
           aria-label="Shirwell Bancan — home"
         >
-          <Image
-            src="/shirwell-wordmark.png"
-            alt="Shirwell"
-            width={519}
-            height={96}
-            className="block h-8 w-auto max-w-[min(148px,40vw)] object-contain sm:h-9 sm:max-w-[168px]"
-            priority
-          />
+          <span className="relative flex h-11 w-11 shrink-0 overflow-hidden rounded-full bg-black/60 ring-2 ring-[#FFC107]/40 shadow-[0_0_20px_rgba(255,193,7,0.15)] sm:h-12 sm:w-12">
+            <Image
+              src="/shirwell-logo-emblem.png"
+              alt=""
+              fill
+              className="object-cover object-[center_32%] scale-[1.08]"
+              sizes="48px"
+              priority
+            />
+          </span>
+          <span className="truncate font-serif text-lg font-semibold tracking-tight text-[#FFC107] sm:text-xl">
+            Shirwell Bancan
+          </span>
         </Link>
 
         <nav
