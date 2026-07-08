@@ -44,9 +44,11 @@ export const WITHOUT_YOUR_LOVE_AUDIO_PATH = "/audio/without-your-love.mp3";
 /** `1000-minutes apart` */
 export const ONE_THOUSAND_MINUTES_APART_AUDIO_PATH = "/audio/1000_minutes_apart.mp3";
 
-/** `The Dancing Machine` */
-export const DANCING_MACHINE_AUDIO_PATH =
-  "/audio/dancing-machine-turbo-club-mix.mp3";
+/** `The Dancing Machine` — 24-bit / 48 kHz WAV */
+export const DANCING_MACHINE_AUDIO_PATH = "/audio/dancing-machine.wav";
+
+/** Credit when AI tools assisted production */
+export const AI_NEEDED_LABEL = "AI needed";
 
 
 
@@ -210,7 +212,7 @@ export const FALLBACK_SONGS: Song[] = [
     id: "fallback-13",
     title: "The Dancing Machine",
     artist: "Written by Shirwell Bancan",
-    desc: "Shirwell Bancan",
+    desc: AI_NEEDED_LABEL,
     year: 2019,
     audio_url: DANCING_MACHINE_AUDIO_PATH,
     cover_image: null,
@@ -413,6 +415,7 @@ function applyBundledDancingMachineAudio(songs: Song[]): Song[] {
           ...s,
           title: "The Dancing Machine",
           audio_url: DANCING_MACHINE_AUDIO_PATH,
+          desc: AI_NEEDED_LABEL,
         }
       : s
   );
@@ -594,7 +597,7 @@ function ensureBundledTracksInList(songs: Song[]): Song[] {
         id: "bundled-dancing-machine",
         title: "The Dancing Machine",
         artist: "Written by Shirwell Bancan",
-        desc: "Shirwell Bancan",
+        desc: AI_NEEDED_LABEL,
         year: 2025,
         audio_url: DANCING_MACHINE_AUDIO_PATH,
         cover_image: null,

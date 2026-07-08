@@ -36,6 +36,11 @@ export function NowPlayingBar() {
           <p className="truncate text-xs text-zinc-400">
             {currentSong.artist ?? "—"}
           </p>
+          {currentSong.desc?.trim() ? (
+            <p className="truncate text-[10px] font-medium uppercase tracking-wider text-zinc-500">
+              {currentSong.desc}
+            </p>
+          ) : null}
         </div>
         <div className="flex shrink-0 items-center gap-1 text-white">
           <button

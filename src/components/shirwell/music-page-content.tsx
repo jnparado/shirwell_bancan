@@ -68,6 +68,7 @@ export function MusicPageContent({ songs }: MusicPageContentProps) {
   const thumbSrc = getPlayerArtworkSrc(currentSong);
   const title = currentSong?.title ?? "—";
   const artist = currentSong?.artist ?? "—";
+  const credit = currentSong?.desc?.trim() || null;
 
   function inferCopyrightYear(): number {
     const fromField = currentSong?.year ?? null;
@@ -276,6 +277,11 @@ export function MusicPageContent({ songs }: MusicPageContentProps) {
                 {title}
               </h1>
               <p className="mt-1 truncate text-[15px] text-zinc-400">{artist}</p>
+              {credit ? (
+                <p className="mt-1 truncate text-[11px] font-medium uppercase tracking-wider text-zinc-500">
+                  {credit}
+                </p>
+              ) : null}
               {writtenLine ? (
                 <p className="mt-1 text-[11px] font-semibold tracking-wide text-[#FFC107]/85">
                   {writtenLine}

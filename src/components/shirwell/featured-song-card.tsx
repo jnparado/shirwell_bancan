@@ -21,6 +21,7 @@ export function FeaturedSongCard({
   const artworkSrc = getPlayerArtworkSrc(song);
   const title = song.title ?? "Untitled";
   const artist = song.artist ?? "Shirwell Bancan";
+  const credit = song.desc?.trim() || null;
   const [liked, setLiked] = useState(false);
 
   return (
@@ -58,7 +59,11 @@ export function FeaturedSongCard({
 
       <h3 className="text-lg font-bold leading-snug text-white">{title}</h3>
       <p className="mt-0.5 text-sm text-white/80">{artist}</p>
-      <p className="mt-1 text-xs text-zinc-500">{title} min</p>
+      {credit ? (
+        <p className="mt-1 text-xs font-medium uppercase tracking-wider text-zinc-500">
+          {credit}
+        </p>
+      ) : null}
 
       <div className="mt-3 flex items-center gap-3">
         <button
