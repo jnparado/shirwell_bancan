@@ -44,11 +44,18 @@ export const WITHOUT_YOUR_LOVE_AUDIO_PATH = "/audio/without-your-love.mp3";
 /** `1000-minutes apart` */
 export const ONE_THOUSAND_MINUTES_APART_AUDIO_PATH = "/audio/1000_minutes_apart.mp3";
 
-/** `The Dancing Machine` — 24-bit / 48 kHz WAV */
-export const DANCING_MACHINE_AUDIO_PATH = "/audio/dancing-machine.wav";
+/** `Lily the Dancing Machine` — dance version (girl / Turbo Club Mix), 24-bit WAV */
+export const DANCING_MACHINE_DANCE_AUDIO_PATH = "/audio/dancing-machine.wav";
+
+/** `Lily the Dancing Machine` — rock version (Rock Turbo Mix) */
+export const DANCING_MACHINE_ROCK_AUDIO_PATH =
+  "/audio/lily-the-dancing-machine-rock-turbo-mix.mp3";
 
 /** Credit when AI tools assisted production */
 export const AI_NEEDED_LABEL = "AI needed";
+
+export const DANCE_VERSION_LABEL = "Dance version";
+export const ROCK_VERSION_LABEL = "Rock version";
 
 
 
@@ -209,12 +216,22 @@ export const FALLBACK_SONGS: Song[] = [
     is_premium: false,
   },
   {
-    id: "fallback-13",
-    title: "The Dancing Machine",
+    id: "fallback-dancing-machine-dance",
+    title: "Lily the Dancing Machine",
     artist: "Written by Shirwell Bancan",
-    desc: AI_NEEDED_LABEL,
+    desc: DANCE_VERSION_LABEL,
     year: 2019,
-    audio_url: DANCING_MACHINE_AUDIO_PATH,
+    audio_url: DANCING_MACHINE_DANCE_AUDIO_PATH,
+    cover_image: null,
+    is_premium: false,
+  },
+  {
+    id: "fallback-dancing-machine-rock",
+    title: "Lily the Dancing Machine",
+    artist: "Written by Shirwell Bancan",
+    desc: ROCK_VERSION_LABEL,
+    year: 2019,
+    audio_url: DANCING_MACHINE_ROCK_AUDIO_PATH,
     cover_image: null,
     is_premium: false,
   },
@@ -395,7 +412,7 @@ function applyBundledNeverBeTheSameAudio(songs: Song[]): Song[] {
   );
 }
 
-function isDancingMachineTrack(title: string | null | undefined): boolean {
+function isDancingMachineFamily(title: string | null | undefined): boolean {
   const t = normalizeTitle(title);
   return (
     t === "the dancing machine" ||
@@ -407,18 +424,39 @@ function isDancingMachineTrack(title: string | null | undefined): boolean {
   );
 }
 
-/** Supabase rows for “The Dancing Machine” use the bundled Turbo Club Mix MP3 */
+function isDancingMachineRockTrack(title: string | null | undefined): boolean {
+  const t = normalizeTitle(title);
+  return isDancingMachineFamily(title) && t.includes("rock");
+}
+
+/** Legacy + Supabase rows → correct Lily dance or rock bundled audio */
 function applyBundledDancingMachineAudio(songs: Song[]): Song[] {
-  return songs.map((s) =>
-    isDancingMachineTrack(s.title)
-      ? {
+  return songs
+    .map((s) => {
+      if (isDancingMachineRockTrack(s.title)) {
+        return {
           ...s,
-          title: "The Dancing Machine",
-          audio_url: DANCING_MACHINE_AUDIO_PATH,
-          desc: AI_NEEDED_LABEL,
-        }
-      : s
-  );
+          title: "Lily the Dancing Machine",
+          audio_url: DANCING_MACHINE_ROCK_AUDIO_PATH,
+          desc: ROCK_VERSION_LABEL,
+        };
+      }
+      if (isDancingMachineFamily(s.title)) {
+        return {
+          ...s,
+          title: "Lily the Dancing Machine",
+          audio_url: DANCING_MACHINE_DANCE_AUDIO_PATH,
+          desc: DANCE_VERSION_LABEL,
+        };
+      }
+      return s;
+    })
+    .filter(
+      (s) =>
+        s.audio_url !== "/audio/dancing-machine-turbo-club-mix.mp3" &&
+        s.audio_url !== "/audio/Dancing-Machine.mp3" &&
+        s.audio_url !== "/audio/Dancing-Machine%20.mp3",
+    );
 }
 
 
@@ -580,26 +618,45 @@ function ensureBundledTracksInList(songs: Song[]): Song[] {
     ];
   }
 
-  function isDancingMachineTrack(title: string | null | undefined): boolean {
-    const t = normalizeTitle(title);
-    return (
-      t === "the dancing machine" ||
-      t.startsWith("the dancing machine") ||
-      t === "dancing machine" ||
-      t.startsWith("dancing machine") ||
-      t === "lily the dancing machine" ||
-      t.startsWith("lily the dancing machine")
+  function hasDancingMachineDanceVersion(songs: Song[]) {
+    return songs.some(
+      (s) =>
+        s.audio_url === DANCING_MACHINE_DANCE_AUDIO_PATH ||
+        (isDancingMachineFamily(s.title) && !normalizeTitle(s.title).includes("rock")),
     );
   }
-  if (!result.some((s) => isDancingMachineTrack(s.title))) {
+  if (!hasDancingMachineDanceVersion(result)) {
     result = [
       {
-        id: "bundled-dancing-machine",
-        title: "The Dancing Machine",
+        id: "bundled-dancing-machine-dance",
+        title: "Lily the Dancing Machine",
         artist: "Written by Shirwell Bancan",
-        desc: AI_NEEDED_LABEL,
+        desc: DANCE_VERSION_LABEL,
         year: 2025,
-        audio_url: DANCING_MACHINE_AUDIO_PATH,
+        audio_url: DANCING_MACHINE_DANCE_AUDIO_PATH,
+        cover_image: null,
+        is_premium: false,
+      },
+      ...result,
+    ];
+  }
+
+  function hasDancingMachineRockVersion(songs: Song[]) {
+    return songs.some(
+      (s) =>
+        s.audio_url === DANCING_MACHINE_ROCK_AUDIO_PATH ||
+        isDancingMachineRockTrack(s.title),
+    );
+  }
+  if (!hasDancingMachineRockVersion(result)) {
+    result = [
+      {
+        id: "bundled-dancing-machine-rock",
+        title: "Lily the Dancing Machine",
+        artist: "Written by Shirwell Bancan",
+        desc: ROCK_VERSION_LABEL,
+        year: 2025,
+        audio_url: DANCING_MACHINE_ROCK_AUDIO_PATH,
         cover_image: null,
         is_premium: false,
       },
