@@ -28,10 +28,22 @@ export default function SupportPage() {
             Support
           </h1>
           <p className="mt-3 text-sm leading-relaxed text-zinc-300 sm:text-[15px]">
-            Need help with the website or the Shirwell Music app? Use the contact option below
-            and include your device type (iPhone/Android), app version, and what you were doing
-            when the issue happened.
+            Need help with the website or the Shirwell Music app? Chat with our AI
+            support assistant using the gold button at the bottom-right of any page,
+            or use the contact option below. Include your device type (iPhone/Android),
+            app version, and what you were doing when the issue happened.
           </p>
+
+          <div className={`${glassCard} mt-6 p-5`}>
+            <h2 className="font-serif text-lg font-semibold text-[#FFC107]">
+              AI support chat
+            </h2>
+            <p className="mt-2 text-sm leading-relaxed text-zinc-300">
+              Tap the chat button on any page for instant help with music playback,
+              CDs &amp; vinyl, flowers, signing in, and common questions. For complex
+              issues, the assistant will point you to email support.
+            </p>
+          </div>
 
           <div className="mt-8 grid gap-4 sm:grid-cols-2">
             <div className={`${glassCard} p-5`}>

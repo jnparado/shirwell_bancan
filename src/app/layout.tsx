@@ -12,6 +12,7 @@ import {
   GoogleTagManagerNoScript,
 } from "@/components/analytics/google-tag-manager";
 import { SiteMarks } from "@/components/legal/site-marks";
+import { AiSupportChat } from "@/components/support/ai-support-chat";
 import { isAdSenseAllowedPath } from "@/config/ads";
 import {
   createRootMetadata,
@@ -70,6 +71,7 @@ export default async function RootLayout({
             <SiteMarks />
             <div className="flex-1">{children}</div>
             <SiteFooter />
+            <AiSupportChat />
           </div>
         </PlayerProvider>
       </body>
