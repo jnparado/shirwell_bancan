@@ -127,14 +127,14 @@ export function AuthModalLauncher() {
             <button
               type="button"
               onClick={() => openAuthModal("login")}
-              className="rounded-full border border-[#FFC107]/30 bg-[rgba(255,255,255,0.05)] px-3 py-2 text-sm font-medium text-[#FFC107] backdrop-blur-md transition hover:border-[#FFC107]/50 hover:bg-[rgba(255,255,255,0.08)] sm:px-4"
+              className="rounded-full border border-[#FFC107]/30 bg-[rgba(255,255,255,0.05)] px-2.5 py-1.5 text-xs font-medium text-[#FFC107] backdrop-blur-md transition hover:border-[#FFC107]/50 hover:bg-[rgba(255,255,255,0.08)] sm:px-4 sm:py-2 sm:text-sm"
             >
               Log In
             </button>
             <button
               type="button"
               onClick={() => openAuthModal("signup")}
-              className="rounded-full border border-[#FFC107]/40 bg-[#FFC107] px-3 py-2 text-sm font-semibold text-stone-950 shadow-[0_0_28px_rgba(255,193,7,0.28)] transition hover:bg-[#e6ae06] sm:px-4"
+              className="rounded-full border border-[#FFC107]/40 bg-[#FFC107] px-2.5 py-1.5 text-xs font-semibold text-stone-950 shadow-[0_0_28px_rgba(255,193,7,0.28)] transition hover:bg-[#e6ae06] sm:px-4 sm:py-2 sm:text-sm"
             >
               Sign Up
             </button>
@@ -144,7 +144,7 @@ export function AuthModalLauncher() {
 
       {open ? (
         <div
-          className={`fixed inset-0 z-[100] flex min-h-[100dvh] overflow-y-auto px-4 py-6 ${authOverlayClass}`}
+          className={`fixed inset-0 z-[100] flex min-h-[100dvh] overflow-y-auto overscroll-contain px-3 py-4 sm:px-4 sm:py-6 ${authOverlayClass}`}
           role="dialog"
           aria-modal="true"
           aria-labelledby={titleId}
@@ -154,7 +154,7 @@ export function AuthModalLauncher() {
         >
           <div
             ref={panelRef}
-            className={`relative my-auto max-h-[calc(100dvh-3rem)] w-full max-w-[480px] overflow-y-auto ${authCardClass}`}
+            className={`relative my-auto max-h-[calc(100dvh-2rem)] w-full max-w-[480px] overflow-y-auto ${authCardClass}`}
           >
             <button
               type="button"

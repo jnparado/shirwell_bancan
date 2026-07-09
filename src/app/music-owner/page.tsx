@@ -17,33 +17,44 @@ export const metadata: Metadata = {
     description:
       "Ownership notice: every song streamed on this site belongs to Shirwell Bancan.",
     url: "/music-owner",
+    images: [
+      {
+        url: "/home/princess-flower-shop.png",
+        alt: `${SITE_NAME} — music owner`,
+      },
+    ],
   },
 };
 
 export default function MusicOwnerPage() {
   return (
-    <div className="flex min-h-full flex-1 flex-col pb-28">
+    <div className="page-shell">
       <MarketingHeader />
       <main className="mx-auto w-full max-w-3xl flex-1 px-4 py-10 sm:px-6 sm:py-14">
         <article className="space-y-8">
-          <header className={`${glassCard} p-6 text-center sm:p-8`}>
-            <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center overflow-hidden rounded-full bg-black/50 ring-2 ring-[#FFC107]/40">
-              <Image
-                src="/shirwell-logo-emblem.png"
-                alt=""
-                width={80}
-                height={80}
-                className="h-full w-full object-cover object-[center_32%] scale-[1.08]"
-                priority
-              />
+          <header className={`${glassCard} overflow-hidden p-4 sm:p-8`}>
+            <div className="mx-auto w-full max-w-sm sm:max-w-md">
+              <div className="relative aspect-[3/4] w-full overflow-hidden rounded-2xl border border-[#FFC107]/20 bg-black/40 shadow-[0_0_48px_rgba(255,193,7,0.1)]">
+                <Image
+                  src="/home/princess-flower-shop.png"
+                  alt={`${SITE_NAME} — music owner`}
+                  fill
+                  className="object-cover object-[center_20%]"
+                  sizes="(max-width: 640px) 92vw, 448px"
+                  quality={92}
+                  priority
+                />
+              </div>
             </div>
-            <h1 className="font-serif text-2xl font-semibold text-[#FFC107] sm:text-3xl">
-              Shirwell Music Owner
-            </h1>
-            <p className="mx-auto mt-4 max-w-xl text-base font-medium leading-relaxed text-zinc-200 sm:text-lg">
-              All music on this website is mine — written, performed, and owned by{" "}
-              <strong className="text-[#FFC107]">{SITE_NAME}</strong>.
-            </p>
+            <div className="mt-8 text-center">
+              <h1 className="font-serif text-2xl font-semibold text-[#FFC107] sm:text-3xl">
+                Shirwell Music Owner
+              </h1>
+              <p className="mx-auto mt-4 max-w-xl text-base font-medium leading-relaxed text-zinc-200 sm:text-lg">
+                All music on this website is mine — written, performed, and owned by{" "}
+                <strong className="text-[#FFC107]">{SITE_NAME}</strong>.
+              </p>
+            </div>
           </header>
 
           <section className={`${glassCard} p-6 sm:p-8`}>

@@ -39,7 +39,7 @@ function SkipSecondsButton({
     <button
       type="button"
       onClick={onClick}
-      className="relative flex h-9 w-9 items-center justify-center text-white/90 hover:text-white"
+      className="relative flex h-8 w-8 items-center justify-center text-white/90 hover:text-white sm:h-9 sm:w-9"
       aria-label={`${direction === "back" ? "Rewind" : "Forward"} ${seconds} seconds`}
     >
       <svg viewBox="0 0 28 28" className="h-7 w-7" aria-hidden>
@@ -111,7 +111,7 @@ export function MusicPageContent({ songs }: MusicPageContentProps) {
   }
 
   return (
-    <div className="relative flex min-h-[100dvh] flex-1 flex-col overflow-hidden bg-[#0a0a0c] pb-[calc(5.5rem+env(safe-area-inset-bottom))]">
+    <div className="relative flex min-h-[100dvh] min-w-0 flex-1 flex-col overflow-x-hidden bg-[#0a0a0c] pb-[var(--page-bottom-safe)]">
       {/* Blurred artwork backdrop — Apple Music style */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
         <Image
@@ -153,11 +153,11 @@ export function MusicPageContent({ songs }: MusicPageContentProps) {
         </button>
       </header>
 
-      <main className="relative z-10 mx-auto flex w-full max-w-lg flex-1 flex-col px-5 pt-2">
+      <main className="relative z-10 mx-auto flex w-full min-h-0 max-w-lg flex-1 flex-col overflow-y-auto px-4 pt-2 sm:px-5">
         {!queueOpen ? (
           <>
-            <div className="mx-auto mb-8 w-full max-w-[320px]">
-              <div className="relative aspect-square w-full overflow-hidden rounded-xl bg-zinc-900 shadow-[0_24px_64px_rgba(0,0,0,0.55)]">
+            <div className="mx-auto mb-6 w-full max-w-[280px] sm:mb-8 sm:max-w-[320px]">
+              <div className="relative aspect-square max-h-[38dvh] w-full overflow-hidden rounded-xl bg-zinc-900 shadow-[0_24px_64px_rgba(0,0,0,0.55)] sm:max-h-none">
                 <Image
                   src={thumbSrc}
                   alt={title}
@@ -208,67 +208,71 @@ export function MusicPageContent({ songs }: MusicPageContentProps) {
               </div>
             </div>
 
-            <div className="mb-6 flex items-center justify-center gap-5 sm:gap-6">
-              <button
-                type="button"
-                onClick={toggleShuffle}
-                className={`rounded-full p-2 ${
-                  shuffle ? "text-[#fa2d48]" : "text-white/55"
-                } hover:text-white`}
-                aria-label="Shuffle"
-                aria-pressed={shuffle}
-              >
-                <Shuffle className="h-5 w-5" strokeWidth={2} />
-              </button>
-              <SkipSecondsButton
-                seconds={15}
-                direction="back"
-                onClick={() => seekRelative(-15)}
-              />
-              <button
-                type="button"
-                onClick={prev}
-                className="text-white/90 hover:text-white"
-                aria-label="Previous track"
-              >
-                <SkipBack className="h-8 w-8" fill="currentColor" strokeWidth={0} />
-              </button>
-              <button
-                type="button"
-                onClick={toggle}
-                className="flex h-[4.25rem] w-[4.25rem] items-center justify-center rounded-full bg-white text-black shadow-[0_8px_32px_rgba(0,0,0,0.35)] transition hover:scale-[1.03]"
-                aria-label={isPlaying ? "Pause" : "Play"}
-              >
-                {isPlaying ? (
-                  <Pause className="h-9 w-9" fill="currentColor" />
-                ) : (
-                  <Play className="h-9 w-9 pl-1" fill="currentColor" />
-                )}
-              </button>
-              <button
-                type="button"
-                onClick={next}
-                className="text-white/90 hover:text-white"
-                aria-label="Next track"
-              >
-                <SkipForward className="h-8 w-8" fill="currentColor" strokeWidth={0} />
-              </button>
-              <SkipSecondsButton
-                seconds={15}
-                direction="forward"
-                onClick={() => seekRelative(15)}
-              />
-              <button
-                type="button"
-                onClick={toggleRepeat}
-                className={`rounded-full p-2 ${
-                  repeat ? "text-[#fa2d48]" : "text-white/55"
-                } hover:text-white`}
-                aria-label="Repeat"
-                aria-pressed={repeat}
-              >
-                <Repeat className="h-5 w-5" strokeWidth={2} />
-              </button>
+            <div className="mb-5 space-y-3 sm:mb-6">
+              <div className="flex items-center justify-center gap-4 sm:gap-6">
+                <button
+                  type="button"
+                  onClick={prev}
+                  className="text-white/90 hover:text-white"
+                  aria-label="Previous track"
+                >
+                  <SkipBack className="h-7 w-7 sm:h-8 sm:w-8" fill="currentColor" strokeWidth={0} />
+                </button>
+                <button
+                  type="button"
+                  onClick={toggle}
+                  className="flex h-14 w-14 items-center justify-center rounded-full bg-white text-black shadow-[0_8px_32px_rgba(0,0,0,0.35)] transition hover:scale-[1.03] sm:h-[4.25rem] sm:w-[4.25rem]"
+                  aria-label={isPlaying ? "Pause" : "Play"}
+                >
+                  {isPlaying ? (
+                    <Pause className="h-7 w-7 sm:h-9 sm:w-9" fill="currentColor" />
+                  ) : (
+                    <Play className="h-7 w-7 pl-0.5 sm:h-9 sm:w-9 sm:pl-1" fill="currentColor" />
+                  )}
+                </button>
+                <button
+                  type="button"
+                  onClick={next}
+                  className="text-white/90 hover:text-white"
+                  aria-label="Next track"
+                >
+                  <SkipForward className="h-7 w-7 sm:h-8 sm:w-8" fill="currentColor" strokeWidth={0} />
+                </button>
+              </div>
+              <div className="flex items-center justify-center gap-2 sm:gap-4">
+                <button
+                  type="button"
+                  onClick={toggleShuffle}
+                  className={`rounded-full p-2 ${
+                    shuffle ? "text-[#fa2d48]" : "text-white/55"
+                  } hover:text-white`}
+                  aria-label="Shuffle"
+                  aria-pressed={shuffle}
+                >
+                  <Shuffle className="h-4 w-4 sm:h-5 sm:w-5" strokeWidth={2} />
+                </button>
+                <SkipSecondsButton
+                  seconds={15}
+                  direction="back"
+                  onClick={() => seekRelative(-15)}
+                />
+                <SkipSecondsButton
+                  seconds={15}
+                  direction="forward"
+                  onClick={() => seekRelative(15)}
+                />
+                <button
+                  type="button"
+                  onClick={toggleRepeat}
+                  className={`rounded-full p-2 ${
+                    repeat ? "text-[#fa2d48]" : "text-white/55"
+                  } hover:text-white`}
+                  aria-label="Repeat"
+                  aria-pressed={repeat}
+                >
+                  <Repeat className="h-4 w-4 sm:h-5 sm:w-5" strokeWidth={2} />
+                </button>
+              </div>
             </div>
 
             <div className="mb-8 flex items-center gap-3 px-1">

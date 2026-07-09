@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -11,14 +12,26 @@ import { getPlayerArtworkSrc } from "@/lib/player-artwork";
 export function AppleMusicMiniPlayer() {
   const pathname = usePathname();
   const { currentSong, isPlaying, toggle, currentTime, duration } = usePlayer();
+  const visible = pathname !== "/music" && Boolean(currentSong);
 
-  if (pathname === "/music" || !currentSong) return null;
+  useEffect(() => {
+    if (visible) {
+      document.documentElement.setAttribute("data-mini-player", "true");
+    } else {
+      document.documentElement.removeAttribute("data-mini-player");
+    }
+    return () => {
+      document.documentElement.removeAttribute("data-mini-player");
+    };
+  }, [visible]);
+
+  if (!visible || !currentSong) return null;
 
   const thumbSrc = getPlayerArtworkSrc(currentSong);
   const progress = duration > 0 ? Math.min(1, currentTime / duration) : 0;
 
   return (
-    <div className="fixed bottom-[calc(4.5rem+env(safe-area-inset-bottom))] left-0 right-0 z-40 px-2">
+    <div className="fixed bottom-[calc(var(--bottom-nav-h)+env(safe-area-inset-bottom))] left-0 right-0 z-40 px-2 sm:px-3">
       <Link
         href="/music"
         className="mx-auto block max-w-lg overflow-hidden rounded-xl border border-white/10 bg-[#1c1c1e]/95 shadow-[0_8px_32px_rgba(0,0,0,0.45)] backdrop-blur-2xl transition hover:bg-[#2c2c2e]/95"

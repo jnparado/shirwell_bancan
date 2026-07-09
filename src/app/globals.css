@@ -4,6 +4,27 @@
   --background: #080706;
   --foreground: #f4f4f5;
   --shirwell-gold: #ffc107;
+  --bottom-nav-h: 4.5rem;
+  --mini-player-h: 3.25rem;
+  --page-bottom-safe: calc(var(--bottom-nav-h) + env(safe-area-inset-bottom) + 1rem);
+  --page-bottom-with-player: calc(
+    var(--bottom-nav-h) + var(--mini-player-h) + env(safe-area-inset-bottom) + 1rem
+  );
+  --chat-dock-bottom: calc(5.25rem + env(safe-area-inset-bottom));
+}
+
+html[data-mini-player="true"] {
+  --page-bottom-safe: var(--page-bottom-with-player);
+  --chat-dock-bottom: calc(8.75rem + env(safe-area-inset-bottom));
+}
+
+html,
+body {
+  overflow-x: clip;
+}
+
+body {
+  min-height: 100dvh;
 }
 
 @theme inline {
@@ -14,7 +35,6 @@
 }
 
 body {
-  min-height: 100vh;
   background-color: var(--background);
   background-image:
     linear-gradient(180deg, rgba(255, 255, 255, 0.03) 0%, transparent 35%),
@@ -34,6 +54,32 @@ body {
 
 .font-serif {
   font-family: var(--font-shirwell-display), Georgia, serif;
+}
+
+/* Shared page shell — clears bottom nav (+ mini player when active) */
+.page-shell {
+  display: flex;
+  min-height: 100%;
+  min-width: 0;
+  flex: 1 1 auto;
+  flex-direction: column;
+  padding-bottom: var(--page-bottom-safe);
+}
+
+.page-shell--compact {
+  display: flex;
+  min-height: 100%;
+  min-width: 0;
+  flex: 1 1 auto;
+  flex-direction: column;
+  padding-bottom: calc(1.5rem + env(safe-area-inset-bottom));
+}
+
+@media (min-width: 768px) {
+  .page-shell,
+  .page-shell--compact {
+    padding-bottom: 2rem;
+  }
 }
 
 /* Flowershop page — black + gold sparkle / bokeh */

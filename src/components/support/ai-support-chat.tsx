@@ -27,7 +27,7 @@ export function AiSupportChat() {
   const isMusic = pathname === "/music";
   const dockClass = isMusic
     ? "bottom-[calc(1.25rem+env(safe-area-inset-bottom))]"
-    : "bottom-[calc(5.25rem+env(safe-area-inset-bottom))] sm:bottom-6";
+    : "bottom-[var(--chat-dock-bottom)] sm:bottom-6";
 
   useEffect(() => {
     if (!open) return;

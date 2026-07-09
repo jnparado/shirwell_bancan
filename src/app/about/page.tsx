@@ -22,7 +22,7 @@ export const metadata: Metadata = {
 
 export default function AboutPage() {
   return (
-    <div className="flex min-h-full flex-1 flex-col pb-28">
+    <div className="page-shell">
       <MarketingHeader />
       <main className="mx-auto w-full max-w-4xl flex-1 px-4 py-10 sm:px-6 sm:py-14">
         <article className="space-y-8">

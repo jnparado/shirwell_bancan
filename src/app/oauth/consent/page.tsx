@@ -9,14 +9,16 @@ export const metadata: Metadata = {
 
 export default function OAuthConsentPage() {
   return (
-    <Suspense
-      fallback={
-        <div className="mx-auto flex min-h-[70vh] max-w-lg flex-col items-center justify-center px-4 py-16 text-center">
-          <p className="text-sm font-semibold text-[#FFC107]">Loading…</p>
-        </div>
-      }
-    >
-      <ConsentClient />
-    </Suspense>
+    <div className="page-shell--compact">
+      <Suspense
+        fallback={
+          <div className="mx-auto flex min-h-[70vh] max-w-lg flex-col items-center justify-center px-4 py-16 text-center">
+            <p className="text-sm font-semibold text-[#FFC107]">Loading…</p>
+          </div>
+        }
+      >
+        <ConsentClient />
+      </Suspense>
+    </div>
   );
 }

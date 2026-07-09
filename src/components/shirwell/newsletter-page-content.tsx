@@ -89,7 +89,7 @@ export function NewsletterPageContent() {
           role="dialog"
           aria-modal="true"
           aria-label={`Newsletter issue ${active.dateLabel}`}
-          className="fixed inset-0 z-[60] flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm"
+          className="fixed inset-0 z-[60] flex items-center justify-center bg-black/80 p-4 pb-[max(1rem,env(safe-area-inset-bottom))] backdrop-blur-sm"
           onClick={() => setActiveId(null)}
         >
           <div
@@ -108,7 +108,7 @@ export function NewsletterPageContent() {
                 Close
               </button>
             </div>
-            <div className="relative h-[78vh] w-full bg-black/30">
+            <div className="relative h-[min(78dvh,100%)] w-full bg-black/30">
               <Image
                 src={active.src}
                 alt={active.alt}

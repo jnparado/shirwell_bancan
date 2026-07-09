@@ -9,7 +9,7 @@ import type { ProfileRecord } from "@/lib/auth/profile";
 
 function profileShell(children: ReactNode) {
   return (
-    <div className="relative flex min-h-full flex-1 flex-col pb-36">
+    <div className="page-shell relative">
       <MarketingHeader />
       <main className="mx-auto w-full max-w-2xl px-4 py-10">{children}</main>
       <BottomNav />

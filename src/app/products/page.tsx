@@ -23,7 +23,7 @@ export const metadata: Metadata = {
 
 export default function ProductsPage() {
   return (
-    <div className="relative flex min-h-full flex-1 flex-col pb-36">
+    <div className="page-shell relative">
       <MarketingHeader />
       <main className="mx-auto w-full max-w-3xl px-4 py-10">
         <h1 className="font-serif text-3xl font-semibold tracking-tight text-[#FFC107]">

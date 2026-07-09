@@ -73,7 +73,7 @@ export function LoginClient() {
   const heading = mode === "signup" ? "Create your account" : "Sign in";
 
   return (
-    <div className={`relative min-h-[100dvh] px-4 py-12 ${authPageBgClass}`}>
+    <div className={`page-shell--compact relative min-h-[100dvh] px-4 py-8 sm:py-12 ${authPageBgClass}`}>
       <div className="relative mx-auto w-full max-w-md">
         <Link
           href="/"

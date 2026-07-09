@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Crown } from "lucide-react";
+import { hasBottomNav } from "@/lib/mobile-chrome";
 import { SITE_NAME } from "@/lib/seo";
 
 /** Matches marketing header — Shirwell gold luxury */
@@ -46,8 +47,16 @@ export function SiteFooter() {
   const pathname = usePathname();
   if (pathname === "/music") return null;
 
+  const showNavPadding = hasBottomNav(pathname);
+
   return (
-    <footer className="mt-auto border-t border-[#FFC107]/15 bg-black/50 pb-[calc(5.5rem+env(safe-area-inset-bottom))] shadow-[0_-8px_32px_rgba(0,0,0,0.4)] backdrop-blur-2xl md:pb-12">
+    <footer
+      className={`mt-auto border-t border-[#FFC107]/15 bg-black/50 shadow-[0_-8px_32px_rgba(0,0,0,0.4)] backdrop-blur-2xl md:pb-12 ${
+        showNavPadding
+          ? "pb-[var(--page-bottom-safe)]"
+          : "pb-[calc(1.5rem+env(safe-area-inset-bottom))]"
+      }`}
+    >
       {/* Premium — dark glass strip + inner glass cards */}
       <div className="border-b border-[#FFC107]/10 bg-[rgba(255,255,255,0.02)] px-4 py-8 backdrop-blur-md sm:px-6">
         <div className="mx-auto flex max-w-6xl flex-col items-stretch gap-4 sm:flex-row sm:items-center sm:justify-between">

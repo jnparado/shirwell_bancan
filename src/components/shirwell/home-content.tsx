@@ -28,7 +28,7 @@ export function HomeContent({ songs }: HomeContentProps) {
   const timeLabels = ["1:43 / 3:23", "0:52 / 2:41", "1:08 / 3:05"];
 
   return (
-    <div className="relative flex min-h-full flex-1 flex-col pb-36">
+    <div className="page-shell relative">
       <MarketingHeader />
 
       <main className="relative flex-1">

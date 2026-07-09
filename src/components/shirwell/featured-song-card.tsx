@@ -26,7 +26,7 @@ export function FeaturedSongCard({
 
   return (
     <article
-      className="flex w-full max-w-sm flex-col rounded-2xl border border-white/[0.08] bg-[rgba(255,255,255,0.05)] p-3 shadow-inner backdrop-blur-md transition hover:border-[#FFC107]/20 hover:bg-[rgba(255,255,255,0.07)]"
+      className="flex w-full flex-col rounded-2xl border border-white/[0.08] bg-[rgba(255,255,255,0.05)] p-3 shadow-inner backdrop-blur-md transition hover:border-[#FFC107]/20 hover:bg-[rgba(255,255,255,0.07)]"
     >
       {/* Artwork: portrait in gold ring + overlay controls */}
       <div className="relative mb-3 aspect-[4/5] w-full overflow-hidden rounded-xl bg-zinc-950/90">

@@ -25,7 +25,7 @@ export default async function SearchPage() {
   const featured = songs.slice(0, 8);
 
   return (
-    <div className="flex min-h-full flex-1 flex-col pb-28">
+    <div className="page-shell">
       <MarketingHeader />
       <main className="mx-auto w-full max-w-3xl flex-1 px-4 py-10 sm:px-6">
         <h1 className="font-serif text-3xl font-semibold tracking-tight text-[#FFC107]">

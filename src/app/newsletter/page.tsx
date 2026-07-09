@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 
 export default function NewsletterPage() {
   return (
-    <div className="flex min-h-full flex-1 flex-col pb-28">
+    <div className="page-shell">
       <MarketingHeader />
       <NewsletterPageContent />
       <BottomNav />
