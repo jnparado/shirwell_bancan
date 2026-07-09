@@ -55,6 +55,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.4,
     },
     {
+      url: `${origin}/music-owner`,
+      lastModified,
+      changeFrequency: "yearly",
+      priority: 0.35,
+    },
+    {
       url: `${origin}/support`,
       lastModified,
       changeFrequency: "yearly",

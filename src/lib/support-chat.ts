@@ -62,6 +62,11 @@ const FAQ: { match: RegExp; reply: string }[] = [
     reply: "Newsletter issues and updates from Shirwell are at /newsletter.",
   },
   {
+    match: /copyright|owner|who owns|my music|rights|licensing/i,
+    reply:
+      "All music on this site is owned by Shirwell Bancan. See /music-owner for the ownership statement, and /legal for full copyright terms.",
+  },
+  {
     match: /about|who is|biography|story|shirwell bancan/i,
     reply:
       "Learn about Shirwell Bancan — 45 years of original songs — on /about. You can also stream music at /music or browse CDs and vinyl at /cds.",

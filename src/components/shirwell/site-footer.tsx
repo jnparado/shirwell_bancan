@@ -186,6 +186,14 @@ export function SiteFooter() {
                 </li>
                 <li>
                   <Link
+                    href="/music-owner"
+                    className={`${glassCard} block rounded-lg px-3 py-2 text-zinc-300 transition hover:border-[#FFC107]/30 hover:text-[#FFC107]`}
+                  >
+                    Music Owner
+                  </Link>
+                </li>
+                <li>
+                  <Link
                     href="/newsletter"
                     className={`${glassCard} block rounded-lg px-3 py-2 text-zinc-300 transition hover:border-[#FFC107]/30 hover:text-[#FFC107]`}
                   >
