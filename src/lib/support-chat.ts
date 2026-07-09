@@ -61,9 +61,9 @@ const FAQ: { match: RegExp; reply: string }[] = [
     reply: "Newsletter issues and updates from Shirwell are at /newsletter.",
   },
   {
-    match: /privacy|ads|adsense|data/i,
+    match: /privacy|legal|terms|copyright|ads|adsense|data/i,
     reply:
-      "Our privacy policy — including how we use cookies and Google AdSense where enabled — is at /privacy.",
+      "Our privacy policy is at /privacy. Legal terms, copyright, and site rules are at /legal.",
   },
   {
     match: /human|person|email|contact|talk|speak|real/i,

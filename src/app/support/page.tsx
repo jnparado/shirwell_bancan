@@ -89,6 +89,12 @@ export default function SupportPage() {
                 Privacy Policy
               </Link>
               <Link
+                href="/legal"
+                className="rounded-full border border-[#FFC107]/20 bg-black/30 px-4 py-2 text-sm font-semibold text-[#FFC107] transition hover:border-[#FFC107]/45 hover:bg-black/40"
+              >
+                Legal
+              </Link>
+              <Link
                 href="/music"
                 className="rounded-full border border-white/[0.08] bg-black/30 px-4 py-2 text-sm font-semibold text-zinc-200 transition hover:border-white/[0.14] hover:bg-black/40"
               >

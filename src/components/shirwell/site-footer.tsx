@@ -199,6 +199,14 @@ export function SiteFooter() {
                     Privacy Policy
                   </Link>
                 </li>
+                <li>
+                  <Link
+                    href="/legal"
+                    className={`${glassCard} block rounded-lg px-3 py-2 text-zinc-300 transition hover:border-[#FFC107]/30 hover:text-[#FFC107]`}
+                  >
+                    Legal
+                  </Link>
+                </li>
                 <li
                   className={`${glassCard} cursor-not-allowed rounded-lg px-3 py-2 text-[#FFC107]/40`}
                 >
