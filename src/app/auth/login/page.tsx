@@ -11,8 +11,8 @@ export default function AuthLoginPage() {
   return (
     <Suspense
       fallback={
-        <div className="flex min-h-[100dvh] items-center justify-center bg-[#080706] px-4">
-          <p className="text-sm font-semibold text-[#FFC107]">Loading…</p>
+        <div className="flex min-h-[100dvh] items-center justify-center bg-background px-4">
+          <p className="text-sm font-medium text-zinc-400">Loading…</p>
         </div>
       }
     >

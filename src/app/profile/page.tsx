@@ -1,24 +1,33 @@
+import type { ReactNode } from "react";
 import Link from "next/link";
 import { SUPABASE_AUTH_SETUP_MESSAGE } from "@/lib/supabase/env";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
 import { MarketingHeader } from "@/components/shirwell/marketing-header";
 import { BottomNav } from "@/components/shirwell/bottom-nav";
+import { ProfileContent } from "@/components/profile/profile-content";
+import type { ProfileRecord } from "@/lib/auth/profile";
+
+function profileShell(children: ReactNode) {
+  return (
+    <div className="relative flex min-h-full flex-1 flex-col pb-36">
+      <MarketingHeader />
+      <main className="mx-auto w-full max-w-2xl px-4 py-10">{children}</main>
+      <BottomNav />
+    </div>
+  );
+}
 
 export default async function ProfilePage() {
   const supabase = await createServerSupabaseClient();
 
   if (!supabase) {
-    return (
-      <div className="relative flex min-h-full flex-1 flex-col pb-36">
-        <MarketingHeader />
-        <main className="mx-auto w-full max-w-2xl px-4 py-10">
-          <h1 className="font-serif text-3xl font-semibold tracking-tight text-[#FFC107]">
-            Profile
-          </h1>
-          <p className="mt-4 text-sm text-[#FFC107]/80">{SUPABASE_AUTH_SETUP_MESSAGE}</p>
-        </main>
-        <BottomNav />
-      </div>
+    return profileShell(
+      <>
+        <h1 className="font-serif text-3xl font-semibold tracking-tight text-[#FFC107]">
+          Profile
+        </h1>
+        <p className="mt-4 text-sm text-[#FFC107]/80">{SUPABASE_AUTH_SETUP_MESSAGE}</p>
+      </>,
     );
   }
 
@@ -26,74 +35,64 @@ export default async function ProfilePage() {
   const user = userData.user;
 
   if (!user) {
-    return (
-      <div className="relative flex min-h-full flex-1 flex-col pb-36">
-        <MarketingHeader />
-        <main className="mx-auto w-full max-w-2xl px-4 py-10">
-          <h1 className="font-serif text-3xl font-semibold tracking-tight text-[#FFC107]">
-            Profile
-          </h1>
-          <p className="mt-4 text-sm text-[#FFC107]/80">
-            You’re not logged in yet. Use{" "}
-            <span className="text-zinc-200">Log In</span> in the header, or open the
-            sign-in page directly.
-          </p>
-          <p className="mt-3 flex flex-wrap gap-4 text-sm">
-            <Link
-              href={`/auth/login?redirect=${encodeURIComponent("/profile")}`}
-              className="text-[#FFC107] underline underline-offset-2"
-            >
-              Sign in
-            </Link>
-            <Link href="/home" className="text-zinc-400 underline underline-offset-2">
-              Go to Home
-            </Link>
-          </p>
-        </main>
-        <BottomNav />
-      </div>
+    return profileShell(
+      <>
+        <h1 className="font-serif text-3xl font-semibold tracking-tight text-[#FFC107]">
+          Profile
+        </h1>
+        <p className="mt-4 text-sm text-[#FFC107]/80">
+          You&apos;re not logged in yet. Use Log In in the header, or open the sign-in page
+          directly.
+        </p>
+        <p className="mt-3 flex flex-wrap gap-4 text-sm">
+          <Link
+            href={`/auth/login?redirect=${encodeURIComponent("/profile")}`}
+            className="text-[#FFC107] underline underline-offset-2"
+          >
+            Sign in
+          </Link>
+          <Link href="/home" className="text-zinc-400 underline underline-offset-2">
+            Go to Home
+          </Link>
+        </p>
+      </>,
     );
   }
 
   const { data: profile } = await supabase
     .from("profiles")
-    .select("id,email,full_name,username,avatar_url,role,phone")
+    .select("id,email,full_name,username,avatar_url,role,phone,location")
     .eq("id", user.id)
     .maybeSingle();
 
-  return (
-    <div className="relative flex min-h-full flex-1 flex-col pb-36">
-      <MarketingHeader />
-      <main className="mx-auto w-full max-w-2xl px-4 py-10">
-        <h1 className="font-serif text-3xl font-semibold tracking-tight text-[#FFC107]">
-          Profile
-        </h1>
+  const meta = user.user_metadata ?? {};
+  const record: ProfileRecord = {
+    id: user.id,
+    email: profile?.email ?? user.email ?? null,
+    full_name:
+      profile?.full_name ??
+      (typeof meta.full_name === "string" ? meta.full_name : null),
+    username: profile?.username ?? null,
+    avatar_url:
+      profile?.avatar_url ??
+      (typeof meta.avatar_url === "string"
+        ? meta.avatar_url
+        : typeof meta.picture === "string"
+          ? meta.picture
+          : null),
+    role: profile?.role ?? (typeof meta.role === "string" ? meta.role : "user"),
+    phone:
+      profile?.phone ?? (typeof meta.phone === "string" ? meta.phone : null),
+    location:
+      profile?.location ?? (typeof meta.location === "string" ? meta.location : null),
+  };
 
-        <div className="mt-6 space-y-2 rounded-2xl border border-white/[0.06] bg-black/30 p-5 text-sm text-zinc-200 backdrop-blur-md">
-          <div>
-            <span className="text-zinc-400">Email: </span>
-            <span>{profile?.email ?? user.email ?? "-"}</span>
-          </div>
-          <div>
-            <span className="text-zinc-400">Full name: </span>
-            <span>{profile?.full_name ?? "-"}</span>
-          </div>
-          <div>
-            <span className="text-zinc-400">Username: </span>
-            <span>{profile?.username ?? "-"}</span>
-          </div>
-          <div>
-            <span className="text-zinc-400">Phone: </span>
-            <span>{profile?.phone ?? "-"}</span>
-          </div>
-          <div>
-            <span className="text-zinc-400">Role: </span>
-            <span>{profile?.role ?? "user"}</span>
-          </div>
-        </div>
-      </main>
-      <BottomNav />
-    </div>
+  return profileShell(
+    <>
+      <h1 className="mb-6 font-serif text-3xl font-semibold tracking-tight text-[#FFC107]">
+        Profile
+      </h1>
+      <ProfileContent profile={record} />
+    </>,
   );
 }
-

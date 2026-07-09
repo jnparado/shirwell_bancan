@@ -2,6 +2,7 @@
 
 import type { SupabaseClient } from "@supabase/supabase-js";
 import Link from "next/link";
+import { IconGoogle } from "@/components/auth/auth-ui";
 
 type Props = {
   supabase: SupabaseClient | null;
@@ -12,6 +13,8 @@ type Props = {
   setError: (msg: string | null) => void;
   onMissingSupabase: () => void;
   mode: "login" | "signup";
+  showPrivacyNote?: boolean;
+  onSwitchMode?: () => void;
 };
 
 function IconApple({ className }: { className?: string }) {
@@ -22,15 +25,21 @@ function IconApple({ className }: { className?: string }) {
   );
 }
 
+const socialButtonClass =
+  "flex w-full items-center justify-center gap-3 rounded-lg border py-2.5 text-sm font-medium transition disabled:cursor-not-allowed disabled:opacity-70";
+
 export function SocialAuthPrivacyNote() {
   return (
-    <p className="text-center text-[11px] leading-relaxed text-zinc-500">
-      <span className="font-medium text-zinc-400">Privacy-friendly sign-in:</span> Email &
+    <p className="text-center text-[11px] leading-relaxed text-[#5f6368]">
+      <span className="font-medium text-[#3c4043]">Privacy-friendly sign-in:</span> Email &
       password uses only what you enter here.{" "}
-      <span className="text-zinc-400">Google and Apple sign-in</span> follow each
+      <span className="text-[#5f6368]">Google and Apple sign-in</span> follow each
       provider&apos;s account controls. We do not use these sign-in methods to profile you
       for ads; see our{" "}
-      <Link href="/privacy" className="text-[#FFC107] underline underline-offset-2 hover:text-[#FFD54F]">
+      <Link
+        href="/privacy"
+        className="text-[#1a73e8] underline underline-offset-2 hover:text-[#1765cc]"
+      >
         Privacy Policy
       </Link>{" "}
       for details.
@@ -46,6 +55,8 @@ export function SocialAuthButtons({
   setError,
   onMissingSupabase,
   mode,
+  showPrivacyNote = false,
+  onSwitchMode,
 }: Props) {
   function callbackUrl(): string {
     const origin = typeof window !== "undefined" ? window.location.origin : "";
@@ -77,31 +88,61 @@ export function SocialAuthButtons({
 
   return (
     <div className="space-y-3">
-      <SocialAuthPrivacyNote />
-
-      <button
-        type="button"
-        disabled={busy}
-        onClick={() => void signInWithProvider("google")}
-        className="flex w-full items-center justify-center gap-3 rounded-xl border border-white/[0.10] bg-black/35 py-3 text-sm font-semibold text-zinc-100 transition hover:border-[#FFC107]/25 hover:bg-black/45 disabled:cursor-not-allowed disabled:opacity-70"
-      >
-        <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-white">
-          <span className="text-sm font-black text-black">G</span>
-        </span>
-        {googleLabel}
-      </button>
-
       <button
         type="button"
         disabled={busy}
         onClick={() => void signInWithProvider("apple")}
-        className="flex w-full items-center justify-center gap-3 rounded-xl border border-white/[0.10] bg-black py-3 text-sm font-semibold text-white transition hover:border-[#FFC107]/25 hover:bg-zinc-950 disabled:cursor-not-allowed disabled:opacity-70"
+        className={`${socialButtonClass} border-black bg-black text-white hover:bg-[#1a1a1a]`}
       >
-        <span className="inline-flex h-6 w-6 items-center justify-center">
-          <IconApple className="h-5 w-5" />
+        <span className="inline-flex h-5 w-5 items-center justify-center">
+          <IconApple className="h-4 w-4" />
         </span>
         {appleLabel}
       </button>
+
+      <div className="space-y-2">
+        <button
+          type="button"
+          disabled={busy}
+          onClick={() => void signInWithProvider("google")}
+          className={`${socialButtonClass} border-[#dadce0] bg-white text-[#3c4043] hover:bg-[#f8f9fa] hover:shadow-sm`}
+        >
+          <span className="inline-flex h-5 w-5 items-center justify-center">
+            <IconGoogle className="h-5 w-5" />
+          </span>
+          {googleLabel}
+        </button>
+
+        {onSwitchMode ? (
+          <p className="text-center text-sm text-[#5f6368]">
+            {mode === "signup" ? (
+              <>
+                Already have an account?{" "}
+                <button
+                  type="button"
+                  onClick={onSwitchMode}
+                  className="font-medium text-[#1a73e8] hover:underline"
+                >
+                  Log in
+                </button>
+              </>
+            ) : (
+              <>
+                New here?{" "}
+                <button
+                  type="button"
+                  onClick={onSwitchMode}
+                  className="font-medium text-[#1a73e8] hover:underline"
+                >
+                  Sign up
+                </button>
+              </>
+            )}
+          </p>
+        ) : null}
+      </div>
+
+      {showPrivacyNote ? <SocialAuthPrivacyNote /> : null}
     </div>
   );
 }
