@@ -21,6 +21,7 @@ import { usePlayer } from "@/contexts/player-context";
 import { getPlayerArtworkSrc } from "@/lib/player-artwork";
 import { formatTime } from "@/lib/player/format-time";
 import { BottomNav } from "./bottom-nav";
+import { BrandLegalMarks } from "@/components/legal/brand-legal-marks";
 
 interface MusicPageContentProps {
   songs: Song[];
@@ -166,6 +167,7 @@ export function MusicPageContent({ songs }: MusicPageContentProps) {
                   sizes="320px"
                   priority
                 />
+                <BrandLegalMarks year={new Date().getFullYear()} />
               </div>
             </div>
 

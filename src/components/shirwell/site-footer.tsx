@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Crown } from "lucide-react";
 import { hasBottomNav } from "@/lib/mobile-chrome";
+import { BrandLegalMarks } from "@/components/legal/brand-legal-marks";
 import { SITE_NAME } from "@/lib/seo";
 
 /** Matches marketing header — Shirwell gold luxury */
@@ -103,6 +104,7 @@ export function SiteFooter() {
                   className="object-cover object-center"
                   sizes="220px"
                 />
+                <BrandLegalMarks />
               </div>
             </div>
 

@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { MarketingHeader } from "@/components/shirwell/marketing-header";
 import { BottomNav } from "@/components/shirwell/bottom-nav";
+import { BrandLegalMarks } from "@/components/legal/brand-legal-marks";
 import { SITE_NAME } from "@/lib/seo";
 
 const glassCard =
@@ -27,7 +28,7 @@ export default function AboutPage() {
       <main className="mx-auto w-full max-w-4xl flex-1 px-4 py-10 sm:px-6 sm:py-14">
         <article className="space-y-8">
           <header className={`${glassCard} overflow-hidden p-6 sm:p-8`}>
-            <div className="mx-auto max-w-md">
+            <div className="relative mx-auto max-w-md">
               <Image
                 src="/about/shirwell-bancan-poster.png"
                 alt={`${SITE_NAME} — Experience 45 years of original songs`}
@@ -36,6 +37,7 @@ export default function AboutPage() {
                 className="h-auto w-full rounded-lg shadow-[0_0_48px_rgba(255,193,7,0.12)]"
                 priority
               />
+              <BrandLegalMarks />
             </div>
             <div className="mt-8 text-center">
               <h1 className="font-serif text-2xl font-semibold text-[#FFC107] sm:text-3xl">

@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { MarketingHeader } from "@/components/shirwell/marketing-header";
 import { BottomNav } from "@/components/shirwell/bottom-nav";
+import { BrandPhotoFrame } from "@/components/legal/brand-photo-frame";
 import { SITE_NAME } from "@/lib/seo";
 
 const glassCard =
@@ -34,15 +34,14 @@ export default function MusicOwnerPage() {
         <article className="space-y-8">
           <header className={`${glassCard} overflow-hidden p-4 sm:p-8`}>
             <div className="mx-auto w-full max-w-sm sm:max-w-md">
-              <div className="relative aspect-[3/4] w-full overflow-hidden rounded-2xl border border-[#FFC107]/20 bg-black/40 shadow-[0_0_48px_rgba(255,193,7,0.1)]">
-                <Image
+              <div className="relative aspect-[3/4] w-full overflow-hidden rounded-2xl border border-[#FFC107]/20 bg-zinc-900/70 shadow-[0_0_48px_rgba(255,193,7,0.1)]">
+                <BrandPhotoFrame
                   src="/home/princess-flower-shop.png"
                   alt={`${SITE_NAME} — music owner`}
-                  fill
-                  className="object-cover object-[center_20%]"
                   sizes="(max-width: 640px) 92vw, 448px"
                   quality={92}
                   priority
+                  frameClassName="h-full w-full"
                 />
               </div>
             </div>

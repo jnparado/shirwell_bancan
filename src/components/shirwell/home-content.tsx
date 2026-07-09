@@ -10,6 +10,7 @@ import { FeaturedSongCard } from "./featured-song-card";
 import { HomePromo } from "./home-promo";
 import { BottomNav } from "./bottom-nav";
 import { AdSenseUnit } from "@/components/ads/adsense-unit";
+import { BrandPhotoFrame } from "@/components/legal/brand-photo-frame";
 
 
 
@@ -69,14 +70,14 @@ export function HomeContent({ songs }: HomeContentProps) {
                 <Link
                   href="/flowers"
                   aria-label="View more — flowers, photos and video"
-                  className="group relative block aspect-[3/4] w-full cursor-pointer overflow-hidden rounded-2xl border border-white/[0.08] bg-black/40 shadow-[0_0_60px_rgba(16,185,129,0.12)] transition hover:border-emerald-400/35 hover:shadow-[0_0_72px_rgba(16,185,129,0.2)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-400 sm:rounded-3xl"
+                  className="group relative block aspect-[3/4] w-full cursor-pointer overflow-hidden rounded-2xl border border-white/[0.08] bg-zinc-900/70 shadow-[0_0_60px_rgba(16,185,129,0.12)] transition hover:border-emerald-400/35 hover:shadow-[0_0_72px_rgba(16,185,129,0.2)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-400 sm:rounded-3xl"
                 >
-                  <Image
+                  <BrandPhotoFrame
                     src="/home/princess-flower-shop.png"
                     alt="Princess — head of dance, business and accounting for Shirwell"
-                    fill
-                    className="object-cover object-[center_20%] transition duration-300 group-hover:scale-[1.02]"
                     sizes="(max-width: 1024px) 100vw, 50vw"
+                    frameClassName="h-full w-full"
+                    imageClassName="transition duration-300 group-hover:scale-[1.02]"
                   />
                 </Link>
               </div>
