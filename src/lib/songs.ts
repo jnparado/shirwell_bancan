@@ -48,10 +48,15 @@ export const ONE_THOUSAND_MINUTES_APART_AUDIO_PATH = "/audio/1000_minutes_apart.
 export const DANCING_MACHINE_ROCK_AUDIO_PATH =
   "/audio/lily-the-dancing-machine-rock-turbo-mix.mp3";
 
+/** `Dancing Machine` — dance version (Turbo Club Mix) */
+export const DANCING_MACHINE_DANCE_AUDIO_PATH =
+  "/audio/dancing-machine-turbo-club-mix.mp3";
+
 /** Credit when AI tools assisted production */
 export const AI_NEEDED_LABEL = "AI needed";
 
 export const ROCK_VERSION_LABEL = "Rock version";
+export const DANCE_VERSION_LABEL = "Dance version";
 
 
 
@@ -218,6 +223,16 @@ export const FALLBACK_SONGS: Song[] = [
     desc: ROCK_VERSION_LABEL,
     year: 2019,
     audio_url: DANCING_MACHINE_ROCK_AUDIO_PATH,
+    cover_image: null,
+    is_premium: false,
+  },
+  {
+    id: "fallback-dancing-machine-dance",
+    title: "Dancing Machine (Turbo Club Mix)",
+    artist: "Written by Shirwell Bancan",
+    desc: DANCE_VERSION_LABEL,
+    year: 2025,
+    audio_url: DANCING_MACHINE_DANCE_AUDIO_PATH,
     cover_image: null,
     is_premium: false,
   },
@@ -415,7 +430,26 @@ function isDancingMachineRockTrack(title: string | null | undefined): boolean {
   return isDancingMachineFamily(title) && t.includes("rock");
 }
 
-/** Supabase / legacy rows → rock version only; drop dance version entries */
+function isDancingMachineDanceTrack(
+  title: string | null | undefined,
+  desc?: string | null,
+  audioUrl?: string | null,
+): boolean {
+  const t = normalizeTitle(title);
+  const d = normalizeTitle(desc);
+  if (d === "dance version" || d.includes("dance version")) return true;
+  if (audioUrl === DANCING_MACHINE_DANCE_AUDIO_PATH) return true;
+  return (
+    (isDancingMachineFamily(title) &&
+      (t.includes("turbo club") ||
+        t.includes("club mix") ||
+        t.includes("dance version"))) ||
+    t === "dancing machine (turbo club mix)" ||
+    t.startsWith("dancing machine (turbo club mix)")
+  );
+}
+
+/** Map rock + dance Dancing Machine rows; drop legacy duplicates only */
 function applyBundledDancingMachineAudio(songs: Song[]): Song[] {
   return songs
     .map((s) => {
@@ -427,16 +461,26 @@ function applyBundledDancingMachineAudio(songs: Song[]): Song[] {
           desc: ROCK_VERSION_LABEL,
         };
       }
+      if (isDancingMachineDanceTrack(s.title, s.desc, s.audio_url)) {
+        return {
+          ...s,
+          title: "Dancing Machine (Turbo Club Mix)",
+          audio_url: DANCING_MACHINE_DANCE_AUDIO_PATH,
+          desc: DANCE_VERSION_LABEL,
+        };
+      }
       return s;
     })
     .filter(
       (s) =>
-        normalizeTitle(s.desc) !== "dance version" &&
         s.audio_url !== "/audio/dancing-machine.wav" &&
-        s.audio_url !== "/audio/dancing-machine-turbo-club-mix.mp3" &&
         s.audio_url !== "/audio/Dancing-Machine.mp3" &&
         s.audio_url !== "/audio/Dancing-Machine%20.mp3" &&
-        !(isDancingMachineFamily(s.title) && !isDancingMachineRockTrack(s.title)),
+        !(
+          isDancingMachineFamily(s.title) &&
+          !isDancingMachineRockTrack(s.title) &&
+          !isDancingMachineDanceTrack(s.title, s.desc, s.audio_url)
+        ),
     );
 }
 
@@ -615,6 +659,29 @@ function ensureBundledTracksInList(songs: Song[]): Song[] {
         desc: ROCK_VERSION_LABEL,
         year: 2025,
         audio_url: DANCING_MACHINE_ROCK_AUDIO_PATH,
+        cover_image: null,
+        is_premium: false,
+      },
+      ...result,
+    ];
+  }
+
+  function hasDancingMachineDanceVersion(songs: Song[]) {
+    return songs.some(
+      (s) =>
+        s.audio_url === DANCING_MACHINE_DANCE_AUDIO_PATH ||
+        isDancingMachineDanceTrack(s.title, s.desc, s.audio_url),
+    );
+  }
+  if (!hasDancingMachineDanceVersion(result)) {
+    result = [
+      {
+        id: "bundled-dancing-machine-dance",
+        title: "Dancing Machine (Turbo Club Mix)",
+        artist: "Written by Shirwell Bancan",
+        desc: DANCE_VERSION_LABEL,
+        year: 2025,
+        audio_url: DANCING_MACHINE_DANCE_AUDIO_PATH,
         cover_image: null,
         is_premium: false,
       },
