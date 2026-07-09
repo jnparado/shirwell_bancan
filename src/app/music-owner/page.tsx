@@ -37,7 +37,7 @@ export default function MusicOwnerPage() {
               <div className="relative aspect-[3/4] w-full overflow-hidden rounded-2xl border border-[#FFC107]/20 bg-zinc-900/70 shadow-[0_0_48px_rgba(255,193,7,0.1)]">
                 <BrandPhotoFrame
                   src="/home/princess-flower-shop.png"
-                  alt={`${SITE_NAME} — music owner`}
+                  alt="Princess — Shirwell music owner"
                   sizes="(max-width: 640px) 92vw, 448px"
                   quality={92}
                   priority

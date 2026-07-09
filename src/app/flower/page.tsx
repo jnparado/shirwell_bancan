@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { MarketingHeader } from "@/components/shirwell/marketing-header";
 import { BottomNav } from "@/components/shirwell/bottom-nav";
+import { BrandPhotoFrame } from "@/components/legal/brand-photo-frame";
 import { SITE_NAME } from "@/lib/seo";
 
 const NATI_ROSES_URL =
@@ -21,6 +21,12 @@ export const metadata: Metadata = {
     description:
       "Contact Nati Roses for weddings, funerals, and special occasions. Middle Dural NSW.",
     url: "/flower",
+    images: [
+      {
+        url: "/home/princess-flower-shop.png",
+        alt: "Princess — Shirwell flower shop",
+      },
+    ],
   },
 };
 
@@ -33,15 +39,16 @@ export default function FlowerPage() {
           href={NATI_ROSES_URL}
           target="_blank"
           rel="noopener noreferrer"
-          className="group relative mx-auto mb-8 block aspect-[3/4] w-full max-w-xs cursor-pointer overflow-hidden rounded-2xl border border-emerald-500/25 bg-black/30 shadow-[0_0_48px_rgba(16,185,129,0.12)] transition hover:border-emerald-400/45 hover:shadow-[0_0_64px_rgba(16,185,129,0.18)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-400 sm:max-w-sm"
+          className="group relative mx-auto mb-8 block aspect-[3/4] w-full max-w-xs cursor-pointer overflow-hidden rounded-2xl border border-emerald-500/25 bg-zinc-900/70 shadow-[0_0_48px_rgba(16,185,129,0.12)] transition hover:border-emerald-400/45 hover:shadow-[0_0_64px_rgba(16,185,129,0.18)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-400 sm:max-w-sm"
           aria-label="Open Nati Roses florist website"
         >
-          <Image
-            src="/home/princess-roses-balloons.png"
-            alt="Shirwell talent with yellow roses — Nati Roses"
-            fill
-            className="object-cover object-[center_12%] transition duration-300 group-hover:scale-[1.02]"
+          <BrandPhotoFrame
+            src="/home/princess-flower-shop.png"
+            alt="Princess — Shirwell flower shop"
             sizes="(max-width: 640px) 100vw, 384px"
+            priority
+            frameClassName="h-full w-full"
+            imageClassName="transition duration-300 group-hover:scale-[1.02]"
           />
           <span className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/80 to-transparent" />
           <span className="absolute bottom-4 left-4 right-4 text-center text-xs font-medium uppercase tracking-widest text-emerald-200/95 transition group-hover:text-emerald-50">

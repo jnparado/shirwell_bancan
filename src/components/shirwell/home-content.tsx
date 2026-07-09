@@ -74,7 +74,7 @@ export function HomeContent({ songs }: HomeContentProps) {
                 >
                   <BrandPhotoFrame
                     src="/home/princess-flower-shop.png"
-                    alt="Princess — head of dance, business and accounting for Shirwell"
+                    alt="Princess — flower shop, dance, business and accounting for Shirwell"
                     sizes="(max-width: 1024px) 100vw, 50vw"
                     frameClassName="h-full w-full"
                     imageClassName="transition duration-300 group-hover:scale-[1.02]"
