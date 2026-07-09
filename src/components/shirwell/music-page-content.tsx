@@ -5,38 +5,57 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import {
-  ChevronLeft,
-  ChevronUp,
-  Heart,
+  ChevronDown,
+  ListMusic,
+  Mic2,
   Pause,
   Play,
   Repeat,
   Shuffle,
   SkipBack,
   SkipForward,
+  Volume2,
 } from "lucide-react";
 import type { Song } from "@/types/song";
 import { usePlayer } from "@/contexts/player-context";
 import { getPlayerArtworkSrc } from "@/lib/player-artwork";
+import { formatTime } from "@/lib/player/format-time";
 import { BottomNav } from "./bottom-nav";
-
-function formatTime(seconds: number): string {
-  if (!Number.isFinite(seconds) || seconds < 0) return "0:00";
-  const m = Math.floor(seconds / 60);
-  const s = Math.floor(seconds % 60);
-  return `${m}:${s.toString().padStart(2, "0")}`;
-}
-
-const glassCard =
-  "rounded-xl border border-white/[0.06] bg-[rgba(255,255,255,0.05)] backdrop-blur-md";
 
 interface MusicPageContentProps {
   songs: Song[];
 }
 
-/** Outer ring radius in SVG viewBox units (center 50,50) */
-const R_OUTER = 47;
-const R_INNER_RING = 43;
+function SkipSecondsButton({
+  seconds,
+  direction,
+  onClick,
+}: {
+  seconds: number;
+  direction: "back" | "forward";
+  onClick: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className="relative flex h-9 w-9 items-center justify-center text-white/90 hover:text-white"
+      aria-label={`${direction === "back" ? "Rewind" : "Forward"} ${seconds} seconds`}
+    >
+      <svg viewBox="0 0 28 28" className="h-7 w-7" aria-hidden>
+        <path
+          fill="currentColor"
+          d={
+            direction === "back"
+              ? "M14 4a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm0 2a8 8 0 1 1 0 16 8 8 0 0 1 0-16Zm-.5 4v4.5H9.8l3.7-3.7 3.7 3.7h-3.7V10h-1Z"
+              : "M14 4a10 10 0 1 1 0 20 10 10 0 0 1 0-20Zm0 2a8 8 0 1 0 0 16 8 8 0 0 0 0-16Zm.5 4v4.5h3.7l-3.7 3.7-3.7-3.7h3.7V10h1Z"
+          }
+        />
+      </svg>
+      <span className="absolute text-[8px] font-bold">{seconds}</span>
+    </button>
+  );
+}
 
 export function MusicPageContent({ songs }: MusicPageContentProps) {
   const router = useRouter();
@@ -52,11 +71,16 @@ export function MusicPageContent({ songs }: MusicPageContentProps) {
     currentTime,
     duration,
     seek,
+    seekRelative,
+    shuffle,
+    repeat,
+    volume,
+    toggleShuffle,
+    toggleRepeat,
+    setVolume,
   } = usePlayer();
 
-  const [favorite, setFavorite] = useState(false);
-  const [shuffleOn, setShuffleOn] = useState(false);
-  const [repeatOn, setRepeatOn] = useState(false);
+  const [queueOpen, setQueueOpen] = useState(false);
   const [lyricsOpen, setLyricsOpen] = useState(false);
 
   useEffect(() => {
@@ -70,43 +94,13 @@ export function MusicPageContent({ songs }: MusicPageContentProps) {
 
   const thumbSrc = getPlayerArtworkSrc(currentSong);
   const title = currentSong?.title ?? "—";
-  const artist = currentSong?.artist ?? "—";
+  const artist = currentSong?.artist ?? "Shirwell Bancan";
   const credit = currentSong?.desc?.trim() || null;
-
-  function inferCopyrightYear(): number {
-    const fromField = currentSong?.year ?? null;
-    if (fromField && Number.isFinite(fromField)) return fromField;
-
-    const url = currentSong?.audio_url ?? "";
-    const m = url.match(/(?:_|-)(\d{6})(?:_|-|\.|$)/); // e.g. _240225_ or -240227.
-    if (m?.[1]) {
-      const yy = Number(m[1].slice(0, 2));
-      if (Number.isFinite(yy)) return 2000 + yy;
-    }
-    return new Date().getFullYear();
-  }
-
-  const copyrightYear = inferCopyrightYear();
-  const writtenLine =
-    title === "—"
-      ? null
-      : `${title} written ${copyrightYear} by ${artist} ©`;
 
   const progressRatio = useMemo(() => {
     if (duration <= 0) return 0;
     return Math.min(1, currentTime / duration);
   }, [currentTime, duration]);
-
-  const outerCirc = 2 * Math.PI * R_OUTER;
-  const progressLen = outerCirc * progressRatio;
-
-  const playheadDot = useMemo(() => {
-    const angle = -Math.PI / 2 + 2 * Math.PI * progressRatio;
-    return {
-      cx: 50 + R_OUTER * Math.cos(angle),
-      cy: 50 + R_OUTER * Math.sin(angle),
-    };
-  }, [progressRatio]);
 
   function handleSeekBar(e: React.MouseEvent<HTMLDivElement>) {
     const el = e.currentTarget;
@@ -116,272 +110,269 @@ export function MusicPageContent({ songs }: MusicPageContentProps) {
     if (duration > 0) seek(ratio * duration);
   }
 
-  function handleRingSeek(e: React.MouseEvent<HTMLDivElement>) {
-    const el = e.currentTarget;
-    const rect = el.getBoundingClientRect();
-    const cx = rect.left + rect.width / 2;
-    const cy = rect.top + rect.height / 2;
-    const x = e.clientX - cx;
-    const y = e.clientY - cy;
-    let angle = Math.atan2(y, x) + Math.PI / 2;
-    if (angle < 0) angle += 2 * Math.PI;
-    const ratio = angle / (2 * Math.PI);
-    if (duration > 0) seek(ratio * duration);
-  }
-
   return (
-    <div className="flex min-h-[100dvh] flex-1 flex-col bg-[#0a0a0c] pb-[calc(7rem+env(safe-area-inset-bottom))]">
-      {/* Brand — circular logo + Shirwell (prototype) */}
-      <header className="shrink-0 border-b border-white/[0.06] bg-black/60 px-4 py-3.5 backdrop-blur-xl">
+    <div className="relative flex min-h-[100dvh] flex-1 flex-col overflow-hidden bg-[#0a0a0c] pb-[calc(5.5rem+env(safe-area-inset-bottom))]">
+      {/* Blurred artwork backdrop — Apple Music style */}
+      <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
+        <Image
+          src={thumbSrc}
+          alt=""
+          fill
+          className="scale-125 object-cover object-center opacity-45 blur-3xl saturate-150"
+          sizes="100vw"
+          priority
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/55 to-black/90" />
+      </div>
+
+      <header className="relative z-10 flex shrink-0 items-center justify-between px-4 py-3">
+        <button
+          type="button"
+          onClick={() => router.back()}
+          className="rounded-full p-2 text-white/90 hover:bg-white/10"
+          aria-label="Close player"
+        >
+          <ChevronDown className="h-7 w-7" strokeWidth={2} />
+        </button>
         <Link
           href="/"
-          className={`mx-auto flex max-w-lg items-center justify-center gap-3 ${glassCard} px-3 py-2`}
-          aria-label="Shirwell — home"
+          className="text-xs font-semibold uppercase tracking-[0.2em] text-white/50 hover:text-white/70"
         >
-          <span className="relative h-10 w-10 shrink-0 overflow-hidden rounded-full bg-black/60 ring-2 ring-[#FFC107]/45">
-            <Image
-              src="/shirwell-logo-emblem.png"
-              alt=""
-              fill
-              className="object-cover object-[center_32%] scale-[1.08]"
-              sizes="40px"
-              priority
-            />
-          </span>
-          <span className="font-serif text-xl font-semibold tracking-tight text-[#FFC107]">
-            Shirwell
-          </span>
+          Shirwell
         </Link>
+        <button
+          type="button"
+          onClick={() => setQueueOpen((o) => !o)}
+          className={`rounded-full p-2 hover:bg-white/10 ${
+            queueOpen ? "text-[#fa2d48]" : "text-white/90"
+          }`}
+          aria-label="Up next"
+          aria-pressed={queueOpen}
+        >
+          <ListMusic className="h-6 w-6" strokeWidth={2} />
+        </button>
       </header>
 
-      <main className="mx-auto flex w-full max-w-lg flex-1 flex-col px-3 pt-4">
-        <div className="flex flex-1 flex-col rounded-[28px] border border-white/[0.12] bg-[#1c1c1f] p-5 pb-3 shadow-[0_12px_48px_rgba(0,0,0,0.55)]">
-          {/* Player chrome */}
-          <div className="mb-5 flex items-center justify-between">
-            <button
-              type="button"
-              onClick={() => router.back()}
-              className="rounded-full p-2 text-white hover:bg-white/10"
-              aria-label="Back"
-            >
-              <ChevronLeft className="h-6 w-6" strokeWidth={2} />
-            </button>
-            <p className="text-[15px] font-medium text-white">Playing Now</p>
-            <button
-              type="button"
-              onClick={() => setFavorite((f) => !f)}
-              className={`rounded-full p-2 hover:bg-white/10 ${
-                favorite ? "text-[#FFC107]" : "text-white"
-              }`}
-              aria-label={favorite ? "Remove favorite" : "Add favorite"}
-            >
-              <Heart
-                className="h-6 w-6"
-                strokeWidth={2}
-                fill={favorite ? "currentColor" : "none"}
-              />
-            </button>
-          </div>
-
-          {/* Circular art + concentric gold rings + outer progress & dot */}
-          <div
-            className="relative mx-auto mb-5 w-full max-w-[300px] cursor-pointer"
-            onClick={handleRingSeek}
-            role="presentation"
-            aria-hidden
-          >
-            <div className="relative aspect-square w-full">
-              <svg
-                className="absolute inset-0 h-full w-full"
-                viewBox="0 0 100 100"
-                preserveAspectRatio="xMidYMid meet"
-              >
-                <defs>
-                  <filter id="dot-glow" x="-50%" y="-50%" width="200%" height="200%">
-                    <feGaussianBlur stdDeviation="0.6" result="b" />
-                    <feMerge>
-                      <feMergeNode in="b" />
-                      <feMergeNode in="SourceGraphic" />
-                    </feMerge>
-                  </filter>
-                </defs>
-                {/* Outer track */}
-                <circle
-                  cx="50"
-                  cy="50"
-                  r={R_OUTER}
-                  fill="none"
-                  stroke="rgba(255,193,7,0.22)"
-                  strokeWidth="1.2"
+      <main className="relative z-10 mx-auto flex w-full max-w-lg flex-1 flex-col px-5 pt-2">
+        {!queueOpen ? (
+          <>
+            <div className="mx-auto mb-8 w-full max-w-[320px]">
+              <div className="relative aspect-square w-full overflow-hidden rounded-xl bg-zinc-900 shadow-[0_24px_64px_rgba(0,0,0,0.55)]">
+                <Image
+                  src={thumbSrc}
+                  alt={title}
+                  fill
+                  className="object-cover object-center"
+                  sizes="320px"
+                  priority
                 />
-                {/* Progress on outer ring */}
-                <circle
-                  cx="50"
-                  cy="50"
-                  r={R_OUTER}
-                  fill="none"
-                  stroke="#FFC107"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeDasharray={`${progressLen} ${outerCirc}`}
-                  transform="rotate(-90 50 50)"
-                  className="transition-[stroke-dasharray] duration-150"
-                />
-                {/* Playhead dot */}
-                <circle
-                  cx={playheadDot.cx}
-                  cy={playheadDot.cy}
-                  r="2.2"
-                  fill="#FFC107"
-                  filter="url(#dot-glow)"
-                />
-                {/* Inner decorative ring */}
-                <circle
-                  cx="50"
-                  cy="50"
-                  r={R_INNER_RING}
-                  fill="none"
-                  stroke="rgba(255,193,7,0.55)"
-                  strokeWidth="2.4"
-                />
-              </svg>
-              <div className="absolute inset-[11%]">
-                <div className="relative h-full w-full overflow-hidden rounded-full bg-[#2a2418] shadow-[inset_0_0_0_2px_rgba(255,193,7,0.35)]">
-                  <Image
-                    src={thumbSrc}
-                    alt=""
-                    fill
-                    className="object-cover object-center"
-                    sizes="300px"
-                    priority
-                  />
-                  <span className="absolute bottom-0 right-0 rounded-tl bg-black/70 px-1.5 py-1 text-[10px] font-semibold tracking-wide text-[#FFC107]/90">
-                    © {copyrightYear} Shirwell™
-                  </span>
-                </div>
               </div>
             </div>
-          </div>
 
-          <p className="mb-5 text-center text-sm tabular-nums text-zinc-200">
-            {formatTime(currentTime)} / {formatTime(duration)}
-          </p>
-
-          {/* Title row — shuffle & repeat flank title / artist (prototype) */}
-          <div className="mb-5 flex items-center gap-3 px-0.5">
-            <button
-              type="button"
-              onClick={() => setShuffleOn((s) => !s)}
-              className={`shrink-0 rounded-full p-2 ${
-                shuffleOn ? "text-[#FFC107]" : "text-zinc-400"
-              } hover:bg-white/5`}
-              aria-label="Shuffle"
-              aria-pressed={shuffleOn}
-            >
-              <Shuffle className="h-5 w-5" strokeWidth={2} />
-            </button>
-            <div className="min-w-0 flex-1 text-center">
+            <div className="mb-6 text-center">
               <h1 className="truncate text-2xl font-bold tracking-tight text-white">
                 {title}
               </h1>
-              <p className="mt-1 truncate text-[15px] text-zinc-400">{artist}</p>
+              <p className="mt-1 truncate text-lg text-white/55">{artist}</p>
               {credit ? (
-                <p className="mt-1 truncate text-[11px] font-medium uppercase tracking-wider text-zinc-500">
+                <p className="mt-1 truncate text-xs font-medium uppercase tracking-wider text-white/35">
                   {credit}
                 </p>
               ) : null}
-              {writtenLine ? (
-                <p className="mt-1 text-[11px] font-semibold tracking-wide text-[#FFC107]/85">
-                  {writtenLine}
-                </p>
-              ) : null}
             </div>
-            <button
-              type="button"
-              onClick={() => setRepeatOn((r) => !r)}
-              className={`shrink-0 rounded-full p-2 ${
-                repeatOn ? "text-[#FFC107]" : "text-zinc-400"
-              } hover:bg-white/5`}
-              aria-label="Repeat"
-              aria-pressed={repeatOn}
-            >
-              <Repeat className="h-5 w-5" strokeWidth={2} />
-            </button>
-          </div>
 
-          {/* Thin secondary scrub (prototype) */}
-          <div
-            role="slider"
-            tabIndex={0}
-            aria-valuenow={Math.round(progressRatio * 100)}
-            aria-valuemin={0}
-            aria-valuemax={100}
-            className="mx-auto mb-8 h-1 w-full max-w-[260px] cursor-pointer rounded-full bg-zinc-700/90"
-            onClick={handleSeekBar}
-            onKeyDown={(e) => {
-              if (e.key === "ArrowRight" && duration > 0) seek(currentTime + 5);
-              if (e.key === "ArrowLeft" && duration > 0) seek(currentTime - 5);
-            }}
-          >
-            <div
-              className="relative h-full rounded-full bg-[#FFC107]"
-              style={{ width: `${progressRatio * 100}%` }}
-            >
-              <span className="absolute -right-1 top-1/2 h-2 w-2 -translate-y-1/2 rounded-full bg-white shadow-md ring-1 ring-white/30" />
+            <div className="mb-2">
+              <div
+                role="slider"
+                tabIndex={0}
+                aria-valuenow={Math.round(progressRatio * 100)}
+                aria-valuemin={0}
+                aria-valuemax={100}
+                className="group h-1.5 w-full cursor-pointer rounded-full bg-white/20"
+                onClick={handleSeekBar}
+                onKeyDown={(e) => {
+                  if (e.key === "ArrowRight") seekRelative(5);
+                  if (e.key === "ArrowLeft") seekRelative(-5);
+                }}
+              >
+                <div
+                  className="relative h-full rounded-full bg-[#fa2d48] transition-[width] duration-150"
+                  style={{ width: `${progressRatio * 100}%` }}
+                >
+                  <span className="absolute -right-1.5 top-1/2 h-3 w-3 -translate-y-1/2 rounded-full bg-white opacity-0 shadow-md transition group-hover:opacity-100" />
+                </div>
+              </div>
+              <div className="mt-2 flex justify-between text-xs tabular-nums text-white/45">
+                <span>{formatTime(currentTime)}</span>
+                <span>-{formatTime(Math.max(0, duration - currentTime))}</span>
+              </div>
             </div>
-          </div>
 
-          {/* Main transport — white glyphs, gold play (prototype) */}
-          <div className="mb-6 flex items-center justify-center gap-12">
-            <button
-              type="button"
-              onClick={prev}
-              className="text-white hover:opacity-85"
-              aria-label="Previous track"
-            >
-              <SkipBack className="h-10 w-10" fill="currentColor" strokeWidth={0} />
-            </button>
-            <button
-              type="button"
-              onClick={toggle}
-              className="flex h-[4.5rem] w-[4.5rem] shrink-0 items-center justify-center rounded-full bg-[#FFC107] text-white shadow-[0_0_40px_rgba(255,193,7,0.4)] transition hover:bg-[#e6ae06]"
-              aria-label={isPlaying ? "Pause" : "Play"}
-            >
-              {isPlaying ? (
-                <Pause className="h-10 w-10" fill="currentColor" strokeWidth={0} />
-              ) : (
-                <Play className="h-10 w-10 pl-1" fill="currentColor" strokeWidth={0} />
-              )}
-            </button>
-            <button
-              type="button"
-              onClick={next}
-              className="text-white hover:opacity-85"
-              aria-label="Next track"
-            >
-              <SkipForward className="h-10 w-10" fill="currentColor" strokeWidth={0} />
-            </button>
-          </div>
-
-          {/* Lyrics — olive / gold cap (prototype) */}
-          <div className="mt-auto overflow-hidden rounded-t-[28px] border border-[#FFC107]/25 bg-gradient-to-b from-[#4a4420]/95 via-[#2d2810] to-[#141108]">
-            <button
-              type="button"
-              onClick={() => setLyricsOpen((o) => !o)}
-              className="flex w-full flex-col items-center gap-1.5 py-4 text-[#ede4c7]"
-            >
-              <ChevronUp
-                className={`h-5 w-5 transition ${lyricsOpen ? "rotate-180" : ""}`}
+            <div className="mb-6 flex items-center justify-center gap-5 sm:gap-6">
+              <button
+                type="button"
+                onClick={toggleShuffle}
+                className={`rounded-full p-2 ${
+                  shuffle ? "text-[#fa2d48]" : "text-white/55"
+                } hover:text-white`}
+                aria-label="Shuffle"
+                aria-pressed={shuffle}
+              >
+                <Shuffle className="h-5 w-5" strokeWidth={2} />
+              </button>
+              <SkipSecondsButton
+                seconds={15}
+                direction="back"
+                onClick={() => seekRelative(-15)}
               />
-              <span className="text-sm font-semibold tracking-[0.2em]">Lyrics</span>
-            </button>
+              <button
+                type="button"
+                onClick={prev}
+                className="text-white/90 hover:text-white"
+                aria-label="Previous track"
+              >
+                <SkipBack className="h-8 w-8" fill="currentColor" strokeWidth={0} />
+              </button>
+              <button
+                type="button"
+                onClick={toggle}
+                className="flex h-[4.25rem] w-[4.25rem] items-center justify-center rounded-full bg-white text-black shadow-[0_8px_32px_rgba(0,0,0,0.35)] transition hover:scale-[1.03]"
+                aria-label={isPlaying ? "Pause" : "Play"}
+              >
+                {isPlaying ? (
+                  <Pause className="h-9 w-9" fill="currentColor" />
+                ) : (
+                  <Play className="h-9 w-9 pl-1" fill="currentColor" />
+                )}
+              </button>
+              <button
+                type="button"
+                onClick={next}
+                className="text-white/90 hover:text-white"
+                aria-label="Next track"
+              >
+                <SkipForward className="h-8 w-8" fill="currentColor" strokeWidth={0} />
+              </button>
+              <SkipSecondsButton
+                seconds={15}
+                direction="forward"
+                onClick={() => seekRelative(15)}
+              />
+              <button
+                type="button"
+                onClick={toggleRepeat}
+                className={`rounded-full p-2 ${
+                  repeat ? "text-[#fa2d48]" : "text-white/55"
+                } hover:text-white`}
+                aria-label="Repeat"
+                aria-pressed={repeat}
+              >
+                <Repeat className="h-5 w-5" strokeWidth={2} />
+              </button>
+            </div>
+
+            <div className="mb-8 flex items-center gap-3 px-1">
+              <Volume2 className="h-4 w-4 shrink-0 text-white/45" strokeWidth={2} />
+              <input
+                type="range"
+                min={0}
+                max={1}
+                step={0.01}
+                value={volume}
+                onChange={(e) => setVolume(Number(e.target.value))}
+                className="apple-music-volume h-1 w-full cursor-pointer appearance-none rounded-full bg-white/20 accent-[#fa2d48]"
+                aria-label="Volume"
+              />
+            </div>
+
+            <div className="mt-auto flex gap-3 pb-4">
+              <button
+                type="button"
+                onClick={() => setLyricsOpen((o) => !o)}
+                className={`flex flex-1 items-center justify-center gap-2 rounded-full py-3 text-sm font-semibold ${
+                  lyricsOpen
+                    ? "bg-[#fa2d48]/20 text-[#fa2d48]"
+                    : "bg-white/10 text-white/80 hover:bg-white/15"
+                }`}
+              >
+                <Mic2 className="h-4 w-4" />
+                Lyrics
+              </button>
+              <button
+                type="button"
+                onClick={() => setQueueOpen(true)}
+                className="flex flex-1 items-center justify-center gap-2 rounded-full bg-white/10 py-3 text-sm font-semibold text-white/80 hover:bg-white/15"
+              >
+                <ListMusic className="h-4 w-4" />
+                Up Next
+              </button>
+            </div>
+
             {lyricsOpen ? (
-              <div className="max-h-[38vh] overflow-y-auto border-t border-[#FFC107]/20 px-4 pb-6 pt-3 text-center text-sm leading-relaxed text-zinc-400">
-                <p>Lyrics will appear here when available for this track.</p>
+              <div className="mb-4 max-h-[28vh] overflow-y-auto rounded-2xl border border-white/10 bg-black/35 px-4 py-4 text-center text-sm leading-relaxed text-white/55">
+                Lyrics will appear here when available for this track.
               </div>
             ) : null}
+          </>
+        ) : (
+          <div className="flex min-h-0 flex-1 flex-col pb-4">
+            <h2 className="mb-4 text-xl font-bold text-white">Up Next</h2>
+            <ul className="min-h-0 flex-1 space-y-1 overflow-y-auto">
+              {queue.map((song, index) => {
+                const active = currentSong?.id === song.id;
+                return (
+                  <li key={song.id}>
+                    <button
+                      type="button"
+                      onClick={() => playSong(song)}
+                      className={`flex w-full items-center gap-3 rounded-xl px-2 py-2.5 text-left transition ${
+                        active ? "bg-[#fa2d48]/15" : "hover:bg-white/8"
+                      }`}
+                    >
+                      <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-md bg-zinc-800">
+                        <Image
+                          src={getPlayerArtworkSrc(song)}
+                          alt=""
+                          fill
+                          className="object-cover object-center"
+                          sizes="48px"
+                        />
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <p
+                          className={`truncate text-sm font-semibold ${
+                            active ? "text-[#fa2d48]" : "text-white"
+                          }`}
+                        >
+                          {song.title ?? "Untitled"}
+                        </p>
+                        <p className="truncate text-xs text-white/45">
+                          {song.artist ?? "Shirwell Bancan"}
+                        </p>
+                      </div>
+                      {active && isPlaying ? (
+                        <span className="text-[10px] font-bold uppercase tracking-wider text-[#fa2d48]">
+                          Playing
+                        </span>
+                      ) : (
+                        <span className="text-xs tabular-nums text-white/30">
+                          {index + 1}
+                        </span>
+                      )}
+                    </button>
+                  </li>
+                );
+              })}
+            </ul>
+            <button
+              type="button"
+              onClick={() => setQueueOpen(false)}
+              className="mt-4 rounded-full bg-white/10 py-3 text-sm font-semibold text-white hover:bg-white/15"
+            >
+              Back to Now Playing
+            </button>
           </div>
-        </div>
+        )}
       </main>
 
       <BottomNav />

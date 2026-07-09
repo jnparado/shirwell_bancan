@@ -18,6 +18,9 @@ interface PlayerState {
   queue: Song[];
   currentIndex: number;
   isPlaying: boolean;
+  shuffle: boolean;
+  repeat: boolean;
+  volume: number;
 }
 
 type PlayerAction =
@@ -26,7 +29,20 @@ type PlayerAction =
   | { type: "SET_PLAYING"; isPlaying: boolean }
   | { type: "TOGGLE" }
   | { type: "NEXT" }
-  | { type: "PREV" };
+  | { type: "PREV" }
+  | { type: "TOGGLE_SHUFFLE" }
+  | { type: "TOGGLE_REPEAT" }
+  | { type: "SET_VOLUME"; volume: number }
+  | { type: "TRACK_ENDED" };
+
+function randomIndexExcept(length: number, except: number): number {
+  if (length <= 1) return except;
+  let next = except;
+  while (next === except) {
+    next = Math.floor(Math.random() * length);
+  }
+  return next;
+}
 
 function playerReducer(state: PlayerState, action: PlayerAction): PlayerState {
   const playable = (s: Song) => Boolean(s.audio_url);
@@ -34,7 +50,7 @@ function playerReducer(state: PlayerState, action: PlayerAction): PlayerState {
   switch (action.type) {
     case "SET_QUEUE": {
       const queue = action.songs.filter(playable);
-      return { queue, currentIndex: 0, isPlaying: false };
+      return { ...state, queue, currentIndex: 0, isPlaying: false };
     }
     case "PLAY_SONG": {
       const song = action.song;
@@ -45,6 +61,7 @@ function playerReducer(state: PlayerState, action: PlayerAction): PlayerState {
       }
       const queue = [...state.queue, song];
       return {
+        ...state,
         queue,
         currentIndex: queue.length - 1,
         isPlaying: true,
@@ -60,20 +77,39 @@ function playerReducer(state: PlayerState, action: PlayerAction): PlayerState {
     }
     case "NEXT": {
       if (state.queue.length === 0) return state;
-      return {
-        ...state,
-        currentIndex: (state.currentIndex + 1) % state.queue.length,
-        isPlaying: true,
-      };
+      const nextIndex =
+        state.shuffle && state.queue.length > 1
+          ? randomIndexExcept(state.queue.length, state.currentIndex)
+          : (state.currentIndex + 1) % state.queue.length;
+      return { ...state, currentIndex: nextIndex, isPlaying: true };
     }
     case "PREV": {
       if (state.queue.length === 0) return state;
-      return {
-        ...state,
-        currentIndex:
-          (state.currentIndex - 1 + state.queue.length) % state.queue.length,
-        isPlaying: true,
-      };
+      const prevIndex =
+        state.shuffle && state.queue.length > 1
+          ? randomIndexExcept(state.queue.length, state.currentIndex)
+          : (state.currentIndex - 1 + state.queue.length) % state.queue.length;
+      return { ...state, currentIndex: prevIndex, isPlaying: true };
+    }
+    case "TOGGLE_SHUFFLE":
+      return { ...state, shuffle: !state.shuffle };
+    case "TOGGLE_REPEAT":
+      return { ...state, repeat: !state.repeat };
+    case "SET_VOLUME":
+      return { ...state, volume: Math.max(0, Math.min(1, action.volume)) };
+    case "TRACK_ENDED": {
+      if (state.queue.length === 0) return { ...state, isPlaying: false };
+      if (state.repeat) {
+        return { ...state, isPlaying: true };
+      }
+      if (state.currentIndex >= state.queue.length - 1) {
+        return { ...state, isPlaying: false };
+      }
+      const nextIndex =
+        state.shuffle && state.queue.length > 1
+          ? randomIndexExcept(state.queue.length, state.currentIndex)
+          : state.currentIndex + 1;
+      return { ...state, currentIndex: nextIndex, isPlaying: true };
     }
     default:
       return state;
@@ -85,9 +121,10 @@ interface PlayerContextValue {
   currentIndex: number;
   currentSong: Song | null;
   isPlaying: boolean;
-  /** Playback position in seconds */
+  shuffle: boolean;
+  repeat: boolean;
+  volume: number;
   currentTime: number;
-  /** Track length in seconds (0 until loaded) */
   duration: number;
   setQueue: (songs: Song[]) => void;
   playSong: (song: Song) => void;
@@ -97,6 +134,10 @@ interface PlayerContextValue {
   next: () => void;
   prev: () => void;
   seek: (seconds: number) => void;
+  seekRelative: (deltaSeconds: number) => void;
+  toggleShuffle: () => void;
+  toggleRepeat: () => void;
+  setVolume: (volume: number) => void;
 }
 
 const PlayerContext = createContext<PlayerContextValue | null>(null);
@@ -105,12 +146,17 @@ const initialState: PlayerState = {
   queue: [],
   currentIndex: 0,
   isPlaying: false,
+  shuffle: false,
+  repeat: false,
+  volume: 0.85,
 };
 
 export function PlayerProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(playerReducer, initialState);
   const howlRef = useRef<Howl | null>(null);
   const [progress, setProgress] = useState({ current: 0, duration: 0 });
+  const stateRef = useRef(state);
+  stateRef.current = state;
 
   const currentSong = state.queue[state.currentIndex] ?? null;
 
@@ -142,6 +188,18 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     dispatch({ type: "PREV" });
   }, []);
 
+  const toggleShuffle = useCallback(() => {
+    dispatch({ type: "TOGGLE_SHUFFLE" });
+  }, []);
+
+  const toggleRepeat = useCallback(() => {
+    dispatch({ type: "TOGGLE_REPEAT" });
+  }, []);
+
+  const setVolume = useCallback((volume: number) => {
+    dispatch({ type: "SET_VOLUME", volume });
+  }, []);
+
   const seek = useCallback((seconds: number) => {
     const h = howlRef.current;
     if (!h) return;
@@ -154,6 +212,17 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     }));
   }, []);
 
+  const seekRelative = useCallback(
+    (deltaSeconds: number) => {
+      const h = howlRef.current;
+      if (!h) return;
+      const dur = h.duration() || 0;
+      const cur = (h.seek() as number) || 0;
+      seek(cur + deltaSeconds);
+    },
+    [seek],
+  );
+
   useEffect(() => {
     const song = state.queue[state.currentIndex];
     howlRef.current?.unload();
@@ -165,12 +234,21 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     const h = new Howl({
       src: [song.audio_url],
       html5: true,
+      volume: state.volume,
       onload: () => {
         const dur = h.duration() || 0;
         setProgress({ current: 0, duration: dur });
       },
       onend: () => {
-        dispatch({ type: "SET_PLAYING", isPlaying: false });
+        const s = stateRef.current;
+        if (s.repeat) {
+          h.seek(0);
+          setProgress((p) => ({ ...p, current: 0 }));
+          dispatch({ type: "SET_PLAYING", isPlaying: true });
+          h.play();
+          return;
+        }
+        dispatch({ type: "TRACK_ENDED" });
       },
       onloaderror: () => dispatch({ type: "SET_PLAYING", isPlaying: false }),
       onplayerror: () => dispatch({ type: "SET_PLAYING", isPlaying: false }),
@@ -195,6 +273,12 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const h = howlRef.current;
     if (!h) return;
+    h.volume(state.volume);
+  }, [state.volume]);
+
+  useEffect(() => {
+    const h = howlRef.current;
+    if (!h) return;
     if (state.isPlaying) h.play();
     else h.pause();
   }, [state.isPlaying, state.currentIndex, state.queue]);
@@ -205,6 +289,9 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
       currentIndex: state.currentIndex,
       currentSong,
       isPlaying: state.isPlaying,
+      shuffle: state.shuffle,
+      repeat: state.repeat,
+      volume: state.volume,
       currentTime: progress.current,
       duration: progress.duration,
       setQueue,
@@ -215,11 +302,18 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
       next,
       prev,
       seek,
+      seekRelative,
+      toggleShuffle,
+      toggleRepeat,
+      setVolume,
     }),
     [
       state.queue,
       state.currentIndex,
       state.isPlaying,
+      state.shuffle,
+      state.repeat,
+      state.volume,
       currentSong,
       progress.current,
       progress.duration,
@@ -231,7 +325,11 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
       next,
       prev,
       seek,
-    ]
+      seekRelative,
+      toggleShuffle,
+      toggleRepeat,
+      setVolume,
+    ],
   );
 
   return (

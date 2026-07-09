@@ -9,7 +9,6 @@ import { MarketingHeader } from "./marketing-header";
 import { FeaturedSongCard } from "./featured-song-card";
 import { HomePromo } from "./home-promo";
 import { BottomNav } from "./bottom-nav";
-import { NowPlayingBar } from "./now-playing-bar";
 import { AdSenseUnit } from "@/components/ads/adsense-unit";
 
 
@@ -168,7 +167,6 @@ export function HomeContent({ songs }: HomeContentProps) {
         <HomePromo />
       </main>
 
-      <NowPlayingBar />
       <BottomNav />
     </div>
   );

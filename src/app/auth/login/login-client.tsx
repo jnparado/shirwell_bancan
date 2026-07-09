@@ -27,6 +27,7 @@ export function LoginClient() {
 
   const redirectRaw = params.get("redirect");
   const modeParam = params.get("mode");
+  const oauthError = params.get("error");
   const redirectTarget = useMemo(
     () => safeNextPath(redirectRaw),
     [redirectRaw],
@@ -52,6 +53,12 @@ export function LoginClient() {
   useEffect(() => {
     if (modeParam === "signup") setMode("signup");
   }, [modeParam]);
+
+  useEffect(() => {
+    if (oauthError?.trim()) {
+      setError(oauthError.trim());
+    }
+  }, [oauthError]);
 
   function switchAuthMode(nextMode: AuthMode) {
     setMode(nextMode);

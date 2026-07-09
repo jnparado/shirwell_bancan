@@ -77,6 +77,7 @@ export function SocialAuthButtons({
       provider,
       options: {
         redirectTo: callbackUrl(),
+        ...(provider === "apple" ? { scopes: "email name" } : {}),
       },
     });
     setBusy(false);
@@ -91,26 +92,26 @@ export function SocialAuthButtons({
       <button
         type="button"
         disabled={busy}
-        onClick={() => void signInWithProvider("apple")}
-        className={`${socialButtonClass} border-black bg-black text-white hover:bg-[#1a1a1a]`}
+        onClick={() => void signInWithProvider("google")}
+        className={`${socialButtonClass} border-[#dadce0] bg-white text-[#3c4043] hover:bg-[#f8f9fa] hover:shadow-sm`}
       >
         <span className="inline-flex h-5 w-5 items-center justify-center">
-          <IconApple className="h-4 w-4" />
+          <IconGoogle className="h-5 w-5" />
         </span>
-        {appleLabel}
+        {googleLabel}
       </button>
 
       <div className="space-y-2">
         <button
           type="button"
           disabled={busy}
-          onClick={() => void signInWithProvider("google")}
-          className={`${socialButtonClass} border-[#dadce0] bg-white text-[#3c4043] hover:bg-[#f8f9fa] hover:shadow-sm`}
+          onClick={() => void signInWithProvider("apple")}
+          className={`${socialButtonClass} border-black bg-black text-white hover:bg-[#1a1a1a]`}
         >
           <span className="inline-flex h-5 w-5 items-center justify-center">
-            <IconGoogle className="h-5 w-5" />
+            <IconApple className="h-4 w-4" />
           </span>
-          {googleLabel}
+          {appleLabel}
         </button>
 
         {onSwitchMode ? (
