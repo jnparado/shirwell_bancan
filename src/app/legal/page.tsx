@@ -119,7 +119,19 @@ export default function LegalPage() {
             </p>
 
             <h2 className="mt-10 font-serif text-lg font-semibold text-[#FFC107]">
-              6. Products and promotions
+              6. Apple In-App Purchase (iOS)
+            </h2>
+            <p>
+              Premium subscriptions in the Shirwell Music iOS app are sold through{" "}
+              <strong className="text-zinc-200">Apple In-App Purchase</strong>. Payment,
+              billing, renewal, cancellation, and refunds for those subscriptions are handled
+              by Apple under its terms. To manage or cancel, use your Apple ID subscription
+              settings. Restore purchases in the app while signed in to the same Shirwell
+              account you use on this website.
+            </p>
+
+            <h2 className="mt-10 font-serif text-lg font-semibold text-[#FFC107]">
+              7. Products and promotions
             </h2>
             <p>
               Descriptions of CDs, vinyl, merchandise, flowers, or other offerings are for
@@ -128,7 +140,7 @@ export default function LegalPage() {
             </p>
 
             <h2 className="mt-10 font-serif text-lg font-semibold text-[#FFC107]">
-              7. Disclaimers
+              8. Disclaimers
             </h2>
             <p>
               The Services are provided on an “as is” and “as available” basis. To the fullest
@@ -138,7 +150,7 @@ export default function LegalPage() {
             </p>
 
             <h2 className="mt-10 font-serif text-lg font-semibold text-[#FFC107]">
-              8. Limitation of liability
+              9. Limitation of liability
             </h2>
             <p>
               To the fullest extent permitted by law, {SITE_NAME} and its operators will not be
@@ -151,7 +163,7 @@ export default function LegalPage() {
             </p>
 
             <h2 className="mt-10 font-serif text-lg font-semibold text-[#FFC107]">
-              9. Indemnity
+              10. Indemnity
             </h2>
             <p>
               You agree to indemnify and hold harmless {SITE_NAME} and its operators from
@@ -160,7 +172,7 @@ export default function LegalPage() {
             </p>
 
             <h2 className="mt-10 font-serif text-lg font-semibold text-[#FFC107]">
-              10. Governing law
+              11. Governing law
             </h2>
             <p>
               These terms are governed by the laws of Australia, without regard to conflict-of-law
@@ -170,7 +182,7 @@ export default function LegalPage() {
             </p>
 
             <h2 className="mt-10 font-serif text-lg font-semibold text-[#FFC107]">
-              11. Changes
+              12. Changes
             </h2>
             <p>
               We may update this legal page from time to time. The “Last updated” date will
@@ -179,7 +191,7 @@ export default function LegalPage() {
             </p>
 
             <h2 className="mt-10 font-serif text-lg font-semibold text-[#FFC107]">
-              12. Contact
+              13. Contact
             </h2>
             <p>
               Legal or rights enquiries:{" "}

@@ -1,7 +1,12 @@
+import { createClient } from "@supabase/supabase-js";
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 import type { SupabaseClient } from "@supabase/supabase-js";
-import { getSupabasePublicApiKey, getSupabaseUrl } from "@/lib/supabase/env";
+import {
+  getSupabasePublicApiKey,
+  getSupabaseServiceRoleKey,
+  getSupabaseUrl,
+} from "@/lib/supabase/env";
 
 /**
  * Per-request Supabase client for Server Components / Route Handlers.
@@ -30,4 +35,12 @@ export async function createServerSupabaseClient(): Promise<SupabaseClient | nul
       },
     },
   });
+}
+
+/** Server-only client for trusted writes (webhooks, verified IAP sync). Never expose to the browser. */
+export function createServiceRoleSupabaseClient(): SupabaseClient | null {
+  const url = getSupabaseUrl();
+  const key = getSupabaseServiceRoleKey();
+  if (!url || !key) return null;
+  return createClient(url, key, { auth: { persistSession: false, autoRefreshToken: false } });
 }

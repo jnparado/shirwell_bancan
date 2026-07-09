@@ -37,10 +37,22 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.3,
     },
     {
+      url: `${origin}/premium`,
+      lastModified,
+      changeFrequency: "monthly",
+      priority: 0.4,
+    },
+    {
       url: `${origin}/legal`,
       lastModified,
       changeFrequency: "yearly",
       priority: 0.3,
+    },
+    {
+      url: `${origin}/about`,
+      lastModified,
+      changeFrequency: "yearly",
+      priority: 0.4,
     },
     {
       url: `${origin}/support`,

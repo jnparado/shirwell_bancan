@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Crown } from "lucide-react";
+import { SITE_NAME } from "@/lib/seo";
 
 /** Matches marketing header — Shirwell gold luxury */
 const glassCard =
@@ -67,7 +68,7 @@ export function SiteFooter() {
             </div>
           </div>
           <Link
-            href="/#featured"
+            href="/premium"
             className={`${glassCard} shrink-0 rounded-full border-[#FFC107]/35 px-6 py-3.5 text-center text-sm font-semibold text-[#FFC107] transition hover:border-[#FFC107]/55 hover:bg-[rgba(255,255,255,0.08)] sm:self-center`}
           >
             Explore Plans
@@ -162,7 +163,7 @@ export function SiteFooter() {
                 </li>
                 <li>
                   <a
-                    href="mailto:hello@shirwell.example"
+                    href="mailto:shirwellentertainment@gmail.com"
                     className={`${glassCard} block rounded-lg px-3 py-2 text-zinc-300 transition hover:border-[#FFC107]/30 hover:text-[#FFC107]`}
                   >
                     Contact
@@ -177,7 +178,7 @@ export function SiteFooter() {
               <ul className="mt-4 space-y-2 text-sm">
                 <li>
                   <Link
-                    href="/"
+                    href="/about"
                     className={`${glassCard} block rounded-lg px-3 py-2 text-zinc-300 transition hover:border-[#FFC107]/30 hover:text-[#FFC107]`}
                   >
                     About Us
@@ -221,9 +222,55 @@ export function SiteFooter() {
             </div>
           </div>
 
-          <p className="mt-10 text-center text-xs text-zinc-500">
-            Shirwell Bancan. All rights reserved.
-          </p>
+          <div
+            className={`${glassCard} mt-10 flex flex-col items-center gap-4 border-[#FFC107]/15 px-5 py-6 text-center sm:px-8`}
+          >
+            <p className="font-serif text-sm font-semibold tracking-wide text-[#FFC107] sm:text-base">
+              © {new Date().getFullYear()} {SITE_NAME}. All rights reserved.
+            </p>
+            <p className="max-w-2xl text-xs leading-relaxed text-zinc-500 sm:text-sm">
+              Music, artwork, and branding on this site are owned by {SITE_NAME} unless
+              otherwise stated. Unauthorized copying or distribution is prohibited.
+            </p>
+            <nav
+              className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-xs sm:text-sm"
+              aria-label="Legal"
+            >
+              <Link
+                href="/legal"
+                className="text-zinc-400 transition hover:text-[#FFC107]"
+              >
+                Legal
+              </Link>
+              <span className="text-zinc-600" aria-hidden>
+                ·
+              </span>
+              <Link
+                href="/privacy"
+                className="text-zinc-400 transition hover:text-[#FFC107]"
+              >
+                Privacy
+              </Link>
+              <span className="text-zinc-600" aria-hidden>
+                ·
+              </span>
+              <Link
+                href="/premium"
+                className="text-zinc-400 transition hover:text-[#FFC107]"
+              >
+                Premium
+              </Link>
+              <span className="text-zinc-600" aria-hidden>
+                ·
+              </span>
+              <Link
+                href="/support"
+                className="text-zinc-400 transition hover:text-[#FFC107]"
+              >
+                Support
+              </Link>
+            </nav>
+          </div>
         </div>
       </div>
     </footer>

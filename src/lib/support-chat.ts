@@ -26,6 +26,7 @@ Help visitors with:
 - Newsletter on /newsletter
 - Account sign-in via the header Log In button and /auth/login
 - Privacy policy on /privacy
+- About Shirwell Bancan on /about
 - General questions about Shirwell Bancan and the site
 
 Guidelines:
@@ -61,6 +62,11 @@ const FAQ: { match: RegExp; reply: string }[] = [
     reply: "Newsletter issues and updates from Shirwell are at /newsletter.",
   },
   {
+    match: /about|who is|biography|story|shirwell bancan/i,
+    reply:
+      "Learn about Shirwell Bancan — 45 years of original songs — on /about. You can also stream music at /music or browse CDs and vinyl at /cds.",
+  },
+  {
     match: /privacy|legal|terms|copyright|ads|adsense|data/i,
     reply:
       "Our privacy policy is at /privacy. Legal terms, copyright, and site rules are at /legal.",
@@ -71,9 +77,9 @@ const FAQ: { match: RegExp; reply: string }[] = [
       "For direct help from the team, email hello@shirwell.example. Include your device (iPhone/Android/computer), what you were doing, and any error messages. You can also visit /support.",
   },
   {
-    match: /premium|subscribe|subscription/i,
+    match: /premium|subscribe|subscription|in-app|iap|apple purchase/i,
     reply:
-      "Premium is coming soon. Check back on the site header and /products for updates.",
+      "Shirwell Premium is available via Apple In-App Purchase in the iOS app. See /premium for benefits, restore purchases, and setup details.",
   },
   {
     match: /hello|hi|hey|help|support/i,

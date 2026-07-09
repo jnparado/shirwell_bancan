@@ -64,7 +64,9 @@ export function MarketingHeader() {
           <Link href="/cds" className={linkClass(pathname === "/cds")}>
             CD&apos;s
           </Link>
-          <span className={navDisabledClass}>Premium</span>
+          <Link href="/premium" className={linkClass(pathname === "/premium")}>
+            Premium
+          </Link>
         </nav>
 
         <AuthModalLauncher />
@@ -102,7 +104,9 @@ export function MarketingHeader() {
         <Link href="/cds" className={`${linkClass(pathname === "/cds")} shrink-0`}>
           CD&apos;s
         </Link>
-        <span className={`${navDisabledClass} shrink-0`}>Premium</span>
+        <Link href="/premium" className={`${linkClass(pathname === "/premium")} shrink-0`}>
+          Premium
+        </Link>
       </nav>
     </header>
   );
