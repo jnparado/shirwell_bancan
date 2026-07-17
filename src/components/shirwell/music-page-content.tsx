@@ -175,9 +175,9 @@ export function MusicPageContent({ songs }: MusicPageContentProps) {
             </div>
 
             <div className="mb-6 text-center">
-              <h1 className="truncate text-2xl font-bold tracking-tight text-white sm:text-3xl">
+              <h2 className="truncate text-2xl font-bold tracking-tight text-white sm:text-3xl">
                 {title}
-              </h1>
+              </h2>
               <p className="mt-2 truncate text-base text-white/60">{artist}</p>
               {credit ? (
                 <p className="mt-1 truncate text-[11px] font-semibold uppercase tracking-[0.22em] text-white/40">

@@ -39,16 +39,16 @@ export function HomeContent({ songs }: HomeContentProps) {
             <div className="rounded-[22px] bg-black/40 px-6 py-14 text-center backdrop-blur-md sm:px-12 sm:py-20">
               <h1 className="mx-auto max-w-4xl font-serif text-3xl font-bold leading-[1.15] tracking-tight sm:text-4xl md:text-5xl">
                 <span className="block text-white">
-                  Experience 45 years of song Writing and
+                  Shirwell Music — 45 years of songwriting
                 </span>
                 <span className="mt-3 block sm:mt-4">
-                  <span className="text-white">Talent From </span>
-                  <span className="text-[#FFC107]">Shirwell Bancan.</span>
+                  <span className="text-white">Talent from </span>
+                  <span className="text-[#FFC107]">Shirwell Bancan</span>
                 </span>
               </h1>
               <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-zinc-400 sm:text-lg">
-                Official Shirwell music by Shirwell Bancan — stream songs here. Explore featured
-                tracks and the full player.
+                Official Shirwell music by Shirwell Bancan — stream songs here. Explore
+                featured tracks and the full player.
               </p>
               <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
                 <a
@@ -166,6 +166,34 @@ export function HomeContent({ songs }: HomeContentProps) {
         </div>
 
         <HomePromo />
+
+        <section
+          aria-labelledby="about-shirwell-heading"
+          className="border-t border-white/[0.05] px-4 py-10 sm:px-6 sm:py-14"
+        >
+          <div className="mx-auto max-w-3xl text-center">
+            <h2
+              id="about-shirwell-heading"
+              className="font-serif text-xl font-semibold text-[#FFC107] sm:text-2xl"
+            >
+              Shirwell — official music by Shirwell Bancan
+            </h2>
+            <p className="mt-4 text-sm leading-relaxed text-zinc-400 sm:text-base">
+              <strong className="font-medium text-zinc-300">Shirwell Bancan</strong> is the
+              singer, songwriter, and owner of all Shirwell music on this site. For 45 years,
+              Shirwell has written original songs loved by fans of every age. Stream the full
+              catalogue on the{" "}
+              <Link href="/music" className="text-[#FFC107] underline-offset-2 hover:underline">
+                Shirwell music player
+              </Link>
+              , read the{" "}
+              <Link href="/about" className="text-[#FFC107] underline-offset-2 hover:underline">
+                about Shirwell Bancan
+              </Link>{" "}
+              story, or browse featured tracks above.
+            </p>
+          </div>
+        </section>
       </main>
 
       <BottomNav />

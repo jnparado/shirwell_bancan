@@ -4,14 +4,15 @@ import Link from "next/link";
 import { MarketingHeader } from "@/components/shirwell/marketing-header";
 import { BottomNav } from "@/components/shirwell/bottom-nav";
 import { BrandLegalMarks } from "@/components/legal/brand-legal-marks";
-import { SITE_NAME } from "@/lib/seo";
+import { SITE_NAME, getAboutPageJsonLd } from "@/lib/seo";
 
 const glassCard =
   "rounded-xl border border-white/[0.06] bg-[rgba(255,255,255,0.05)] backdrop-blur-md";
 
 export const metadata: Metadata = {
-  title: "About Shirwell Bancan",
+  title: "About Shirwell Bancan — Shirwell Music",
   description: `About Shirwell Bancan — 45 years of original Shirwell music. Singer, songwriter, and performer ${SITE_NAME}.`,
+  keywords: ["shirwell bancan", "shirwell", "shirwell music", "about Shirwell"],
   alternates: { canonical: "/about" },
   openGraph: {
     title: `About Shirwell Bancan | Shirwell Music`,
@@ -23,7 +24,14 @@ export const metadata: Metadata = {
 
 export default function AboutPage() {
   return (
-    <div className="page-shell">
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(getAboutPageJsonLd()),
+        }}
+      />
+      <div className="page-shell">
       <MarketingHeader />
       <main className="mx-auto w-full max-w-4xl flex-1 px-4 py-10 sm:px-6 sm:py-14">
         <article className="space-y-8">
@@ -41,7 +49,7 @@ export default function AboutPage() {
             </div>
             <div className="mt-8 text-center">
               <h1 className="font-serif text-2xl font-semibold text-[#FFC107] sm:text-3xl">
-                About {SITE_NAME}
+                About Shirwell Bancan — Shirwell Music
               </h1>
               <p className="mt-3 text-base font-medium tracking-wide text-zinc-200 sm:text-lg">
                 Experience 45 Years of Original Songs
@@ -132,5 +140,6 @@ export default function AboutPage() {
       </main>
       <BottomNav />
     </div>
+    </>
   );
 }

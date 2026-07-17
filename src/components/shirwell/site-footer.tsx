@@ -189,10 +189,18 @@ export function SiteFooter() {
               <ul className="mt-4 space-y-2 text-sm">
                 <li>
                   <Link
+                    href="/music"
+                    className={`${glassCard} block rounded-lg px-3 py-2 text-zinc-300 transition hover:border-[#FFC107]/30 hover:text-[#FFC107]`}
+                  >
+                    Shirwell Music
+                  </Link>
+                </li>
+                <li>
+                  <Link
                     href="/about"
                     className={`${glassCard} block rounded-lg px-3 py-2 text-zinc-300 transition hover:border-[#FFC107]/30 hover:text-[#FFC107]`}
                   >
-                    About Us
+                    About Shirwell Bancan
                   </Link>
                 </li>
                 <li>

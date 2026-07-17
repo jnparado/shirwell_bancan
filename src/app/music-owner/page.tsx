@@ -9,8 +9,9 @@ const glassCard =
   "rounded-xl border border-white/[0.06] bg-[rgba(255,255,255,0.05)] backdrop-blur-md";
 
 export const metadata: Metadata = {
-  title: "Shirwell Music Owner",
-  description: `All music on ${SITE_NAME} is owned by Shirwell Bancan — original songs, recordings, lyrics, and compositions.`,
+  title: "Shirwell Music Owner — Shirwell Bancan",
+  description: `All Shirwell music on ${SITE_NAME} is owned by Shirwell Bancan — original songs, recordings, lyrics, and compositions.`,
+  keywords: ["shirwell music", "shirwell bancan", "shirwell", "music owner"],
   alternates: { canonical: "/music-owner" },
   openGraph: {
     title: `Shirwell Music Owner | ${SITE_NAME}`,

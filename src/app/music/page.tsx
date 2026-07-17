@@ -34,7 +34,7 @@ export default async function MusicPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(getMusicPageJsonLd()),
+          __html: JSON.stringify(getMusicPageJsonLd(songs)),
         }}
       />
       <MusicPageContent songs={songs} />
