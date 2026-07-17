@@ -93,7 +93,7 @@ export const GOOGLE_SITE_VERIFICATION_TOKEN =
 /** Stable production origin — used when env vars are missing at build/runtime. */
 export const PRODUCTION_SITE_URL = "https://shirwell-bancan.vercel.app";
 
-/** Public pages in `public/sitemap.xml` — keep both lists in sync when adding pages. */
+/** Public pages listed in `/sitemap.xml` (XML route — not HTML). */
 export const SITEMAP_PUBLIC_PATHS = [
   { path: "/home", changeFrequency: "weekly" as const, priority: 1 },
   { path: "/music", changeFrequency: "weekly" as const, priority: 0.9 },
