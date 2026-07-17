@@ -28,7 +28,7 @@ export const DEFAULT_OG_IMAGE = "/shirwell-hero.png";
  */
 export const GOOGLE_SITE_VERIFICATION_TOKEN =
   process.env.GOOGLE_SITE_VERIFICATION?.trim() ||
-  "q3SASLjj8P7aTB8EAg-JfkBlZVNXu_evfbxcCg4gc3E";
+  "YXnOZtZE3DI66I3y8cSj8Eu3iBGccXzKSN2PggjeESI";
 
 function tryParseSiteUrl(value: string): URL | null {
   const v = value.trim();
