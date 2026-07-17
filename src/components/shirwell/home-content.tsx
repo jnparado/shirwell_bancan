@@ -47,7 +47,7 @@ export function HomeContent({ songs }: HomeContentProps) {
                 </span>
               </h1>
               <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-zinc-400 sm:text-lg">
-                Official songs by Shirwell Bancan — stream releases here. Explore featured
+                Official Shirwell music by Shirwell Bancan — stream songs here. Explore featured
                 tracks and the full player.
               </p>
               <div className="mt-10 flex flex-wrap items-center justify-center gap-4">

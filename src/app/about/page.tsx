@@ -10,12 +10,12 @@ const glassCard =
   "rounded-xl border border-white/[0.06] bg-[rgba(255,255,255,0.05)] backdrop-blur-md";
 
 export const metadata: Metadata = {
-  title: "About Us",
-  description: `Experience 45 years of original songs from ${SITE_NAME} — singer, songwriter, and performer.`,
+  title: "About Shirwell Bancan",
+  description: `About Shirwell Bancan — 45 years of original Shirwell music. Singer, songwriter, and performer ${SITE_NAME}.`,
   alternates: { canonical: "/about" },
   openGraph: {
-    title: `About Us | ${SITE_NAME}`,
-    description: `The story behind ${SITE_NAME} — decades of original music, storytelling, and timeless melodies.`,
+    title: `About Shirwell Bancan | Shirwell Music`,
+    description: `The story behind Shirwell and Shirwell Bancan — decades of original music.`,
     url: "/about",
     images: [{ url: "/about/shirwell-bancan-poster.png", alt: `${SITE_NAME} — 45 years of original songs` }],
   },

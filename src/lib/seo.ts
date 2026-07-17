@@ -6,12 +6,37 @@ export const SITE_NAME = "Shirwell Bancan";
 /** Short alternate brand form for keywords / alternateName. */
 export const SITE_NAME_SHORT = "Shirwell";
 
+/** Primary Google Search targets */
+export const SEO_KEYWORDS = [
+  "shirwell music",
+  "shirwell",
+  "shirwell bancan",
+  "Shirwell Music",
+  "Shirwell Bancan",
+  "Shirwell Bancan music",
+  "Shirwell songs",
+  "Shirwell official",
+  "stream Shirwell",
+  "listen to Shirwell Bancan",
+] as const;
+
+export const DEFAULT_TITLE =
+  "Shirwell Music | Shirwell Bancan — Official Site";
+
+export const HOME_TITLE =
+  "Shirwell | Shirwell Bancan — Official Music & Songs";
+
+export const MUSIC_PAGE_TITLE = "Shirwell Music — Stream Songs Online";
+
 export const DEFAULT_DESCRIPTION =
-  "Shirwell Bancan singer songwriter producer — official site. Explore original songs, videos, and new releases from Shirwell Bancan.";
+  "Shirwell music by Shirwell Bancan — official site to stream original songs, watch videos, and discover 45 years of music from Shirwell.";
 
 /** Home page meta description (leads with brand). */
 export const HOME_DESCRIPTION =
-  "Shirwell Bancan singer songwriter producer — explore songs, videos, and new releases. Listen online.";
+  "Shirwell and Shirwell Bancan — official home for Shirwell music. Stream songs, explore new releases, and listen online.";
+
+export const MUSIC_PAGE_DESCRIPTION =
+  "Shirwell music player — stream Shirwell Bancan songs online. Listen to the full Shirwell catalogue with the official music player.";
 
 /** Hero / social share image (under `public/`) */
 export const DEFAULT_OG_IMAGE = "/shirwell-hero.png";
@@ -73,40 +98,20 @@ export function absoluteUrl(path: string): string {
 
 export function createRootMetadata(): Metadata {
   const base = getSiteUrl();
-  const ogTitle = `${SITE_NAME} singer songwriter producer`;
+  const ogTitle = DEFAULT_TITLE;
 
   return {
     metadataBase: base,
     title: {
-      default: ogTitle,
-      template: `%s | ${SITE_NAME}`,
+      default: DEFAULT_TITLE,
+      template: `%s | Shirwell Bancan`,
     },
     description: DEFAULT_DESCRIPTION,
     applicationName: SITE_NAME,
     appleWebApp: {
-      title: SITE_NAME,
+      title: "Shirwell Music",
     },
-    keywords: [
-      SITE_NAME,
-      "shirwell bancan",
-      "singer songwriter producer",
-      "Shirwell Bancan singer songwriter producer",
-      `${SITE_NAME} songs`,
-      `${SITE_NAME} official`,
-      `${SITE_NAME} website`,
-      "Shirwell Bancan official site",
-      "listen to Shirwell Bancan",
-      SITE_NAME_SHORT,
-      "Shirwell artist",
-      "Bancan",
-      "original songs",
-      "streaming",
-      "singer songwriter",
-      "producer",
-      "Australian musician",
-      "New South Wales",
-      "Australia",
-    ],
+    keywords: [...SEO_KEYWORDS],
     authors: [{ name: SITE_NAME, url: base.href }],
     creator: SITE_NAME,
     publisher: SITE_NAME,
@@ -181,9 +186,16 @@ export function getOrganizationWebsiteJsonLd(): Record<string, unknown> {
     "@type": "MusicGroup",
     "@id": artistId,
     name: SITE_NAME,
-    alternateName: [SITE_NAME_SHORT, "Shirwell Bancan"],
+    alternateName: [
+      SITE_NAME_SHORT,
+      "Shirwell Bancan",
+      "Shirwell music",
+      "Shirwell Music",
+    ],
     description: DEFAULT_DESCRIPTION,
     url: origin,
+    genre: ["Rock", "Pop", "Original"],
+    keywords: SEO_KEYWORDS.join(", "),
     logo: {
       "@type": "ImageObject",
       url: logo,
@@ -210,6 +222,8 @@ export function getOrganizationWebsiteJsonLd(): Record<string, unknown> {
         alternateName: [
           `${SITE_NAME} official website`,
           "Shirwell Bancan",
+          "Shirwell music",
+          "Shirwell Music",
         ],
         url: origin,
         description: DEFAULT_DESCRIPTION,
@@ -229,7 +243,7 @@ export function getOrganizationWebsiteJsonLd(): Record<string, unknown> {
         "@type": "WebPage",
         "@id": webPageId,
         url: origin,
-        name: `${SITE_NAME} singer songwriter producer`,
+        name: HOME_TITLE,
         description: HOME_DESCRIPTION,
         isPartOf: { "@id": websiteId },
         about: { "@id": artistId },
@@ -239,5 +253,46 @@ export function getOrganizationWebsiteJsonLd(): Record<string, unknown> {
         },
       },
     ],
+  };
+}
+
+/** JSON-LD for `/music` — targets “shirwell music” searches. */
+export function getMusicPageJsonLd(): Record<string, unknown> {
+  const origin = getSiteUrl().origin;
+  const artistId = `${origin}/#shirwell-bancan`;
+  const websiteId = `${origin}/#website`;
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": `${origin}/music#webpage`,
+    name: MUSIC_PAGE_TITLE,
+    description: MUSIC_PAGE_DESCRIPTION,
+    url: `${origin}/music`,
+    inLanguage: "en-AU",
+    isPartOf: { "@id": websiteId },
+    about: { "@id": artistId },
+    keywords: "shirwell music, shirwell, shirwell bancan",
+    primaryImageOfPage: {
+      "@type": "ImageObject",
+      url: absoluteUrl("/about/shirwell-music-hero.png"),
+    },
+    breadcrumb: {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Shirwell",
+          item: origin,
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Shirwell Music",
+          item: `${origin}/music`,
+        },
+      ],
+    },
   };
 }

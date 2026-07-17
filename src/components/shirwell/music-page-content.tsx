@@ -157,6 +157,7 @@ export function MusicPageContent({ songs }: MusicPageContentProps) {
       </header>
 
       <main className="relative z-10 mx-auto flex w-full min-h-0 max-w-lg flex-1 flex-col overflow-y-auto px-4 pt-2 sm:px-5">
+        <h1 className="sr-only">Shirwell Music — stream songs by Shirwell Bancan</h1>
         {!queueOpen ? (
           <>
             <div className="mx-auto mb-6 w-full max-w-[300px] sm:mb-8 sm:max-w-[340px]">
