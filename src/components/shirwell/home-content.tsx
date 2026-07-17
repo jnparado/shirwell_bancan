@@ -38,17 +38,17 @@ export function HomeContent({ songs }: HomeContentProps) {
           <div className="mx-auto max-w-6xl overflow-hidden rounded-3xl border border-[#FFC107]/15 bg-gradient-to-br from-[#1a1510] via-[#2a2218] to-[#14110e] p-[1px] shadow-[0_0_80px_rgba(255,193,7,0.08)]">
             <div className="rounded-[22px] bg-black/40 px-6 py-14 text-center backdrop-blur-md sm:px-12 sm:py-20">
               <h1 className="mx-auto max-w-4xl font-serif text-3xl font-bold leading-[1.15] tracking-tight sm:text-4xl md:text-5xl">
-                <span className="block text-white">
-                  Shirwell Music — 45 years of songwriting
+                <span className="block text-[#FFC107]">Shirwell Bancan</span>
+                <span className="mt-2 block text-2xl text-white sm:mt-3 sm:text-3xl md:text-4xl">
+                  Official Shirwell Music
                 </span>
-                <span className="mt-3 block sm:mt-4">
-                  <span className="text-white">Talent from </span>
-                  <span className="text-[#FFC107]">Shirwell Bancan</span>
+                <span className="mt-3 block text-xl font-semibold text-zinc-300 sm:mt-4 sm:text-2xl">
+                  45 years of songwriting and talent
                 </span>
               </h1>
               <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-zinc-400 sm:text-lg">
-                Official Shirwell music by Shirwell Bancan — stream songs here. Explore
-                featured tracks and the full player.
+                Stream Shirwell music by Shirwell Bancan — the official home for Shirwell
+                songs. Explore featured tracks and the full player.
               </p>
               <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
                 <a
@@ -135,7 +135,7 @@ export function HomeContent({ songs }: HomeContentProps) {
             </p>
             <div className="mb-8 flex items-end justify-between gap-4">
               <h2 className="font-serif text-2xl font-bold tracking-tight text-[#FFC107] sm:text-3xl">
-                Featured Songs
+                Shirwell Music — Featured Songs
               </h2>
               <Link
                 href="#featured"
@@ -166,34 +166,6 @@ export function HomeContent({ songs }: HomeContentProps) {
         </div>
 
         <HomePromo />
-
-        <section
-          aria-labelledby="about-shirwell-heading"
-          className="border-t border-white/[0.05] px-4 py-10 sm:px-6 sm:py-14"
-        >
-          <div className="mx-auto max-w-3xl text-center">
-            <h2
-              id="about-shirwell-heading"
-              className="font-serif text-xl font-semibold text-[#FFC107] sm:text-2xl"
-            >
-              Shirwell — official music by Shirwell Bancan
-            </h2>
-            <p className="mt-4 text-sm leading-relaxed text-zinc-400 sm:text-base">
-              <strong className="font-medium text-zinc-300">Shirwell Bancan</strong> is the
-              singer, songwriter, and owner of all Shirwell music on this site. For 45 years,
-              Shirwell has written original songs loved by fans of every age. Stream the full
-              catalogue on the{" "}
-              <Link href="/music" className="text-[#FFC107] underline-offset-2 hover:underline">
-                Shirwell music player
-              </Link>
-              , read the{" "}
-              <Link href="/about" className="text-[#FFC107] underline-offset-2 hover:underline">
-                about Shirwell Bancan
-              </Link>{" "}
-              story, or browse featured tracks above.
-            </p>
-          </div>
-        </section>
       </main>
 
       <BottomNav />

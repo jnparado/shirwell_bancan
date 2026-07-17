@@ -111,11 +111,12 @@ export function SiteFooter() {
             {/* Story — glass card */}
             <div className={`${glassCard} lg:col-span-6`}>
               <p className="p-5 text-sm leading-relaxed text-zinc-300 sm:p-6 sm:text-[15px]">
-                Bunches 💐 of Roses only $10. larger bunches $20 jumbo roses a little
-                more 💐. Shirwell be wrapping up selling roses, he&apos;ll be moving on
-                to his dream full time music blowing the world out with his unique
-                approach to music popularity is growing quickly in the world as his
-                app taking off all ages love his music, so catch up
+                <strong className="text-zinc-200">Shirwell Bancan</strong> — official{" "}
+                <Link href="/music" className="text-[#FFC107] underline-offset-2 hover:underline">
+                  Shirwell music
+                </Link>{" "}
+                by Shirwell. Stream original songs, discover new releases, and explore 45
+                years of music from Shirwell Bancan.
               </p>
             </div>
 
@@ -140,7 +141,28 @@ export function SiteFooter() {
           </div>
 
           {/* Columns — each a glass card */}
-          <div className="mt-10 grid gap-6 sm:grid-cols-3">
+          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            <div className={`${glassCard} p-5 sm:p-6`}>
+              <h3 className={`${titleGold} text-sm uppercase tracking-wider`}>Music</h3>
+              <ul className="mt-4 space-y-2 text-sm">
+                <li>
+                  <Link
+                    href="/music"
+                    className={`${glassCard} block rounded-lg px-3 py-2 text-zinc-300 transition hover:border-[#FFC107]/30 hover:text-[#FFC107]`}
+                  >
+                    Shirwell Music
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/about"
+                    className={`${glassCard} block rounded-lg px-3 py-2 text-zinc-300 transition hover:border-[#FFC107]/30 hover:text-[#FFC107]`}
+                  >
+                    About Shirwell Bancan
+                  </Link>
+                </li>
+              </ul>
+            </div>
             <div className={`${glassCard} p-5 sm:p-6`}>
               <h3 className={`${titleGold} text-sm uppercase tracking-wider`}>Shop</h3>
               <ul className="mt-4 space-y-2 text-sm">
@@ -189,18 +211,10 @@ export function SiteFooter() {
               <ul className="mt-4 space-y-2 text-sm">
                 <li>
                   <Link
-                    href="/music"
-                    className={`${glassCard} block rounded-lg px-3 py-2 text-zinc-300 transition hover:border-[#FFC107]/30 hover:text-[#FFC107]`}
-                  >
-                    Shirwell Music
-                  </Link>
-                </li>
-                <li>
-                  <Link
                     href="/about"
                     className={`${glassCard} block rounded-lg px-3 py-2 text-zinc-300 transition hover:border-[#FFC107]/30 hover:text-[#FFC107]`}
                   >
-                    About Shirwell Bancan
+                    About Us
                   </Link>
                 </li>
                 <li>

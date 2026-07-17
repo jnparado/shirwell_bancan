@@ -2,40 +2,36 @@ import type { Metadata } from "next";
 import { HomeContent } from "@/components/shirwell/home-content";
 import { getSongs } from "@/lib/songs";
 import {
-  getBrandFaqJsonLd,
-  getHomeCatalogueJsonLd,
+  getHomePageJsonLd,
   HOME_DESCRIPTION,
   HOME_TITLE,
-  PRIMARY_KEYWORDS,
+  PRIMARY_SEARCH_TERMS,
 } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: HOME_TITLE,
   description: HOME_DESCRIPTION,
-  keywords: [...PRIMARY_KEYWORDS, "Shirwell songs", "Shirwell official", "stream Shirwell"],
+  keywords: [...PRIMARY_SEARCH_TERMS, "Shirwell songs", "Shirwell official"],
   alternates: { canonical: "/home" },
   openGraph: {
     title: HOME_TITLE,
     description: HOME_DESCRIPTION,
     url: "/home",
   },
+  twitter: {
+    title: HOME_TITLE,
+    description: HOME_DESCRIPTION,
+  },
 };
 
 export default async function HomePage() {
   const songs = await getSongs();
-
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(getBrandFaqJsonLd()),
-        }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(getHomeCatalogueJsonLd(songs)),
+          __html: JSON.stringify(getHomePageJsonLd(songs)),
         }}
       />
       <HomeContent songs={songs} />

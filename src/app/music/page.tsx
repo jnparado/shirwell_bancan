@@ -5,6 +5,7 @@ import {
   getMusicPageJsonLd,
   MUSIC_PAGE_DESCRIPTION,
   MUSIC_PAGE_TITLE,
+  PRIMARY_SEARCH_TERMS,
   SITE_NAME,
 } from "@/lib/seo";
 
@@ -12,7 +13,7 @@ export const metadata: Metadata = {
   title: MUSIC_PAGE_TITLE,
   description: MUSIC_PAGE_DESCRIPTION,
   alternates: { canonical: "/music" },
-  keywords: ["shirwell music", "shirwell", "shirwell bancan", "Shirwell songs", "stream Shirwell"],
+  keywords: [...PRIMARY_SEARCH_TERMS, "Shirwell songs", "stream Shirwell"],
   openGraph: {
     title: `Shirwell Music | ${SITE_NAME}`,
     description: MUSIC_PAGE_DESCRIPTION,
@@ -23,6 +24,10 @@ export const metadata: Metadata = {
         alt: "Shirwell Music — Shirwell Bancan",
       },
     ],
+  },
+  twitter: {
+    title: MUSIC_PAGE_TITLE,
+    description: MUSIC_PAGE_DESCRIPTION,
   },
 };
 

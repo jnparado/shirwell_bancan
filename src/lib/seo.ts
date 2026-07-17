@@ -6,11 +6,16 @@ export const SITE_NAME = "Shirwell Bancan";
 /** Short alternate brand form for keywords / alternateName. */
 export const SITE_NAME_SHORT = "Shirwell";
 
+/** Top three Google Search targets — use in titles, H1s, and meta descriptions. */
+export const PRIMARY_SEARCH_TERMS = [
+  "shirwell bancan",
+  "shirwell",
+  "shirwell music",
+] as const;
+
 /** Primary Google Search targets */
 export const SEO_KEYWORDS = [
-  "shirwell music",
-  "shirwell",
-  "shirwell bancan",
+  ...PRIMARY_SEARCH_TERMS,
   "Shirwell Music",
   "Shirwell Bancan",
   "Shirwell Bancan music",
@@ -23,38 +28,23 @@ export const SEO_KEYWORDS = [
 export const HOME_PATH = "/home";
 
 export const DEFAULT_TITLE =
-  "Shirwell Music | Shirwell Bancan — Official Site";
+  "Shirwell Bancan | Shirwell Music — Official Site";
 
 export const HOME_TITLE =
-  "Shirwell Music | Shirwell Bancan — Official Site";
+  "Shirwell Bancan | Shirwell Music — Official Site";
 
-export const MUSIC_PAGE_TITLE = "Shirwell Music — Stream Shirwell Bancan Songs";
+export const MUSIC_PAGE_TITLE =
+  "Shirwell Music — Stream Shirwell Bancan Songs Online";
 
 export const DEFAULT_DESCRIPTION =
-  "Shirwell music by Shirwell Bancan — official site to stream original songs, watch videos, and discover 45 years of music from Shirwell.";
+  "Shirwell Bancan — official Shirwell music site. Stream original songs by Shirwell, explore 45 years of music, and listen to Shirwell Bancan online.";
 
 /** Home page meta description (leads with brand). */
 export const HOME_DESCRIPTION =
-  "Shirwell music by Shirwell Bancan — the official Shirwell site. Stream songs, explore new releases, and listen to original music online.";
+  "Shirwell Bancan — official home for Shirwell music. Stream Shirwell songs, explore new releases, and listen to Shirwell Bancan online.";
 
 export const MUSIC_PAGE_DESCRIPTION =
-  "Shirwell music player — stream Shirwell Bancan songs online. Listen to the full Shirwell catalogue with the official Shirwell music player.";
-
-/** Minimal song shape for JSON-LD (avoids importing Supabase-backed module). */
-export type SeoSong = {
-  id: string;
-  title: string | null;
-  artist?: string | null;
-  audio_url?: string | null;
-  cover_image?: string | null;
-};
-
-/** Primary keyword targets — reuse in page metadata. */
-export const PRIMARY_KEYWORDS = [
-  "shirwell music",
-  "shirwell",
-  "shirwell bancan",
-] as const;
+  "Shirwell music — stream Shirwell Bancan songs online. Listen to the full Shirwell catalogue with the official Shirwell music player.";
 
 /** Hero / social share image (under `public/`) */
 export const DEFAULT_OG_IMAGE = "/shirwell-hero.png";
@@ -198,7 +188,6 @@ export function getOrganizationWebsiteJsonLd(): Record<string, unknown> {
   const artistId = `${origin}/#shirwell-bancan`;
   const websiteId = `${origin}/#website`;
   const webPageId = `${origin}${HOME_PATH}#home`;
-  const personId = `${origin}/#person`;
   const sameAs = parseSameAsEnv();
 
   const musicGroup: Record<string, unknown> = {
@@ -225,31 +214,14 @@ export function getOrganizationWebsiteJsonLd(): Record<string, unknown> {
       "@type": "Country",
       name: "Australia",
     },
-    founder: { "@id": personId },
   };
   if (sameAs.length > 0) {
     musicGroup.sameAs = sameAs;
   }
 
-  const person: Record<string, unknown> = {
-    "@type": "Person",
-    "@id": personId,
-    name: SITE_NAME,
-    alternateName: [SITE_NAME_SHORT, "Shirwell music", "Shirwell Music"],
-    url: `${origin}${HOME_PATH}`,
-    jobTitle: "Singer, Songwriter, Producer",
-    description: DEFAULT_DESCRIPTION,
-    image: hero,
-    knowsAbout: ["Shirwell music", "Original songs", "Live performance"],
-  };
-  if (sameAs.length > 0) {
-    person.sameAs = sameAs;
-  }
-
   return {
     "@context": "https://schema.org",
     "@graph": [
-      person,
       musicGroup,
       {
         "@type": "WebSite",
@@ -266,7 +238,6 @@ export function getOrganizationWebsiteJsonLd(): Record<string, unknown> {
         inLanguage: "en-AU",
         publisher: { "@id": artistId },
         about: { "@id": artistId },
-        keywords: PRIMARY_KEYWORDS.join(", "),
         potentialAction: {
           "@type": "SearchAction",
           target: {
@@ -293,171 +264,130 @@ export function getOrganizationWebsiteJsonLd(): Record<string, unknown> {
   };
 }
 
-/** JSON-LD for `/music` — targets “shirwell music” searches. */
-export function getMusicPageJsonLd(songs: SeoSong[] = []): Record<string, unknown> {
+type SongForSeo = {
+  title: string | null;
+  artist: string | null;
+};
+
+function buildMusicRecordingItems(
+  songs: SongForSeo[],
+  artistId: string,
+  musicPageUrl: string,
+): Record<string, unknown>[] {
+  return songs
+    .filter((song) => song.title?.trim())
+    .slice(0, 20)
+    .map((song) => ({
+      "@type": "MusicRecording",
+      name: song.title!.trim(),
+      byArtist: { "@id": artistId },
+      inLanguage: "en-AU",
+      url: musicPageUrl,
+      ...(song.artist?.trim()
+        ? { performer: { "@type": "MusicGroup", name: song.artist.trim() } }
+        : {}),
+    }));
+}
+
+/** JSON-LD for `/home` — brand page + featured Shirwell music catalogue. */
+export function getHomePageJsonLd(songs: SongForSeo[]): Record<string, unknown> {
   const origin = getSiteUrl().origin;
   const artistId = `${origin}/#shirwell-bancan`;
   const websiteId = `${origin}/#website`;
-  const musicUrl = `${origin}/music`;
-
-  const graph: Record<string, unknown>[] = [
-    {
-      "@type": "WebPage",
-      "@id": `${musicUrl}#webpage`,
-      name: MUSIC_PAGE_TITLE,
-      description: MUSIC_PAGE_DESCRIPTION,
-      url: musicUrl,
-      inLanguage: "en-AU",
-      isPartOf: { "@id": websiteId },
-      about: { "@id": artistId },
-      keywords: PRIMARY_KEYWORDS.join(", "),
-      primaryImageOfPage: {
-        "@type": "ImageObject",
-        url: absoluteUrl("/about/shirwell-music-hero.png"),
-      },
-      breadcrumb: {
-        "@type": "BreadcrumbList",
-        itemListElement: [
-          {
-            "@type": "ListItem",
-            position: 1,
-            name: "Shirwell",
-            item: `${origin}${HOME_PATH}`,
-          },
-          {
-            "@type": "ListItem",
-            position: 2,
-            name: "Shirwell Music",
-            item: musicUrl,
-          },
-        ],
-      },
-    },
-    ...buildMusicRecordingNodes(songs, musicUrl, artistId),
-  ];
-
-  return {
-    "@context": "https://schema.org",
-    "@graph": graph,
-  };
-}
-
-/** MusicRecording nodes for catalogue pages — helps Google connect songs to Shirwell Bancan. */
-function buildMusicRecordingNodes(
-  songs: SeoSong[],
-  listenUrl: string,
-  artistId: string,
-): Record<string, unknown>[] {
-  return songs
-    .filter((s) => s.title?.trim())
-    .slice(0, 20)
-    .map((song) => {
-      const recording: Record<string, unknown> = {
-        "@type": "MusicRecording",
-        "@id": `${listenUrl}#recording-${song.id}`,
-        name: song.title!.trim(),
-        url: listenUrl,
-        byArtist: { "@id": artistId },
-        potentialAction: {
-          "@type": "ListenAction",
-          target: listenUrl,
-        },
-      };
-      if (song.cover_image) {
-        recording.image = song.cover_image;
-      }
-      return recording;
-    });
-}
-
-/** FAQ schema for brand searches (“who is Shirwell Bancan”, “Shirwell music”). */
-export function getBrandFaqJsonLd(): Record<string, unknown> {
-  const origin = getSiteUrl().origin;
-
-  return {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: [
-      {
-        "@type": "Question",
-        name: "Who is Shirwell Bancan?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: `${SITE_NAME} is a singer, songwriter, and producer with more than 45 years of original Shirwell music. This is the official Shirwell site.`,
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Where can I listen to Shirwell music?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: `Stream Shirwell music on the official player at ${origin}/music. All songs are written and owned by ${SITE_NAME}.`,
-        },
-      },
-      {
-        "@type": "Question",
-        name: "What is Shirwell?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: `Shirwell is the music brand of ${SITE_NAME} — original songs, live performance, and the official Shirwell music catalogue online.`,
-        },
-      },
-    ],
-  };
-}
-
-/** Home page catalogue list for “shirwell music” entity signals. */
-export function getHomeCatalogueJsonLd(songs: SeoSong[]): Record<string, unknown> {
-  const origin = getSiteUrl().origin;
-  const artistId = `${origin}/#shirwell-bancan`;
-  const musicUrl = `${origin}/music`;
-
-  const itemListElement = songs
-    .filter((s) => s.title?.trim())
-    .slice(0, 12)
-    .map((song, index) => ({
-      "@type": "ListItem",
-      position: index + 1,
-      name: song.title!.trim(),
-      url: musicUrl,
-    }));
+  const homeUrl = `${origin}${HOME_PATH}`;
+  const musicPageUrl = `${origin}/music`;
+  const recordings = buildMusicRecordingItems(songs, artistId, musicPageUrl);
 
   return {
     "@context": "https://schema.org",
     "@graph": [
       {
-        "@type": "ItemList",
-        "@id": `${origin}${HOME_PATH}#featured-songs`,
-        name: "Shirwell Music — featured songs by Shirwell Bancan",
+        "@type": "WebPage",
+        "@id": `${homeUrl}#home`,
+        name: HOME_TITLE,
         description: HOME_DESCRIPTION,
-        numberOfItems: itemListElement.length,
-        itemListElement,
+        url: homeUrl,
+        inLanguage: "en-AU",
+        isPartOf: { "@id": websiteId },
+        about: { "@id": artistId },
+        keywords: PRIMARY_SEARCH_TERMS.join(", "),
+        primaryImageOfPage: {
+          "@type": "ImageObject",
+          url: absoluteUrl(DEFAULT_OG_IMAGE),
+        },
       },
-      ...buildMusicRecordingNodes(songs, musicUrl, artistId),
+      {
+        "@type": "ItemList",
+        "@id": `${homeUrl}#featured-songs`,
+        name: "Shirwell Music — Featured Songs by Shirwell Bancan",
+        description:
+          "Featured Shirwell music tracks by Shirwell Bancan available to stream online.",
+        numberOfItems: recordings.length,
+        itemListElement: recordings.map((recording, index) => ({
+          "@type": "ListItem",
+          position: index + 1,
+          item: recording,
+        })),
+      },
     ],
   };
 }
 
-/** About page JSON-LD. */
-export function getAboutPageJsonLd(): Record<string, unknown> {
+/** JSON-LD for `/music` — targets “shirwell music” searches. */
+export function getMusicPageJsonLd(songs: SongForSeo[]): Record<string, unknown> {
   const origin = getSiteUrl().origin;
   const artistId = `${origin}/#shirwell-bancan`;
   const websiteId = `${origin}/#website`;
+  const musicPageUrl = `${origin}/music`;
+  const recordings = buildMusicRecordingItems(songs, artistId, musicPageUrl);
 
   return {
     "@context": "https://schema.org",
-    "@type": "AboutPage",
-    "@id": `${origin}/about#about`,
-    name: `About Shirwell Bancan — Shirwell Music`,
-    description: `About ${SITE_NAME} — 45 years of original Shirwell music.`,
-    url: `${origin}/about`,
-    inLanguage: "en-AU",
-    isPartOf: { "@id": websiteId },
-    about: { "@id": artistId },
-    keywords: PRIMARY_KEYWORDS.join(", "),
-    primaryImageOfPage: {
-      "@type": "ImageObject",
-      url: absoluteUrl("/about/shirwell-bancan-poster.png"),
-    },
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "@id": `${musicPageUrl}#webpage`,
+        name: MUSIC_PAGE_TITLE,
+        description: MUSIC_PAGE_DESCRIPTION,
+        url: musicPageUrl,
+        inLanguage: "en-AU",
+        isPartOf: { "@id": websiteId },
+        about: { "@id": artistId },
+        keywords: PRIMARY_SEARCH_TERMS.join(", "),
+        primaryImageOfPage: {
+          "@type": "ImageObject",
+          url: absoluteUrl("/about/shirwell-music-hero.png"),
+        },
+        breadcrumb: {
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            {
+              "@type": "ListItem",
+              position: 1,
+              name: "Shirwell",
+              item: `${origin}${HOME_PATH}`,
+            },
+            {
+              "@type": "ListItem",
+              position: 2,
+              name: "Shirwell Music",
+              item: musicPageUrl,
+            },
+          ],
+        },
+      },
+      {
+        "@type": "ItemList",
+        "@id": `${musicPageUrl}#song-list`,
+        name: "Shirwell Music Catalogue",
+        description: "Stream Shirwell Bancan songs — the official Shirwell music catalogue.",
+        numberOfItems: recordings.length,
+        itemListElement: recordings.map((recording, index) => ({
+          "@type": "ListItem",
+          position: index + 1,
+          item: recording,
+        })),
+      },
+    ],
   };
 }
