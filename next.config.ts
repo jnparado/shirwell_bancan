@@ -1,16 +1,19 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  async rewrites() {
+    return [
+      {
+        source: "/sitemap",
+        destination: "/sitemap.xml",
+      },
+    ];
+  },
   async redirects() {
     return [
       {
         source: "/index",
         destination: "/home",
-        permanent: true,
-      },
-      {
-        source: "/sitemap",
-        destination: "/sitemap.xml",
         permanent: true,
       },
     ];
