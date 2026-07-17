@@ -3,6 +3,7 @@ import { BrandSeoSection } from "@/components/seo/brand-seo-section";
 import { HomeContent } from "@/components/shirwell/home-content";
 import { getSongs } from "@/lib/songs";
 import {
+  createSocialMetadata,
   getHomePageJsonLd,
   HOME_DESCRIPTION,
   HOME_TITLE,
@@ -16,15 +17,11 @@ export const metadata: Metadata = {
   description: HOME_DESCRIPTION,
   keywords: [...PRIMARY_SEARCH_TERMS, "Shirwell songs", "Shirwell official"],
   alternates: { canonical: "/home" },
-  openGraph: {
+  ...createSocialMetadata({
     title: HOME_TITLE,
     description: HOME_DESCRIPTION,
     url: "/home",
-  },
-  twitter: {
-    title: HOME_TITLE,
-    description: HOME_DESCRIPTION,
-  },
+  }),
 };
 
 export default async function HomePage() {

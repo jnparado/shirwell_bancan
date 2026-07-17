@@ -27,27 +27,30 @@ export const SEO_KEYWORDS = [
 
 export const HOME_PATH = "/home";
 
-export const DEFAULT_TITLE =
-  "Shirwell Bancan | Shirwell Music — Official Site";
+/** Google + social share title (matches Social Metatags preview). */
+export const SOCIAL_TITLE = "Shirwell Music";
 
-export const HOME_TITLE =
-  "Shirwell Bancan | Shirwell Music — Official Site";
+export const DEFAULT_TITLE = SOCIAL_TITLE;
+
+export const HOME_TITLE = SOCIAL_TITLE;
 
 export const MUSIC_PAGE_TITLE =
   "Shirwell Music — Stream Shirwell Bancan Songs Online";
 
 export const DEFAULT_DESCRIPTION =
-  "Shirwell Bancan — official Shirwell music site. Stream original songs by Shirwell, explore 45 years of music, and listen to Shirwell Bancan online.";
+  "Welcome to the Home of Shirwell. This is not just an app—it's a gateway to a legend in the making. Upgrades are currently in progress to refine your experience, bringing you closer to the world of Shirwell Bancan music.";
 
-/** Home page meta description (leads with brand). */
-export const HOME_DESCRIPTION =
-  "Shirwell Bancan — official home for Shirwell music. Stream Shirwell songs, explore new releases, and listen to Shirwell Bancan online.";
+/** Home page meta description — same as social preview copy. */
+export const HOME_DESCRIPTION = DEFAULT_DESCRIPTION;
 
 export const MUSIC_PAGE_DESCRIPTION =
   "Shirwell music — stream Shirwell Bancan songs online. Listen to the full Shirwell catalogue with the official Shirwell music player.";
 
-/** Hero / social share image (under `public/`) */
-export const DEFAULT_OG_IMAGE = "/shirwell-hero.png";
+/** Social / Google thumbnail — Shirwell Bancan poster (gold circle, horse). */
+export const DEFAULT_OG_IMAGE = "/about/shirwell-bancan-poster.png";
+
+export const DEFAULT_OG_IMAGE_ALT =
+  "Shirwell Bancan — Experience 45 Years of Original Songs";
 
 /** FAQ copy — reused in visible home content and FAQPage JSON-LD. */
 export const BRAND_FAQ = [
@@ -128,20 +131,59 @@ export function absoluteUrl(path: string): string {
   return `${origin}${p}`;
 }
 
+/** Shared Open Graph + Twitter fields — matches Social Metatags preview. */
+export function createSocialMetadata(
+  overrides: {
+    title?: string;
+    description?: string;
+    url?: string;
+    image?: string;
+    imageAlt?: string;
+  } = {},
+): Pick<Metadata, "openGraph" | "twitter"> {
+  const title = overrides.title ?? SOCIAL_TITLE;
+  const description = overrides.description ?? DEFAULT_DESCRIPTION;
+  const image = overrides.image ?? DEFAULT_OG_IMAGE;
+  const imageAlt = overrides.imageAlt ?? DEFAULT_OG_IMAGE_ALT;
+
+  return {
+    openGraph: {
+      title,
+      description,
+      siteName: SITE_NAME,
+      type: "website",
+      locale: "en_AU",
+      url: overrides.url ?? HOME_PATH,
+      images: [
+        {
+          url: image,
+          alt: imageAlt,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [image],
+    },
+  };
+}
+
 export function createRootMetadata(): Metadata {
   const base = getSiteUrl();
-  const ogTitle = DEFAULT_TITLE;
+  const social = createSocialMetadata({ url: `${base.origin}${HOME_PATH}` });
 
   return {
     metadataBase: base,
     title: {
-      default: DEFAULT_TITLE,
-      template: `%s | Shirwell Bancan`,
+      default: SOCIAL_TITLE,
+      template: `%s | ${SITE_NAME}`,
     },
     description: DEFAULT_DESCRIPTION,
     applicationName: SITE_NAME,
     appleWebApp: {
-      title: "Shirwell Music",
+      title: SOCIAL_TITLE,
     },
     keywords: [...SEO_KEYWORDS],
     authors: [{ name: SITE_NAME, url: base.href }],
@@ -164,25 +206,10 @@ export function createRootMetadata(): Metadata {
       },
     },
     openGraph: {
-      type: "website",
-      locale: "en_AU",
+      ...social.openGraph,
       url: `${base.origin}${HOME_PATH}`,
-      siteName: SITE_NAME,
-      title: ogTitle,
-      description: DEFAULT_DESCRIPTION,
-      images: [
-        {
-          url: DEFAULT_OG_IMAGE,
-          alt: `${SITE_NAME} — Shirwell music`,
-        },
-      ],
     },
-    twitter: {
-      card: "summary_large_image",
-      title: ogTitle,
-      description: DEFAULT_DESCRIPTION,
-      images: [DEFAULT_OG_IMAGE],
-    },
+    twitter: social.twitter,
     icons: {
       icon: "/shirwell-logo.png",
       apple: "/shirwell-logo.png",
