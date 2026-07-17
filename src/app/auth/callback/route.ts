@@ -3,6 +3,7 @@ import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import { safeNextPath } from "@/lib/auth/safe-next-path";
 import { getSupabasePublicApiKey, getSupabaseUrl } from "@/lib/supabase/env";
+import { supabaseEdgeClientOptions } from "@/lib/supabase/edge-client-options";
 
 function loginWithError(origin: string, message: string): NextResponse {
   const url = new URL("/auth/login", origin);
@@ -36,6 +37,7 @@ export async function GET(request: Request) {
   let response = NextResponse.redirect(new URL(next, origin));
 
   const supabase = createServerClient(url, key, {
+    ...supabaseEdgeClientOptions,
     cookies: {
       getAll() {
         return cookieStore.getAll();

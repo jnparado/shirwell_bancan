@@ -5,6 +5,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
+  Heart,
+  ListMusic,
+  Mic2,
   Pause,
   Play,
   Repeat,
@@ -216,8 +219,29 @@ export function MusicPlayerBar() {
           )}
         </button>
 
-        {/* Volume — desktop */}
-        <div className="hidden min-w-0 flex-1 items-center justify-end gap-2 lg:flex lg:max-w-[30%]">
+        {/* Volume + extras — desktop */}
+        <div className="hidden min-w-0 flex-1 items-center justify-end gap-3 lg:flex lg:max-w-[30%]">
+          <Link
+            href={playerHref}
+            className="rounded-full p-2 text-zinc-400 hover:bg-white/10 hover:text-white"
+            aria-label="Lyrics and full player"
+          >
+            <Mic2 className="h-4 w-4" />
+          </Link>
+          <Link
+            href={playerHref}
+            className="rounded-full p-2 text-zinc-400 hover:bg-white/10 hover:text-white"
+            aria-label="Queue"
+          >
+            <ListMusic className="h-4 w-4" />
+          </Link>
+          <button
+            type="button"
+            className="rounded-full p-2 text-zinc-400 hover:text-[#1ed760]"
+            aria-label="Save to library"
+          >
+            <Heart className="h-4 w-4" />
+          </button>
           <Volume2 className="h-4 w-4 shrink-0 text-zinc-400" />
           <input
             type="range"

@@ -7,6 +7,7 @@ import {
   getSupabaseServiceRoleKey,
   getSupabaseUrl,
 } from "@/lib/supabase/env";
+import { supabaseEdgeClientOptions } from "@/lib/supabase/edge-client-options";
 
 /**
  * Per-request Supabase client for Server Components / Route Handlers.
@@ -20,6 +21,7 @@ export async function createServerSupabaseClient(): Promise<SupabaseClient | nul
   const cookieStore = await cookies();
 
   return createServerClient(url, key, {
+    ...supabaseEdgeClientOptions,
     cookies: {
       getAll() {
         return cookieStore.getAll();

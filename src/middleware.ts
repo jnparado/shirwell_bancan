@@ -1,5 +1,6 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
+import { supabaseEdgeClientOptions } from "@/lib/supabase/edge-client-options";
 import { getSupabasePublicApiKey, getSupabaseUrl } from "@/lib/supabase/env";
 
 /**
@@ -12,29 +13,35 @@ export async function middleware(request: NextRequest) {
   let response = NextResponse.next({ request });
   response.headers.set("x-pathname", pathname);
 
-  const url = getSupabaseUrl();
-  const key = getSupabasePublicApiKey();
-  if (!url || !key) return response;
+  try {
+    const url = getSupabaseUrl();
+    const key = getSupabasePublicApiKey();
+    if (!url || !key) return response;
 
-  const supabase = createServerClient(url, key, {
-    cookies: {
-      getAll() {
-        return request.cookies.getAll();
+    const supabase = createServerClient(url, key, {
+      ...supabaseEdgeClientOptions,
+      cookies: {
+        getAll() {
+          return request.cookies.getAll();
+        },
+        setAll(cookiesToSet) {
+          cookiesToSet.forEach(({ name, value }) => {
+            request.cookies.set(name, value);
+          });
+          response = NextResponse.next({ request });
+          response.headers.set("x-pathname", pathname);
+          cookiesToSet.forEach(({ name, value, options }) => {
+            response.cookies.set(name, value, options);
+          });
+        },
       },
-      setAll(cookiesToSet) {
-        cookiesToSet.forEach(({ name, value }) => {
-          request.cookies.set(name, value);
-        });
-        response = NextResponse.next({ request });
-        response.headers.set("x-pathname", pathname);
-        cookiesToSet.forEach(({ name, value, options }) => {
-          response.cookies.set(name, value, options);
-        });
-      },
-    },
-  });
+    });
 
-  await supabase.auth.getUser();
+    await supabase.auth.getUser();
+  } catch (error) {
+    console.error("[middleware] Supabase session refresh failed:", error);
+  }
+
   response.headers.set("x-pathname", pathname);
   return response;
 }
