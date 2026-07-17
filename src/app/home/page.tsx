@@ -7,6 +7,7 @@ import {
   getHomePageJsonLd,
   HOME_DESCRIPTION,
   HOME_TITLE,
+  DEFAULT_TITLE,
   PRIMARY_SEARCH_TERMS,
 } from "@/lib/seo";
 
@@ -18,7 +19,7 @@ export const metadata: Metadata = {
   keywords: [...PRIMARY_SEARCH_TERMS, "Shirwell songs", "Shirwell official"],
   alternates: { canonical: "/home" },
   ...createSocialMetadata({
-    title: HOME_TITLE,
+    title: DEFAULT_TITLE,
     description: HOME_DESCRIPTION,
     url: "/home",
   }),

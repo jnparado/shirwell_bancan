@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 import {
   DEFAULT_DESCRIPTION,
   HOME_PATH,
-  SITE_FAVICON,
+  SITE_FAVICON_PATH,
   SITE_NAME,
   SITE_NAME_SHORT,
 } from "@/lib/seo";
@@ -20,14 +20,20 @@ export default function manifest(): MetadataRoute.Manifest {
     categories: ["music", "entertainment"],
     icons: [
       {
-        src: SITE_FAVICON,
+        src: SITE_FAVICON_PATH,
         sizes: "512x512",
         type: "image/png",
         purpose: "any",
       },
       {
-        src: "/shirwell-favicon-192.png",
+        src: "/shirwell-icon-192.png",
         sizes: "192x192",
+        type: "image/png",
+        purpose: "any",
+      },
+      {
+        src: "/favicon-48.png",
+        sizes: "48x48",
         type: "image/png",
         purpose: "any",
       },

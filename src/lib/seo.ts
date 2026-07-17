@@ -21,36 +21,38 @@ export const SEO_KEYWORDS = [
   "Shirwell Bancan music",
   "Shirwell songs",
   "Shirwell official",
-  "stream Shirwell",
+  "Shirwell",
   "listen to Shirwell Bancan",
 ] as const;
 
 export const HOME_PATH = "/home";
 
-/** Square favicon / Google search icon (from Shirwell Bancan poster). */
-export const SITE_FAVICON = "/shirwell-favicon.png";
+/** Google + social share title — brand first for search results. */
+export const SOCIAL_TITLE = "Shirwell Bancan";
 
-/** Google + social share title — leads with Shirwell Bancan for search results. */
-export const SOCIAL_TITLE = "Shirwell Bancan — Singer Songwriter Producer";
+export const DEFAULT_TITLE = "Shirwell Bancan | Shirwell Music";
 
-export const DEFAULT_TITLE = SOCIAL_TITLE;
-
-export const HOME_TITLE = SOCIAL_TITLE;
+export const HOME_TITLE = DEFAULT_TITLE;
 
 export const MUSIC_PAGE_TITLE =
   "Shirwell Music — Stream Shirwell Bancan Songs Online";
 
 export const DEFAULT_DESCRIPTION =
-  "Experience 45 years of songwriting and talent from Shirwell Bancan. Official Shirwell music — stream original songs, explore releases, and listen to Shirwell Bancan online.";
+  "Shirwell Bancan — singer, songwriter, and producer. Official Shirwell music site with 45 years of original songs. Stream Shirwell Bancan online.";
 
-/** Home page meta description — matches Google search snippet. */
+/** Home page meta description — brand first for Google snippets. */
 export const HOME_DESCRIPTION = DEFAULT_DESCRIPTION;
 
 export const MUSIC_PAGE_DESCRIPTION =
   "Shirwell music — stream Shirwell Bancan songs online. Listen to the full Shirwell catalogue with the official Shirwell music player.";
 
+/** Logo / favicon — Shirwell Bancan poster (Google search icon + JSON-LD). */
+export const SITE_LOGO_PATH = "/about/shirwell-bancan-poster.png";
+
+export const SITE_FAVICON_PATH = "/shirwell-bancan-icon.png";
+
 /** Social / Google thumbnail — Shirwell Bancan poster (gold circle, horse). */
-export const DEFAULT_OG_IMAGE = "/about/shirwell-bancan-poster.png";
+export const DEFAULT_OG_IMAGE = SITE_LOGO_PATH;
 
 export const DEFAULT_OG_IMAGE_ALT =
   "Shirwell Bancan — Experience 45 Years of Original Songs";
@@ -215,7 +217,7 @@ export function createRootMetadata(): Metadata {
   return {
     metadataBase: base,
     title: {
-      default: SOCIAL_TITLE,
+      default: DEFAULT_TITLE,
       template: `%s | ${SITE_NAME}`,
     },
     description: DEFAULT_DESCRIPTION,
@@ -250,11 +252,12 @@ export function createRootMetadata(): Metadata {
     twitter: social.twitter,
     icons: {
       icon: [
-        { url: SITE_FAVICON, sizes: "512x512", type: "image/png" },
-        { url: "/shirwell-favicon-192.png", sizes: "192x192", type: "image/png" },
+        { url: SITE_FAVICON_PATH, sizes: "512x512", type: "image/png" },
+        { url: "/favicon-48.png", sizes: "48x48", type: "image/png" },
+        { url: SITE_LOGO_PATH, sizes: "682x682", type: "image/png" },
       ],
-      apple: [{ url: SITE_FAVICON, sizes: "512x512", type: "image/png" }],
-      shortcut: SITE_FAVICON,
+      apple: [{ url: SITE_FAVICON_PATH, sizes: "180x180", type: "image/png" }],
+      shortcut: SITE_FAVICON_PATH,
     },
     category: "entertainment",
     alternates: {
@@ -282,7 +285,8 @@ function parseSameAsEnv(): string[] {
 /** JSON-LD: MusicGroup + WebSite + WebPage + SearchAction (helps Google connect brand ↔ URL). */
 export function getOrganizationWebsiteJsonLd(): Record<string, unknown> {
   const origin = getSiteUrl().origin;
-  const logo = absoluteUrl(SITE_FAVICON);
+  const logo = absoluteUrl(SITE_LOGO_PATH);
+  const favicon = absoluteUrl(SITE_FAVICON_PATH);
   const hero = absoluteUrl(DEFAULT_OG_IMAGE);
   const artistId = `${origin}/#shirwell-bancan`;
   const websiteId = `${origin}/#website`;
@@ -343,7 +347,7 @@ export function getOrganizationWebsiteJsonLd(): Record<string, unknown> {
         mainEntity: { "@id": artistId },
         logo: {
           "@type": "ImageObject",
-          url: logo,
+          url: favicon,
           caption: `${SITE_NAME} logo`,
         },
         potentialAction: {
