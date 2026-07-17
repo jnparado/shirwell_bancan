@@ -252,6 +252,9 @@ export function createRootMetadata(): Metadata {
     category: "entertainment",
     alternates: {
       canonical: HOME_PATH,
+      types: {
+        "application/xml": "/sitemap.xml",
+      },
     },
     verification: {
       google: GOOGLE_SITE_VERIFICATION_TOKEN,
