@@ -26,6 +26,10 @@ export const DEFAULT_OG_IMAGE = "/shirwell-hero.png";
  *
  * Google Search Console: `GOOGLE_SITE_VERIFICATION` = HTML tag `content` from Google.
  */
+export const GOOGLE_SITE_VERIFICATION_TOKEN =
+  process.env.GOOGLE_SITE_VERIFICATION?.trim() ||
+  "q3SASLjj8P7aTB8EAg-JfkBlZVNXu_evfbxcCg4gc3E";
+
 function tryParseSiteUrl(value: string): URL | null {
   const v = value.trim();
   if (!v) return null;
@@ -70,8 +74,6 @@ export function absoluteUrl(path: string): string {
 export function createRootMetadata(): Metadata {
   const base = getSiteUrl();
   const ogTitle = `${SITE_NAME} singer songwriter producer`;
-
-  const googleVerify = process.env.GOOGLE_SITE_VERIFICATION?.trim();
 
   return {
     metadataBase: base,
@@ -149,13 +151,9 @@ export function createRootMetadata(): Metadata {
       apple: "/shirwell-logo.png",
     },
     category: "entertainment",
-    ...(googleVerify
-      ? {
-          verification: {
-            google: googleVerify,
-          },
-        }
-      : {}),
+    verification: {
+      google: GOOGLE_SITE_VERIFICATION_TOKEN,
+    },
   };
 }
 
