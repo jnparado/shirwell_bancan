@@ -17,9 +17,10 @@ import { BrandPhotoFrame } from "@/components/legal/brand-photo-frame";
 
 interface HomeContentProps {
   songs: Song[];
+  children?: React.ReactNode;
 }
 
-export function HomeContent({ songs }: HomeContentProps) {
+export function HomeContent({ songs, children }: HomeContentProps) {
   const { setQueue, playSong } = usePlayer();
 
   useEffect(() => {
@@ -51,12 +52,18 @@ export function HomeContent({ songs }: HomeContentProps) {
                 songs. Explore featured tracks and the full player.
               </p>
               <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
-                <a
-                  href="#featured"
-                  className="inline-flex rounded-full bg-[#FFC107] px-8 py-3.5 text-base font-semibold text-stone-950 shadow-[0_0_32px_rgba(255,193,7,0.3)] transition hover:bg-[#e6ae06]"
-                >
-                  Explore Songs
-                </a>
+              <Link
+                href="/music"
+                className="inline-flex rounded-full bg-[#FFC107] px-8 py-3.5 text-base font-semibold text-stone-950 shadow-[0_0_32px_rgba(255,193,7,0.3)] transition hover:bg-[#e6ae06]"
+              >
+                Stream Shirwell Music
+              </Link>
+              <a
+                href="#about-shirwell"
+                className="inline-flex rounded-full border border-[#FFC107]/40 px-8 py-3.5 text-base font-semibold text-[#FFC107] transition hover:border-[#FFC107]/60 hover:bg-[#FFC107]/10"
+              >
+                About Shirwell Bancan
+              </a>
               </div>
             </div>
           </div>
@@ -166,6 +173,7 @@ export function HomeContent({ songs }: HomeContentProps) {
         </div>
 
         <HomePromo />
+        {children}
       </main>
 
       <BottomNav />

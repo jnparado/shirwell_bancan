@@ -30,7 +30,7 @@ export function MarketingHeader() {
           <span className="relative flex h-11 w-11 shrink-0 overflow-hidden rounded-full bg-black/60 ring-2 ring-[#FFC107]/40 shadow-[0_0_20px_rgba(255,193,7,0.15)] sm:h-12 sm:w-12">
             <Image
               src="/shirwell-logo-emblem.png"
-              alt=""
+              alt="Shirwell Bancan — Shirwell music logo"
               fill
               className="object-cover object-[center_32%] scale-[1.08]"
               sizes="48px"
@@ -49,8 +49,8 @@ export function MarketingHeader() {
           <Link href="/home" className={linkClass(isHome)}>
             Home
           </Link>
-          <Link href="/music" className={linkClass(pathname === "/music")}>
-            Music
+          <Link href="/music" className={linkClass(pathname === "/music")} title="Shirwell Music">
+            Shirwell Music
           </Link>
           <Link href="/flowers" className={linkClass(pathname === "/flowers")}>
             Flowers
@@ -80,8 +80,8 @@ export function MarketingHeader() {
         <Link href="/home" className={`${linkClass(isHome)} shrink-0`}>
           Home
         </Link>
-        <Link href="/music" className={`${linkClass(pathname === "/music")} shrink-0`}>
-          Music
+        <Link href="/music" className={`${linkClass(pathname === "/music")} shrink-0`} title="Shirwell Music">
+          Shirwell Music
         </Link>
         <Link
           href="/flowers"

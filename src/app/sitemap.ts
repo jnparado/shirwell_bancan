@@ -1,6 +1,9 @@
 import type { MetadataRoute } from "next";
 import { getSiteUrl } from "@/lib/seo";
 
+/** Always pre-render at build — Google must fetch without runtime errors. */
+export const dynamic = "force-static";
+
 /** Public marketing pages to include in the sitemap (auth/profile excluded). */
 const PUBLIC_PATHS: Array<{
   path: string;

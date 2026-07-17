@@ -10,7 +10,9 @@ import {
 } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: MUSIC_PAGE_TITLE,
+  title: {
+    absolute: MUSIC_PAGE_TITLE,
+  },
   description: MUSIC_PAGE_DESCRIPTION,
   alternates: { canonical: "/music" },
   keywords: [...PRIMARY_SEARCH_TERMS, "Shirwell songs", "stream Shirwell"],

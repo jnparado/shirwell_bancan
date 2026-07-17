@@ -49,6 +49,30 @@ export const MUSIC_PAGE_DESCRIPTION =
 /** Hero / social share image (under `public/`) */
 export const DEFAULT_OG_IMAGE = "/shirwell-hero.png";
 
+/** FAQ copy — reused in visible home content and FAQPage JSON-LD. */
+export const BRAND_FAQ = [
+  {
+    question: "Who is Shirwell Bancan?",
+    answer:
+      "Shirwell Bancan is a singer, songwriter, and producer with more than 45 years of original music. This website is the official home for Shirwell Bancan — stream songs, explore releases, and learn about Shirwell music.",
+  },
+  {
+    question: "What is Shirwell music?",
+    answer:
+      "Shirwell music is the original song catalogue written and performed by Shirwell Bancan. Listen on the Shirwell music player, browse featured tracks on the home page, or stream the full catalogue at shirwell-bancan.vercel.app/music.",
+  },
+  {
+    question: "Where can I listen to Shirwell Bancan songs online?",
+    answer:
+      "Stream Shirwell Bancan songs free on the official Shirwell music player at /music. Featured Shirwell tracks are also on the home page — press play on any song card.",
+  },
+  {
+    question: "Is this the official Shirwell website?",
+    answer:
+      "Yes. shirwell-bancan.vercel.app is the official Shirwell Bancan website for Shirwell music — original songs, news, CDs, and the full streaming player.",
+  },
+] as const;
+
 /**
  * Canonical site URL for metadataBase, sitemap, and JSON-LD.
  *
@@ -164,6 +188,9 @@ export function createRootMetadata(): Metadata {
       apple: "/shirwell-logo.png",
     },
     category: "entertainment",
+    alternates: {
+      canonical: HOME_PATH,
+    },
     verification: {
       google: GOOGLE_SITE_VERIFICATION_TOKEN,
     },
@@ -191,7 +218,7 @@ export function getOrganizationWebsiteJsonLd(): Record<string, unknown> {
   const sameAs = parseSameAsEnv();
 
   const musicGroup: Record<string, unknown> = {
-    "@type": "MusicGroup",
+    "@type": ["MusicGroup", "Person"],
     "@id": artistId,
     name: SITE_NAME,
     alternateName: [
@@ -199,9 +226,12 @@ export function getOrganizationWebsiteJsonLd(): Record<string, unknown> {
       "Shirwell Bancan",
       "Shirwell music",
       "Shirwell Music",
+      "Shirwell Bancan music",
     ],
     description: DEFAULT_DESCRIPTION,
     url: `${origin}${HOME_PATH}`,
+    jobTitle: "Singer-Songwriter",
+    knowsAbout: ["Music", "Songwriting", "Original songs", "Shirwell music"],
     genre: ["Rock", "Pop", "Original"],
     keywords: SEO_KEYWORDS.join(", "),
     logo: {
@@ -229,15 +259,17 @@ export function getOrganizationWebsiteJsonLd(): Record<string, unknown> {
         name: SITE_NAME,
         alternateName: [
           `${SITE_NAME} official website`,
+          "Shirwell",
           "Shirwell Bancan",
           "Shirwell music",
           "Shirwell Music",
         ],
-        url: origin,
+        url: `${origin}${HOME_PATH}`,
         description: DEFAULT_DESCRIPTION,
         inLanguage: "en-AU",
         publisher: { "@id": artistId },
         about: { "@id": artistId },
+        mainEntity: { "@id": artistId },
         potentialAction: {
           "@type": "SearchAction",
           target: {
@@ -289,6 +321,27 @@ function buildMusicRecordingItems(
     }));
 }
 
+function buildFaqMainEntity(): Record<string, unknown>[] {
+  return BRAND_FAQ.map((item) => ({
+    "@type": "Question",
+    name: item.question,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: item.answer,
+    },
+  }));
+}
+
+/** FAQPage JSON-LD — can appear as rich results for brand searches. */
+export function getBrandFaqJsonLd(pageUrl: string): Record<string, unknown> {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "@id": `${pageUrl}#faq`,
+    mainEntity: buildFaqMainEntity(),
+  };
+}
+
 /** JSON-LD for `/home` — brand page + featured Shirwell music catalogue. */
 export function getHomePageJsonLd(songs: SongForSeo[]): Record<string, unknown> {
   const origin = getSiteUrl().origin;
@@ -315,6 +368,12 @@ export function getHomePageJsonLd(songs: SongForSeo[]): Record<string, unknown> 
           "@type": "ImageObject",
           url: absoluteUrl(DEFAULT_OG_IMAGE),
         },
+        mainEntity: { "@id": `${homeUrl}#faq` },
+      },
+      {
+        "@type": "FAQPage",
+        "@id": `${homeUrl}#faq`,
+        mainEntity: buildFaqMainEntity(),
       },
       {
         "@type": "ItemList",

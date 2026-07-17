@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { BrandSeoSection } from "@/components/seo/brand-seo-section";
 import { HomeContent } from "@/components/shirwell/home-content";
 import { getSongs } from "@/lib/songs";
 import {
@@ -9,7 +10,9 @@ import {
 } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: HOME_TITLE,
+  title: {
+    absolute: HOME_TITLE,
+  },
   description: HOME_DESCRIPTION,
   keywords: [...PRIMARY_SEARCH_TERMS, "Shirwell songs", "Shirwell official"],
   alternates: { canonical: "/home" },
@@ -34,7 +37,9 @@ export default async function HomePage() {
           __html: JSON.stringify(getHomePageJsonLd(songs)),
         }}
       />
-      <HomeContent songs={songs} />
+      <HomeContent songs={songs}>
+        <BrandSeoSection />
+      </HomeContent>
     </>
   );
 }

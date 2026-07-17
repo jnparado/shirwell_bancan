@@ -3,12 +3,30 @@ import { NextResponse, type NextRequest } from "next/server";
 import { supabaseEdgeClientOptions } from "@/lib/supabase/edge-client-options";
 import { getSupabasePublicApiKey, getSupabaseUrl } from "@/lib/supabase/env";
 
+/** Paths crawlers must reach without Supabase session refresh (sitemap, robots, verify). */
+function isCrawlerPublicPath(pathname: string): boolean {
+  return (
+    pathname === "/sitemap.xml" ||
+    pathname === "/robots.txt" ||
+    pathname === "/manifest.webmanifest" ||
+    pathname === "/app-ads.txt" ||
+    pathname.startsWith("/googled") ||
+    pathname.endsWith(".html")
+  );
+}
+
 /**
  * Keeps Supabase Auth cookies fresh and forwards them on the response.
  * Without this, server `getUser()` can miss or drop sessions.
  */
 export async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
+
+  if (isCrawlerPublicPath(pathname)) {
+    const response = NextResponse.next({ request });
+    response.headers.set("x-pathname", pathname);
+    return response;
+  }
 
   let response = NextResponse.next({ request });
   response.headers.set("x-pathname", pathname);
@@ -48,6 +66,6 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|woff2?|html)$).*)",
+    "/((?!_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|manifest.webmanifest|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|woff2?|html|xml|txt|webmanifest)$).*)",
   ],
 };
