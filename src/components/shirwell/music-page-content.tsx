@@ -112,18 +112,20 @@ export function MusicPageContent({ songs }: MusicPageContentProps) {
   }
 
   return (
-    <div className="relative flex min-h-[100dvh] min-w-0 flex-1 flex-col overflow-x-hidden bg-[#0a0a0c] pb-[var(--page-bottom-safe)]">
-      {/* Blurred artwork backdrop — Apple Music style */}
+    <div className="relative flex min-h-[100dvh] min-w-0 flex-1 flex-col overflow-x-hidden bg-[#0a0806] pb-[var(--page-bottom-safe)]">
+      {/* Warm gold glow — Shirwell player */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
+        <div className="absolute inset-0 bg-[#0a0806]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_90%_60%_at_50%_-8%,rgba(255,193,7,0.24),transparent_58%)]" />
         <Image
           src={thumbSrc}
           alt=""
           fill
-          className="scale-125 object-cover object-center opacity-45 blur-3xl saturate-150"
+          className="scale-125 object-cover object-center opacity-20 blur-3xl"
           sizes="100vw"
           priority
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/55 to-black/90" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#1a1208]/70 via-[#0a0a0c]/92 to-[#0a0806]" />
       </div>
 
       <header className="relative z-10 flex shrink-0 items-center justify-between px-4 py-3">
@@ -137,15 +139,15 @@ export function MusicPageContent({ songs }: MusicPageContentProps) {
         </button>
         <Link
           href="/"
-          className="text-xs font-semibold uppercase tracking-[0.2em] text-white/50 hover:text-white/70"
+          className="font-serif text-xs font-bold uppercase tracking-[0.28em] text-[#FFC107] hover:text-[#FFD54F]"
         >
-          Shirwell
+          SHIRWELL
         </Link>
         <button
           type="button"
           onClick={() => setQueueOpen((o) => !o)}
           className={`rounded-full p-2 hover:bg-white/10 ${
-            queueOpen ? "text-[#fa2d48]" : "text-white/90"
+            queueOpen ? "text-[#FFC107]" : "text-white/90"
           }`}
           aria-label="Up next"
           aria-pressed={queueOpen}
@@ -157,14 +159,14 @@ export function MusicPageContent({ songs }: MusicPageContentProps) {
       <main className="relative z-10 mx-auto flex w-full min-h-0 max-w-lg flex-1 flex-col overflow-y-auto px-4 pt-2 sm:px-5">
         {!queueOpen ? (
           <>
-            <div className="mx-auto mb-6 w-full max-w-[280px] sm:mb-8 sm:max-w-[320px]">
-              <div className="relative aspect-square max-h-[38dvh] w-full overflow-hidden rounded-xl bg-zinc-900 shadow-[0_24px_64px_rgba(0,0,0,0.55)] sm:max-h-none">
+            <div className="mx-auto mb-6 w-full max-w-[300px] sm:mb-8 sm:max-w-[340px]">
+              <div className="relative aspect-square max-h-[42dvh] w-full overflow-hidden rounded-2xl bg-black shadow-[0_0_72px_rgba(255,193,7,0.14)] sm:max-h-none">
                 <Image
                   src={thumbSrc}
                   alt={title}
                   fill
-                  className="object-cover object-center"
-                  sizes="320px"
+                  className="object-contain object-center"
+                  sizes="340px"
                   priority
                 />
                 <BrandLegalMarks year={new Date().getFullYear()} />
@@ -172,12 +174,12 @@ export function MusicPageContent({ songs }: MusicPageContentProps) {
             </div>
 
             <div className="mb-6 text-center">
-              <h1 className="truncate text-2xl font-bold tracking-tight text-white">
+              <h1 className="truncate text-2xl font-bold tracking-tight text-white sm:text-3xl">
                 {title}
               </h1>
-              <p className="mt-1 truncate text-lg text-white/55">{artist}</p>
+              <p className="mt-2 truncate text-base text-white/60">{artist}</p>
               {credit ? (
-                <p className="mt-1 truncate text-xs font-medium uppercase tracking-wider text-white/35">
+                <p className="mt-1 truncate text-[11px] font-semibold uppercase tracking-[0.22em] text-white/40">
                   {credit}
                 </p>
               ) : null}
@@ -198,7 +200,7 @@ export function MusicPageContent({ songs }: MusicPageContentProps) {
                 }}
               >
                 <div
-                  className="relative h-full rounded-full bg-[#fa2d48] transition-[width] duration-150"
+                  className="relative h-full rounded-full bg-[#FFC107] transition-[width] duration-150"
                   style={{ width: `${progressRatio * 100}%` }}
                 >
                   <span className="absolute -right-1.5 top-1/2 h-3 w-3 -translate-y-1/2 rounded-full bg-white opacity-0 shadow-md transition group-hover:opacity-100" />
@@ -246,7 +248,7 @@ export function MusicPageContent({ songs }: MusicPageContentProps) {
                   type="button"
                   onClick={toggleShuffle}
                   className={`rounded-full p-2 ${
-                    shuffle ? "text-[#fa2d48]" : "text-white/55"
+                    shuffle ? "text-[#FFC107]" : "text-white/55"
                   } hover:text-white`}
                   aria-label="Shuffle"
                   aria-pressed={shuffle}
@@ -267,7 +269,7 @@ export function MusicPageContent({ songs }: MusicPageContentProps) {
                   type="button"
                   onClick={toggleRepeat}
                   className={`rounded-full p-2 ${
-                    repeat ? "text-[#fa2d48]" : "text-white/55"
+                    repeat ? "text-[#FFC107]" : "text-white/55"
                   } hover:text-white`}
                   aria-label="Repeat"
                   aria-pressed={repeat}
@@ -286,7 +288,7 @@ export function MusicPageContent({ songs }: MusicPageContentProps) {
                 step={0.01}
                 value={volume}
                 onChange={(e) => setVolume(Number(e.target.value))}
-                className="apple-music-volume h-1 w-full cursor-pointer appearance-none rounded-full bg-white/20 accent-[#fa2d48]"
+                className="apple-music-volume h-1 w-full cursor-pointer appearance-none rounded-full bg-white/20 accent-[#FFC107]"
                 aria-label="Volume"
               />
             </div>
@@ -297,7 +299,7 @@ export function MusicPageContent({ songs }: MusicPageContentProps) {
                 onClick={() => setLyricsOpen((o) => !o)}
                 className={`flex flex-1 items-center justify-center gap-2 rounded-full py-3 text-sm font-semibold ${
                   lyricsOpen
-                    ? "bg-[#fa2d48]/20 text-[#fa2d48]"
+                    ? "bg-[#FFC107]/20 text-[#FFC107]"
                     : "bg-white/10 text-white/80 hover:bg-white/15"
                 }`}
               >
@@ -332,7 +334,7 @@ export function MusicPageContent({ songs }: MusicPageContentProps) {
                       type="button"
                       onClick={() => playSong(song)}
                       className={`flex w-full items-center gap-3 rounded-xl px-2 py-2.5 text-left transition ${
-                        active ? "bg-[#fa2d48]/15" : "hover:bg-white/8"
+                        active ? "bg-[#FFC107]/15" : "hover:bg-white/8"
                       }`}
                     >
                       <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-md bg-zinc-800">
@@ -347,7 +349,7 @@ export function MusicPageContent({ songs }: MusicPageContentProps) {
                       <div className="min-w-0 flex-1">
                         <p
                           className={`truncate text-sm font-semibold ${
-                            active ? "text-[#fa2d48]" : "text-white"
+                            active ? "text-[#FFC107]" : "text-white"
                           }`}
                         >
                           {song.title ?? "Untitled"}
@@ -357,7 +359,7 @@ export function MusicPageContent({ songs }: MusicPageContentProps) {
                         </p>
                       </div>
                       {active && isPlaying ? (
-                        <span className="text-[10px] font-bold uppercase tracking-wider text-[#fa2d48]">
+                        <span className="text-[10px] font-bold uppercase tracking-wider text-[#FFC107]">
                           Playing
                         </span>
                       ) : (
