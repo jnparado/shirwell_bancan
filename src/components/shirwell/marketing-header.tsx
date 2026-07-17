@@ -23,7 +23,7 @@ export function MarketingHeader() {
     <header className="sticky top-0 z-50 border-b border-[#FFC107]/15 bg-black/50 shadow-[0_8px_32px_rgba(0,0,0,0.45)] backdrop-blur-2xl">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3.5 sm:gap-4 sm:px-6 sm:py-4">
         <Link
-          href="/"
+          href="/home"
           className={`flex min-w-0 items-center gap-3 ${glassCard} px-2.5 py-2 pr-4`}
           aria-label="Shirwell Bancan — home"
         >

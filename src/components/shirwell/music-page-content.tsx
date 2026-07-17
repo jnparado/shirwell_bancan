@@ -138,7 +138,7 @@ export function MusicPageContent({ songs }: MusicPageContentProps) {
           <ChevronDown className="h-7 w-7" strokeWidth={2} />
         </button>
         <Link
-          href="/"
+          href="/home"
           className="font-serif text-xs font-bold uppercase tracking-[0.28em] text-[#FFC107] hover:text-[#FFD54F]"
         >
           SHIRWELL

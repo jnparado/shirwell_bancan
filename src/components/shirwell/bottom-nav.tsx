@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { Disc3, Flower2, Home, Newspaper, Package } from "lucide-react";
 
 const items = [
-  { href: "/", label: "Home", Icon: Home },
+  { href: "/home", label: "Home", Icon: Home },
   { href: "/music", label: "Music", Icon: Disc3 },
   { href: "/flowers", label: "Flowers", Icon: Flower2 },
   { href: "/newsletter", label: "Newsletter", Icon: Newspaper },
@@ -15,7 +15,6 @@ const items = [
 
 function isNavActive(pathname: string, href: string): boolean {
   if (pathname === href) return true;
-  if (href === "/" && pathname === "/home") return true;
   if (href === "/music" && pathname.startsWith("/music")) return true;
   if (href === "/flowers" && pathname.startsWith("/flowers")) return true;
   return false;

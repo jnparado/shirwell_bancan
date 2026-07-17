@@ -20,6 +20,8 @@ export const SEO_KEYWORDS = [
   "listen to Shirwell Bancan",
 ] as const;
 
+export const HOME_PATH = "/home";
+
 export const DEFAULT_TITLE =
   "Shirwell Music | Shirwell Bancan — Official Site";
 
@@ -134,14 +136,14 @@ export function createRootMetadata(): Metadata {
     openGraph: {
       type: "website",
       locale: "en_AU",
-      url: base,
+      url: `${base.origin}${HOME_PATH}`,
       siteName: SITE_NAME,
       title: ogTitle,
       description: DEFAULT_DESCRIPTION,
       images: [
         {
           url: DEFAULT_OG_IMAGE,
-          alt: `${SITE_NAME} — singer songwriter producer`,
+          alt: `${SITE_NAME} — Shirwell music`,
         },
       ],
     },
@@ -179,7 +181,7 @@ export function getOrganizationWebsiteJsonLd(): Record<string, unknown> {
   const hero = absoluteUrl(DEFAULT_OG_IMAGE);
   const artistId = `${origin}/#shirwell-bancan`;
   const websiteId = `${origin}/#website`;
-  const webPageId = `${origin}/#home`;
+  const webPageId = `${origin}${HOME_PATH}#home`;
   const sameAs = parseSameAsEnv();
 
   const musicGroup: Record<string, unknown> = {
@@ -242,7 +244,7 @@ export function getOrganizationWebsiteJsonLd(): Record<string, unknown> {
       {
         "@type": "WebPage",
         "@id": webPageId,
-        url: origin,
+        url: `${origin}${HOME_PATH}`,
         name: HOME_TITLE,
         description: HOME_DESCRIPTION,
         isPartOf: { "@id": websiteId },
@@ -284,7 +286,7 @@ export function getMusicPageJsonLd(): Record<string, unknown> {
           "@type": "ListItem",
           position: 1,
           name: "Shirwell",
-          item: origin,
+          item: `${origin}${HOME_PATH}`,
         },
         {
           "@type": "ListItem",

@@ -7,7 +7,6 @@ const PUBLIC_PATHS: Array<{
   changeFrequency: MetadataRoute.Sitemap[number]["changeFrequency"];
   priority: number;
 }> = [
-  { path: "/", changeFrequency: "weekly", priority: 1 },
   { path: "/home", changeFrequency: "weekly", priority: 1 },
   { path: "/music", changeFrequency: "weekly", priority: 0.9 },
   { path: "/about", changeFrequency: "yearly", priority: 0.5 },
