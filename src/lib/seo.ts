@@ -27,8 +27,11 @@ export const SEO_KEYWORDS = [
 
 export const HOME_PATH = "/home";
 
-/** Google + social share title (matches Social Metatags preview). */
-export const SOCIAL_TITLE = "Shirwell Music";
+/** Square favicon / Google search icon (from Shirwell Bancan poster). */
+export const SITE_FAVICON = "/shirwell-favicon.png";
+
+/** Google + social share title — leads with Shirwell Bancan for search results. */
+export const SOCIAL_TITLE = "Shirwell Bancan — Singer Songwriter Producer";
 
 export const DEFAULT_TITLE = SOCIAL_TITLE;
 
@@ -38,9 +41,9 @@ export const MUSIC_PAGE_TITLE =
   "Shirwell Music — Stream Shirwell Bancan Songs Online";
 
 export const DEFAULT_DESCRIPTION =
-  "Welcome to the Home of Shirwell. This is not just an app—it's a gateway to a legend in the making. Upgrades are currently in progress to refine your experience, bringing you closer to the world of Shirwell Bancan music.";
+  "Experience 45 years of songwriting and talent from Shirwell Bancan. Official Shirwell music — stream original songs, explore releases, and listen to Shirwell Bancan online.";
 
-/** Home page meta description — same as social preview copy. */
+/** Home page meta description — matches Google search snippet. */
 export const HOME_DESCRIPTION = DEFAULT_DESCRIPTION;
 
 export const MUSIC_PAGE_DESCRIPTION =
@@ -218,7 +221,7 @@ export function createRootMetadata(): Metadata {
     description: DEFAULT_DESCRIPTION,
     applicationName: SITE_NAME,
     appleWebApp: {
-      title: SOCIAL_TITLE,
+      title: SITE_NAME,
     },
     keywords: [...SEO_KEYWORDS],
     authors: [{ name: SITE_NAME, url: base.href }],
@@ -246,8 +249,12 @@ export function createRootMetadata(): Metadata {
     },
     twitter: social.twitter,
     icons: {
-      icon: "/shirwell-logo.png",
-      apple: "/shirwell-logo.png",
+      icon: [
+        { url: SITE_FAVICON, sizes: "512x512", type: "image/png" },
+        { url: "/shirwell-favicon-192.png", sizes: "192x192", type: "image/png" },
+      ],
+      apple: [{ url: SITE_FAVICON, sizes: "512x512", type: "image/png" }],
+      shortcut: SITE_FAVICON,
     },
     category: "entertainment",
     alternates: {
@@ -275,7 +282,7 @@ function parseSameAsEnv(): string[] {
 /** JSON-LD: MusicGroup + WebSite + WebPage + SearchAction (helps Google connect brand ↔ URL). */
 export function getOrganizationWebsiteJsonLd(): Record<string, unknown> {
   const origin = getSiteUrl().origin;
-  const logo = absoluteUrl("/shirwell-logo.png");
+  const logo = absoluteUrl(SITE_FAVICON);
   const hero = absoluteUrl(DEFAULT_OG_IMAGE);
   const artistId = `${origin}/#shirwell-bancan`;
   const websiteId = `${origin}/#website`;
@@ -325,7 +332,6 @@ export function getOrganizationWebsiteJsonLd(): Record<string, unknown> {
         alternateName: [
           `${SITE_NAME} official website`,
           "Shirwell",
-          "Shirwell Bancan",
           "Shirwell music",
           "Shirwell Music",
         ],
@@ -335,6 +341,11 @@ export function getOrganizationWebsiteJsonLd(): Record<string, unknown> {
         publisher: { "@id": artistId },
         about: { "@id": artistId },
         mainEntity: { "@id": artistId },
+        logo: {
+          "@type": "ImageObject",
+          url: logo,
+          caption: `${SITE_NAME} logo`,
+        },
         potentialAction: {
           "@type": "SearchAction",
           target: {
