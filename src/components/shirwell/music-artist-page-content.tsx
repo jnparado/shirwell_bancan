@@ -16,7 +16,7 @@ import { usePlayer } from "@/contexts/player-context";
 import {
   ARTIST_DISPLAY_NAME,
   ARTIST_FULL_NAME,
-  ARTIST_HERO_POSTER,
+  ARTIST_HERO_IMAGE,
   ARTIST_TAGLINE,
   FEATURED_PLAYLISTS,
   POPULAR_DURATIONS,
@@ -108,7 +108,7 @@ export function MusicArtistPageContent({ songs }: MusicArtistPageContentProps) {
             >
               <div className="relative h-8 w-8 overflow-hidden rounded-full bg-zinc-900 ring-1 ring-[#FFC107]/25">
                 <Image
-                  src={ARTIST_HERO_POSTER}
+                  src={ARTIST_HERO_IMAGE}
                   alt=""
                   fill
                   className="object-cover object-center"
@@ -121,13 +121,13 @@ export function MusicArtistPageContent({ songs }: MusicArtistPageContentProps) {
 
           {/* Hero — mobile: poster + overlay */}
           <section className="relative overflow-hidden lg:hidden">
-            <div className="relative mx-auto aspect-[2/3] w-full max-w-sm bg-black">
+            <div className="relative mx-auto aspect-square w-full max-w-xs bg-[#0a0a0a]">
               <Image
-                src={ARTIST_HERO_POSTER}
-                alt={`${ARTIST_FULL_NAME} — 45 years of original songs`}
+                src={ARTIST_HERO_IMAGE}
+                alt={`${ARTIST_FULL_NAME} — official artist`}
                 fill
                 className="object-contain object-center"
-                sizes="100vw"
+                sizes="(max-width: 640px) 80vw, 320px"
                 priority
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent" />
@@ -177,20 +177,20 @@ export function MusicArtistPageContent({ songs }: MusicArtistPageContentProps) {
           <section className="relative hidden overflow-hidden lg:block">
             <div className="absolute inset-0">
               <Image
-                src={ARTIST_HERO_POSTER}
+                src={ARTIST_HERO_IMAGE}
                 alt=""
                 fill
-                className="object-cover object-center scale-110 blur-3xl opacity-25"
+                className="object-cover object-center scale-110 blur-3xl opacity-35"
                 sizes="100vw"
                 aria-hidden
               />
               <div className="absolute inset-0 bg-gradient-to-r from-[#1a1208]/95 via-[#0a0a0a]/90 to-[#0a0a0a]" />
             </div>
             <div className="relative mx-auto flex max-w-6xl items-end gap-8 px-6 py-10 xl:gap-12 xl:py-12">
-              <div className="relative aspect-[2/3] h-64 w-auto shrink-0 overflow-hidden rounded-lg border border-[#FFC107]/15 bg-black shadow-[0_24px_80px_rgba(255,193,7,0.12)] xl:h-72">
+              <div className="relative aspect-square h-64 w-64 shrink-0 overflow-hidden rounded-full bg-[#0a0a0a] shadow-[0_24px_80px_rgba(255,193,7,0.15)] xl:h-72 xl:w-72">
                 <Image
-                  src={ARTIST_HERO_POSTER}
-                  alt={`${ARTIST_FULL_NAME} — 45 years of original songs`}
+                  src={ARTIST_HERO_IMAGE}
+                  alt={`${ARTIST_FULL_NAME} — official artist`}
                   fill
                   className="object-contain object-center"
                   sizes="288px"
@@ -399,7 +399,7 @@ export function MusicArtistPageContent({ songs }: MusicArtistPageContentProps) {
                 >
                   <div className="relative aspect-square">
                     <Image
-                      src={ARTIST_HERO_POSTER}
+                      src={ARTIST_HERO_IMAGE}
                       alt=""
                       fill
                       className="object-cover object-center transition duration-300 group-hover:scale-[1.02]"
