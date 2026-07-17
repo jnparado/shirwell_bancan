@@ -16,7 +16,6 @@ import { usePlayer } from "@/contexts/player-context";
 import {
   ARTIST_DISPLAY_NAME,
   ARTIST_FULL_NAME,
-  ARTIST_HERO_PHOTO,
   ARTIST_HERO_POSTER,
   ARTIST_TAGLINE,
   FEATURED_PLAYLISTS,
@@ -107,9 +106,9 @@ export function MusicArtistPageContent({ songs }: MusicArtistPageContentProps) {
               className="flex items-center gap-1 rounded-full py-1 pl-1 pr-2 hover:bg-white/10"
               aria-label="Account menu"
             >
-              <div className="relative h-8 w-8 overflow-hidden rounded-full bg-zinc-800">
+              <div className="relative h-8 w-8 overflow-hidden rounded-full bg-zinc-900 ring-1 ring-[#FFC107]/25">
                 <Image
-                  src={ARTIST_HERO_PHOTO}
+                  src={ARTIST_HERO_POSTER}
                   alt=""
                   fill
                   className="object-cover object-center"
@@ -120,18 +119,18 @@ export function MusicArtistPageContent({ songs }: MusicArtistPageContentProps) {
             </button>
           </header>
 
-          {/* Hero — mobile: full-bleed photo + overlay */}
+          {/* Hero — mobile: poster + overlay */}
           <section className="relative overflow-hidden lg:hidden">
-            <div className="relative aspect-[4/5] w-full max-h-[420px]">
+            <div className="relative mx-auto aspect-[2/3] w-full max-w-sm bg-black">
               <Image
-                src={ARTIST_HERO_PHOTO}
-                alt={`${ARTIST_FULL_NAME} — official artist`}
+                src={ARTIST_HERO_POSTER}
+                alt={`${ARTIST_FULL_NAME} — 45 years of original songs`}
                 fill
-                className="object-cover object-[center_20%] scale-110"
+                className="object-contain object-center"
                 sizes="100vw"
                 priority
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/35 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent" />
               <div className="absolute inset-x-0 bottom-0 px-4 pb-4">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-zinc-300">
                   Official Artist
@@ -174,27 +173,27 @@ export function MusicArtistPageContent({ songs }: MusicArtistPageContentProps) {
             </div>
           </section>
 
-          {/* Hero — desktop: wide banner */}
+          {/* Hero — desktop: poster banner */}
           <section className="relative hidden overflow-hidden lg:block">
             <div className="absolute inset-0">
               <Image
-                src={ARTIST_HERO_PHOTO}
+                src={ARTIST_HERO_POSTER}
                 alt=""
                 fill
-                className="object-cover object-left scale-105 blur-2xl opacity-40"
+                className="object-cover object-center scale-110 blur-3xl opacity-25"
                 sizes="100vw"
                 aria-hidden
               />
-              <div className="absolute inset-0 bg-gradient-to-r from-[#1a1208]/90 via-[#121010]/85 to-[#0a0a0a]" />
+              <div className="absolute inset-0 bg-gradient-to-r from-[#1a1208]/95 via-[#0a0a0a]/90 to-[#0a0a0a]" />
             </div>
             <div className="relative mx-auto flex max-w-6xl items-end gap-8 px-6 py-10 xl:gap-12 xl:py-12">
-              <div className="relative h-56 w-56 shrink-0 overflow-hidden rounded-lg shadow-[0_24px_80px_rgba(0,0,0,0.65)] xl:h-64 xl:w-64">
+              <div className="relative aspect-[2/3] h-64 w-auto shrink-0 overflow-hidden rounded-lg border border-[#FFC107]/15 bg-black shadow-[0_24px_80px_rgba(255,193,7,0.12)] xl:h-72">
                 <Image
-                  src={ARTIST_HERO_PHOTO}
-                  alt={`${ARTIST_FULL_NAME} — official artist`}
+                  src={ARTIST_HERO_POSTER}
+                  alt={`${ARTIST_FULL_NAME} — 45 years of original songs`}
                   fill
-                  className="object-cover object-[center_15%]"
-                  sizes="256px"
+                  className="object-contain object-center"
+                  sizes="288px"
                   priority
                 />
               </div>

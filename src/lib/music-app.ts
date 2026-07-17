@@ -1,15 +1,11 @@
-/** Shirwell artist hero — 45 years poster (default track art) */
+/** Shirwell artist hero — 45 years poster */
 export const ARTIST_HERO_POSTER = "/about/shirwell-bancan-poster.png";
-
-/** Wide banner + portrait extracted from design mockup */
-export const ARTIST_HERO_BANNER = "/about/shirwell-artist-hero-banner.png";
-export const ARTIST_HERO_PHOTO = "/about/shirwell-artist-hero-photo.png";
 
 export const ARTIST_DISPLAY_NAME = "Shirwell";
 export const ARTIST_FULL_NAME = "Shirwell Bancan";
 
 export const ARTIST_TAGLINE =
-  'Singer. Songwriter. Rocker. New album "BANCAN" is out now!';
+  "Experience 45 years of original songs — from Shirwell Bancan.";
 
 export const FEATURED_PLAYLISTS = [
   { id: "top-hits", name: "Top Hits", subtitle: "50 songs" },

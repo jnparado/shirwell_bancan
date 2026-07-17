@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 import {
   ARTIST_FULL_NAME,
-  ARTIST_HERO_PHOTO,
+  ARTIST_HERO_POSTER,
   FEATURED_PLAYLISTS,
 } from "@/lib/music-app";
 import { getPlayerArtworkSrc } from "@/lib/player-artwork";
@@ -141,9 +141,9 @@ export function MusicSidebar({ songs }: MusicSidebarProps) {
           Install App
         </Link>
         <div className="flex items-center gap-3 rounded-lg px-2 py-2">
-          <div className="relative h-9 w-9 shrink-0 overflow-hidden rounded-full bg-zinc-800 ring-2 ring-[#FFC107]/30">
+          <div className="relative h-9 w-9 shrink-0 overflow-hidden rounded-full bg-zinc-900 ring-2 ring-[#FFC107]/30">
             <Image
-              src={ARTIST_HERO_PHOTO}
+              src={ARTIST_HERO_POSTER}
               alt=""
               fill
               className="object-cover object-center"
