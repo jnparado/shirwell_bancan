@@ -90,6 +90,27 @@ export const GOOGLE_SITE_VERIFICATION_TOKEN =
   process.env.GOOGLE_SITE_VERIFICATION?.trim() ||
   "YXnOZtZE3DI66I3y8cSj8Eu3iBGccXzKSN2PggjeESI";
 
+/** Stable production origin — used when env vars are missing at build/runtime. */
+export const PRODUCTION_SITE_URL = "https://shirwell-bancan.vercel.app";
+
+/** Public pages in `public/sitemap.xml` — keep both lists in sync when adding pages. */
+export const SITEMAP_PUBLIC_PATHS = [
+  { path: "/home", changeFrequency: "weekly" as const, priority: 1 },
+  { path: "/music", changeFrequency: "weekly" as const, priority: 0.9 },
+  { path: "/about", changeFrequency: "yearly" as const, priority: 0.5 },
+  { path: "/music-owner", changeFrequency: "yearly" as const, priority: 0.4 },
+  { path: "/cds", changeFrequency: "monthly" as const, priority: 0.5 },
+  { path: "/products", changeFrequency: "monthly" as const, priority: 0.5 },
+  { path: "/flowers", changeFrequency: "monthly" as const, priority: 0.45 },
+  { path: "/flower", changeFrequency: "monthly" as const, priority: 0.45 },
+  { path: "/newsletter", changeFrequency: "weekly" as const, priority: 0.45 },
+  { path: "/search", changeFrequency: "monthly" as const, priority: 0.4 },
+  { path: "/premium", changeFrequency: "monthly" as const, priority: 0.35 },
+  { path: "/support", changeFrequency: "yearly" as const, priority: 0.35 },
+  { path: "/legal", changeFrequency: "yearly" as const, priority: 0.3 },
+  { path: "/privacy", changeFrequency: "yearly" as const, priority: 0.3 },
+] as const;
+
 function tryParseSiteUrl(value: string): URL | null {
   const v = value.trim();
   if (!v) return null;
@@ -122,7 +143,21 @@ export function getSiteUrl(): URL {
     return new URL(`https://${process.env.VERCEL_URL}`);
   }
 
+  if (process.env.NODE_ENV === "production" || process.env.VERCEL === "1") {
+    const fallback = tryParseSiteUrl(PRODUCTION_SITE_URL);
+    if (fallback) return fallback;
+  }
+
   return new URL("http://localhost:3000");
+}
+
+/** Origin for sitemap/robots — never emits localhost on production. */
+export function getSitemapOrigin(): string {
+  const origin = getSiteUrl().origin;
+  if (origin.includes("localhost") || origin.includes("127.0.0.1")) {
+    return PRODUCTION_SITE_URL;
+  }
+  return origin;
 }
 
 export function absoluteUrl(path: string): string {

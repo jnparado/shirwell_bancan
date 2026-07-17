@@ -1,9 +1,6 @@
-import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
-import { supabaseEdgeClientOptions } from "@/lib/supabase/edge-client-options";
-import { getSupabasePublicApiKey, getSupabaseUrl } from "@/lib/supabase/env";
 
-/** Paths crawlers must reach without Supabase session refresh (sitemap, robots, verify). */
+/** Paths crawlers must reach without any auth logic. */
 function isCrawlerPublicPath(pathname: string): boolean {
   return (
     pathname === "/sitemap.xml" ||
@@ -15,26 +12,43 @@ function isCrawlerPublicPath(pathname: string): boolean {
   );
 }
 
+/** Only refresh Supabase sessions on routes that need auth. */
+function needsSessionRefresh(pathname: string): boolean {
+  return (
+    pathname.startsWith("/profile") ||
+    pathname.startsWith("/library") ||
+    pathname.startsWith("/auth") ||
+    pathname.startsWith("/oauth") ||
+    pathname.startsWith("/api/")
+  );
+}
+
 /**
- * Keeps Supabase Auth cookies fresh and forwards them on the response.
- * Without this, server `getUser()` can miss or drop sessions.
+ * Sets `x-pathname` for the root layout (AdSense path checks).
+ * Supabase session refresh runs only on auth-related routes so public pages
+ * never hit Edge Realtime/WebSocket issues (MIDDLEWARE_INVOCATION_FAILED).
  */
 export async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
 
-  if (isCrawlerPublicPath(pathname)) {
-    const response = NextResponse.next({ request });
-    response.headers.set("x-pathname", pathname);
-    return response;
-  }
-
-  let response = NextResponse.next({ request });
-  response.headers.set("x-pathname", pathname);
-
   try {
-    const url = getSupabaseUrl();
-    const key = getSupabasePublicApiKey();
+    let response = NextResponse.next({ request });
+    response.headers.set("x-pathname", pathname);
+
+    if (isCrawlerPublicPath(pathname) || !needsSessionRefresh(pathname)) {
+      return response;
+    }
+
+    const url = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim();
+    const key =
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim() ||
+      process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY?.trim();
     if (!url || !key) return response;
+
+    const { createServerClient } = await import("@supabase/ssr");
+    const { supabaseEdgeClientOptions } = await import(
+      "@/lib/supabase/edge-client-options"
+    );
 
     const supabase = createServerClient(url, key, {
       ...supabaseEdgeClientOptions,
@@ -56,16 +70,18 @@ export async function middleware(request: NextRequest) {
     });
 
     await supabase.auth.getUser();
+    response.headers.set("x-pathname", pathname);
+    return response;
   } catch (error) {
-    console.error("[middleware] Supabase session refresh failed:", error);
+    console.error("[middleware] failed:", error);
+    const response = NextResponse.next({ request });
+    response.headers.set("x-pathname", pathname);
+    return response;
   }
-
-  response.headers.set("x-pathname", pathname);
-  return response;
 }
 
 export const config = {
   matcher: [
-    "/((?!_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|manifest.webmanifest|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|woff2?|html|xml|txt|webmanifest)$).*)",
+    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|woff2?|html|xml|txt|webmanifest)$).*)",
   ],
 };

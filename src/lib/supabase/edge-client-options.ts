@@ -11,6 +11,9 @@ class EdgeStubWebSocket {
   static readonly CLOSING = 2;
   static readonly CLOSED = 3;
 
+  readonly binaryType = "blob";
+  readonly bufferedAmount = 0;
+  readonly extensions = "";
   readonly CONNECTING = 0;
   readonly OPEN = 1;
   readonly CLOSING = 2;
@@ -28,6 +31,9 @@ class EdgeStubWebSocket {
   send() {}
   addEventListener() {}
   removeEventListener() {}
+  dispatchEvent() {
+    return true;
+  }
 }
 
 export const supabaseEdgeClientOptions = {
