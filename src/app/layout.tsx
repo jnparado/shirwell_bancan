@@ -1,10 +1,9 @@
 import type { Metadata, Viewport } from "next";
-import { headers } from "next/headers";
 import { Geist, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { PlayerProvider } from "@/contexts/player-context";
 import { SiteFooter } from "@/components/shirwell/site-footer";
-import { AdSenseScript } from "@/components/ads/adsense-script";
+import { AdSenseScriptGate } from "@/components/ads/adsense-script-gate";
 import { GoogleAnalyticsScripts } from "@/components/analytics/google-analytics";
 import { GoogleAnalyticsPageViews } from "@/components/analytics/google-analytics-page-views";
 import {
@@ -14,7 +13,6 @@ import {
 import { SiteMarks } from "@/components/legal/site-marks";
 import { AiSupportChat } from "@/components/support/ai-support-chat";
 import { AppleMusicMiniPlayer } from "@/components/shirwell/apple-music-mini-player";
-import { isAdSenseAllowedPath } from "@/config/ads";
 import {
   createRootMetadata,
   getOrganizationWebsiteJsonLd,
@@ -44,10 +42,6 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const headersList = await headers();
-  const pathname = headersList.get("x-pathname") ?? "/";
-  const showAdSense = isAdSenseAllowedPath(pathname);
-
   return (
     <html
       lang="en-AU"
@@ -56,11 +50,11 @@ export default async function RootLayout({
       <head>
         <GoogleTagManagerHead />
         <GoogleAnalyticsScripts />
-        {showAdSense ? <AdSenseScript /> : null}
       </head>
       <body className="min-h-full font-sans">
         <GoogleTagManagerNoScript />
         <GoogleAnalyticsPageViews />
+        <AdSenseScriptGate />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
