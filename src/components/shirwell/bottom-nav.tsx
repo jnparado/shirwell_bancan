@@ -16,6 +16,7 @@ const items = [
 function isNavActive(pathname: string, href: string): boolean {
   if (pathname === href) return true;
   if (href === "/" && pathname === "/home") return true;
+  if (href === "/music" && pathname.startsWith("/music")) return true;
   if (href === "/flowers" && pathname.startsWith("/flowers")) return true;
   return false;
 }
@@ -25,7 +26,7 @@ export function BottomNav() {
 
   return (
     <nav
-      className="fixed bottom-0 left-0 right-0 z-50 border-t border-white/[0.06] bg-black/40 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl"
+      className="fixed bottom-0 left-0 right-0 z-50 border-t border-white/[0.06] bg-black/40 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl lg:hidden"
       aria-label="Primary"
     >
       <div className="mx-auto flex max-w-lg items-stretch justify-around gap-0.5 px-2 py-2 sm:px-4">

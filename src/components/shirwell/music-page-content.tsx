@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import {
   ChevronDown,
@@ -20,7 +19,6 @@ import type { Song } from "@/types/song";
 import { usePlayer } from "@/contexts/player-context";
 import { getPlayerArtworkSrc } from "@/lib/player-artwork";
 import { formatTime } from "@/lib/player/format-time";
-import { BottomNav } from "./bottom-nav";
 import { BrandLegalMarks } from "@/components/legal/brand-legal-marks";
 
 interface MusicPageContentProps {
@@ -59,7 +57,6 @@ function SkipSecondsButton({
 }
 
 export function MusicPageContent({ songs }: MusicPageContentProps) {
-  const router = useRouter();
   const {
     queue,
     setQueue,
@@ -112,7 +109,7 @@ export function MusicPageContent({ songs }: MusicPageContentProps) {
   }
 
   return (
-    <div className="relative flex min-h-[100dvh] min-w-0 flex-1 flex-col overflow-x-hidden bg-[#0a0a0c] pb-[var(--page-bottom-safe)]">
+    <div className="relative flex min-h-[100dvh] min-w-0 flex-1 flex-col overflow-x-hidden bg-[#0a0a0c] pb-[calc(env(safe-area-inset-bottom)+1rem)]">
       {/* Blurred artwork backdrop — Apple Music style */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
         <Image
@@ -127,14 +124,13 @@ export function MusicPageContent({ songs }: MusicPageContentProps) {
       </div>
 
       <header className="relative z-10 flex shrink-0 items-center justify-between px-4 py-3">
-        <button
-          type="button"
-          onClick={() => router.back()}
+        <Link
+          href="/music"
           className="rounded-full p-2 text-white/90 hover:bg-white/10"
           aria-label="Close player"
         >
           <ChevronDown className="h-7 w-7" strokeWidth={2} />
-        </button>
+        </Link>
         <Link
           href="/"
           className="text-xs font-semibold uppercase tracking-[0.2em] text-white/50 hover:text-white/70"
@@ -380,8 +376,6 @@ export function MusicPageContent({ songs }: MusicPageContentProps) {
           </div>
         )}
       </main>
-
-      <BottomNav />
     </div>
   );
 }

@@ -3,10 +3,12 @@
 import { usePathname } from "next/navigation";
 import { BrandLegalMarks } from "@/components/legal/brand-legal-marks";
 
-/** Fixed TM / © stack — bottom-right on pages (hidden on full-screen music player). */
+import { isMusicAppRoute } from "@/lib/music-app";
+
+/** Fixed TM / © stack — bottom-right on pages (hidden on music app). */
 export function SiteMarks() {
   const pathname = usePathname();
-  if (pathname === "/music") return null;
+  if (isMusicAppRoute(pathname)) return null;
 
   return (
     <div

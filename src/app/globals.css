@@ -6,9 +6,14 @@
   --shirwell-gold: #ffc107;
   --bottom-nav-h: 4.5rem;
   --mini-player-h: 3.25rem;
+  --player-bar-h: 5.5rem;
+  --sidebar-w: 16rem;
   --page-bottom-safe: calc(var(--bottom-nav-h) + env(safe-area-inset-bottom) + 1rem);
   --page-bottom-with-player: calc(
     var(--bottom-nav-h) + var(--mini-player-h) + env(safe-area-inset-bottom) + 1rem
+  );
+  --music-app-bottom-safe: calc(
+    var(--bottom-nav-h) + var(--player-bar-h) + env(safe-area-inset-bottom) + 1rem
   );
   --chat-dock-bottom: calc(5.25rem + env(safe-area-inset-bottom));
 }
@@ -16,6 +21,18 @@
 html[data-mini-player="true"] {
   --page-bottom-safe: var(--page-bottom-with-player);
   --chat-dock-bottom: calc(8.75rem + env(safe-area-inset-bottom));
+}
+
+html[data-music-app="true"] {
+  --page-bottom-safe: var(--music-app-bottom-safe);
+  --page-bottom-with-player: var(--music-app-bottom-safe);
+}
+
+@media (min-width: 1024px) {
+  html[data-music-app="true"] {
+    --music-app-bottom-safe: calc(var(--player-bar-h) + env(safe-area-inset-bottom) + 1.5rem);
+    --page-bottom-safe: var(--music-app-bottom-safe);
+  }
 }
 
 html,

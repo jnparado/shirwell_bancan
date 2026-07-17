@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Crown } from "lucide-react";
-import { hasBottomNav } from "@/lib/mobile-chrome";
+import { hasBottomNav, isMusicAppRoute } from "@/lib/mobile-chrome";
 import { BrandLegalMarks } from "@/components/legal/brand-legal-marks";
 import { SITE_NAME } from "@/lib/seo";
 
@@ -46,7 +46,7 @@ const social = [
 
 export function SiteFooter() {
   const pathname = usePathname();
-  if (pathname === "/music") return null;
+  if (isMusicAppRoute(pathname)) return null;
 
   const showNavPadding = hasBottomNav(pathname);
 

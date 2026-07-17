@@ -9,6 +9,7 @@ import {
   SUPPORT_QUICK_PROMPTS,
   type ChatMessage,
 } from "@/lib/support-chat";
+import { isMusicAppRoute } from "@/lib/music-app";
 
 const glassPanel =
   "border border-white/[0.08] bg-[rgba(12,12,14,0.92)] shadow-[0_12px_48px_rgba(0,0,0,0.55)] backdrop-blur-2xl";
@@ -24,7 +25,7 @@ export function AiSupportChat() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
-  const isMusic = pathname === "/music";
+  const isMusic = isMusicAppRoute(pathname);
   const dockClass = isMusic
     ? "bottom-[calc(1.25rem+env(safe-area-inset-bottom))]"
     : "bottom-[var(--chat-dock-bottom)] sm:bottom-6";
