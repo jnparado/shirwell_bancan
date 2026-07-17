@@ -1,14 +1,11 @@
-/** 45 years poster — About page & fallback art */
+/** Shirwell artist hero — official 45-years poster */
 export const ARTIST_HERO_POSTER = "/about/shirwell-bancan-poster.png";
-
-/** Music app hero — circular artist portrait */
-export const ARTIST_HERO_IMAGE = "/about/shirwell-music-hero.png";
 
 export const ARTIST_DISPLAY_NAME = "Shirwell";
 export const ARTIST_FULL_NAME = "Shirwell Bancan";
 
 export const ARTIST_TAGLINE =
-  "Experience 45 years of original songs — from Shirwell Bancan.";
+  "Singer. Songwriter. Rocker. 45 years of original songs — stream the full catalogue here.";
 
 export const FEATURED_PLAYLISTS = [
   { id: "top-hits", name: "Top Hits", subtitle: "50 songs" },

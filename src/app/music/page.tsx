@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { MusicArtistPageContent } from "@/components/shirwell/music-artist-page-content";
 import { getSongs } from "@/lib/songs";
-import { ARTIST_HERO_IMAGE, ARTIST_FULL_NAME } from "@/lib/music-app";
+import { ARTIST_HERO_POSTER, ARTIST_FULL_NAME } from "@/lib/music-app";
 import { SITE_NAME } from "@/lib/seo";
 
 export const metadata: Metadata = {
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     url: "/music",
     images: [
       {
-        url: ARTIST_HERO_IMAGE,
+        url: ARTIST_HERO_POSTER,
         alt: `${ARTIST_FULL_NAME} — 45 years of original songs`,
       },
     ],

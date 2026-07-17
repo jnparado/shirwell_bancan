@@ -16,13 +16,14 @@ import { usePlayer } from "@/contexts/player-context";
 import {
   ARTIST_DISPLAY_NAME,
   ARTIST_FULL_NAME,
-  ARTIST_HERO_IMAGE,
+  ARTIST_HERO_POSTER,
   ARTIST_TAGLINE,
   FEATURED_PLAYLISTS,
   POPULAR_DURATIONS,
   POPULAR_PLAY_COUNTS,
 } from "@/lib/music-app";
 import { getPlayerArtworkSrc } from "@/lib/player-artwork";
+import { BrandLegalMarks } from "@/components/legal/brand-legal-marks";
 import { MusicBottomNav } from "./music-bottom-nav";
 import { MusicSidebar } from "./music-sidebar";
 
@@ -106,12 +107,12 @@ export function MusicArtistPageContent({ songs }: MusicArtistPageContentProps) {
               className="flex items-center gap-1 rounded-full py-1 pl-1 pr-2 hover:bg-white/10"
               aria-label="Account menu"
             >
-              <div className="relative h-8 w-8 overflow-hidden rounded-full bg-zinc-900 ring-1 ring-[#FFC107]/25">
+              <div className="relative h-8 w-8 overflow-hidden rounded-full bg-zinc-800">
                 <Image
-                  src={ARTIST_HERO_IMAGE}
+                  src={ARTIST_HERO_POSTER}
                   alt=""
                   fill
-                  className="object-cover object-center"
+                  className="object-cover object-[center_20%]"
                   sizes="32px"
                 />
               </div>
@@ -119,117 +120,54 @@ export function MusicArtistPageContent({ songs }: MusicArtistPageContentProps) {
             </button>
           </header>
 
-          {/* Hero — mobile: poster + overlay */}
-          <section className="relative overflow-hidden lg:hidden">
-            <div className="relative mx-auto aspect-square w-full max-w-xs bg-[#0a0a0a]">
-              <Image
-                src={ARTIST_HERO_IMAGE}
-                alt={`${ARTIST_FULL_NAME} — official artist`}
-                fill
-                className="object-contain object-center"
-                sizes="(max-width: 640px) 80vw, 320px"
-                priority
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent" />
-              <div className="absolute inset-x-0 bottom-0 px-4 pb-4">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-zinc-300">
-                  Official Artist
-                </p>
-                <h1 className="mt-1 flex items-center gap-2 font-serif text-4xl font-bold text-white">
-                  {ARTIST_DISPLAY_NAME}
-                  <BadgeCheck
-                    className="h-6 w-6 shrink-0 text-[#3b82f6]"
-                    fill="currentColor"
-                    aria-label="Verified artist"
-                  />
-                </h1>
-              </div>
-            </div>
-            <div className="px-4 pb-6 pt-4">
-              <p className="text-sm leading-relaxed text-zinc-300">{ARTIST_TAGLINE}</p>
-              <div className="mt-5 flex items-center gap-3">
-                <button
-                  type="button"
-                  onClick={handlePlayAll}
-                  className="inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-[#FFC107] py-3 text-sm font-bold text-stone-950 transition hover:bg-[#e6ae06]"
-                >
-                  <Play className="h-5 w-5" fill="currentColor" />
-                  Play
-                </button>
-                <Link
-                  href="/newsletter"
-                  className="inline-flex flex-1 items-center justify-center rounded-full border border-white/25 py-3 text-sm font-semibold text-white transition hover:border-white/40 hover:bg-white/5"
-                >
-                  Follow
-                </Link>
-                <button
-                  type="button"
-                  className="rounded-full border border-white/15 p-3 text-zinc-300 hover:bg-white/10"
-                  aria-label="More options"
-                >
-                  <MoreHorizontal className="h-5 w-5" />
-                </button>
-              </div>
-            </div>
-          </section>
-
-          {/* Hero — desktop: poster banner */}
-          <section className="relative hidden overflow-hidden lg:block">
-            <div className="absolute inset-0">
-              <Image
-                src={ARTIST_HERO_IMAGE}
-                alt=""
-                fill
-                className="object-cover object-center scale-110 blur-3xl opacity-35"
-                sizes="100vw"
-                aria-hidden
-              />
-              <div className="absolute inset-0 bg-gradient-to-r from-[#1a1208]/95 via-[#0a0a0a]/90 to-[#0a0a0a]" />
-            </div>
-            <div className="relative mx-auto flex max-w-6xl items-end gap-8 px-6 py-10 xl:gap-12 xl:py-12">
-              <div className="relative aspect-square h-64 w-64 shrink-0 overflow-hidden rounded-full bg-[#0a0a0a] shadow-[0_24px_80px_rgba(255,193,7,0.15)] xl:h-72 xl:w-72">
+          {/* Hero — official poster, responsive */}
+          <section className="border-b border-white/[0.06] bg-gradient-to-b from-[#1a1510] via-[#121010] to-[#0a0a0a]">
+            <div className="mx-auto flex max-w-6xl flex-col items-center gap-6 px-4 py-8 sm:px-6 lg:flex-row lg:items-end lg:gap-10 lg:py-12">
+              <div className="relative aspect-[3/4] w-full max-w-[220px] shrink-0 overflow-hidden rounded-xl shadow-[0_24px_64px_rgba(0,0,0,0.55)] sm:max-w-[260px] lg:mx-0 lg:max-w-[280px]">
                 <Image
-                  src={ARTIST_HERO_IMAGE}
-                  alt={`${ARTIST_FULL_NAME} — official artist`}
+                  src={ARTIST_HERO_POSTER}
+                  alt={`${ARTIST_FULL_NAME} — 45 years of original songs`}
                   fill
-                  className="object-contain object-center"
-                  sizes="288px"
+                  className="object-cover object-center"
+                  sizes="(max-width: 1024px) 260px, 280px"
                   priority
                 />
+                <BrandLegalMarks />
               </div>
-              <div className="min-w-0 flex-1 pb-2">
+
+              <div className="flex min-w-0 flex-1 flex-col pb-2 text-center lg:pb-6 lg:text-left">
                 <p className="text-xs font-semibold uppercase tracking-[0.2em] text-zinc-400">
                   Official Artist
                 </p>
-                <h1 className="mt-3 flex items-center gap-3 font-serif text-6xl font-bold tracking-tight text-white xl:text-7xl">
+                <h1 className="mt-2 flex items-center justify-center gap-2 font-serif text-4xl font-bold tracking-tight text-white sm:text-5xl lg:justify-start lg:text-6xl">
                   {ARTIST_DISPLAY_NAME}
                   <BadgeCheck
-                    className="h-9 w-9 shrink-0 text-[#3b82f6]"
+                    className="h-7 w-7 shrink-0 text-[#3b82f6] sm:h-8 sm:w-8"
                     fill="currentColor"
                     aria-label="Verified artist"
                   />
                 </h1>
-                <p className="mt-4 max-w-2xl text-base leading-relaxed text-zinc-200">
+                <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-zinc-300 sm:text-base lg:mx-0">
                   {ARTIST_TAGLINE}
                 </p>
-                <div className="mt-8 flex flex-wrap items-center gap-3">
+                <div className="mt-6 flex flex-wrap items-center justify-center gap-3 lg:justify-start">
                   <button
                     type="button"
                     onClick={handlePlayAll}
-                    className="inline-flex items-center gap-2 rounded-full bg-[#FFC107] px-10 py-3.5 text-sm font-bold text-stone-950 shadow-[0_0_32px_rgba(255,193,7,0.25)] transition hover:bg-[#e6ae06]"
+                    className="inline-flex items-center gap-2 rounded-full bg-[#FFC107] px-8 py-3 text-sm font-bold text-stone-950 shadow-[0_0_32px_rgba(255,193,7,0.25)] transition hover:bg-[#e6ae06]"
                   >
                     <Play className="h-5 w-5" fill="currentColor" />
                     Play
                   </button>
                   <Link
                     href="/newsletter"
-                    className="inline-flex rounded-full border border-white/25 px-10 py-3.5 text-sm font-semibold text-white transition hover:border-white/40 hover:bg-white/5"
+                    className="inline-flex rounded-full border border-white/25 px-8 py-3 text-sm font-semibold text-white transition hover:border-white/40 hover:bg-white/5"
                   >
                     Follow
                   </Link>
                   <button
                     type="button"
-                    className="rounded-full p-3 text-zinc-400 hover:bg-white/10 hover:text-white"
+                    className="rounded-full border border-white/15 p-3 text-zinc-300 hover:bg-white/10"
                     aria-label="More options"
                   >
                     <MoreHorizontal className="h-5 w-5" />
@@ -241,7 +179,6 @@ export function MusicArtistPageContent({ songs }: MusicArtistPageContentProps) {
 
           <div className="mx-auto grid max-w-6xl gap-10 px-4 py-6 sm:px-6 lg:grid-cols-[minmax(0,1fr)_300px] lg:gap-8 lg:py-8">
             <div className="min-w-0 space-y-10">
-              {/* Popular */}
               <section>
                 <div className="mb-4 flex items-center justify-between">
                   <h2 className="text-xl font-bold text-white">Popular</h2>
@@ -324,7 +261,6 @@ export function MusicArtistPageContent({ songs }: MusicArtistPageContentProps) {
                 </ol>
               </section>
 
-              {/* Playlists for you — mobile-first carousel */}
               <section>
                 <h2 className="mb-4 text-xl font-bold text-white">Playlists for you</h2>
                 <div className="flex gap-4 overflow-x-auto pb-2">
@@ -358,7 +294,6 @@ export function MusicArtistPageContent({ songs }: MusicArtistPageContentProps) {
                 </div>
               </section>
 
-              {/* Recently played */}
               <section>
                 <h2 className="mb-4 text-xl font-bold text-white">Recently Played</h2>
                 <div className="flex gap-4 overflow-x-auto pb-2">
@@ -388,7 +323,6 @@ export function MusicArtistPageContent({ songs }: MusicArtistPageContentProps) {
               </section>
             </div>
 
-            {/* Artist picks — desktop */}
             <aside className="hidden lg:block">
               <h2 className="mb-4 text-lg font-bold text-white">Artist Picks</h2>
               {featured ? (
@@ -399,7 +333,7 @@ export function MusicArtistPageContent({ songs }: MusicArtistPageContentProps) {
                 >
                   <div className="relative aspect-square">
                     <Image
-                      src={ARTIST_HERO_IMAGE}
+                      src={ARTIST_HERO_POSTER}
                       alt=""
                       fill
                       className="object-cover object-center transition duration-300 group-hover:scale-[1.02]"
@@ -407,7 +341,7 @@ export function MusicArtistPageContent({ songs }: MusicArtistPageContentProps) {
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
                     <span className="absolute bottom-3 left-3 right-3 font-serif text-xl font-bold text-white">
-                      BANCAN
+                      {featured.title ?? "Featured"}
                     </span>
                     <span className="absolute right-3 top-3 flex h-10 w-10 items-center justify-center rounded-full bg-[#FFC107] text-stone-950 opacity-0 shadow-lg transition group-hover:opacity-100">
                       <Play className="h-5 w-5" fill="currentColor" />
