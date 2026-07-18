@@ -3,7 +3,7 @@ import { Geist, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { PlayerProvider } from "@/contexts/player-context";
 import { SiteFooter } from "@/components/shirwell/site-footer";
-import { AdSenseScriptGate } from "@/components/ads/adsense-script-gate";
+import { AdSenseScript } from "@/components/ads/adsense-script";
 import { GoogleAnalyticsScripts } from "@/components/analytics/google-analytics";
 import { GoogleAnalyticsPageViews } from "@/components/analytics/google-analytics-page-views";
 import {
@@ -50,11 +50,11 @@ export default async function RootLayout({
       <head>
         <GoogleTagManagerHead />
         <GoogleAnalyticsScripts />
+        <AdSenseScript />
       </head>
       <body className="min-h-full font-sans">
         <GoogleTagManagerNoScript />
         <GoogleAnalyticsPageViews />
-        <AdSenseScriptGate />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

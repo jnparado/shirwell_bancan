@@ -1,7 +1,7 @@
 import Script from "next/script";
 import { ADSENSE_CLIENT_ID, isAdsenseConfigured } from "@/config/ads";
 
-/** Loads AdSense after hydration to avoid head DOM mismatches with GTM. */
+/** Google AdSense loader — paste in `<head>` on every page (ca-pub-2495432679632375). */
 export function AdSenseScript() {
   if (!isAdsenseConfigured()) return null;
 
