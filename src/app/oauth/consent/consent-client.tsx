@@ -148,25 +148,7 @@ export function ConsentClient() {
   }
 
   if (!authorizationId) {
-    return (
-      <div className="mx-auto flex min-h-[70vh] max-w-lg flex-col justify-center px-4 py-16">
-        <div className={card}>
-          <h1 className="font-serif text-2xl font-semibold text-[#FFC107]">
-            Authorize app
-          </h1>
-          <p className="mt-4 text-sm leading-relaxed text-zinc-300">
-            Missing authorization_id. This screen is shown when another application
-            starts “Sign in with Shirwell.”
-          </p>
-          <Link
-            href="/"
-            className="mt-8 inline-flex text-sm font-semibold text-[#FFC107] underline-offset-4 hover:underline"
-          >
-            Back to home
-          </Link>
-        </div>
-      </div>
-    );
+    return null;
   }
 
   if (status === "error") {
