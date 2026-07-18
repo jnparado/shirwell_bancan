@@ -4,6 +4,7 @@ import "./globals.css";
 import { PlayerProvider } from "@/contexts/player-context";
 import { SiteFooter } from "@/components/shirwell/site-footer";
 import { AdSenseScript } from "@/components/ads/adsense-script";
+import { GoogleAdsTag } from "@/components/analytics/google-ads-tag";
 import { GoogleAnalyticsScripts } from "@/components/analytics/google-analytics";
 import { GoogleAnalyticsPageViews } from "@/components/analytics/google-analytics-page-views";
 import {
@@ -50,6 +51,7 @@ export default async function RootLayout({
       <head>
         <GoogleTagManagerHead />
         <GoogleAnalyticsScripts />
+        <GoogleAdsTag />
         <AdSenseScript />
       </head>
       <body className="min-h-full font-sans">
