@@ -22,8 +22,8 @@ export const metadata: Metadata = {
     url: "/music",
     images: [
       {
-        url: "/about/shirwell-music-hero.png",
-        alt: "Shirwell Music — Shirwell Bancan",
+        url: "/about/shirwell-bancan-poster.png",
+        alt: "Shirwell Bancan — Experience 45 Years of Original Songs",
       },
     ],
   },

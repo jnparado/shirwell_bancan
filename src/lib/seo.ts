@@ -495,7 +495,7 @@ export function getMusicPageJsonLd(songs: SongForSeo[]): Record<string, unknown>
         keywords: PRIMARY_SEARCH_TERMS.join(", "),
         primaryImageOfPage: {
           "@type": "ImageObject",
-          url: absoluteUrl("/about/shirwell-music-hero.png"),
+          url: absoluteUrl(DEFAULT_OG_IMAGE),
         },
         breadcrumb: {
           "@type": "BreadcrumbList",
