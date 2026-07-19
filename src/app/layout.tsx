@@ -49,9 +49,9 @@ export default async function RootLayout({
       className={`${geistSans.variable} ${playfair.variable} h-full antialiased`}
     >
       <head>
+        <GoogleAdsTag />
         <GoogleTagManagerHead />
         <GoogleAnalyticsScripts />
-        <GoogleAdsTag />
         <AdSenseScript />
       </head>
       <body className="min-h-full font-sans">
