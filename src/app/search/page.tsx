@@ -5,6 +5,8 @@ import { BottomNav } from "@/components/shirwell/bottom-nav";
 import { getSongs } from "@/lib/songs";
 import { SITE_NAME } from "@/lib/seo";
 
+export const revalidate = 300;
+
 const glassCard =
   "rounded-xl border border-white/[0.06] bg-[rgba(255,255,255,0.05)] backdrop-blur-md";
 

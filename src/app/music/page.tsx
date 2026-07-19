@@ -9,6 +9,8 @@ import {
   SITE_NAME,
 } from "@/lib/seo";
 
+export const revalidate = 300;
+
 export const metadata: Metadata = {
   title: {
     absolute: MUSIC_PAGE_TITLE,

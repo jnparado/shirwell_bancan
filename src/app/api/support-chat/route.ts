@@ -5,9 +5,14 @@ import {
   isSupportChatAiEnabled,
   type ChatMessage,
 } from "@/lib/support-chat";
+import { checkRateLimit, getClientIp } from "@/lib/security/rate-limit";
+import { jsonError, methodNotAllowed } from "@/lib/security/api";
 
 const MAX_MESSAGES = 20;
 const MAX_CONTENT_LENGTH = 2000;
+const MAX_BODY_BYTES = 32_000;
+const RATE_LIMIT = 30;
+const RATE_WINDOW_MS = 10 * 60 * 1000;
 
 function sanitizeMessages(raw: unknown): ChatMessage[] {
   if (!Array.isArray(raw)) return [];
@@ -60,16 +65,40 @@ async function replyWithOpenAi(messages: ChatMessage[]): Promise<string | null> 
 }
 
 export async function POST(request: Request) {
+  const ip = getClientIp(request);
+  const { allowed, retryAfterSec } = checkRateLimit(
+    `support-chat:${ip}`,
+    RATE_LIMIT,
+    RATE_WINDOW_MS,
+  );
+
+  if (!allowed) {
+    return NextResponse.json(
+      { error: "Too many requests. Please wait and try again." },
+      {
+        status: 429,
+        headers: { "Retry-After": String(retryAfterSec) },
+      },
+    );
+  }
+
+  const contentType = request.headers.get("content-type") ?? "";
+  if (!contentType.includes("application/json")) {
+    return jsonError("Content-Type must be application/json.", 415);
+  }
+
+  const rawBody = await request.text();
+  if (rawBody.length > MAX_BODY_BYTES) {
+    return jsonError("Request body is too large.", 413);
+  }
+
   try {
-    const body = (await request.json()) as { messages?: unknown };
+    const body = JSON.parse(rawBody) as { messages?: unknown };
     const messages = sanitizeMessages(body.messages);
     const lastUser = [...messages].reverse().find((m) => m.role === "user");
 
     if (!lastUser) {
-      return NextResponse.json(
-        { error: "A user message is required." },
-        { status: 400 },
-      );
+      return jsonError("A user message is required.", 400);
     }
 
     let reply: string | null = null;
@@ -86,9 +115,10 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ reply, mode });
   } catch {
-    return NextResponse.json(
-      { error: "Could not process your message. Please try again." },
-      { status: 500 },
-    );
+    return jsonError("Could not process your message. Please try again.", 500);
   }
+}
+
+export function GET() {
+  return methodNotAllowed();
 }

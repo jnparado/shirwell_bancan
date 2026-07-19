@@ -11,6 +11,8 @@ import {
   PRIMARY_SEARCH_TERMS,
 } from "@/lib/seo";
 
+export const revalidate = 300;
+
 export const metadata: Metadata = {
   title: {
     absolute: HOME_TITLE,

@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import {
   APPLE_IAP_PRODUCT_IDS,
   isAppleIapConfigured,
+  isAppleJwsVerificationEnabled,
 } from "@/lib/apple/iap";
 import { upsertAppleEntitlement } from "@/lib/auth/premium";
 import { createServerSupabaseClient, createServiceRoleSupabaseClient } from "@/lib/supabase/server";
@@ -62,6 +63,17 @@ export async function POST(request: Request) {
     return NextResponse.json(
       { error: "signedTransaction (StoreKit JWS) is required for verification." },
       { status: 400 },
+    );
+  }
+
+  // Block premium grants until StoreKit JWS is verified server-side.
+  if (!isAppleJwsVerificationEnabled()) {
+    return NextResponse.json(
+      {
+        error:
+          "Apple transaction verification is not enabled. Set APPLE_IAP_JWS_VERIFICATION_ENABLED=true after JWS verification is implemented.",
+      },
+      { status: 501 },
     );
   }
 

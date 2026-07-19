@@ -35,6 +35,11 @@ export const APPLE_IAP_PRODUCT_IDS = [
 export const APPLE_APP_STORE_URL =
   process.env.NEXT_PUBLIC_APPLE_APP_STORE_URL?.trim() || "";
 
+/** Enable when App Store Server JWS verification is wired in sync/webhook routes. */
+export function isAppleJwsVerificationEnabled(): boolean {
+  return process.env.APPLE_IAP_JWS_VERIFICATION_ENABLED === "true";
+}
+
 export function isAppleIapConfigured(): boolean {
   return Boolean(
     process.env.APPLE_APP_STORE_ISSUER_ID?.trim() &&

@@ -12,7 +12,7 @@ import {
   GoogleTagManagerNoScript,
 } from "@/components/analytics/google-tag-manager";
 import { SiteMarks } from "@/components/legal/site-marks";
-import { AiSupportChat } from "@/components/support/ai-support-chat";
+import { LazyAiSupportChat } from "@/components/support/lazy-ai-support-chat";
 import { AppleMusicMiniPlayer } from "@/components/shirwell/apple-music-mini-player";
 import {
   createRootMetadata,
@@ -69,7 +69,7 @@ export default async function RootLayout({
             <div className="flex-1">{children}</div>
             <SiteFooter />
             <AppleMusicMiniPlayer />
-            <AiSupportChat />
+            <LazyAiSupportChat />
           </div>
         </PlayerProvider>
       </body>

@@ -1,3 +1,4 @@
+import { cache } from "react";
 import type { Song } from "@/types/song";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
 import {
@@ -277,7 +278,7 @@ function mapRowToSong(
   };
 }
 
-export async function getSongs(): Promise<Song[]> {
+export const getSongs = cache(async function getSongs(): Promise<Song[]> {
   const supabase = await createServerSupabaseClient();
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
 
@@ -307,7 +308,7 @@ export async function getSongs(): Promise<Song[]> {
     )
   );
   return applyWrittenYears(normalized);
-}
+});
 
 const DISPLAY_TITLE_KISSING = "Kissing";
 const DISPLAY_TITLE_COME_ON_BABE_V2 = "Come on babe (Version 2 — louder)";

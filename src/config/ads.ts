@@ -3,7 +3,8 @@
  *
  * Env:
  *   NEXT_PUBLIC_ADSENSE_CLIENT_ID=ca-pub-XXXXXXXXXXXXXXXX
- *   NEXT_PUBLIC_ADSENSE_SLOT_BANNER=1234567890   (optional; display ad unit slot ID)
+ *   NEXT_PUBLIC_ADSENSE_SLOT_ENTERPRISES=1200415498   (Enterprises display unit)
+ *   NEXT_PUBLIC_ADSENSE_SLOT_BANNER=1234567890   (optional override)
  *
  * Create units in AdSense → Ads → By ad unit → Display. Approve your site first.
  *
@@ -21,8 +22,12 @@ export const DEFAULT_ADSENSE_CLIENT_ID = "ca-pub-2495432679632375";
 export const ADSENSE_CLIENT_ID =
   process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID?.trim() || DEFAULT_ADSENSE_CLIENT_ID;
 
+/** Display unit — "Enterprices" / Enterprises (auto, full-width responsive). */
+export const ADSENSE_SLOT_ENTERPRISES =
+  process.env.NEXT_PUBLIC_ADSENSE_SLOT_ENTERPRISES?.trim() || "1200415498";
+
 export const ADSENSE_SLOT_BANNER =
-  process.env.NEXT_PUBLIC_ADSENSE_SLOT_BANNER ?? "";
+  process.env.NEXT_PUBLIC_ADSENSE_SLOT_BANNER?.trim() || ADSENSE_SLOT_ENTERPRISES;
 
 export function isAdsenseConfigured(): boolean {
   return Boolean(
