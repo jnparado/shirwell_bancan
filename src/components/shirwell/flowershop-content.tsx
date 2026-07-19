@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { MarketingHeader } from "./marketing-header";
 import { BottomNav } from "./bottom-nav";
-import { AdSenseUnit } from "@/components/ads/adsense-unit";
+import { AdSenseBoxUnit, AdSenseEnterprisesUnit } from "@/components/ads/adsense-unit";
 
 const cardClass =
   "overflow-hidden rounded-xl border border-white/[0.1] bg-[rgba(255,255,255,0.05)] shadow-[0_0_40px_rgba(0,0,0,0.35)] backdrop-blur-md";
@@ -93,7 +93,10 @@ export function FlowershopContent() {
           <p className="mb-2 text-center text-[10px] font-medium uppercase tracking-wider text-[#FFC107]/50">
             Advertisement
           </p>
-          <AdSenseUnit className="rounded-xl border border-[#FFC107]/15 bg-black/30 p-2" />
+          <AdSenseEnterprisesUnit className="rounded-xl border border-[#FFC107]/15 bg-black/30 p-2" />
+          <div className="mt-4">
+            <AdSenseBoxUnit className="rounded-xl border border-[#FFC107]/15 bg-black/30 p-2" />
+          </div>
         </div>
       </main>
 

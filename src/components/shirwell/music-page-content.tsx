@@ -22,6 +22,7 @@ import { getPlayerArtworkSrc } from "@/lib/player-artwork";
 import { formatTime } from "@/lib/player/format-time";
 import { BottomNav } from "./bottom-nav";
 import { BrandLegalMarks } from "@/components/legal/brand-legal-marks";
+import { AdSenseBoxUnit, AdSenseEnterprisesUnit } from "@/components/ads/adsense-unit";
 
 interface MusicPageContentProps {
   songs: Song[];
@@ -383,6 +384,18 @@ export function MusicPageContent({ songs }: MusicPageContentProps) {
           </div>
         )}
       </main>
+
+      {!queueOpen ? (
+        <div className="relative z-10 shrink-0 px-4 pb-2">
+          <p className="mb-1 text-center text-[10px] font-medium uppercase tracking-wider text-white/35">
+            Advertisement
+          </p>
+          <AdSenseEnterprisesUnit className="rounded-xl border border-white/10 bg-black/30 p-2" />
+          <div className="mt-3">
+            <AdSenseBoxUnit className="rounded-xl border border-white/10 bg-black/30 p-2" />
+          </div>
+        </div>
+      ) : null}
 
       <BottomNav />
     </div>

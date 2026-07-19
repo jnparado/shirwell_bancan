@@ -4,6 +4,7 @@
  * Env:
  *   NEXT_PUBLIC_ADSENSE_CLIENT_ID=ca-pub-XXXXXXXXXXXXXXXX
  *   NEXT_PUBLIC_ADSENSE_SLOT_ENTERPRISES=1200415498   (Enterprises display unit)
+ *   NEXT_PUBLIC_ADSENSE_SLOT_BOX=1844130903   (360×300 display unit)
  *   NEXT_PUBLIC_ADSENSE_SLOT_BANNER=1234567890   (optional override)
  *
  * Create units in AdSense → Ads → By ad unit → Display. Approve your site first.
@@ -25,6 +26,13 @@ export const ADSENSE_CLIENT_ID =
 /** Display unit — "Enterprices" / Enterprises (auto, full-width responsive). */
 export const ADSENSE_SLOT_ENTERPRISES =
   process.env.NEXT_PUBLIC_ADSENSE_SLOT_ENTERPRISES?.trim() || "1200415498";
+
+/** Fixed 360×300 display unit. */
+export const ADSENSE_SLOT_BOX =
+  process.env.NEXT_PUBLIC_ADSENSE_SLOT_BOX?.trim() || "1844130903";
+
+export const ADSENSE_BOX_WIDTH = 360;
+export const ADSENSE_BOX_HEIGHT = 300;
 
 export const ADSENSE_SLOT_BANNER =
   process.env.NEXT_PUBLIC_ADSENSE_SLOT_BANNER?.trim() || ADSENSE_SLOT_ENTERPRISES;

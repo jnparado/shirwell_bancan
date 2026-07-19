@@ -9,7 +9,7 @@ import { MarketingHeader } from "./marketing-header";
 import { FeaturedSongCard } from "./featured-song-card";
 import { HomePromo } from "./home-promo";
 import { BottomNav } from "./bottom-nav";
-import { AdSenseUnit } from "@/components/ads/adsense-unit";
+import { AdSenseBoxUnit, AdSenseEnterprisesUnit } from "@/components/ads/adsense-unit";
 import { BrandPhotoFrame } from "@/components/legal/brand-photo-frame";
 
 
@@ -123,7 +123,7 @@ export function HomeContent({ songs, children }: HomeContentProps) {
           <p className="mb-2 text-center text-[10px] font-medium uppercase tracking-wider text-zinc-500">
             Advertisement
           </p>
-          <AdSenseUnit className="rounded-xl border border-white/[0.06] bg-black/20 p-2" />
+          <AdSenseEnterprisesUnit className="rounded-xl border border-white/[0.06] bg-black/20 p-2" />
         </div>
 
         {/* Featured Songs — gold title, glass cards */}
@@ -169,7 +169,7 @@ export function HomeContent({ songs, children }: HomeContentProps) {
           <p className="mb-2 text-center text-[10px] font-medium uppercase tracking-wider text-zinc-500">
             Advertisement
           </p>
-          <AdSenseUnit className="rounded-xl border border-white/[0.06] bg-black/20 p-2" />
+          <AdSenseBoxUnit className="rounded-xl border border-white/[0.06] bg-black/20 p-2" />
         </div>
 
         <HomePromo />
