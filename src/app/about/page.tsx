@@ -5,6 +5,7 @@ import { MarketingHeader } from "@/components/shirwell/marketing-header";
 import { BottomNav } from "@/components/shirwell/bottom-nav";
 import { ContentPageAds } from "@/components/ads/content-page-ads";
 import { BrandLegalMarks } from "@/components/legal/brand-legal-marks";
+import { BUSINESS_LOCATION, SUPPORT_EMAIL } from "@/config/contact";
 import { absoluteUrl, getBrandFaqJsonLd, HOME_PATH, SITE_NAME } from "@/lib/seo";
 
 const glassCard =
@@ -84,6 +85,23 @@ export default function AboutPage() {
           </section>
 
           <section className={`${glassCard} p-6 sm:p-8`}>
+            <h2 className="font-serif text-lg font-semibold text-[#FFC107]">Background</h2>
+            <div className="mt-4 space-y-4 text-sm leading-relaxed text-zinc-300 sm:text-[15px]">
+              <p>
+                Based in {BUSINESS_LOCATION}, Shirwell Bancan has spent more than 45 years
+                writing, recording, and performing original music. The catalogue spans
+                heartfelt ballads, driving rock originals, and stage performances built on
+                storytelling and showmanship.
+              </p>
+              <p>
+                Notable releases include the <strong className="text-zinc-200">Black Horse</strong>{" "}
+                limited-edition vinyl — a collection of standout songs from decades on the road —{" "}
+                alongside singles and albums streamed here on the official Shirwell music player.
+              </p>
+            </div>
+          </section>
+
+          <section className={`${glassCard} p-6 sm:p-8`}>
             <h2 className="font-serif text-lg font-semibold text-[#FFC107]">What you will find here</h2>
             <ul className="mt-4 list-disc space-y-2 pl-5 text-sm leading-relaxed text-zinc-300 sm:text-[15px]">
               <li>
@@ -124,14 +142,18 @@ export default function AboutPage() {
             <p className="mt-4 text-sm leading-relaxed text-zinc-300 sm:text-[15px]">
               Questions, bookings, or general enquiries:{" "}
               <a
-                href="mailto:shirwellentertainment@gmail.com"
+                href={`mailto:${SUPPORT_EMAIL}`}
                 className="text-[#FFC107] underline-offset-2 hover:underline"
               >
-                shirwellentertainment@gmail.com
+                {SUPPORT_EMAIL}
               </a>
               . For help using the site, visit our{" "}
               <Link href="/support" className="text-[#FFC107] underline-offset-2 hover:underline">
                 Support
+              </Link>{" "}
+              page or the{" "}
+              <Link href="/contact" className="text-[#FFC107] underline-offset-2 hover:underline">
+                Contact
               </Link>{" "}
               page.
             </p>

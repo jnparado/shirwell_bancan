@@ -67,7 +67,7 @@ export const BRAND_FAQ = [
   {
     question: "What is Shirwell music?",
     answer:
-      "Shirwell music is the original song catalogue written and performed by Shirwell Bancan. Listen on the Shirwell music player, browse featured tracks on the home page, or stream the full catalogue at shirwell-bancan.vercel.app/music.",
+      "Shirwell music is the original song catalogue written and performed by Shirwell Bancan. Listen on the Shirwell music player at /music, browse featured tracks on the home page, or stream the full catalogue online.",
   },
   {
     question: "Where can I listen to Shirwell Bancan songs online?",
@@ -77,7 +77,7 @@ export const BRAND_FAQ = [
   {
     question: "Is this the official Shirwell website?",
     answer:
-      "Yes. shirwell-bancan.vercel.app is the official Shirwell Bancan website for Shirwell music — original songs, news, CDs, and the full streaming player.",
+      "Yes. This is the official Shirwell Bancan website for Shirwell music — original songs, news, CDs, and the full streaming player.",
   },
 ] as const;
 
@@ -109,6 +109,7 @@ export const SITEMAP_PUBLIC_PATHS = [
   { path: "/flowers", changeFrequency: "monthly" as const, priority: 0.45 },
   { path: "/flower", changeFrequency: "monthly" as const, priority: 0.45 },
   { path: "/newsletter", changeFrequency: "weekly" as const, priority: 0.45 },
+  { path: "/contact", changeFrequency: "yearly" as const, priority: 0.4 },
   { path: "/search", changeFrequency: "monthly" as const, priority: 0.4 },
   { path: "/premium", changeFrequency: "monthly" as const, priority: 0.35 },
   { path: "/support", changeFrequency: "yearly" as const, priority: 0.35 },

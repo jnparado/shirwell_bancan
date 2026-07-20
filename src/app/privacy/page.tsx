@@ -191,11 +191,11 @@ export default function PrivacyPage() {
               >
               shirwellentertainment@gmail.com
               </a>
-              , or the{" "}
-              <Link href="/search" className="text-[#FFC107] underline-offset-2 hover:underline">
-                Help
+              , or our{" "}
+              <Link href="/support" className="text-[#FFC107] underline-offset-2 hover:underline">
+                Support
               </Link>{" "}
-              page on this site.
+              page.
             </p>
           </div>
         </article>

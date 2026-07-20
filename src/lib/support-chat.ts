@@ -1,3 +1,4 @@
+import { SUPPORT_EMAIL } from "@/config/contact";
 import { SITE_NAME } from "@/lib/seo";
 
 export type ChatRole = "user" | "assistant";
@@ -32,7 +33,7 @@ Help visitors with:
 Guidelines:
 - Be warm, concise, and practical (2–4 short paragraphs max).
 - Prefer linking to site pages using relative paths like /music, /support.
-- For bugs, billing, or account issues you cannot fix, suggest emailing hello@shirwell.example with device type and what happened.
+- For bugs, billing, or account issues you cannot fix, suggest emailing ${SUPPORT_EMAIL} with device type and what happened.
 - Do not invent song titles, prices, or features that are not on the site.
 - If unsure, say so and point to /support or email.`;
 
@@ -40,7 +41,7 @@ const FAQ: { match: RegExp; reply: string }[] = [
   {
     match: /won'?t play|not playing|audio|sound|music player|stream/i,
     reply:
-      "Try these steps for music playback:\n\n1. Open the full player at /music or press play on a featured song on /home.\n2. Refresh the page and tap play again.\n3. Check Wi‑Fi or mobile data.\n4. On iPhone/Android, make sure silent mode is off and volume is up.\n\nIf it still fails, email hello@shirwell.example with your device and browser.",
+      `Try these steps for music playback:\n\n1. Open the full player at /music or press play on a featured song on /home.\n2. Refresh the page and tap play again.\n3. Check Wi‑Fi or mobile data.\n4. On iPhone/Android, make sure silent mode is off and volume is up.\n\nIf it still fails, email ${SUPPORT_EMAIL} with your device and browser.`,
   },
   {
     match: /cd|vinyl|black horse|record/i,
@@ -55,7 +56,7 @@ const FAQ: { match: RegExp; reply: string }[] = [
   {
     match: /sign in|log in|login|account|password|profile/i,
     reply:
-      "Use Log In in the site header or go to /auth/login. Your profile is at /profile after you sign in. If sign-in fails, try again in a private window or email hello@shirwell.example.",
+      `Use Log In in the site header or go to /auth/login. Your profile is at /profile after you sign in. If sign-in fails, try again in a private window or email ${SUPPORT_EMAIL}.`,
   },
   {
     match: /newsletter|updates|email list/i,
@@ -79,7 +80,7 @@ const FAQ: { match: RegExp; reply: string }[] = [
   {
     match: /human|person|email|contact|talk|speak|real/i,
     reply:
-      "For direct help from the team, email hello@shirwell.example. Include your device (iPhone/Android/computer), what you were doing, and any error messages. You can also visit /support.",
+      `For direct help from the team, email ${SUPPORT_EMAIL}. Include your device (iPhone/Android/computer), what you were doing, and any error messages. You can also visit /support or /contact.`,
   },
   {
     match: /premium|subscribe|subscription|in-app|iap|apple purchase/i,
@@ -102,7 +103,7 @@ export function getFallbackReply(userMessage: string): string {
     if (match.test(text)) return reply;
   }
 
-  return `Thanks for your question. I may not have a perfect answer for that yet.\n\nBrowse /support for common fixes, or email hello@shirwell.example and we'll get back to you. You can also try asking about music playback, CDs, flowers, or signing in.`;
+  return `Thanks for your question. I may not have a perfect answer for that yet.\n\nBrowse /support for common fixes, or email ${SUPPORT_EMAIL} and we'll get back to you. You can also try asking about music playback, CDs, flowers, or signing in.`;
 }
 
 export function isSupportChatAiEnabled(): boolean {

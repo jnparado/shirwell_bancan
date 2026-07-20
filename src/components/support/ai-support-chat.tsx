@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { MessageCircle, Send, Sparkles, X } from "lucide-react";
+import { SUPPORT_EMAIL } from "@/config/contact";
 import {
   SUPPORT_CHAT_WELCOME,
   SUPPORT_QUICK_PROMPTS,
@@ -69,7 +70,7 @@ export function AiSupportChat() {
           content:
             data.reply ??
             data.error ??
-            "Sorry — I couldn't reply right now. Try /support or email hello@shirwell.example.",
+            `Sorry — I couldn't reply right now. Try /support or email ${SUPPORT_EMAIL}.`,
         },
       ]);
     } catch {

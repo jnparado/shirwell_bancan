@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { Crown } from "lucide-react";
 import { hasBottomNav } from "@/lib/mobile-chrome";
 import { BrandLegalMarks } from "@/components/legal/brand-legal-marks";
+import { getPublicSocialLinks } from "@/lib/social-links";
 import { SITE_NAME } from "@/lib/seo";
 
 /** Matches marketing header — Shirwell gold luxury */
@@ -38,11 +39,7 @@ function IconX({ className }: { className?: string }) {
   );
 }
 
-const social = [
-  { label: "Facebook", href: "https://facebook.com", Icon: IconFacebook },
-  { label: "Instagram", href: "https://instagram.com", Icon: IconInstagram },
-  { label: "X", href: "https://x.com", Icon: IconX },
-] as const;
+const social = getPublicSocialLinks();
 
 export function SiteFooter() {
   const pathname = usePathname();
@@ -85,7 +82,7 @@ export function SiteFooter() {
           </Link>
         </div>
         <p className="mx-auto mt-6 max-w-6xl text-center text-sm font-medium tracking-wide text-zinc-400">
-          unique products
+          Music, flowers, and one-of-a-kind releases from Shirwell Bancan
         </p>
       </div>
 
@@ -120,13 +117,23 @@ export function SiteFooter() {
               </p>
             </div>
 
-            {/* Social — glass card */}
+            {/* Social — only when verified profile URLs are configured */}
+            {social.length > 0 ? (
             <div className={`${glassCard} flex flex-col gap-4 p-5 lg:col-span-3 lg:items-stretch`}>
               <p className={`${titleGold} text-xs uppercase tracking-wider`}>Follow</p>
               <div className="flex flex-wrap items-center gap-3">
-                {social.map(({ label, href, Icon }) => (
+                {social.map(({ label, href }) => {
+                  const Icon =
+                    label === "Facebook"
+                      ? IconFacebook
+                      : label === "Instagram"
+                        ? IconInstagram
+                        : label === "X"
+                          ? IconX
+                          : IconX;
+                  return (
                   <a
-                    key={label}
+                    key={href}
                     href={href}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -135,9 +142,11 @@ export function SiteFooter() {
                   >
                     <Icon className="h-5 w-5" />
                   </a>
-                ))}
+                  );
+                })}
               </div>
             </div>
+            ) : null}
           </div>
 
           {/* Columns — each a glass card */}
@@ -174,10 +183,13 @@ export function SiteFooter() {
                     Flowers
                   </Link>
                 </li>
-                <li
-                  className={`${glassCard} cursor-not-allowed rounded-lg px-3 py-2 text-[#FFC107]/40`}
-                >
-                  Bundles
+                <li>
+                  <Link
+                    href="/products"
+                    className={`${glassCard} block rounded-lg px-3 py-2 text-zinc-300 transition hover:border-[#FFC107]/30 hover:text-[#FFC107]`}
+                  >
+                    Products
+                  </Link>
                 </li>
               </ul>
             </div>
@@ -195,12 +207,12 @@ export function SiteFooter() {
                   </Link>
                 </li>
                 <li>
-                  <a
-                    href="mailto:shirwellentertainment@gmail.com"
+                  <Link
+                    href="/contact"
                     className={`${glassCard} block rounded-lg px-3 py-2 text-zinc-300 transition hover:border-[#FFC107]/30 hover:text-[#FFC107]`}
                   >
                     Contact
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </div>
@@ -248,16 +260,6 @@ export function SiteFooter() {
                   >
                     Legal
                   </Link>
-                </li>
-                <li
-                  className={`${glassCard} cursor-not-allowed rounded-lg px-3 py-2 text-[#FFC107]/40`}
-                >
-                  Careers
-                </li>
-                <li
-                  className={`${glassCard} cursor-not-allowed rounded-lg px-3 py-2 text-[#FFC107]/40`}
-                >
-                  Press
                 </li>
               </ul>
             </div>

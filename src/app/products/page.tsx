@@ -68,7 +68,7 @@ export default function ProductsPage() {
 
         <section className={`${glassCard} mt-8 p-6 sm:p-8`}>
           <h2 className="font-serif text-xl font-semibold text-[#FFC107]">
-            More coming soon
+            Also from Shirwell
           </h2>
           <ul className="mt-4 list-disc space-y-3 pl-5 text-sm leading-relaxed text-zinc-300 sm:text-[15px]">
             <li>

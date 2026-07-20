@@ -4,8 +4,6 @@ import { MarketingHeader } from "@/components/shirwell/marketing-header";
 import { BottomNav } from "@/components/shirwell/bottom-nav";
 import {
   APPLE_APP_STORE_URL,
-  APPLE_IAP_PRODUCT_PREMIUM_MONTHLY,
-  APPLE_IAP_PRODUCT_PREMIUM_YEARLY,
 } from "@/lib/apple/iap";
 import { SITE_NAME } from "@/lib/seo";
 
@@ -73,10 +71,10 @@ export default function PremiumPage() {
                 </a>
               </p>
             ) : (
-              <p className="text-zinc-400">
-                App Store link coming soon. Set{" "}
-                <code className="text-zinc-300">NEXT_PUBLIC_APPLE_APP_STORE_URL</code> when the
-                iOS app is live.
+              <p className="text-zinc-300">
+                Open the <strong className="text-zinc-200">App Store</strong> on your
+                iPhone or iPad and search for <strong className="text-zinc-200">Shirwell Music</strong>{" "}
+                to subscribe with Apple In-App Purchase.
               </p>
             )}
 
@@ -88,14 +86,6 @@ export default function PremiumPage() {
               purchases</strong> while signed in. We sync your Apple subscription to your Shirwell
               account automatically.
             </p>
-
-            <h2 className="mt-8 font-serif text-lg font-semibold text-[#FFC107]">
-              Product IDs (developers)
-            </h2>
-            <ul className="list-disc space-y-1 pl-5 font-mono text-xs text-zinc-400">
-              <li>{APPLE_IAP_PRODUCT_PREMIUM_MONTHLY}</li>
-              <li>{APPLE_IAP_PRODUCT_PREMIUM_YEARLY}</li>
-            </ul>
 
             <p className="mt-8 text-xs text-zinc-500">
               Questions? See{" "}
