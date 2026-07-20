@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { MarketingHeader } from "@/components/shirwell/marketing-header";
 import { BottomNav } from "@/components/shirwell/bottom-nav";
+import { ContentPageAds } from "@/components/ads/content-page-ads";
 import { SITE_NAME } from "@/lib/seo";
 
 export const metadata: Metadata = {
@@ -28,8 +29,10 @@ export default function CdsPage() {
           CD&apos;s
         </h1>
         <p className="mt-4 text-balance text-base leading-relaxed text-zinc-300 sm:text-lg">
-          cDs vinyl records coffee from the jungles and other unique products on
-          the premium be patient
+          Official CDs and vinyl from Shirwell Bancan — including the limited-edition{" "}
+          <em>Black Horse</em> album, celebrating 45 years of original Shirwell music.
+          Physical releases, jungle coffee, and other unique products are listed here
+          as they become available.
         </p>
 
         <div className="relative mx-auto mt-10 aspect-[682/1024] w-full max-w-md overflow-hidden rounded-2xl border border-[#FFC107]/20 bg-black/40 shadow-[0_0_60px_rgba(255,193,7,0.12)]">
@@ -68,6 +71,8 @@ export default function CdsPage() {
             section.
           </p>
         </article>
+
+        <ContentPageAds />
       </main>
       <BottomNav />
     </div>

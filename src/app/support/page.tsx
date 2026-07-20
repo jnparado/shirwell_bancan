@@ -54,13 +54,13 @@ export default function SupportPage() {
                 Email:
               </p>
               <a
-                href="mailto:hello@shirwell.example"
+                href="mailto:shirwellentertainment@gmail.com"
                 className="mt-2 inline-flex rounded-lg border border-[#FFC107]/25 bg-black/30 px-3 py-2 text-sm font-semibold text-[#FFC107] transition hover:border-[#FFC107]/45 hover:bg-black/40"
               >
-                hello@shirwell.example
+                shirwellentertainment@gmail.com
               </a>
               <p className="mt-3 text-xs text-zinc-500">
-                Replace this email with your real support inbox when ready.
+                We aim to reply within a few business days.
               </p>
             </div>
 

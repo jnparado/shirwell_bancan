@@ -58,10 +58,13 @@ const ADSENSE_ALLOWED_PATHS = new Set([
   "/",
   "/home",
   "/music",
+  "/about",
+  "/music-owner",
+  "/products",
+  "/cds",
   "/flowers",
   "/flower",
   "/newsletter",
-  "/cds",
 ]);
 
 export function normalizePathname(pathname: string): string {

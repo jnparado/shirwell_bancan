@@ -35,9 +35,11 @@ export default function PrivacyPage() {
             <p>
               This policy describes how <strong className="text-zinc-200">{SITE_NAME}</strong>{" "}
               (“we”, “us”) handles personal information when you use our website (including
-              pages served at <strong className="text-zinc-200">shirwel.com</strong> and{" "}
-              <strong className="text-zinc-200">shirwell.com</strong> when applicable) and
-              the <strong className="text-zinc-200">Shirwell Music</strong> mobile application
+              pages served at{" "}
+              <strong className="text-zinc-200">shirwell-bancan.vercel.app</strong>,{" "}
+              <strong className="text-zinc-200">shirwell.com</strong>, and related Shirwell
+              domains when applicable) and the{" "}
+              <strong className="text-zinc-200">Shirwell Music</strong> mobile application
               (the “Services”).
             </p>
 

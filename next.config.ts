@@ -19,6 +19,11 @@ const nextConfig: NextConfig = {
         destination: "/home",
         permanent: true,
       },
+      {
+        source: "/terms",
+        destination: "/legal",
+        permanent: true,
+      },
     ];
   },
   async headers() {
@@ -65,6 +70,32 @@ const nextConfig: NextConfig = {
       {
         source: "/robots.txt",
         headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=3600, s-maxage=86400",
+          },
+        ],
+      },
+      {
+        source: "/ads.txt",
+        headers: [
+          {
+            key: "Content-Type",
+            value: "text/plain; charset=utf-8",
+          },
+          {
+            key: "Cache-Control",
+            value: "public, max-age=3600, s-maxage=86400",
+          },
+        ],
+      },
+      {
+        source: "/app-ads.txt",
+        headers: [
+          {
+            key: "Content-Type",
+            value: "text/plain; charset=utf-8",
+          },
           {
             key: "Cache-Control",
             value: "public, max-age=3600, s-maxage=86400",

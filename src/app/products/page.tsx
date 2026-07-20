@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { MarketingHeader } from "@/components/shirwell/marketing-header";
 import { BottomNav } from "@/components/shirwell/bottom-nav";
+import { ContentPageAds } from "@/components/ads/content-page-ads";
 import { SITE_NAME } from "@/lib/seo";
 
 const glassCard =
@@ -98,6 +99,7 @@ export default function ProductsPage() {
             .
           </p>
         </section>
+        <ContentPageAds />
       </main>
       <BottomNav />
     </div>

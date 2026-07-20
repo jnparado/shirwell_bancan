@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { MarketingHeader } from "@/components/shirwell/marketing-header";
 import { BottomNav } from "@/components/shirwell/bottom-nav";
+import { ContentPageAds } from "@/components/ads/content-page-ads";
 import { BrandLegalMarks } from "@/components/legal/brand-legal-marks";
 import { absoluteUrl, getBrandFaqJsonLd, HOME_PATH, SITE_NAME } from "@/lib/seo";
 
@@ -139,6 +140,7 @@ export default function AboutPage() {
             </p>
           </section>
         </article>
+        <ContentPageAds />
       </main>
       <BottomNav />
     </div>

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { MarketingHeader } from "@/components/shirwell/marketing-header";
 import { BottomNav } from "@/components/shirwell/bottom-nav";
+import { ContentPageAds } from "@/components/ads/content-page-ads";
 import { BrandPhotoFrame } from "@/components/legal/brand-photo-frame";
 import { SITE_NAME } from "@/lib/seo";
 
@@ -193,6 +194,7 @@ export default function MusicOwnerPage() {
             </p>
           </section>
         </article>
+        <ContentPageAds />
       </main>
       <BottomNav />
     </div>

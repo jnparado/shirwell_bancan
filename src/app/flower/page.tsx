@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { MarketingHeader } from "@/components/shirwell/marketing-header";
 import { BottomNav } from "@/components/shirwell/bottom-nav";
+import { ContentPageAds } from "@/components/ads/content-page-ads";
 import { BrandPhotoFrame } from "@/components/legal/brand-photo-frame";
 import { SITE_NAME } from "@/lib/seo";
 
@@ -57,40 +58,49 @@ export default function FlowerPage() {
         </Link>
 
         <article className={`${glassCard} space-y-6 p-5 text-base leading-relaxed text-zinc-300 sm:p-6`}>
+          <h1 className="font-serif text-2xl font-semibold text-[#FFC107] sm:text-3xl">
+            Flowers &amp; roses
+          </h1>
           <p>
-            If you need a florist for weddings funerals special occasions contact the
-            link nati Roses.shirwell has been dealing with them for over 40 years
-            highly recommends At middle Dural NSW just 45 to 50 minutes drive with no
-            traffic from Sydney the heart To the beautiful Farm nati family.
+            For weddings, funerals, and special occasions, Shirwell Bancan recommends{" "}
+            <strong className="text-zinc-100">Nati Roses</strong> — a professional florist
+            Shirwell has trusted for more than 40 years. The Nati family operates from
+            Middle Dural, NSW, about 45–50 minutes from Sydney when traffic is light,
+            in the heart of their beautiful farm country.
           </p>
 
           <p>
-            Or you can just call{" "}
+            Call{" "}
             <a
               href="tel:+61296511375"
               className="font-semibold text-[#FFC107] underline underline-offset-2"
             >
-              0296511375
+              (02) 9651 1375
             </a>{" "}
-            Professional florists ready to go this link :{" "}
+            or visit{" "}
             <a
               href={NATI_ROSES_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="break-all text-[#FFC107] underline underline-offset-2"
             >
-              {NATI_ROSES_URL}
-            </a>
+              Nati Roses online
+            </a>{" "}
+            for custom arrangements and event florals.
           </p>
 
           <p>
-            For weddings Aventis and funeral .Shirwell if you like to get his cheap
-            bunches of roses $10 or $ 20 Friday at Double Bay cosmopolitan next to
-            fruit shop 5pm or round the Bay you see him. Saturday at Sidney horse
-            races at 3pm on to finish times Other day you see him around castle Hill
-            shops About 5pm
+            Shirwell also sells affordable rose bunches ($10–$20) at select Sydney
+            locations — including Friday evenings near Double Bay and Saturday race-day
+            spots. Follow Shirwell on social media or visit the{" "}
+            <Link href="/flowers" className="font-semibold text-[#FFC107] underline-offset-2 hover:underline">
+              Flowers
+            </Link>{" "}
+            page for more.
           </p>
         </article>
+
+        <ContentPageAds className="mt-8 px-0 py-6" />
       </main>
       <BottomNav />
     </div>

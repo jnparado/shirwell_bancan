@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { ContentPageAds } from "@/components/ads/content-page-ads";
 import { useMemo, useState } from "react";
 
 type NewsletterIssue = {
@@ -121,6 +122,8 @@ export function NewsletterPageContent() {
           </div>
         </div>
       ) : null}
+
+      <ContentPageAds />
     </main>
   );
 }
