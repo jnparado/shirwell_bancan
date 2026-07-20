@@ -31,8 +31,7 @@ export default function CdsPage() {
         <p className="mt-4 text-balance text-base leading-relaxed text-zinc-300 sm:text-lg">
           Official CDs and vinyl from Shirwell Bancan — including the limited-edition{" "}
           <em>Black Horse</em> album, celebrating 45 years of original Shirwell music.
-          Physical releases, jungle coffee, and other unique products are listed here
-          as they become available.
+          Browse physical releases here and see related items on the Products page.
         </p>
 
         <div className="relative mx-auto mt-10 aspect-[682/1024] w-full max-w-md overflow-hidden rounded-2xl border border-[#FFC107]/20 bg-black/40 shadow-[0_0_60px_rgba(255,193,7,0.12)]">
@@ -62,13 +61,16 @@ export default function CdsPage() {
             music.
           </p>
           <p>
-            Alongside vinyl, this page will list CDs and other physical releases as they become
-            available. Jungle coffee and other unique products from Shirwell&apos;s travels will
-            also appear in the{" "}
+            Alongside vinyl, CDs and companion products such as jungle coffee from
+            Shirwell&apos;s travels are listed on the{" "}
             <Link href="/products" className="font-semibold text-[#FFC107] underline-offset-2 hover:underline">
               Products
             </Link>{" "}
-            section.
+            page. Stream the full catalogue anytime on the{" "}
+            <Link href="/music" className="font-semibold text-[#FFC107] underline-offset-2 hover:underline">
+              music player
+            </Link>
+            .
           </p>
         </article>
 

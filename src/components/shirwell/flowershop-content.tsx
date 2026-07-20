@@ -1,6 +1,5 @@
-"use client";
-
 import Image from "next/image";
+import Link from "next/link";
 import { MarketingHeader } from "./marketing-header";
 import { BottomNav } from "./bottom-nav";
 import { AdSenseBoxUnit, AdSenseEnterprisesUnit } from "@/components/ads/adsense-unit";
@@ -33,58 +32,55 @@ export function FlowershopContent() {
             />
           </div>
 
-          <div className="space-y-5 p-5 text-left text-sm leading-relaxed text-[#FFC107] sm:p-6 sm:text-[15px]">
+          <div className="space-y-5 p-5 text-left text-sm leading-relaxed text-zinc-300 sm:p-6 sm:text-[15px]">
             <p>
-              Nicole is one of Shirwell&apos;s promoters—she speaks out and recommends
-              his unique products. Here is{" "}
+              Shirwell Bancan recommends{" "}
               <a
                 href={NATI_ROSES_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-semibold text-[#FFD54F] underline decoration-[#FFC107]/50 underline-offset-2 hover:text-[#ffe082]"
+                className="font-semibold text-[#FFC107] underline decoration-[#FFC107]/50 underline-offset-2 hover:text-[#FFD54F]"
               >
                 Nati Roses
-              </a>
-              : Shirwell highly recommends them. Just ask Pat—if you personally know
-              Shirwell and ask for Pat, you can get a cheap, beautiful bunch of roses at
-              a great price.
-            </p>
-
-            <div className="mt-1 space-y-5 border-t border-[#FFC107]/20 pt-5">
-            <p>
-              If you need a florist for weddings funerals special occasions contact
-              the link nati Roses. Shirwell has been dealing with them for over 40
-              years highly recommends At middle Dural NSW just 45 to 50 minutes
-              drive with no traffic from Sydney the heart To the beautiful Farm
-              nati family.
-            </p>
-
-            <p>
-              Or you can just call{" "}
-              <a
-                href="tel:+61296511375"
-                className="font-semibold text-[#FFD54F] underline decoration-[#FFC107]/50 underline-offset-2"
-              >
-                02 9651 1375
               </a>{" "}
-              Professional florists ready to go this link:{" "}
-              <a
-                href={NATI_ROSES_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="break-all text-[#3366ff] underline underline-offset-2 hover:text-[#5599ff]"
-              >
-                {NATI_ROSES_URL}
-              </a>
+              for weddings, funerals, and special occasions. Shirwell has worked with the
+              Nati family for more than 40 years — professional florists based in Middle
+              Dural, NSW, about 45–50 minutes from Sydney when traffic is light.
             </p>
 
-            <p>
-              For weddings Aventis and funeral. Shirwell if you like to get his cheap
-              bunches of roses $10 or $20 Friday at Double Bay cosmopolitan next to
-              fruit shop 5pm or round the Bay you see him. Saturday at Sidney horse
-              races at 3pm on to finish times Other day you see him around castle
-              Hill shops About 5pm
-            </p>
+            <div className="space-y-5 border-t border-white/[0.08] pt-5">
+              <p>
+                Call{" "}
+                <a
+                  href="tel:+61296511375"
+                  className="font-semibold text-[#FFC107] underline decoration-[#FFC107]/50 underline-offset-2"
+                >
+                  (02) 9651 1375
+                </a>{" "}
+                or visit{" "}
+                <a
+                  href={NATI_ROSES_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-semibold text-[#FFC107] underline underline-offset-2 hover:text-[#FFD54F]"
+                >
+                  Nati Roses online
+                </a>{" "}
+                for custom arrangements and event florals.
+              </p>
+
+              <p>
+                Shirwell also sells affordable rose bunches ($10–$20) at select Sydney
+                locations — including Friday evenings near Double Bay and Saturday
+                race-day spots. See the{" "}
+                <Link
+                  href="/flower"
+                  className="font-semibold text-[#FFC107] underline-offset-2 hover:underline"
+                >
+                  Flower
+                </Link>{" "}
+                page for details.
+              </p>
             </div>
           </div>
         </article>

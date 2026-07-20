@@ -49,6 +49,11 @@ export function isAdsenseUnitConfigured(): boolean {
   return isAdsenseConfigured() && ADSENSE_SLOT_BANNER.length > 0;
 }
 
+/** Set `NEXT_PUBLIC_ADSENSE_TEST=true` to serve Google test ads (verify slots before approval). */
+export function isAdsenseTestMode(): boolean {
+  return process.env.NEXT_PUBLIC_ADSENSE_TEST?.trim() === "true";
+}
+
 /**
  * AdSense Program Policies: do not serve ads on screens without publisher content,
  * under construction, or used mainly for navigation / alerts / auth.

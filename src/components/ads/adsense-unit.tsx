@@ -11,13 +11,9 @@ import {
   ADSENSE_SLOT_ENTERPRISES,
   isAdSenseAllowedPath,
   isAdsenseConfigured,
+  isAdsenseTestMode,
 } from "@/config/ads";
-
-declare global {
-  interface Window {
-    adsbygoogle?: unknown[];
-  }
-}
+import { pushAdSlot, whenAdSenseReady } from "@/lib/adsense-runtime";
 
 type AdFormat = "auto" | "horizontal" | "rectangle" | "vertical";
 
@@ -55,7 +51,7 @@ export function AdSenseUnit({
   );
 }
 
-/** Enterprices display unit — slot 1200415498, auto, full-width responsive. */
+/** Enterprises display unit — slot 1200415498, auto, full-width responsive. */
 export function AdSenseEnterprisesUnit(
   props: Omit<AdSenseUnitProps, "slot">,
 ) {
@@ -82,19 +78,22 @@ function AdSenseUnitInner({
   fixedSize,
 }: AdSenseUnitInnerProps) {
   const pathname = usePathname();
-  const pushed = useRef(false);
+  const filledRef = useRef(false);
   const adsAllowed = isAdSenseAllowedPath(pathname);
 
   useEffect(() => {
+    filledRef.current = false;
+  }, [pathname, slot]);
+
+  useEffect(() => {
     if (!adsAllowed || !slot || !isAdsenseConfigured()) return;
-    if (pushed.current) return;
-    try {
-      (window.adsbygoogle = window.adsbygoogle || []).push({});
-      pushed.current = true;
-    } catch {
-      /* ignore */
-    }
-  }, [adsAllowed, slot]);
+
+    return whenAdSenseReady(() => {
+      if (filledRef.current) return;
+      pushAdSlot();
+      filledRef.current = true;
+    });
+  }, [adsAllowed, slot, pathname]);
 
   if (!adsAllowed || !isAdsenseConfigured() || !slot) return null;
 
@@ -105,6 +104,7 @@ function AdSenseUnitInner({
   return (
     <div className={wrapperClass} style={{ minHeight }}>
       <ins
+        key={`${pathname}-${slot}`}
         className="adsbygoogle"
         style={
           fixedSize
@@ -117,6 +117,7 @@ function AdSenseUnitInner({
         }
         data-ad-client={ADSENSE_CLIENT_ID}
         data-ad-slot={slot}
+        {...(isAdsenseTestMode() ? { "data-adtest": "on" } : {})}
         {...(fixedSize
           ? {}
           : {

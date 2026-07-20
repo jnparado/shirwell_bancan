@@ -145,7 +145,7 @@ export function HomeContent({ songs, children }: HomeContentProps) {
                 Shirwell Music — Featured Songs
               </h2>
               <Link
-                href="#featured"
+                href="/music"
                 className="text-sm font-medium text-[#FFC107] underline-offset-4 hover:text-[#FFD54F] hover:underline"
               >
                 View All
