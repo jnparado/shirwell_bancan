@@ -38,7 +38,7 @@ export function buildSwgBasicInitScript({
   type = "NewsArticle",
   productId = SWG_OPEN_ACCESS_PRODUCT_ID,
   theme = "light",
-  lang = "en",
+  lang = "en-AU",
 }: SwgBasicInitOptions = {}): string {
   const safeId = escapeSwgProductId(productId);
   return `(self.SWG_BASIC = self.SWG_BASIC || []).push( basicSubscriptions => {

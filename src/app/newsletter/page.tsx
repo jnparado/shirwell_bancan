@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { MarketingHeader } from "@/components/shirwell/marketing-header";
 import { BottomNav } from "@/components/shirwell/bottom-nav";
 import { NewsletterPageContent } from "@/components/shirwell/newsletter-page-content";
-import { SwgBasicScript } from "@/components/subscriptions/swg-basic-script";
+import { getNewsletterIndexJsonLd } from "@/lib/swg-jsonld";
 import { SITE_NAME } from "@/lib/seo";
 
 export const metadata: Metadata = {
@@ -18,12 +18,18 @@ export const metadata: Metadata = {
 
 export default function NewsletterPage() {
   return (
-    <div className="page-shell">
-      <SwgBasicScript />
-      <MarketingHeader />
-      <NewsletterPageContent />
-      <BottomNav />
-    </div>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(getNewsletterIndexJsonLd()),
+        }}
+      />
+      <div className="page-shell">
+        <MarketingHeader />
+        <NewsletterPageContent />
+        <BottomNav />
+      </div>
+    </>
   );
 }
-

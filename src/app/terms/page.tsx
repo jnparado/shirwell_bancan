@@ -114,7 +114,25 @@ export default function TermsPage() {
             </p>
 
             <h2 className="mt-10 font-serif text-lg font-semibold text-[#FFC107]">
-              6. Subscriptions (Apple In-App Purchase)
+              6. Reader Revenue Manager &amp; Google subscriptions
+            </h2>
+            <p>
+              Newsletter and reader offers may use{" "}
+              <strong className="text-zinc-200">Google Reader Revenue Manager</strong> and{" "}
+              <strong className="text-zinc-200">Subscribe with Google</strong>. When you
+              subscribe or contribute through Google, billing and payment are handled by Google
+              under its terms. You can manage or cancel Google-billed subscriptions in your
+              Google Account settings.
+            </p>
+            <p>
+              Open-access newsletter articles on this site are marked with structured data
+              and the SwG CMS sync snippet so Google can verify access levels. Paid or
+              registration-gated content (if added later) will be clearly labelled and will
+              not show different content to users and crawlers (no cloaking).
+            </p>
+
+            <h2 className="mt-10 font-serif text-lg font-semibold text-[#FFC107]">
+              7. Subscriptions (Apple In-App Purchase)
             </h2>
             <p>
               Premium subscriptions in the Shirwell Music iOS app are sold through Apple In-App
@@ -123,7 +141,7 @@ export default function TermsPage() {
             </p>
 
             <h2 className="mt-10 font-serif text-lg font-semibold text-[#FFC107]">
-              7. Disclaimers and liability
+              8. Disclaimers and liability
             </h2>
             <p>
               The Services are provided “as is” and “as available”. To the fullest extent
@@ -135,7 +153,7 @@ export default function TermsPage() {
             </p>
 
             <h2 className="mt-10 font-serif text-lg font-semibold text-[#FFC107]">
-              8. Governing law
+              9. Governing law
             </h2>
             <p>
               These Terms are governed by the laws of Australia. You submit to the
@@ -145,7 +163,7 @@ export default function TermsPage() {
             </p>
 
             <h2 className="mt-10 font-serif text-lg font-semibold text-[#FFC107]">
-              9. Changes
+              10. Changes
             </h2>
             <p>
               We may update these Terms from time to time. The “Last updated” date will change
@@ -154,7 +172,7 @@ export default function TermsPage() {
             </p>
 
             <h2 className="mt-10 font-serif text-lg font-semibold text-[#FFC107]">
-              10. Contact
+              11. Contact
             </h2>
             <p>
               Questions about these Terms:{" "}

@@ -1,59 +1,14 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { ContentPageAds } from "@/components/ads/content-page-ads";
-import { useMemo, useState } from "react";
-
-type NewsletterIssue = {
-  id: string;
-  dateLabel: string;
-  headline: string;
-  summary: string;
-  src: string;
-  alt: string;
-};
+import { NEWSLETTER_ISSUES } from "@/lib/newsletter-issues";
 
 const glassCard =
   "rounded-2xl border border-white/[0.06] bg-[rgba(255,255,255,0.05)] backdrop-blur-md";
 
-const issues: NewsletterIssue[] = [
-  {
-    id: "2024-05-22",
-    dateLabel: "May 22, 2024",
-    headline: "New music and live updates",
-    summary:
-      "Shirwell Bancan shares news from the studio, upcoming performances, and highlights from the official Shirwell music catalogue.",
-    src: "/newsletters/2024-05-22.png",
-    alt: "Shirwell Newsletter — May 22, 2024",
-  },
-  {
-    id: "2024-05-23",
-    dateLabel: "May 23, 2024",
-    headline: "Black Horse and vinyl release",
-    summary:
-      "Details on the Black Horse limited-edition vinyl, album artwork, and how to explore physical releases alongside streaming on Shirwell Music.",
-    src: "/newsletters/2024-05-23.png",
-    alt: "Shirwell Newsletter — May 23, 2024",
-  },
-  {
-    id: "2024-05-24",
-    dateLabel: "May 24, 2024",
-    headline: "Flowers, community, and the road",
-    summary:
-      "Notes from Shirwell on Nati Roses, local rose bunches around Sydney, and stories from decades on tour.",
-    src: "/newsletters/2024-05-24.png",
-    alt: "Shirwell Newsletter — May 24, 2024",
-  },
-];
-
 export function NewsletterPageContent() {
-  const [activeId, setActiveId] = useState<string | null>(null);
-
-  const active = useMemo(
-    () => issues.find((x) => x.id === activeId) ?? null,
-    [activeId],
-  );
-
   return (
     <main className="mx-auto w-full max-w-6xl px-4 py-10 sm:px-6 sm:py-14">
       <header className="mx-auto max-w-3xl text-center">
@@ -65,18 +20,16 @@ export function NewsletterPageContent() {
         </h1>
         <p className="mt-4 text-sm leading-relaxed text-zinc-300 sm:text-base">
           Read recent newsletter issues from Shirwell Bancan — news, releases, and stories
-          from 45 years of original music. Tap an issue to open the full page.
+          from 45 years of original music. Each issue opens as a full article page.
         </p>
       </header>
 
       <section className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {issues.map((issue) => (
-          <button
+        {NEWSLETTER_ISSUES.map((issue) => (
+          <Link
             key={issue.id}
-            type="button"
-            onClick={() => setActiveId(issue.id)}
+            href={`/newsletter/${issue.id}`}
             className={`${glassCard} group overflow-hidden text-left shadow-[0_0_60px_rgba(255,193,7,0.06)] transition hover:border-[#FFC107]/25 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FFC107]/50`}
-            aria-label={`Open newsletter for ${issue.dateLabel}`}
           >
             <div className="relative aspect-[4/5] w-full">
               <Image
@@ -96,7 +49,7 @@ export function NewsletterPageContent() {
                 <p className="mt-1 line-clamp-2 text-xs text-zinc-300">{issue.summary}</p>
               </div>
             </div>
-          </button>
+          </Link>
         ))}
       </section>
 
@@ -104,52 +57,25 @@ export function NewsletterPageContent() {
         <h2 className="font-serif text-lg font-semibold text-[#FFC107]">About this newsletter</h2>
         <p className="mt-3 text-sm leading-relaxed text-zinc-300 sm:text-[15px]">
           The Shirwell newsletter covers new songs, vinyl and CD releases, live appearances,
-          and community news. Each issue is published by Shirwell Entertainment and reflects
-          original content from Shirwell Bancan&apos;s career — not syndicated or auto-generated
-          material.
+          and community news. Each issue is published by Shirwell Entertainment, marked as
+          open-access NewsArticle content for Google Reader Revenue Manager, and reflects
+          original work — not syndicated or auto-generated material.
+        </p>
+        <p className="mt-4 text-sm text-zinc-400">
+          Policies:{" "}
+          <Link href="/terms" className="text-[#FFC107] hover:underline">
+            Terms of Service
+          </Link>
+          {" · "}
+          <Link href="/privacy" className="text-[#FFC107] hover:underline">
+            Privacy Policy
+          </Link>
+          {" · "}
+          <Link href="/policies" className="text-[#FFC107] hover:underline">
+            Publication Policies
+          </Link>
         </p>
       </section>
-
-      {active ? (
-        <div
-          role="dialog"
-          aria-modal="true"
-          aria-label={`Newsletter issue ${active.dateLabel}`}
-          className="fixed inset-0 z-[60] flex items-center justify-center bg-black/80 p-4 pb-[max(1rem,env(safe-area-inset-bottom))] backdrop-blur-sm"
-          onClick={() => setActiveId(null)}
-        >
-          <div
-            className={`${glassCard} relative max-h-[90vh] w-full max-w-4xl overflow-hidden border-[#FFC107]/20`}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="flex items-center justify-between border-b border-white/[0.06] px-4 py-3">
-              <div>
-                <p className="font-serif text-base font-semibold text-[#FFC107]">
-                  {active.dateLabel}
-                </p>
-                <p className="text-xs text-zinc-400">{active.headline}</p>
-              </div>
-              <button
-                type="button"
-                onClick={() => setActiveId(null)}
-                className="rounded-full border border-white/[0.08] bg-black/20 px-3 py-1.5 text-sm font-semibold text-zinc-200 transition hover:border-[#FFC107]/30 hover:text-[#FFC107] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FFC107]/50"
-              >
-                Close
-              </button>
-            </div>
-            <div className="relative h-[min(78dvh,100%)] w-full bg-black/30">
-              <Image
-                src={active.src}
-                alt={active.alt}
-                fill
-                className="object-contain"
-                sizes="(min-width: 1024px) 900px, 100vw"
-                priority
-              />
-            </div>
-          </div>
-        </div>
-      ) : null}
 
       <ContentPageAds />
     </main>

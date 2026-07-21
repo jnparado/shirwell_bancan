@@ -9,7 +9,7 @@ type Props = SwgBasicInitOptions;
 
 /**
  * Google Subscribe with Google (Basic) — marks published content for CMS sync.
- * Place on pages that publish NewsArticle content (e.g. /newsletter).
+ * Place on pages that publish NewsArticle content (newsletter layout includes this).
  */
 export function SwgBasicScript(options: Props = {}) {
   if (!isSwgConfigured()) return null;

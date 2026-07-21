@@ -118,7 +118,39 @@ export default function PrivacyPage() {
             </p>
 
             <h2 className="mt-10 font-serif text-lg font-semibold text-[#FFC107]">
-              4. Cookies and local storage
+              4. Reader Revenue Manager &amp; Subscribe with Google
+            </h2>
+            <p>
+              If you subscribe, contribute, or register through{" "}
+              <strong className="text-zinc-200">Google Reader Revenue Manager</strong> or{" "}
+              <strong className="text-zinc-200">Subscribe with Google</strong>, Google processes
+              payment and account information according to{" "}
+              <a
+                href="https://policies.google.com/privacy"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[#FFC107] underline-offset-2 hover:underline"
+              >
+                Google&apos;s Privacy Policy
+              </a>
+              . We receive information needed to grant access to newsletter or premium content
+              (such as subscription status), not your full payment card details.
+            </p>
+            <p>
+              To manage or cancel a subscription purchased through Google, use your Google
+              Account subscription settings or the options provided in Subscribe with Google.
+              For help, contact us at{" "}
+              <a
+                href="mailto:shirwellentertainment@gmail.com"
+                className="text-[#FFC107] underline-offset-2 hover:underline"
+              >
+                shirwellentertainment@gmail.com
+              </a>
+              .
+            </p>
+
+            <h2 className="mt-10 font-serif text-lg font-semibold text-[#FFC107]">
+              5. Cookies and local storage
             </h2>
             <p>
               The website may set cookies or use browser storage for essential functionality,
@@ -126,7 +158,7 @@ export default function PrivacyPage() {
               control cookies through your browser settings.
             </p>
 
-            <h2 className="mt-10 font-serif text-lg font-semibold text-[#FFC107]">5. Sharing</h2>
+            <h2 className="mt-10 font-serif text-lg font-semibold text-[#FFC107]">6. Sharing</h2>
             <p>
               We share information with service providers who help us host, deliver, and
               analyse the Services (for example, hosting and infrastructure providers and
@@ -136,21 +168,21 @@ export default function PrivacyPage() {
             </p>
 
             <h2 className="mt-10 font-serif text-lg font-semibold text-[#FFC107]">
-              6. Storage and security
+              7. Storage and security
             </h2>
             <p>
               We use reasonable measures to protect information. No method of transmission over
               the internet is completely secure.
             </p>
 
-            <h2 className="mt-10 font-serif text-lg font-semibold text-[#FFC107]">7. Retention</h2>
+            <h2 className="mt-10 font-serif text-lg font-semibold text-[#FFC107]">8. Retention</h2>
             <p>
               We keep information only as long as needed for the purposes above, unless a
               longer period is required or permitted by law.
             </p>
 
             <h2 className="mt-10 font-serif text-lg font-semibold text-[#FFC107]">
-              8. Your choices and rights
+              9. Your choices and rights
             </h2>
             <p>
               Where applicable law gives you rights (including under the Australian Privacy Act
@@ -159,7 +191,7 @@ export default function PrivacyPage() {
               request, contact us using the details below.
             </p>
 
-            <h2 className="mt-10 font-serif text-lg font-semibold text-[#FFC107]">9. Children</h2>
+            <h2 className="mt-10 font-serif text-lg font-semibold text-[#FFC107]">10. Children</h2>
             <p>
               The Services are not directed at children under 13, and we do not knowingly collect
               personal information from them. If you believe we have collected such information,
@@ -167,7 +199,7 @@ export default function PrivacyPage() {
             </p>
 
             <h2 className="mt-10 font-serif text-lg font-semibold text-[#FFC107]">
-              10. International transfers
+              11. International transfers
             </h2>
             <p>
               Our service providers may process data in countries other than Australia. When we
@@ -175,14 +207,14 @@ export default function PrivacyPage() {
               law.
             </p>
 
-            <h2 className="mt-10 font-serif text-lg font-semibold text-[#FFC107]">11. Changes</h2>
+            <h2 className="mt-10 font-serif text-lg font-semibold text-[#FFC107]">12. Changes</h2>
             <p>
               We may update this policy from time to time. The “Last updated” date at the top will
               change when we do. Continued use of the Services after changes means you accept the
               updated policy.
             </p>
 
-            <h2 className="mt-10 font-serif text-lg font-semibold text-[#FFC107]">12. Contact</h2>
+            <h2 className="mt-10 font-serif text-lg font-semibold text-[#FFC107]">13. Contact</h2>
             <p>
               Questions about this policy:{" "}
               <a

@@ -1,3 +1,4 @@
+import { NEWSLETTER_ISSUES } from "@/lib/newsletter-issues";
 import { getSitemapOrigin, SITEMAP_PUBLIC_PATHS } from "@/lib/seo";
 
 function escapeXml(value: string): string {
@@ -14,14 +15,26 @@ export function buildSitemapXml(): string {
   const origin = getSitemapOrigin();
   const lastmod = new Date().toISOString();
 
-  const urls = SITEMAP_PUBLIC_PATHS.map(
-    ({ path, changeFrequency, priority }) => `  <url>
+  const newsletterUrls = NEWSLETTER_ISSUES.map(
+    (issue) => `  <url>
+    <loc>${escapeXml(`${origin}/newsletter/${issue.id}`)}</loc>
+    <lastmod>${lastmod}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>`,
+  );
+
+  const urls = [
+    ...SITEMAP_PUBLIC_PATHS.map(
+      ({ path, changeFrequency, priority }) => `  <url>
     <loc>${escapeXml(`${origin}${path}`)}</loc>
     <lastmod>${lastmod}</lastmod>
     <changefreq>${changeFrequency}</changefreq>
     <priority>${priority}</priority>
   </url>`,
-  ).join("\n");
+    ),
+    ...newsletterUrls,
+  ].join("\n");
 
   return `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">

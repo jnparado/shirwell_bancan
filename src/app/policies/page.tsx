@@ -74,6 +74,24 @@ export default function PoliciesPage() {
           </section>
 
           <section className="mt-8 space-y-3 text-sm leading-relaxed text-zinc-300 sm:text-[15px]">
+            <h2 className="font-serif text-lg font-semibold text-[#FFC107]">
+              Reader Revenue Manager (Google)
+            </h2>
+            <p>
+              {SITE_NAME} uses Google Reader Revenue Manager and Subscribe with Google for
+              newsletter and reader offers. Google&apos;s compliance review checks that these
+              policy URLs are public, that published articles include matching structured
+              data (<code className="text-zinc-400">NewsArticle</code> +{" "}
+              <code className="text-zinc-400">isPartOf</code> product ID), and that the SwG
+              CMS sync snippet is present on article pages under{" "}
+              <Link href="/newsletter" className="text-[#FFC107] hover:underline">
+                /newsletter
+              </Link>
+              .
+            </p>
+          </section>
+
+          <section className="mt-8 space-y-3 text-sm leading-relaxed text-zinc-300 sm:text-[15px]">
             <h2 className="font-serif text-lg font-semibold text-[#FFC107]">Publisher details</h2>
             <ul className="list-disc space-y-2 pl-5">
               <li>
