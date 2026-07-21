@@ -19,11 +19,6 @@ const nextConfig: NextConfig = {
         destination: "/home",
         permanent: true,
       },
-      {
-        source: "/terms",
-        destination: "/legal",
-        permanent: true,
-      },
     ];
   },
   async headers() {

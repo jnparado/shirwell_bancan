@@ -247,6 +247,22 @@ export function SiteFooter() {
                 </li>
                 <li>
                   <Link
+                    href="/terms"
+                    className={`${glassCard} block rounded-lg px-3 py-2 text-zinc-300 transition hover:border-[#FFC107]/30 hover:text-[#FFC107]`}
+                  >
+                    Terms of Service
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/policies"
+                    className={`${glassCard} block rounded-lg px-3 py-2 text-zinc-300 transition hover:border-[#FFC107]/30 hover:text-[#FFC107]`}
+                  >
+                    Publication Policies
+                  </Link>
+                </li>
+                <li>
+                  <Link
                     href="/privacy"
                     className={`${glassCard} block rounded-lg px-3 py-2 text-zinc-300 transition hover:border-[#FFC107]/30 hover:text-[#FFC107]`}
                   >
@@ -280,10 +296,10 @@ export function SiteFooter() {
               aria-label="Legal"
             >
               <Link
-                href="/legal"
+                href="/terms"
                 className="text-zinc-400 transition hover:text-[#FFC107]"
               >
-                Legal
+                Terms
               </Link>
               <span className="text-zinc-600" aria-hidden>
                 ·
@@ -293,6 +309,15 @@ export function SiteFooter() {
                 className="text-zinc-400 transition hover:text-[#FFC107]"
               >
                 Privacy
+              </Link>
+              <span className="text-zinc-600" aria-hidden>
+                ·
+              </span>
+              <Link
+                href="/legal"
+                className="text-zinc-400 transition hover:text-[#FFC107]"
+              >
+                Legal
               </Link>
               <span className="text-zinc-600" aria-hidden>
                 ·

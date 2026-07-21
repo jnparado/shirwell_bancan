@@ -42,8 +42,11 @@ export default function LegalPage() {
               <Link href="/privacy" className="text-[#FFC107] underline-offset-2 hover:underline">
                 Privacy Policy
               </Link>{" "}
-              explains how we handle personal information and works together with this legal
-              page.
+              and{" "}
+              <Link href="/terms" className="text-[#FFC107] underline-offset-2 hover:underline">
+                Terms of Service
+              </Link>{" "}
+              explain how we handle personal information and your use of the Services.
             </p>
 
             <h2 className="mt-10 font-serif text-lg font-semibold text-[#FFC107]">

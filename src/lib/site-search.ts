@@ -82,6 +82,18 @@ export const SEARCHABLE_PAGES: SiteSearchPage[] = [
     keywords: ["copyright", "owner", "rights", "licensing"],
   },
   {
+    href: "/policies",
+    title: "Publication policies",
+    description: "Terms of Service and Privacy Policy URLs.",
+    keywords: ["policies", "terms", "privacy", "publisher"],
+  },
+  {
+    href: "/terms",
+    title: "Terms of Service",
+    description: "Terms for using Shirwell Bancan services.",
+    keywords: ["terms", "terms of service", "legal"],
+  },
+  {
     href: "/privacy",
     title: "Privacy policy",
     description: "How we handle data, cookies, and ads.",

@@ -113,6 +113,8 @@ export const SITEMAP_PUBLIC_PATHS = [
   { path: "/search", changeFrequency: "monthly" as const, priority: 0.4 },
   { path: "/premium", changeFrequency: "monthly" as const, priority: 0.35 },
   { path: "/support", changeFrequency: "yearly" as const, priority: 0.35 },
+  { path: "/policies", changeFrequency: "yearly" as const, priority: 0.35 },
+  { path: "/terms", changeFrequency: "yearly" as const, priority: 0.3 },
   { path: "/legal", changeFrequency: "yearly" as const, priority: 0.3 },
   { path: "/privacy", changeFrequency: "yearly" as const, priority: 0.3 },
 ] as const;
