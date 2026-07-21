@@ -6,8 +6,12 @@ import {
   BUSINESS_LOCATION,
   BUSINESS_NAME,
   SUPPORT_EMAIL,
+  formatSupportPhoneDisplay,
+  hasSupportPhone,
   supportMailto,
+  supportTelHref,
 } from "@/config/contact";
+import { CustomerSupportBlock } from "@/components/shirwell/customer-support-block";
 import { SITE_NAME } from "@/lib/seo";
 
 const glassCard =
@@ -56,13 +60,35 @@ export default function ContactPage() {
             </div>
 
             <div className={`${glassCard} p-5`}>
-              <h2 className="font-serif text-lg font-semibold text-[#FFC107]">Location</h2>
-              <p className="mt-3 text-sm text-zinc-300">{BUSINESS_LOCATION}</p>
-              <p className="mt-3 text-xs leading-relaxed text-zinc-500">
-                Shirwell Bancan is an Australian singer-songwriter with more than 45
-                years of original music.
-              </p>
+              <h2 className="font-serif text-lg font-semibold text-[#FFC107]">
+                {hasSupportPhone() ? "Phone" : "Location"}
+              </h2>
+              {hasSupportPhone() && supportTelHref() ? (
+                <>
+                  <a
+                    href={supportTelHref()!}
+                    className="mt-3 inline-flex rounded-lg border border-[#FFC107]/25 bg-black/30 px-3 py-2 text-sm font-semibold text-[#FFC107] transition hover:border-[#FFC107]/45 hover:bg-black/40"
+                  >
+                    {formatSupportPhoneDisplay()}
+                  </a>
+                  <p className="mt-3 text-xs leading-relaxed text-zinc-500">
+                    {BUSINESS_LOCATION}
+                  </p>
+                </>
+              ) : (
+                <>
+                  <p className="mt-3 text-sm text-zinc-300">{BUSINESS_LOCATION}</p>
+                  <p className="mt-3 text-xs leading-relaxed text-zinc-500">
+                    Shirwell Bancan is an Australian singer-songwriter with more than 45
+                    years of original music.
+                  </p>
+                </>
+              )}
             </div>
+          </div>
+
+          <div className="mt-8">
+            <CustomerSupportBlock />
           </div>
 
           <section className="mt-8 space-y-3 text-sm text-zinc-300 sm:text-[15px]">

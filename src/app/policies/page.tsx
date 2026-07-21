@@ -3,6 +3,7 @@ import Link from "next/link";
 import { MarketingHeader } from "@/components/shirwell/marketing-header";
 import { BottomNav } from "@/components/shirwell/bottom-nav";
 import { BUSINESS_NAME, SUPPORT_EMAIL } from "@/config/contact";
+import { CustomerSupportBlock } from "@/components/shirwell/customer-support-block";
 import { absoluteUrl, SITE_NAME } from "@/lib/seo";
 
 const glassCard =
@@ -89,6 +90,10 @@ export default function PoliciesPage() {
               </Link>
               .
             </p>
+          </section>
+
+          <section className="mt-8">
+            <CustomerSupportBlock showCopyFields />
           </section>
 
           <section className="mt-8 space-y-3 text-sm leading-relaxed text-zinc-300 sm:text-[15px]">
