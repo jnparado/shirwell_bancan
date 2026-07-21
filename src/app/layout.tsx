@@ -3,7 +3,9 @@ import { Geist, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { PlayerProvider } from "@/contexts/player-context";
 import { SiteFooter } from "@/components/shirwell/site-footer";
-import { AdSenseScriptLoader } from "@/components/ads/adsense-script-loader";
+import { AdSenseHeadScript } from "@/components/ads/adsense-head-script";
+import { AdSenseRouteFill } from "@/components/ads/adsense-route-fill";
+import { AdSenseScriptWatcher } from "@/components/ads/adsense-script-watcher";
 import { GoogleAdsPageViewConversion } from "@/components/analytics/google-ads-page-view-conversion";
 import { GoogleAdsTag } from "@/components/analytics/google-ads-tag";
 import { GoogleAnalyticsScripts } from "@/components/analytics/google-analytics";
@@ -53,9 +55,11 @@ export default async function RootLayout({
         <GoogleAdsTag />
         <GoogleTagManagerHead />
         <GoogleAnalyticsScripts />
+        <AdSenseHeadScript />
       </head>
       <body className="min-h-full font-sans">
-        <AdSenseScriptLoader />
+        <AdSenseScriptWatcher />
+        <AdSenseRouteFill />
         <GoogleTagManagerNoScript />
         <GoogleAnalyticsPageViews />
         <GoogleAdsPageViewConversion />

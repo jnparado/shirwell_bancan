@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import {
   ADSENSE_BOX_HEIGHT,
@@ -13,7 +13,7 @@ import {
   isAdsenseConfigured,
   isAdsenseTestMode,
 } from "@/config/ads";
-import { pushAdSlot, whenAdSenseReady } from "@/lib/adsense-runtime";
+import { fillUnfilledAdSlots, whenAdSenseReady } from "@/lib/adsense-runtime";
 
 type AdFormat = "auto" | "horizontal" | "rectangle" | "vertical";
 
@@ -78,21 +78,30 @@ function AdSenseUnitInner({
   fixedSize,
 }: AdSenseUnitInnerProps) {
   const pathname = usePathname();
-  const filledRef = useRef(false);
+  const insRef = useRef<HTMLModElement>(null);
   const adsAllowed = isAdSenseAllowedPath(pathname);
 
-  useEffect(() => {
-    filledRef.current = false;
-  }, [pathname, slot]);
+  useLayoutEffect(() => {
+    if (!adsAllowed || !slot || !isAdsenseConfigured() || !insRef.current) return;
 
+    insRef.current.dataset.adFilled = "0";
+    insRef.current.removeAttribute("data-ad-status");
+
+    return whenAdSenseReady(() => {
+      if (!insRef.current) return;
+      fillUnfilledAdSlots(insRef.current.parentElement ?? document);
+    });
+  }, [adsAllowed, slot, pathname]);
+
+  // Retry fill after paint — catches late script load on slow networks.
   useEffect(() => {
     if (!adsAllowed || !slot || !isAdsenseConfigured()) return;
 
-    return whenAdSenseReady(() => {
-      if (filledRef.current) return;
-      pushAdSlot();
-      filledRef.current = true;
-    });
+    const retry = window.setTimeout(() => {
+      fillUnfilledAdSlots(document);
+    }, 1200);
+
+    return () => window.clearTimeout(retry);
   }, [adsAllowed, slot, pathname]);
 
   if (!adsAllowed || !isAdsenseConfigured() || !slot) return null;
@@ -104,7 +113,7 @@ function AdSenseUnitInner({
   return (
     <div className={wrapperClass} style={{ minHeight }}>
       <ins
-        key={`${pathname}-${slot}`}
+        ref={insRef}
         className="adsbygoogle"
         style={
           fixedSize

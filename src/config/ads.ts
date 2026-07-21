@@ -49,9 +49,10 @@ export function isAdsenseUnitConfigured(): boolean {
   return isAdsenseConfigured() && ADSENSE_SLOT_BANNER.length > 0;
 }
 
-/** Set `NEXT_PUBLIC_ADSENSE_TEST=true` to serve Google test ads (verify slots before approval). */
+/** Test ads in dev, or when NEXT_PUBLIC_ADSENSE_TEST=true (use before site approval). */
 export function isAdsenseTestMode(): boolean {
-  return process.env.NEXT_PUBLIC_ADSENSE_TEST?.trim() === "true";
+  if (process.env.NEXT_PUBLIC_ADSENSE_TEST?.trim() === "true") return true;
+  return process.env.NODE_ENV === "development";
 }
 
 /**
