@@ -1,15 +1,8 @@
-import { SwgBasicScript } from "@/components/subscriptions/swg-basic-script";
-
-/** SwG CMS sync snippet on all newsletter / published article routes. */
+/** Newsletter routes — SwG script is loaded site-wide from root layout `<head>`. */
 export default function NewsletterLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return (
-    <>
-      <SwgBasicScript lang="en-AU" theme="light" />
-      {children}
-    </>
-  );
+  return children;
 }

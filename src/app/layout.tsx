@@ -16,6 +16,7 @@ import {
 } from "@/components/analytics/google-tag-manager";
 import { SiteMarks } from "@/components/legal/site-marks";
 import { LazyAiSupportChat } from "@/components/support/lazy-ai-support-chat";
+import { SwgHeadScript } from "@/components/subscriptions/swg-head-script";
 import { AppleMusicMiniPlayer } from "@/components/shirwell/apple-music-mini-player";
 import {
   createRootMetadata,
@@ -56,6 +57,7 @@ export default async function RootLayout({
         <GoogleTagManagerHead />
         <GoogleAnalyticsScripts />
         <AdSenseHeadScript />
+        <SwgHeadScript />
       </head>
       <body className="min-h-full font-sans">
         <AdSenseScriptWatcher />

@@ -2,16 +2,14 @@ import {
   SWG_BASIC_SCRIPT_URL,
   buildSwgBasicInitScript,
   isSwgConfigured,
-  type SwgBasicInitOptions,
 } from "@/config/swg";
 
-type Props = SwgBasicInitOptions;
-
 /**
- * Google Subscribe with Google (Basic) — marks published content for CMS sync.
- * Place on pages that publish NewsArticle content (newsletter layout includes this).
+ * Reader Revenue Manager / Subscribe with Google — site-wide in `<head>`.
+ * Required on every page so RRM prompts (newsletter, registration, etc.) can load.
+ * @see https://support.google.com/news/publisher-center/answer/13062093
  */
-export function SwgBasicScript(options: Props = {}) {
+export function SwgHeadScript() {
   if (!isSwgConfigured()) return null;
 
   return (
@@ -23,7 +21,7 @@ export function SwgBasicScript(options: Props = {}) {
       />
       <script
         dangerouslySetInnerHTML={{
-          __html: buildSwgBasicInitScript(options),
+          __html: buildSwgBasicInitScript({ theme: "light", lang: "en-AU" }),
         }}
       />
     </>
