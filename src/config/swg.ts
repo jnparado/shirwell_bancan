@@ -2,12 +2,12 @@
  * Subscribe with Google — Basic subscriptions (Publisher Center CMS sync)
  *
  * Env:
- *   NEXT_PUBLIC_SWG_OPEN_ACCESS_PRODUCT_ID=CAow46fHDA:openaccess
+ *   NEXT_PUBLIC_SWG_OPEN_ACCESS_PRODUCT_ID=CAow5KfHDA:openaccess
  *
  * @see https://developers.google.com/news/subscribe/subscription-linking
  */
 
-export const DEFAULT_SWG_OPEN_ACCESS_PRODUCT_ID = "CAow46fHDA:openaccess";
+export const DEFAULT_SWG_OPEN_ACCESS_PRODUCT_ID = "CAow5KfHDA:openaccess";
 
 export const SWG_OPEN_ACCESS_PRODUCT_ID =
   process.env.NEXT_PUBLIC_SWG_OPEN_ACCESS_PRODUCT_ID?.trim() ||
@@ -38,7 +38,7 @@ export function buildSwgBasicInitScript({
   type = "NewsArticle",
   productId = SWG_OPEN_ACCESS_PRODUCT_ID,
   theme = "light",
-  lang = "en-AU",
+  lang = "en",
 }: SwgBasicInitOptions = {}): string {
   const safeId = escapeSwgProductId(productId);
   return `(self.SWG_BASIC = self.SWG_BASIC || []).push( basicSubscriptions => {

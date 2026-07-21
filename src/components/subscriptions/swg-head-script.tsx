@@ -21,7 +21,7 @@ export function SwgHeadScript() {
       />
       <script
         dangerouslySetInnerHTML={{
-          __html: buildSwgBasicInitScript({ theme: "light", lang: "en-AU" }),
+          __html: buildSwgBasicInitScript({ theme: "light", lang: "en" }),
         }}
       />
     </>
