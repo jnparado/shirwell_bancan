@@ -3,21 +3,36 @@
  *
  * Env:
  *   NEXT_PUBLIC_SWG_OPEN_ACCESS_PRODUCT_ID=CAow5KfHDA:openaccess
+ *   NEXT_PUBLIC_SWG_PREMIUM_PRODUCT_ID=CAow5KfHDA:premium
  *
  * @see https://developers.google.com/news/subscribe/subscription-linking
  */
 
-export const DEFAULT_SWG_OPEN_ACCESS_PRODUCT_ID = "CAow5KfHDA:openaccess";
+/** Publication prefix from Publisher Center (same for open access + paywall plans). */
+export const SWG_PUBLICATION_PREFIX = "CAow5KfHDA";
+
+export const DEFAULT_SWG_OPEN_ACCESS_PRODUCT_ID = `${SWG_PUBLICATION_PREFIX}:openaccess`;
+
+export const DEFAULT_SWG_PREMIUM_PRODUCT_ID = `${SWG_PUBLICATION_PREFIX}:premium`;
 
 export const SWG_OPEN_ACCESS_PRODUCT_ID =
   process.env.NEXT_PUBLIC_SWG_OPEN_ACCESS_PRODUCT_ID?.trim() ||
   DEFAULT_SWG_OPEN_ACCESS_PRODUCT_ID;
+
+/** Paywall / Premium plan — create in Publisher Center and set plan to Live. */
+export const SWG_PREMIUM_PRODUCT_ID =
+  process.env.NEXT_PUBLIC_SWG_PREMIUM_PRODUCT_ID?.trim() ||
+  DEFAULT_SWG_PREMIUM_PRODUCT_ID;
 
 export const SWG_BASIC_SCRIPT_URL =
   "https://news.google.com/swg/js/v1/swg-basic.js";
 
 export function isSwgConfigured(): boolean {
   return SWG_OPEN_ACCESS_PRODUCT_ID.length > 0;
+}
+
+export function isSwgPremiumConfigured(): boolean {
+  return SWG_PREMIUM_PRODUCT_ID.length > 0;
 }
 
 /** Escape product id for safe inline script injection. */

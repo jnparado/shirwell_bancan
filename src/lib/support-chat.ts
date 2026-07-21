@@ -49,6 +49,11 @@ const FAQ: { match: RegExp; reply: string }[] = [
       "CDs and vinyl — including the Black Horse limited edition — are on /cds. Product details and upcoming releases are also on /products.",
   },
   {
+    match: /product|honey|sunglasses|chocolate|store|shop/i,
+    reply:
+      "Sample Shirwell store products — wildflower honey, gold frame sunglasses, and dark chocolate — are on /products. Each item has its own page with price and details.",
+  },
+  {
     match: /flower|rose|nati/i,
     reply:
       "Flowers and roses are on /flowers, including Nati Roses for weddings, funerals, and special occasions. Shirwell has worked with Nati Roses for over 40 years.",

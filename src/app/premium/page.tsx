@@ -2,9 +2,13 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { MarketingHeader } from "@/components/shirwell/marketing-header";
 import { BottomNav } from "@/components/shirwell/bottom-nav";
+import { SwgProductInit } from "@/components/subscriptions/swg-product-init";
 import {
   APPLE_APP_STORE_URL,
-} from "@/lib/apple/iap";
+  SWG_PREMIUM_PRODUCT_ID,
+  isSwgPremiumConfigured,
+} from "@/config/premium";
+import { getPremiumOfferJsonLd } from "@/lib/swg-jsonld";
 import { SITE_NAME } from "@/lib/seo";
 
 const glassCard =
@@ -12,13 +16,22 @@ const glassCard =
 
 export const metadata: Metadata = {
   title: "Premium",
-  description: `Shirwell Premium — unlimited streaming and member benefits via Apple In-App Purchase on iOS.`,
+  description: `Shirwell Premium — unlimited streaming and member benefits on the web (Subscribe with Google) and iOS (Apple In-App Purchase).`,
   alternates: { canonical: "/premium" },
 };
 
 export default function PremiumPage() {
+  const swgPremium = isSwgPremiumConfigured();
+
   return (
     <div className="page-shell">
+      {swgPremium ? <SwgProductInit productId={SWG_PREMIUM_PRODUCT_ID} /> : null}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(getPremiumOfferJsonLd()),
+        }}
+      />
       <MarketingHeader />
       <main className="mx-auto w-full max-w-3xl flex-1 px-4 py-10 sm:px-6 sm:py-14">
         <article className={`${glassCard} p-6 sm:p-8`}>
@@ -33,9 +46,7 @@ export default function PremiumPage() {
             <p>
               <strong className="text-zinc-200">Premium</strong> unlocks the full {SITE_NAME}{" "}
               listening experience — including premium tracks, early releases, and special
-              member offers. On iPhone and iPad, subscriptions are sold through{" "}
-              <strong className="text-zinc-200">Apple In-App Purchase</strong> (StoreKit) in
-              the Shirwell Music app, as required by Apple for digital subscriptions.
+              member offers.
             </p>
 
             <h2 className="mt-8 font-serif text-lg font-semibold text-[#FFC107]">
@@ -48,14 +59,33 @@ export default function PremiumPage() {
               <li>Ad-light listening in the mobile app (where enabled)</li>
             </ul>
 
+            {swgPremium ? (
+              <>
+                <h2 className="mt-8 font-serif text-lg font-semibold text-[#FFC107]">
+                  Subscribe on the web
+                </h2>
+                <p>
+                  On desktop and Android, subscribe with{" "}
+                  <strong className="text-zinc-200">Subscribe with Google</strong> (Reader
+                  Revenue Manager). A subscription prompt may appear on this page when your
+                  paywall is live in Publisher Center.
+                </p>
+                <p className="font-mono text-xs text-zinc-500">
+                  Product ID: {SWG_PREMIUM_PRODUCT_ID}
+                </p>
+              </>
+            ) : null}
+
             <h2 className="mt-8 font-serif text-lg font-semibold text-[#FFC107]">
               Subscribe on Apple (iOS)
             </h2>
             <p>
-              Open the <strong className="text-zinc-200">Shirwell Music</strong> app on your
-              iPhone or iPad, sign in with the same account you use on this website, then
-              choose Premium. Payment is handled securely by Apple. Your subscription renews
-              automatically until you cancel in{" "}
+              On iPhone and iPad, subscriptions are sold through{" "}
+              <strong className="text-zinc-200">Apple In-App Purchase</strong> (StoreKit) in
+              the Shirwell Music app, as required by Apple for digital subscriptions. Open the{" "}
+              <strong className="text-zinc-200">Shirwell Music</strong> app, sign in with the
+              same account you use on this website, then choose Premium. Payment is handled
+              securely by Apple. Your subscription renews automatically until you cancel in{" "}
               <strong className="text-zinc-200">Settings → Apple ID → Subscriptions</strong>.
             </p>
 
@@ -73,8 +103,9 @@ export default function PremiumPage() {
             ) : (
               <p className="text-zinc-300">
                 Open the <strong className="text-zinc-200">App Store</strong> on your
-                iPhone or iPad and search for <strong className="text-zinc-200">Shirwell Music</strong>{" "}
-                to subscribe with Apple In-App Purchase.
+                iPhone or iPad and search for{" "}
+                <strong className="text-zinc-200">Shirwell Music</strong> to subscribe with
+                Apple In-App Purchase.
               </p>
             )}
 
@@ -82,9 +113,9 @@ export default function PremiumPage() {
               Restore purchases
             </h2>
             <p>
-              Already subscribed? In the iOS app, tap <strong className="text-zinc-200">Restore
-              purchases</strong> while signed in. We sync your Apple subscription to your Shirwell
-              account automatically.
+              Already subscribed on iOS? In the Shirwell Music app, tap{" "}
+              <strong className="text-zinc-200">Restore purchases</strong> while signed in. We
+              sync your Apple subscription to your Shirwell account automatically.
             </p>
 
             <p className="mt-8 text-xs text-zinc-500">

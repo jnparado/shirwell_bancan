@@ -1,4 +1,5 @@
 import { NEWSLETTER_ISSUES } from "@/lib/newsletter-issues";
+import { STORE_PRODUCTS } from "@/lib/products";
 import { getSitemapOrigin, SITEMAP_PUBLIC_PATHS } from "@/lib/seo";
 
 function escapeXml(value: string): string {
@@ -24,6 +25,15 @@ export function buildSitemapXml(): string {
   </url>`,
   );
 
+  const productUrls = STORE_PRODUCTS.map(
+    (product) => `  <url>
+    <loc>${escapeXml(`${origin}/products/${product.slug}`)}</loc>
+    <lastmod>${lastmod}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.45</priority>
+  </url>`,
+  );
+
   const urls = [
     ...SITEMAP_PUBLIC_PATHS.map(
       ({ path, changeFrequency, priority }) => `  <url>
@@ -34,6 +44,7 @@ export function buildSitemapXml(): string {
   </url>`,
     ),
     ...newsletterUrls,
+    ...productUrls,
   ].join("\n");
 
   return `<?xml version="1.0" encoding="UTF-8"?>

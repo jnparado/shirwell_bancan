@@ -4,6 +4,8 @@ import Link from "next/link";
 import { MarketingHeader } from "@/components/shirwell/marketing-header";
 import { BottomNav } from "@/components/shirwell/bottom-nav";
 import { ContentPageAds } from "@/components/ads/content-page-ads";
+import { ProductCard } from "@/components/shirwell/product-card";
+import { getProductsIndexJsonLd, STORE_PRODUCTS } from "@/lib/products";
 import { SITE_NAME } from "@/lib/seo";
 
 const glassCard =
@@ -12,12 +14,12 @@ const glassCard =
 export const metadata: Metadata = {
   title: "Products",
   description:
-    "Shirwell Bancan products — limited edition Black Horse vinyl, jungle coffee, roses, and more from the official store.",
+    "Shirwell Bancan products — wildflower honey, gold frame sunglasses, dark chocolate, vinyl, and more from the official store.",
   alternates: { canonical: "/products" },
   openGraph: {
     title: `Products | ${SITE_NAME}`,
     description:
-      "Explore Shirwell Bancan products including vinyl, coffee, and unique releases.",
+      "Shop sample Shirwell products — honey, sunglasses, chocolate, and limited edition releases.",
     url: "/products",
   },
 };
@@ -25,18 +27,35 @@ export const metadata: Metadata = {
 export default function ProductsPage() {
   return (
     <div className="page-shell relative">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(getProductsIndexJsonLd()),
+        }}
+      />
       <MarketingHeader />
-      <main className="mx-auto w-full max-w-3xl px-4 py-10">
+      <main className="mx-auto w-full max-w-5xl px-4 py-10 sm:px-6 sm:py-14">
         <h1 className="font-serif text-3xl font-semibold tracking-tight text-[#FFC107]">
           Products
         </h1>
-        <p className="mt-4 text-base leading-relaxed text-zinc-300 sm:text-lg">
-          Shirwell Bancan&apos;s official product line brings together music, coffee,
-          flowers, and one-of-a-kind items collected over decades on the road. New
-          releases and premium items are added here as they become available.
+        <p className="mt-4 max-w-2xl text-base leading-relaxed text-zinc-300 sm:text-lg">
+          Shirwell Bancan&apos;s official product line — sample items for the store
+          including honey, sunglasses, and chocolate, alongside music and special
+          releases.
         </p>
 
-        <article className={`${glassCard} mt-10 overflow-hidden`}>
+        <section className="mt-10">
+          <h2 className="font-serif text-xl font-semibold text-[#FFC107] sm:text-2xl">
+            Shop sample products
+          </h2>
+          <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {STORE_PRODUCTS.map((product) => (
+              <ProductCard key={product.slug} product={product} />
+            ))}
+          </div>
+        </section>
+
+        <article className={`${glassCard} mt-12 overflow-hidden`}>
           <div className="relative aspect-[682/1024] w-full max-h-[420px] bg-black/40">
             <Image
               src="/cds/black-horse-vinyl-promo.png"
@@ -58,7 +77,10 @@ export default function ProductsPage() {
             </p>
             <p className="text-sm leading-relaxed text-zinc-300 sm:text-[15px]">
               See full details and artwork on the{" "}
-              <Link href="/cds" className="font-semibold text-[#FFC107] underline-offset-2 hover:underline">
+              <Link
+                href="/cds"
+                className="font-semibold text-[#FFC107] underline-offset-2 hover:underline"
+              >
                 CD&apos;s &amp; vinyl page
               </Link>
               .
@@ -77,27 +99,26 @@ export default function ProductsPage() {
             </li>
             <li>
               <span className="font-semibold text-zinc-200">Roses &amp; flowers</span> —{" "}
-              <Link href="/flowers" className="text-[#FFC107] underline-offset-2 hover:underline">
+              <Link
+                href="/flowers"
+                className="text-[#FFC107] underline-offset-2 hover:underline"
+              >
                 order through Nati Roses
               </Link>{" "}
               for weddings, funerals, and special occasions.
             </li>
             <li>
-              <span className="font-semibold text-zinc-200">Premium releases</span> — exclusive
-              tracks and merchandise for subscribers. Check back as the catalog grows.
+              <span className="font-semibold text-zinc-200">Premium releases</span> —
+              exclusive tracks for subscribers on{" "}
+              <Link
+                href="/premium"
+                className="text-[#FFC107] underline-offset-2 hover:underline"
+              >
+                Premium
+              </Link>
+              .
             </li>
           </ul>
-          <p className="mt-6 text-sm text-zinc-400">
-            While new products roll out, stream Shirwell&apos;s music on{" "}
-            <Link href="/music" className="text-[#FFC107] underline-offset-2 hover:underline">
-              the music player
-            </Link>{" "}
-            or browse featured songs on{" "}
-            <Link href="/home" className="text-[#FFC107] underline-offset-2 hover:underline">
-              Home
-            </Link>
-            .
-          </p>
         </section>
         <ContentPageAds />
       </main>

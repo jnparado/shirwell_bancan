@@ -1,4 +1,7 @@
-import { SWG_OPEN_ACCESS_PRODUCT_ID } from "@/config/swg";
+import {
+  SWG_OPEN_ACCESS_PRODUCT_ID,
+  SWG_PREMIUM_PRODUCT_ID,
+} from "@/config/swg";
 import type { NewsletterIssue } from "@/lib/newsletter-issues";
 import { newsletterIssueDatePublished } from "@/lib/newsletter-issues";
 import {
@@ -66,6 +69,33 @@ export function getNewsletterIndexJsonLd(): Record<string, unknown> {
       "@type": ["CreativeWork", "Product"],
       name: SITE_NAME,
       productID: SWG_OPEN_ACCESS_PRODUCT_ID,
+    },
+  };
+}
+
+/** Premium offer page — paywalled product id for Subscribe with Google / RRM. */
+export function getPremiumOfferJsonLd(): Record<string, unknown> {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: `${SITE_NAME} Premium`,
+    description:
+      "Unlimited streaming, early releases, and member perks for Shirwell Premium subscribers.",
+    url: absoluteUrl("/premium"),
+    inLanguage: "en-AU",
+    isAccessibleForFree: false,
+    publisher: {
+      "@type": "Organization",
+      name: SITE_NAME,
+      logo: {
+        "@type": "ImageObject",
+        url: absoluteUrl(SITE_LOGO_PATH),
+      },
+    },
+    isPartOf: {
+      "@type": ["CreativeWork", "Product"],
+      name: `${SITE_NAME} Premium`,
+      productID: SWG_PREMIUM_PRODUCT_ID,
     },
   };
 }
