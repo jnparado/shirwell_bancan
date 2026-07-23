@@ -30,9 +30,12 @@ export const NEVER_BE_THE_SAME_AUDIO_PATH = "/audio/never-be-the-same.mp3";
 /** `Hay girls guy voice` */
 export const HAY_GIRLS_GUY_VOICE_AUDIO_PATH = "/audio/hay-girls-guy-voice.mp3";
 
-/** `Glorious Days — girls singing two` */
-export const GLORIOUS_DAYS_GIRLS_SINGING_TWO_AUDIO_PATH =
-  "/audio/glorious-days-girls-singing-two.mp3";
+/** `Glorious Days — Echoes of the Don` */
+export const GLORIOUS_DAYS_ECHOES_OF_THE_DON_AUDIO_PATH =
+  "/audio/glorious-days-echoes-of-the-don.mp3";
+
+/** Display title for the current Glorious Days demo track */
+export const GLORIOUS_DAYS_DISPLAY_TITLE = "Glorious Days (Echoes of the Don)";
 
 /** `Baby Gonna Rock` */
 export const BABY_GONNA_ROCK_AUDIO_PATH = "/audio/Baby_gonna_Rock.mp3"
@@ -62,7 +65,7 @@ export const AI_NEEDED_LABEL = "AI needed";
 
 export const ROCK_VERSION_LABEL = "Rock version";
 export const DANCE_VERSION_LABEL = "Dance version";
-export const TEMPORARY_LABEL = "Temporary";
+export const DEMONSTRATION_LABEL = "Demonstration";
 
 
 
@@ -101,9 +104,7 @@ function applyWrittenYears(songs: Song[]): Song[] {
               : t === "hay girls guy voice" || t.startsWith("hay girls guy voice")
                 ? 2025
               : t === "glorious days" ||
-                  t.startsWith("glorious days") ||
-                  t === "glorious days (girls singing two)" ||
-                  t.startsWith("glorious days (girls singing two")
+                  t.startsWith("glorious days")
                 ? 2026
               : t === "the dancing machine" ||
                   t.startsWith("the dancing machine") ||
@@ -187,12 +188,12 @@ export const FALLBACK_SONGS: Song[] = [
     is_premium: false,
   },
   {
-    id: "fallback-glorious-days-girls-singing-two",
-    title: "Glorious Days (Girls Singing Two)",
+    id: "fallback-glorious-days-echoes-of-the-don",
+    title: GLORIOUS_DAYS_DISPLAY_TITLE,
     artist: "Written by Shirwell Bancan",
-    desc: TEMPORARY_LABEL,
+    desc: DEMONSTRATION_LABEL,
     year: 2026,
-    audio_url: GLORIOUS_DAYS_GIRLS_SINGING_TWO_AUDIO_PATH,
+    audio_url: GLORIOUS_DAYS_ECHOES_OF_THE_DON_AUDIO_PATH,
     cover_image: null,
     is_premium: false,
   },
@@ -423,16 +424,9 @@ function isNeverBeTheSameTrack(title: string | null | undefined): boolean {
   return t === "never be the same" || t.startsWith("never be the same");
 }
 
-function isGloriousDaysGirlsSingingTwoTrack(
-  title: string | null | undefined,
-): boolean {
+function isGloriousDaysTrack(title: string | null | undefined): boolean {
   const t = normalizeTitle(title);
-  return (
-    t === "glorious days (girls singing two)" ||
-    t.startsWith("glorious days (girls singing two") ||
-    t === "glorious days girls singing two" ||
-    t.startsWith("glorious days girls singing two")
-  );
+  return t === "glorious days" || t.startsWith("glorious days");
 }
 
 /** Supabase rows for “Never Be The Same” use the bundled MP3 */
@@ -448,15 +442,15 @@ function applyBundledNeverBeTheSameAudio(songs: Song[]): Song[] {
   );
 }
 
-/** Supabase rows for “Glorious Days (Girls Singing Two)” use the bundled MP3 */
+/** Supabase rows for “Glorious Days (Echoes of the Don)” use the bundled MP3 */
 function applyBundledGloriousDaysAudio(songs: Song[]): Song[] {
   return songs.map((s) =>
-    isGloriousDaysGirlsSingingTwoTrack(s.title)
+    isGloriousDaysTrack(s.title)
       ? {
           ...s,
-          title: "Glorious Days (Girls Singing Two)",
-          desc: TEMPORARY_LABEL,
-          audio_url: GLORIOUS_DAYS_GIRLS_SINGING_TWO_AUDIO_PATH,
+          title: GLORIOUS_DAYS_DISPLAY_TITLE,
+          desc: DEMONSTRATION_LABEL,
+          audio_url: GLORIOUS_DAYS_ECHOES_OF_THE_DON_AUDIO_PATH,
         }
       : s
   );
@@ -692,15 +686,15 @@ function ensureBundledTracksInList(songs: Song[]): Song[] {
     ];
   }
 
-  if (!result.some((s) => isGloriousDaysGirlsSingingTwoTrack(s.title))) {
+  if (!result.some((s) => isGloriousDaysTrack(s.title))) {
     result = [
       {
-        id: "bundled-glorious-days-girls-singing-two",
-        title: "Glorious Days (Girls Singing Two)",
+        id: "bundled-glorious-days-echoes-of-the-don",
+        title: GLORIOUS_DAYS_DISPLAY_TITLE,
         artist: "Written by Shirwell Bancan",
-        desc: TEMPORARY_LABEL,
+        desc: DEMONSTRATION_LABEL,
         year: 2026,
-        audio_url: GLORIOUS_DAYS_GIRLS_SINGING_TWO_AUDIO_PATH,
+        audio_url: GLORIOUS_DAYS_ECHOES_OF_THE_DON_AUDIO_PATH,
         cover_image: null,
         is_premium: false,
       },
