@@ -125,6 +125,11 @@ function applyWrittenYears(songs: Song[]): Song[] {
   });
 }
 
+/** Site-wide demo mode — every track shows “Demonstration” in the player. */
+function applyDemonstrationLabels(songs: Song[]): Song[] {
+  return songs.map((s) => ({ ...s, desc: DEMONSTRATION_LABEL }));
+}
+
 export const FALLBACK_SONGS: Song[] = [
   {
     id: "fallback-1",
@@ -303,7 +308,7 @@ export const getSongs = cache(async function getSongs(): Promise<Song[]> {
   const supabase = await createServerSupabaseClient();
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
 
-  if (!supabase || !url) return FALLBACK_SONGS;
+  if (!supabase || !url) return applyDemonstrationLabels(applyWrittenYears(FALLBACK_SONGS));
 
   const { data, error } = await supabase
     .from("songs")
@@ -312,7 +317,9 @@ export const getSongs = cache(async function getSongs(): Promise<Song[]> {
     )
     .order("created_at", { ascending: false });
 
-  if (error || !data?.length) return FALLBACK_SONGS;
+  if (error || !data?.length) {
+    return applyDemonstrationLabels(applyWrittenYears(FALLBACK_SONGS));
+  }
 
   const mapped = (data as SongRow[]).map((row) => mapRowToSong(url, row));
   const normalized = ensureBundledTracksInList(
@@ -330,7 +337,7 @@ export const getSongs = cache(async function getSongs(): Promise<Song[]> {
       )
     )
   );
-  return applyWrittenYears(normalized);
+  return applyDemonstrationLabels(applyWrittenYears(normalized));
 });
 
 const DISPLAY_TITLE_KISSING = "Kissing";
