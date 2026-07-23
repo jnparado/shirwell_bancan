@@ -101,7 +101,10 @@ export function watchAdSenseScriptTag(): () => void {
     if (existing.dataset.loaded === "1" || isAdSenseScriptReady()) {
       notifyAdSenseLoaded();
     } else {
-      existing.addEventListener("load", notifyAdSenseLoaded, { once: true });
+    existing.addEventListener("load", () => {
+      existing.dataset.loaded = "1";
+      notifyAdSenseLoaded();
+    }, { once: true });
     }
   }
 

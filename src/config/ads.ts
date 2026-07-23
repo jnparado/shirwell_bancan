@@ -60,7 +60,7 @@ export function isAdsenseTestMode(): boolean {
  * under construction, or used mainly for navigation / alerts / auth.
  * @see https://support.google.com/adsense/answer/1346295
  */
-const ADSENSE_ALLOWED_PATHS = new Set([
+const ADSENSE_ALLOWED_EXACT = new Set([
   "/",
   "/home",
   "/music",
@@ -73,6 +73,9 @@ const ADSENSE_ALLOWED_PATHS = new Set([
   "/newsletter",
 ]);
 
+/** Content sections under these paths may show ads (e.g. /products/honey, /newsletter/2024-05-22). */
+const ADSENSE_ALLOWED_PREFIXES = ["/newsletter", "/products"];
+
 export function normalizePathname(pathname: string): string {
   const path = pathname.split("?")[0]?.split("#")[0] ?? "/";
   if (path.length > 1 && path.endsWith("/")) return path.slice(0, -1);
@@ -80,5 +83,9 @@ export function normalizePathname(pathname: string): string {
 }
 
 export function isAdSenseAllowedPath(pathname: string): boolean {
-  return ADSENSE_ALLOWED_PATHS.has(normalizePathname(pathname));
+  const path = normalizePathname(pathname);
+  if (ADSENSE_ALLOWED_EXACT.has(path)) return true;
+  return ADSENSE_ALLOWED_PREFIXES.some(
+    (prefix) => path === prefix || path.startsWith(`${prefix}/`),
+  );
 }
