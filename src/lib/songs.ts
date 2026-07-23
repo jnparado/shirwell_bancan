@@ -34,8 +34,23 @@ export const HAY_GIRLS_GUY_VOICE_AUDIO_PATH = "/audio/hay-girls-guy-voice.mp3";
 export const GLORIOUS_DAYS_ECHOES_OF_THE_DON_AUDIO_PATH =
   "/audio/glorious-days-echoes-of-the-don.mp3";
 
-/** Display title for the current Glorious Days demo track */
-export const GLORIOUS_DAYS_DISPLAY_TITLE = "Glorious Days (Echoes of the Don)";
+/** `Glorious Days — girls singing two` */
+export const GLORIOUS_DAYS_GIRLS_SINGING_TWO_AUDIO_PATH =
+  "/audio/glorious-days-girls-singing-two.mp3";
+
+/** `Glorious Days — male vocal` */
+export const GLORIOUS_DAYS_MALE_VOCAL_AUDIO_PATH =
+  "/audio/glorious-days-male-vocal.mp3";
+
+export const GLORIOUS_DAYS_ECHOES_DISPLAY_TITLE =
+  "Glorious Days (Echoes of the Don)";
+export const GLORIOUS_DAYS_GIRLS_DISPLAY_TITLE =
+  "Glorious Days (Girls Singing Two)";
+export const GLORIOUS_DAYS_MALE_VOCAL_DISPLAY_TITLE =
+  "Glorious Days (Male Vocal)";
+
+/** @deprecated Use GLORIOUS_DAYS_ECHOES_DISPLAY_TITLE */
+export const GLORIOUS_DAYS_DISPLAY_TITLE = GLORIOUS_DAYS_ECHOES_DISPLAY_TITLE;
 
 /** `Baby Gonna Rock` */
 export const BABY_GONNA_ROCK_AUDIO_PATH = "/audio/Baby_gonna_Rock.mp3"
@@ -194,11 +209,31 @@ export const FALLBACK_SONGS: Song[] = [
   },
   {
     id: "fallback-glorious-days-echoes-of-the-don",
-    title: GLORIOUS_DAYS_DISPLAY_TITLE,
+    title: GLORIOUS_DAYS_ECHOES_DISPLAY_TITLE,
     artist: "Written by Shirwell Bancan",
     desc: DEMONSTRATION_LABEL,
     year: 2026,
     audio_url: GLORIOUS_DAYS_ECHOES_OF_THE_DON_AUDIO_PATH,
+    cover_image: null,
+    is_premium: false,
+  },
+  {
+    id: "fallback-glorious-days-girls-singing-two",
+    title: GLORIOUS_DAYS_GIRLS_DISPLAY_TITLE,
+    artist: "Written by Shirwell Bancan",
+    desc: DEMONSTRATION_LABEL,
+    year: 2026,
+    audio_url: GLORIOUS_DAYS_GIRLS_SINGING_TWO_AUDIO_PATH,
+    cover_image: null,
+    is_premium: false,
+  },
+  {
+    id: "fallback-glorious-days-male-vocal",
+    title: GLORIOUS_DAYS_MALE_VOCAL_DISPLAY_TITLE,
+    artist: "Written by Shirwell Bancan",
+    desc: DEMONSTRATION_LABEL,
+    year: 2026,
+    audio_url: GLORIOUS_DAYS_MALE_VOCAL_AUDIO_PATH,
     cover_image: null,
     is_premium: false,
   },
@@ -327,7 +362,7 @@ export const getSongs = cache(async function getSongs(): Promise<Song[]> {
       applyBundledComeOnBabeAudio(
         applyBundledKissingAudio(
           applyBundledNeverBeTheSameAudio(
-            applyBundledGloriousDaysAudio(
+            applyBundledGloriousDaysDemos(
               applyBundledDancingMachineAudio(
                 applyBundledRideTheNightAwayAudio(mapped)
               )
@@ -431,11 +466,6 @@ function isNeverBeTheSameTrack(title: string | null | undefined): boolean {
   return t === "never be the same" || t.startsWith("never be the same");
 }
 
-function isGloriousDaysTrack(title: string | null | undefined): boolean {
-  const t = normalizeTitle(title);
-  return t === "glorious days" || t.startsWith("glorious days");
-}
-
 /** Supabase rows for “Never Be The Same” use the bundled MP3 */
 function applyBundledNeverBeTheSameAudio(songs: Song[]): Song[] {
   return songs.map((s) =>
@@ -449,18 +479,89 @@ function applyBundledNeverBeTheSameAudio(songs: Song[]): Song[] {
   );
 }
 
-/** Supabase rows for “Glorious Days (Echoes of the Don)” use the bundled MP3 */
-function applyBundledGloriousDaysAudio(songs: Song[]): Song[] {
-  return songs.map((s) =>
-    isGloriousDaysTrack(s.title)
-      ? {
-          ...s,
-          title: GLORIOUS_DAYS_DISPLAY_TITLE,
-          desc: DEMONSTRATION_LABEL,
-          audio_url: GLORIOUS_DAYS_ECHOES_OF_THE_DON_AUDIO_PATH,
-        }
-      : s
+function isGloriousDaysGirlsTrack(title: string | null | undefined): boolean {
+  const t = normalizeTitle(title);
+  return (
+    t.includes("girls singing two") ||
+    t.includes("girls singing") ||
+    t === "glorious days girls singing two" ||
+    t.startsWith("glorious days girls singing two")
   );
+}
+
+function isGloriousDaysMaleVocalTrack(title: string | null | undefined): boolean {
+  const t = normalizeTitle(title);
+  return (
+    t.includes("male vocal") ||
+    t === "gloriousdays male vocal" ||
+    t.startsWith("gloriousdays male vocal") ||
+    t === "glorious days male vocal" ||
+    t.startsWith("glorious days male vocal")
+  );
+}
+
+function isGloriousDaysEchoesTrack(title: string | null | undefined): boolean {
+  const t = normalizeTitle(title);
+  if (isGloriousDaysGirlsTrack(title) || isGloriousDaysMaleVocalTrack(title)) {
+    return false;
+  }
+  return (
+    t.includes("echoes of the don") ||
+    t === "glorious days" ||
+    t.startsWith("glorious days")
+  );
+}
+
+function isGloriousDaysGirlsBundled(songs: Song[]): boolean {
+  return songs.some(
+    (s) =>
+      s.audio_url === GLORIOUS_DAYS_GIRLS_SINGING_TWO_AUDIO_PATH ||
+      isGloriousDaysGirlsTrack(s.title),
+  );
+}
+
+function isGloriousDaysMaleVocalBundled(songs: Song[]): boolean {
+  return songs.some(
+    (s) =>
+      s.audio_url === GLORIOUS_DAYS_MALE_VOCAL_AUDIO_PATH ||
+      isGloriousDaysMaleVocalTrack(s.title),
+  );
+}
+
+function isGloriousDaysEchoesBundled(songs: Song[]): boolean {
+  return songs.some(
+    (s) =>
+      s.audio_url === GLORIOUS_DAYS_ECHOES_OF_THE_DON_AUDIO_PATH ||
+      isGloriousDaysEchoesTrack(s.title),
+  );
+}
+
+/** Supabase rows for Glorious Days demo versions use bundled MP3s */
+function applyBundledGloriousDaysDemos(songs: Song[]): Song[] {
+  return songs.map((s) => {
+    if (isGloriousDaysGirlsTrack(s.title)) {
+      return {
+        ...s,
+        title: GLORIOUS_DAYS_GIRLS_DISPLAY_TITLE,
+        audio_url: GLORIOUS_DAYS_GIRLS_SINGING_TWO_AUDIO_PATH,
+      };
+    }
+    if (isGloriousDaysMaleVocalTrack(s.title)) {
+      return {
+        ...s,
+        title: GLORIOUS_DAYS_MALE_VOCAL_DISPLAY_TITLE,
+        audio_url: GLORIOUS_DAYS_MALE_VOCAL_AUDIO_PATH,
+      };
+    }
+    if (isGloriousDaysEchoesTrack(s.title)) {
+      return {
+        ...s,
+        title: GLORIOUS_DAYS_ECHOES_DISPLAY_TITLE,
+        audio_url: GLORIOUS_DAYS_ECHOES_OF_THE_DON_AUDIO_PATH,
+      };
+    }
+    return s;
+  });
 }
 
 function isDancingMachineFamily(title: string | null | undefined): boolean {
@@ -693,15 +794,47 @@ function ensureBundledTracksInList(songs: Song[]): Song[] {
     ];
   }
 
-  if (!result.some((s) => isGloriousDaysTrack(s.title))) {
+  if (!isGloriousDaysEchoesBundled(result)) {
     result = [
       {
         id: "bundled-glorious-days-echoes-of-the-don",
-        title: GLORIOUS_DAYS_DISPLAY_TITLE,
+        title: GLORIOUS_DAYS_ECHOES_DISPLAY_TITLE,
         artist: "Written by Shirwell Bancan",
         desc: DEMONSTRATION_LABEL,
         year: 2026,
         audio_url: GLORIOUS_DAYS_ECHOES_OF_THE_DON_AUDIO_PATH,
+        cover_image: null,
+        is_premium: false,
+      },
+      ...result,
+    ];
+  }
+
+  if (!isGloriousDaysGirlsBundled(result)) {
+    result = [
+      {
+        id: "bundled-glorious-days-girls-singing-two",
+        title: GLORIOUS_DAYS_GIRLS_DISPLAY_TITLE,
+        artist: "Written by Shirwell Bancan",
+        desc: DEMONSTRATION_LABEL,
+        year: 2026,
+        audio_url: GLORIOUS_DAYS_GIRLS_SINGING_TWO_AUDIO_PATH,
+        cover_image: null,
+        is_premium: false,
+      },
+      ...result,
+    ];
+  }
+
+  if (!isGloriousDaysMaleVocalBundled(result)) {
+    result = [
+      {
+        id: "bundled-glorious-days-male-vocal",
+        title: GLORIOUS_DAYS_MALE_VOCAL_DISPLAY_TITLE,
+        artist: "Written by Shirwell Bancan",
+        desc: DEMONSTRATION_LABEL,
+        year: 2026,
+        audio_url: GLORIOUS_DAYS_MALE_VOCAL_AUDIO_PATH,
         cover_image: null,
         is_premium: false,
       },
