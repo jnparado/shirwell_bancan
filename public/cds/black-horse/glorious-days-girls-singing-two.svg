@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 400 400" role="img" aria-label="Glorious Days (Girls Singing Two) — Black Horse CD">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1a1208"/>
+      <stop offset="45%" stop-color="#0a0806"/>
+      <stop offset="100%" stop-color="#120e06"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffe082"/>
+      <stop offset="50%" stop-color="#FFC107"/>
+      <stop offset="100%" stop-color="#b8860b"/>
+    </linearGradient>
+    <radialGradient id="disc" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#2a2218"/>
+      <stop offset="70%" stop-color="#111"/>
+      <stop offset="100%" stop-color="#050505"/>
+    </radialGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <rect width="400" height="400" rx="12" fill="url(#bg)"/>
+  <rect x="8" y="8" width="384" height="384" rx="8" fill="none" stroke="url(#gold)" stroke-width="2.5" opacity="0.85"/>
+  <rect x="16" y="16" width="368" height="368" rx="6" fill="none" stroke="#FFC107" stroke-width="0.75" opacity="0.35"/>
+  <circle cx="30" cy="24" r="0.6" fill="#FFC107" opacity="0.15"/>
+  <circle cx="49" cy="61" r="1" fill="#FFC107" opacity="0.22999999999999998"/>
+  <circle cx="68" cy="98" r="1.4" fill="#FFC107" opacity="0.31"/>
+  <circle cx="87" cy="135" r="0.6" fill="#FFC107" opacity="0.39"/>
+  <circle cx="106" cy="172" r="1" fill="#FFC107" opacity="0.47"/>
+  <circle cx="125" cy="209" r="1.4" fill="#FFC107" opacity="0.15"/>
+  <circle cx="144" cy="246" r="0.6" fill="#FFC107" opacity="0.22999999999999998"/>
+  <circle cx="163" cy="283" r="1" fill="#FFC107" opacity="0.31"/>
+  <circle cx="182" cy="320" r="1.4" fill="#FFC107" opacity="0.39"/>
+  <circle cx="201" cy="357" r="0.6" fill="#FFC107" opacity="0.47"/>
+  <circle cx="220" cy="34" r="1" fill="#FFC107" opacity="0.15"/>
+  <circle cx="239" cy="71" r="1.4" fill="#FFC107" opacity="0.22999999999999998"/>
+  <circle cx="258" cy="108" r="0.6" fill="#FFC107" opacity="0.31"/>
+  <circle cx="277" cy="145" r="1" fill="#FFC107" opacity="0.39"/>
+  <circle cx="296" cy="182" r="1.4" fill="#FFC107" opacity="0.47"/>
+  <circle cx="315" cy="219" r="0.6" fill="#FFC107" opacity="0.15"/>
+  <circle cx="334" cy="256" r="1" fill="#FFC107" opacity="0.22999999999999998"/>
+  <circle cx="353" cy="293" r="1.4" fill="#FFC107" opacity="0.31"/>
+  <text x="200" y="52" text-anchor="middle" fill="#d4af37" font-family="Georgia, serif" font-size="13" letter-spacing="3">SHIRWELL BANCAN</text>
+  <text x="200" y="88" text-anchor="middle" fill="url(#gold)" font-family="Georgia, serif" font-size="28" font-weight="700" letter-spacing="2" filter="url(#glow)">BLACK HORSE</text>
+  <text x="200" y="112" text-anchor="middle" fill="#a89878" font-family="Arial, sans-serif" font-size="9" letter-spacing="1.5">LIMITED EDITION CD</text>
+  <rect x="40" y="128" width="320" height="2" fill="#FFC107" opacity="0.25"/>
+  <circle cx="200" cy="168" r="28" fill="none" stroke="url(#gold)" stroke-width="2"/>
+  <text x="200" y="176" text-anchor="middle" fill="#FFC107" font-family="Arial, sans-serif" font-size="22" font-weight="700">08</text>
+  <text x="200" y="232" text-anchor="middle" fill="#FFC107" font-family="Georgia, 'Times New Roman', serif" font-size="26" font-weight="700">Glorious Days (Girls</text>
+    <text x="200" y="266" text-anchor="middle" fill="#FFC107" font-family="Georgia, 'Times New Roman', serif" font-size="30" font-weight="700">Singing Two)</text>
+  <text x="200" y="318" text-anchor="middle" fill="#8a7a62" font-family="Arial, sans-serif" font-size="11">Written 2026</text>
+  <circle cx="200" cy="352" r="34" fill="url(#disc)" stroke="#333" stroke-width="1"/>
+  <circle cx="200" cy="352" r="10" fill="#0a0806" stroke="#555" stroke-width="1"/>
+  <circle cx="200" cy="352" r="3" fill="#222"/>
+  <text x="200" y="396" text-anchor="middle" fill="#6b5d48" font-family="Arial, sans-serif" font-size="8" letter-spacing="1">45 YEARS · ONE TIMELESS ALBUM</text>
+</svg>
