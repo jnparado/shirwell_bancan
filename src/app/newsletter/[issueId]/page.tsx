@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { MarketingHeader } from "@/components/shirwell/marketing-header";
 import { BottomNav } from "@/components/shirwell/bottom-nav";
+import { ContentPageAds } from "@/components/ads/content-page-ads";
 import { BUSINESS_NAME, SUPPORT_EMAIL } from "@/config/contact";
 import {
   getNewsletterIssue,
@@ -69,6 +70,8 @@ export default async function NewsletterIssuePage({ params }: Props) {
             <span>{issue.dateLabel}</span>
           </nav>
 
+          <ContentPageAds className="mt-6 px-0 py-4" placement="standard" />
+
           <article className={`${glassCard} swg-news-article mt-6 overflow-hidden`}>
             <header className="p-6 sm:p-8">
               <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">
@@ -121,6 +124,8 @@ export default async function NewsletterIssuePage({ params }: Props) {
               </p>
             </footer>
           </article>
+
+          <ContentPageAds className="mt-8 px-0 py-4" placement="standard" />
         </main>
         <BottomNav />
       </div>

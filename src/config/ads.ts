@@ -71,6 +71,7 @@ const ADSENSE_ALLOWED_EXACT = new Set([
   "/flowers",
   "/flower",
   "/newsletter",
+  "/search",
 ]);
 
 /** Content sections under these paths may show ads (e.g. /products/honey, /newsletter/2024-05-22). */

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useId } from "react";
 import { usePathname } from "next/navigation";
 import {
   ADSENSE_BOX_HEIGHT,
@@ -13,7 +13,11 @@ import {
   isAdsenseConfigured,
   isAdsenseTestMode,
 } from "@/config/ads";
-import { fillUnfilledAdSlots, whenAdSenseReady } from "@/lib/adsense-runtime";
+import {
+  fillUnfilledAdSlots,
+  scheduleAdFillRetries,
+  whenAdSenseReady,
+} from "@/lib/adsense-runtime";
 
 type AdFormat = "auto" | "horizontal" | "rectangle" | "vertical";
 
@@ -23,6 +27,8 @@ interface AdSenseUnitProps {
   className?: string;
   format?: AdFormat;
   minHeight?: number;
+  /** Distinguish multiple units with the same slot on one page */
+  instanceId?: string;
 }
 
 type FixedSize = { width: number; height: number };
@@ -30,6 +36,16 @@ type FixedSize = { width: number; height: number };
 interface AdSenseUnitInnerProps extends Omit<AdSenseUnitProps, "slot"> {
   slot: string;
   fixedSize?: FixedSize;
+}
+
+export function AdSenseLabel({ className = "" }: { className?: string }) {
+  return (
+    <p
+      className={`mb-2 text-center text-[10px] font-medium uppercase tracking-wider text-zinc-500 ${className}`}
+    >
+      Advertisement
+    </p>
+  );
 }
 
 /**
@@ -40,6 +56,7 @@ export function AdSenseUnit({
   className = "",
   format = "auto",
   minHeight = 100,
+  instanceId,
 }: AdSenseUnitProps) {
   return (
     <AdSenseUnitInner
@@ -47,6 +64,7 @@ export function AdSenseUnit({
       className={className}
       format={format}
       minHeight={minHeight}
+      instanceId={instanceId}
     />
   );
 }
@@ -76,33 +94,31 @@ function AdSenseUnitInner({
   format = "auto",
   minHeight = 100,
   fixedSize,
+  instanceId,
 }: AdSenseUnitInnerProps) {
   const pathname = usePathname();
-  const insRef = useRef<HTMLModElement>(null);
+  const reactId = useId();
+  const unitKey = `${pathname}-${slot}-${instanceId ?? reactId}`;
   const adsAllowed = isAdSenseAllowedPath(pathname);
 
   useLayoutEffect(() => {
-    if (!adsAllowed || !slot || !isAdsenseConfigured() || !insRef.current) return;
-
-    insRef.current.dataset.adFilled = "0";
-    insRef.current.removeAttribute("data-ad-status");
-
-    return whenAdSenseReady(() => {
-      if (!insRef.current) return;
-      fillUnfilledAdSlots(insRef.current.parentElement ?? document);
-    });
-  }, [adsAllowed, slot, pathname]);
-
-  // Retry fill after paint — catches late script load on slow networks.
-  useEffect(() => {
     if (!adsAllowed || !slot || !isAdsenseConfigured()) return;
 
-    const retry = window.setTimeout(() => {
-      fillUnfilledAdSlots(document);
-    }, 1200);
+    const fill = () => fillUnfilledAdSlots(document);
 
-    return () => window.clearTimeout(retry);
-  }, [adsAllowed, slot, pathname]);
+    const stopReady = whenAdSenseReady(fill);
+    const stopRetries = scheduleAdFillRetries(fill);
+
+    return () => {
+      stopReady();
+      stopRetries();
+    };
+  }, [adsAllowed, slot, unitKey]);
+
+  useEffect(() => {
+    if (!adsAllowed || !slot || !isAdsenseConfigured()) return;
+    return scheduleAdFillRetries(() => fillUnfilledAdSlots(document));
+  }, [adsAllowed, slot, unitKey]);
 
   if (!adsAllowed || !isAdsenseConfigured() || !slot) return null;
 
@@ -111,9 +127,8 @@ function AdSenseUnitInner({
     : `mx-auto w-full max-w-4xl overflow-hidden ${className}`;
 
   return (
-    <div className={wrapperClass} style={{ minHeight }}>
+    <div key={unitKey} className={wrapperClass} style={{ minHeight }}>
       <ins
-        ref={insRef}
         className="adsbygoogle"
         style={
           fixedSize
@@ -122,7 +137,7 @@ function AdSenseUnitInner({
                 width: fixedSize.width,
                 height: fixedSize.height,
               }
-            : { display: "block" }
+            : { display: "block", minHeight }
         }
         data-ad-client={ADSENSE_CLIENT_ID}
         data-ad-slot={slot}

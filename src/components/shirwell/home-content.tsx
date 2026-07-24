@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { Fragment, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import type { Song } from "@/types/song";
@@ -9,7 +9,8 @@ import { MarketingHeader } from "./marketing-header";
 import { FeaturedSongCard } from "./featured-song-card";
 import { HomePromo } from "./home-promo";
 import { BottomNav } from "./bottom-nav";
-import { AdSenseBoxUnit, AdSenseEnterprisesUnit } from "@/components/ads/adsense-unit";
+import { AdSenseBoxUnit, AdSenseEnterprisesUnit, AdSenseLabel } from "@/components/ads/adsense-unit";
+import { ContentPageAdTop } from "@/components/ads/content-page-ads";
 import { BrandPhotoFrame } from "@/components/legal/brand-photo-frame";
 
 
@@ -69,6 +70,8 @@ export function HomeContent({ songs, children }: HomeContentProps) {
           </div>
         </section>
 
+        <ContentPageAdTop />
+
         {/* Shirwell talent */}
         <section className="border-b border-emerald-500/10 bg-gradient-to-b from-emerald-950/20 via-black/40 to-transparent px-4 py-12 sm:px-6 sm:py-16">
           <div className="mx-auto max-w-6xl">
@@ -120,10 +123,12 @@ export function HomeContent({ songs, children }: HomeContentProps) {
         </section>
 
         <div className="px-4 py-6 sm:px-6">
-          <p className="mb-2 text-center text-[10px] font-medium uppercase tracking-wider text-zinc-500">
-            Advertisement
-          </p>
-          <AdSenseEnterprisesUnit className="rounded-xl border border-white/[0.06] bg-black/20 p-2" />
+          <AdSenseLabel />
+          <AdSenseEnterprisesUnit
+            instanceId="home-mid"
+            className="rounded-xl border border-white/[0.06] bg-black/20 p-2"
+            format="horizontal"
+          />
         </div>
 
         {/* Featured Songs — gold title, glass cards */}
@@ -154,22 +159,34 @@ export function HomeContent({ songs, children }: HomeContentProps) {
 
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
               {songs.map((song, i) => (
-                <FeaturedSongCard
-                  key={song.id}
-                  song={song}
-                  onPlay={playSong}
-                  timeLabel={timeLabels[i % timeLabels.length]}
-                />
+                <Fragment key={song.id}>
+                  <FeaturedSongCard
+                    song={song}
+                    onPlay={playSong}
+                    timeLabel={timeLabels[i % timeLabels.length]}
+                  />
+                  {i === 2 ? (
+                    <div className="flex flex-col justify-center rounded-xl border border-white/[0.06] bg-black/20 p-4 sm:col-span-2 lg:col-span-1">
+                      <AdSenseLabel />
+                      <AdSenseBoxUnit instanceId="home-infeed" />
+                    </div>
+                  ) : null}
+                </Fragment>
               ))}
             </div>
           </div>
         </section>
 
         <div className="px-4 py-6 sm:px-6">
-          <p className="mb-2 text-center text-[10px] font-medium uppercase tracking-wider text-zinc-500">
-            Advertisement
-          </p>
-          <AdSenseBoxUnit className="rounded-xl border border-white/[0.06] bg-black/20 p-2" />
+          <AdSenseLabel className="text-white/35" />
+          <AdSenseEnterprisesUnit
+            instanceId="home-bottom-enterprises"
+            className="rounded-xl border border-white/[0.06] bg-black/20 p-2"
+            format="horizontal"
+          />
+          <div className="mt-3">
+            <AdSenseBoxUnit instanceId="home-bottom-box" />
+          </div>
         </div>
 
         <HomePromo />

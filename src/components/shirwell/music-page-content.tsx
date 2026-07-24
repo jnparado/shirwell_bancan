@@ -22,7 +22,8 @@ import { getPlayerArtworkSrc } from "@/lib/player-artwork";
 import { formatTime } from "@/lib/player/format-time";
 import { BottomNav } from "./bottom-nav";
 import { BrandLegalMarks } from "@/components/legal/brand-legal-marks";
-import { AdSenseBoxUnit, AdSenseEnterprisesUnit } from "@/components/ads/adsense-unit";
+import { AdSenseBoxUnit, AdSenseEnterprisesUnit, AdSenseLabel } from "@/components/ads/adsense-unit";
+import { ContentPageAdTop } from "@/components/ads/content-page-ads";
 
 interface MusicPageContentProps {
   songs: Song[];
@@ -156,6 +157,10 @@ export function MusicPageContent({ songs }: MusicPageContentProps) {
           <ListMusic className="h-6 w-6" strokeWidth={2} />
         </button>
       </header>
+
+      {!queueOpen ? (
+        <ContentPageAdTop className="relative z-10 px-4 pb-2 sm:px-5" />
+      ) : null}
 
       <main className="relative z-10 mx-auto flex w-full min-h-0 max-w-lg flex-1 flex-col overflow-y-auto px-4 pt-2 sm:px-5">
         <h1 className="sr-only">Shirwell Music — stream songs by Shirwell Bancan</h1>
@@ -387,12 +392,14 @@ export function MusicPageContent({ songs }: MusicPageContentProps) {
 
       {!queueOpen ? (
         <div className="relative z-10 shrink-0 px-4 pb-2">
-          <p className="mb-1 text-center text-[10px] font-medium uppercase tracking-wider text-white/35">
-            Advertisement
-          </p>
-          <AdSenseEnterprisesUnit className="rounded-xl border border-white/10 bg-black/30 p-2" />
+          <AdSenseLabel className="text-white/35" />
+          <AdSenseEnterprisesUnit
+            instanceId="music-bottom-enterprises"
+            className="rounded-xl border border-white/10 bg-black/30 p-2"
+            format="horizontal"
+          />
           <div className="mt-3">
-            <AdSenseBoxUnit className="rounded-xl border border-white/10 bg-black/30 p-2" />
+            <AdSenseBoxUnit instanceId="music-bottom-box" className="rounded-xl border border-white/10 bg-black/30 p-2" />
           </div>
         </div>
       ) : null}

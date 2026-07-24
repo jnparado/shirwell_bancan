@@ -3,7 +3,7 @@ import Link from "next/link";
 import { MarketingHeader } from "@/components/shirwell/marketing-header";
 import { BottomNav } from "@/components/shirwell/bottom-nav";
 import { BlackHorseCdGrid } from "@/components/shirwell/black-horse-cd-grid";
-import { ContentPageAds } from "@/components/ads/content-page-ads";
+import { ContentPageAdTop, ContentPageAds } from "@/components/ads/content-page-ads";
 import {
   BLACK_HORSE_ALBUM_TITLE,
   BLACK_HORSE_VINYL_PROMO,
@@ -38,6 +38,8 @@ export default function CdsPage() {
           Shirwell music. Browse CD artwork for every track below.
         </p>
 
+        <ContentPageAdTop className="mt-8 px-0 py-4" />
+
         <BlackHorseCdGrid />
 
         <article className="mt-12 space-y-5 text-sm leading-relaxed text-zinc-300 sm:text-[15px]">
@@ -66,7 +68,7 @@ export default function CdsPage() {
           </p>
         </article>
 
-        <ContentPageAds />
+        <ContentPageAds className="px-0 py-6" placement="both" />
       </main>
       <BottomNav />
     </div>

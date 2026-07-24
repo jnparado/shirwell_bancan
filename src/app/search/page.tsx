@@ -3,6 +3,7 @@ import Link from "next/link";
 import { MarketingHeader } from "@/components/shirwell/marketing-header";
 import { BottomNav } from "@/components/shirwell/bottom-nav";
 import { SiteSearchForm } from "@/components/search/site-search-form";
+import { ContentPageAds } from "@/components/ads/content-page-ads";
 import { getSongs } from "@/lib/songs";
 import { searchSite } from "@/lib/site-search";
 import { SITE_NAME } from "@/lib/seo";
@@ -48,6 +49,8 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
         </p>
 
         <SiteSearchForm initialQuery={query} />
+
+        <ContentPageAds className="mt-6 px-0 py-4" />
 
         {hasQuery ? (
           <section className={`${glassCard} mt-8 p-6 sm:p-8`} aria-live="polite">
@@ -113,6 +116,8 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
             ) : null}
           </section>
         ) : null}
+
+        <ContentPageAds className="mt-8 px-0 py-4" />
 
         <section className={`${glassCard} mt-8 p-6 sm:p-8`}>
           <h2 className="font-serif text-xl font-semibold text-[#FFC107]">

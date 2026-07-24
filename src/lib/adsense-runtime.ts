@@ -6,6 +6,8 @@ declare global {
 
 export const ADSENSE_LOADED_EVENT = "shirwell:adsense-loaded";
 
+const RETRY_DELAYS_MS = [400, 1200, 3000, 6000, 12000];
+
 /** Fired when the AdSense library finishes loading. */
 export function notifyAdSenseLoaded(): void {
   if (typeof window === "undefined") return;
@@ -43,6 +45,19 @@ export function fillUnfilledAdSlots(root: ParentNode = document): number {
   return filled;
 }
 
+/** Schedule several fill attempts — helps slow networks and post-hydration routes. */
+export function scheduleAdFillRetries(
+  fill: () => void,
+  delaysMs: number[] = RETRY_DELAYS_MS,
+): () => void {
+  if (typeof window === "undefined") return () => {};
+
+  const timers = delaysMs.map((delay) => window.setTimeout(fill, delay));
+  return () => {
+    timers.forEach((id) => window.clearTimeout(id));
+  };
+}
+
 /**
  * Run `fill` once the AdSense script is available (handles race on first paint).
  * Returns a cleanup function.
@@ -68,12 +83,11 @@ export function whenAdSenseReady(fill: () => void): () => void {
     if (isAdSenseScriptReady()) {
       window.clearInterval(poll);
       run();
-    } else if (attempts >= 60) {
+    } else if (attempts >= 80) {
       window.clearInterval(poll);
     }
   }, 150);
 
-  // Detect script injected from `<head>` without an onLoad callback.
   const observer = new MutationObserver(() => {
     if (isAdSenseScriptReady()) {
       observer.disconnect();
@@ -101,10 +115,14 @@ export function watchAdSenseScriptTag(): () => void {
     if (existing.dataset.loaded === "1" || isAdSenseScriptReady()) {
       notifyAdSenseLoaded();
     } else {
-    existing.addEventListener("load", () => {
-      existing.dataset.loaded = "1";
-      notifyAdSenseLoaded();
-    }, { once: true });
+      existing.addEventListener(
+        "load",
+        () => {
+          existing.dataset.loaded = "1";
+          notifyAdSenseLoaded();
+        },
+        { once: true },
+      );
     }
   }
 

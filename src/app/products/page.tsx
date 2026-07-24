@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { MarketingHeader } from "@/components/shirwell/marketing-header";
 import { BottomNav } from "@/components/shirwell/bottom-nav";
-import { ContentPageAds } from "@/components/ads/content-page-ads";
+import { ContentPageAdTop, ContentPageAds } from "@/components/ads/content-page-ads";
 import { ProductCard } from "@/components/shirwell/product-card";
 import { getProductsIndexJsonLd, STORE_PRODUCTS } from "@/lib/products";
 import { SITE_NAME } from "@/lib/seo";
@@ -43,6 +43,8 @@ export default function ProductsPage() {
           including honey, sunglasses, and chocolate, alongside music and special
           releases.
         </p>
+
+        <ContentPageAdTop className="mt-8 px-0 py-4" />
 
         <section className="mt-10">
           <h2 className="font-serif text-xl font-semibold text-[#FFC107] sm:text-2xl">
@@ -120,7 +122,7 @@ export default function ProductsPage() {
             </li>
           </ul>
         </section>
-        <ContentPageAds />
+        <ContentPageAds className="px-0 py-6" placement="both" />
       </main>
       <BottomNav />
     </div>
