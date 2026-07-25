@@ -14,11 +14,8 @@ import { STRIPE_PUBLISHABLE_KEY } from "@/config/stripe";
 import { JsonLdScript } from "@/components/seo/json-ld-script";
 import { getPremiumPlansPublic } from "@/lib/premium/plans";
 import { getPremiumOfferJsonLd } from "@/lib/swg-jsonld";
-import { isStripeConfigured } from "@/config/stripe";
+import { isStripeServerConfigured } from "@/config/stripe";
 import { SITE_NAME } from "@/lib/seo";
-
-const glassCard =
-  "rounded-xl border border-white/[0.06] bg-[rgba(255,255,255,0.05)] backdrop-blur-md";
 
 export const metadata: Metadata = {
   title: "Premium",
@@ -34,7 +31,7 @@ export default async function PremiumPage({ searchParams }: PremiumPageProps) {
   const headerStore = await headers();
   const host = headerStore.get("host");
   const swgPremium = isSwgPremiumEnabled(host);
-  const stripeReady = isStripeConfigured();
+  const stripeReady = isStripeServerConfigured();
   const plans = getPremiumPlansPublic();
   const { checkout } = await searchParams;
   const checkoutStatus =
@@ -46,25 +43,15 @@ export default async function PremiumPage({ searchParams }: PremiumPageProps) {
       <JsonLdScript data={getPremiumOfferJsonLd()} />
       <MarketingHeader />
       <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-10 sm:px-6 sm:py-14">
-        <article className={`${glassCard} p-6 sm:p-8`}>
-          <header className="border-b border-white/[0.06] pb-6 text-center sm:text-left">
-            <h1 className="font-serif text-2xl font-semibold text-[#FFC107] sm:text-3xl">
-              Shirwell Premium
-            </h1>
-            <p className="mt-2 text-sm text-zinc-400">
-              Choose weekly, monthly, or yearly — pay with card and stream ad-free.
-            </p>
-          </header>
+        <div className="space-y-10 text-sm leading-relaxed text-zinc-300 sm:text-[15px]">
+          <PremiumCheckoutSection
+            checkoutStatus={checkoutStatus}
+            publishableKey={STRIPE_PUBLISHABLE_KEY}
+            initialPlans={plans}
+            stripeReady={stripeReady}
+          />
 
-          <div className="mt-8 space-y-10 text-sm leading-relaxed text-zinc-300 sm:text-[15px]">
-            <PremiumCheckoutSection
-              checkoutStatus={checkoutStatus}
-              publishableKey={STRIPE_PUBLISHABLE_KEY}
-              initialPlans={plans}
-              stripeReady={stripeReady}
-            />
-
-            <details className="rounded-xl border border-white/[0.06] bg-white/[0.02] p-4 sm:p-5">
+          <details className="rounded-xl border border-white/[0.06] bg-[#1a1b1e] p-4 sm:p-5">
               <summary className="cursor-pointer font-serif text-base font-semibold text-zinc-200">
                 Other ways to subscribe
               </summary>
@@ -124,8 +111,7 @@ export default async function PremiumPage({ searchParams }: PremiumPageProps) {
               </Link>
               . {SITE_NAME} Premium — cancel anytime from your billing portal.
             </p>
-          </div>
-        </article>
+        </div>
       </main>
       <BottomNav />
     </div>

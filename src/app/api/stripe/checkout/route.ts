@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 import {
   getStripePlanById,
-  isStripeConfigured,
+  isStripePublishableConfigured,
+  isStripeServerConfigured,
   stripeCheckoutLineItem,
 } from "@/config/stripe";
 import { createServerSupabaseClient, createServiceRoleSupabaseClient } from "@/lib/supabase/server";
@@ -16,9 +17,9 @@ type CheckoutBody = {
 };
 
 export async function POST(request: Request) {
-  if (!isStripeConfigured()) {
+  if (!isStripeServerConfigured()) {
     return NextResponse.json(
-      { error: "Stripe is not configured. Add STRIPE_SECRET_KEY and NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY." },
+      { error: "Stripe is not configured. Add STRIPE_SECRET_KEY on the server." },
       { status: 503 },
     );
   }
@@ -39,7 +40,7 @@ export async function POST(request: Request) {
 
   if (!user) {
     return NextResponse.json(
-      { error: "Sign in to subscribe.", signInUrl: "/auth/login?next=/premium" },
+      { error: "Sign in to subscribe.", signInUrl: "/auth/login?redirect=/premium" },
       { status: 401 },
     );
   }
@@ -81,7 +82,7 @@ export async function POST(request: Request) {
     customerId = customer.id;
   }
 
-  const embedded = body.uiMode === "embedded";
+  const embedded = body.uiMode === "embedded" && isStripePublishableConfigured();
 
   const session = await stripe.checkout.sessions.create({
     mode: "subscription",

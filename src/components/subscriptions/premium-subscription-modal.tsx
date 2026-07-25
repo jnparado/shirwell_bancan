@@ -102,9 +102,9 @@ export function PremiumSubscriptionModal({
                 complete your subscription.
               </p>
             </div>
-          ) : !busy && !error ? (
+          ) : !busy && !error && !clientSecret ? (
             <p className="rounded-lg border border-dashed border-white/15 bg-black/20 px-4 py-3 text-sm text-zinc-400">
-              Card payments are not configured yet. Add Stripe keys to enable checkout.
+              Waiting for secure checkout…
             </p>
           ) : null}
         </div>

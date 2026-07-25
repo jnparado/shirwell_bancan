@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { isStripeConfigured } from "@/config/stripe";
+import { isStripeServerConfigured } from "@/config/stripe";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
 import { createServiceRoleSupabaseClient } from "@/lib/supabase/server";
 import { getUserPremiumStatus } from "@/lib/auth/premium";
@@ -7,7 +7,7 @@ import { getStripe } from "@/lib/stripe/server";
 import { absoluteUrl } from "@/lib/seo";
 
 export async function POST() {
-  if (!isStripeConfigured()) {
+  if (!isStripeServerConfigured()) {
     return NextResponse.json({ error: "Stripe is not configured." }, { status: 503 });
   }
 
@@ -27,7 +27,7 @@ export async function POST() {
 
   if (!user) {
     return NextResponse.json(
-      { error: "Sign in required.", signInUrl: "/auth/login?next=/premium" },
+      { error: "Sign in required.", signInUrl: "/auth/login?redirect=/premium" },
       { status: 401 },
     );
   }

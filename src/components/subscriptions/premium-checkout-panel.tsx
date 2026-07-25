@@ -18,6 +18,7 @@ type PremiumStatus = {
 type PlansApiResponse = {
   plans: PremiumPlanPublic[];
   stripeConfigured: boolean;
+  paymentsEnabled?: boolean;
 };
 
 type PremiumCheckoutPanelProps = {
@@ -43,6 +44,7 @@ export function PremiumCheckoutPanel({
   const planFromUrl = searchParams.get("plan");
 
   const [plans, setPlans] = useState(initialPlans);
+  const [paymentsEnabled, setPaymentsEnabled] = useState(stripeReady);
   const [stripeConfigured, setStripeConfigured] = useState(stripeReady);
   const [status, setStatus] = useState<PremiumStatus | null>(null);
   const [selectedPlanId, setSelectedPlanId] = useState<PremiumPlanId>(parsePlanId(planFromUrl));
@@ -74,6 +76,7 @@ export function PremiumCheckoutPanel({
       const data = (await res.json()) as PlansApiResponse;
       if (data.plans?.length) setPlans(data.plans);
       setStripeConfigured(data.stripeConfigured);
+      setPaymentsEnabled(data.paymentsEnabled ?? data.stripeConfigured);
     } catch {
       /* ignore */
     }
@@ -84,9 +87,12 @@ export function PremiumCheckoutPanel({
     void loadPlans();
     void fetch("/api/stripe/config")
       .then((res) => res.json())
-      .then((data: { publishableKey?: string | null }) => {
+      .then((data: { publishableKey?: string | null; paymentsEnabled?: boolean }) => {
         if (data.publishableKey?.startsWith("pk_")) {
           setRuntimePublishableKey(data.publishableKey);
+        }
+        if (data.paymentsEnabled) {
+          setPaymentsEnabled(true);
         }
       })
       .catch(() => {
@@ -103,25 +109,45 @@ export function PremiumCheckoutPanel({
   async function startCheckout(plan: StripePremiumPlan) {
     setSelectedPlanId(plan.id);
     setModalOpen(true);
-
-    if (!stripeConfigured) {
-      setError("Card payments are not configured yet. Contact support or try again later.");
-      return;
-    }
-
     setBusyPlan(plan.id);
     setError(null);
     setClientSecret(null);
 
     try {
+      const configRes = await fetch("/api/stripe/config");
+      const config = (await configRes.json().catch(() => null)) as {
+        publishableKey?: string | null;
+        paymentsEnabled?: boolean;
+      } | null;
+
+      const pk = config?.publishableKey?.trim() ?? "";
+      const canPay = config?.paymentsEnabled ?? paymentsEnabled;
+
+      if (pk.startsWith("pk_")) {
+        setRuntimePublishableKey(pk);
+      }
+
+      if (!canPay) {
+        setError(
+          "Card payments are not configured on the server yet. Add STRIPE_SECRET_KEY in your hosting settings, then redeploy.",
+        );
+        return;
+      }
+
+      const useEmbedded = pk.startsWith("pk_");
+
       const res = await fetch("/api/stripe/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ planId: plan.id, uiMode: "embedded" }),
+        body: JSON.stringify({
+          planId: plan.id,
+          uiMode: useEmbedded ? "embedded" : "hosted",
+        }),
       });
 
       const data = (await res.json().catch(() => null)) as {
         clientSecret?: string;
+        url?: string;
         error?: string;
         signInUrl?: string;
         manage?: boolean;
@@ -136,6 +162,12 @@ export function PremiumCheckoutPanel({
       if (res.status === 409 && data?.manage) {
         closeCheckout();
         await openPortal();
+        return;
+      }
+
+      if (data?.url) {
+        closeCheckout();
+        window.location.href = data.url;
         return;
       }
 
@@ -228,79 +260,94 @@ export function PremiumCheckoutPanel({
         </div>
       ) : (
         <>
-          <div className="grid gap-4 lg:grid-cols-3 lg:gap-5">
+          <header className="mb-8 text-center">
+            <h2 className="text-2xl font-bold text-white sm:text-3xl">Choose Your Plan</h2>
+            <p className="mx-auto mt-2 max-w-lg text-sm text-[#8e8e93] sm:text-base">
+              Select the perfect subscription plan that fits your listening needs.
+            </p>
+          </header>
+
+          <div className="grid gap-5 lg:grid-cols-3 lg:gap-6">
             {plans.map((plan) => {
               const isBusy = busyPlan === plan.id;
-              const isSelected = selectedPlanId === plan.id && Boolean(clientSecret);
+
+              const cardBorder =
+                plan.id === "monthly"
+                  ? "border-2 border-[#b148ff]"
+                  : plan.id === "weekly"
+                    ? "border border-[#b148ff]"
+                    : "border border-white/[0.08]";
+
+              const badgeClass =
+                plan.id === "yearly"
+                  ? "bg-[#d64bb0] text-white"
+                  : "bg-[#b148ff] text-white";
 
               return (
                 <article
                   key={plan.id}
-                  className={`relative flex flex-col rounded-2xl border bg-[rgba(255,255,255,0.03)] p-5 sm:p-6 ${
-                    plan.highlighted
-                      ? "border-[#FFC107]/45 ring-1 ring-[#FFC107]/25"
-                      : "border-white/[0.08]"
-                  } ${isSelected ? "ring-1 ring-[#FFC107]/40" : ""}`}
+                  className={`relative flex flex-col overflow-visible rounded-2xl bg-[#1a1b1e] ${cardBorder}`}
                 >
                   {plan.badge ? (
                     <span
-                      className={`absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full px-3 py-1 text-[11px] font-bold uppercase tracking-wide ${
-                        plan.highlighted
-                          ? "bg-[#FFC107] text-stone-950"
-                          : "bg-[#e91e8c] text-white"
-                      }`}
+                      className={`absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full px-3 py-1 text-[11px] font-bold uppercase tracking-wide ${badgeClass}`}
                     >
                       {plan.badge}
                     </span>
                   ) : null}
 
-                  <div className="pt-1">
-                    <h2 className="text-lg font-semibold text-zinc-100">{plan.label}</h2>
-                    <div className="mt-3 flex flex-wrap items-end gap-x-2 gap-y-1">
-                      <p className="font-serif text-4xl font-semibold text-[#FFC107]">
+                  <div className="flex flex-1 flex-col px-6 pb-6 pt-8">
+                    <div className="text-center">
+                      <h3 className="text-xl font-bold text-white">{plan.label}</h3>
+                      <p className="mt-4 text-5xl font-bold leading-none text-[#b148ff]">
                         {plan.displayAmount}
                       </p>
-                      <p className="pb-1 text-sm text-zinc-500">{plan.billingNote}</p>
+                      <p className="mt-2 text-sm text-[#8e8e93]">{plan.billingNote}</p>
+                      {plan.savingsNote ? (
+                        <p className="mt-2 text-sm font-semibold text-emerald-400">
+                          {plan.savingsNote}
+                        </p>
+                      ) : (
+                        <p className="mt-2 text-sm text-transparent select-none" aria-hidden>
+                          &nbsp;
+                        </p>
+                      )}
                     </div>
-                    {plan.savingsNote ? (
-                      <p className="mt-1 text-sm font-medium text-emerald-400">
-                        {plan.savingsNote}
-                      </p>
-                    ) : (
-                      <p className="mt-1 text-sm text-transparent select-none" aria-hidden>
-                        &nbsp;
-                      </p>
-                    )}
+
+                    <ul className="mt-8 flex-1 space-y-3.5">
+                      {plan.features.map((feature) => (
+                        <li key={feature} className="flex items-center gap-3 text-sm text-white">
+                          <span
+                            className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2 border-[#b148ff]"
+                            aria-hidden
+                          >
+                            <Check className="h-3 w-3 text-[#b148ff]" strokeWidth={3} />
+                          </span>
+                          {feature}
+                        </li>
+                      ))}
+                    </ul>
+
+                    <button
+                      type="button"
+                      disabled={Boolean(busyPlan)}
+                      onClick={() => void startCheckout(plan)}
+                      className={`mt-8 w-full rounded-xl px-4 py-3.5 text-sm font-bold transition disabled:opacity-60 ${
+                        plan.highlighted
+                          ? "bg-[#b148ff] text-white hover:bg-[#9d3de6]"
+                          : "border border-white/10 bg-[#25262a] text-white hover:border-[#b148ff]/40 hover:bg-[#2e2f34]"
+                      }`}
+                    >
+                      {isBusy ? (
+                        <span className="inline-flex items-center justify-center gap-2">
+                          <Loader2 className="h-4 w-4 animate-spin" />
+                          Starting…
+                        </span>
+                      ) : (
+                        plan.subscribeLabel
+                      )}
+                    </button>
                   </div>
-
-                  <ul className="mt-5 flex-1 space-y-2.5">
-                    {plan.features.map((feature) => (
-                      <li key={feature} className="flex items-start gap-2.5 text-sm text-zinc-300">
-                        <Check className="mt-0.5 h-4 w-4 shrink-0 text-[#e91e8c]" />
-                        {feature}
-                      </li>
-                    ))}
-                  </ul>
-
-                  <button
-                    type="button"
-                    disabled={Boolean(busyPlan)}
-                    onClick={() => void startCheckout(plan)}
-                    className={`mt-6 w-full rounded-xl px-4 py-3 text-sm font-semibold transition disabled:opacity-60 ${
-                      plan.highlighted
-                        ? "bg-[#FFC107] text-stone-950 hover:bg-[#e6ae06]"
-                        : "border border-white/15 bg-white/[0.04] text-zinc-100 hover:border-[#FFC107]/35 hover:text-[#FFC107]"
-                    }`}
-                  >
-                    {isBusy ? (
-                      <span className="inline-flex items-center justify-center gap-2">
-                        <Loader2 className="h-4 w-4 animate-spin" />
-                        Starting…
-                      </span>
-                    ) : (
-                      plan.subscribeLabel
-                    )}
-                  </button>
                 </article>
               );
             })}
@@ -308,7 +355,7 @@ export function PremiumCheckoutPanel({
 
           {!status?.signedIn ? (
             <p className="text-center text-xs text-zinc-500">
-              <Link href="/auth/login?redirect=/premium" className="text-[#FFC107] hover:underline">
+              <Link href="/auth/login?redirect=/premium" className="text-[#b148ff] hover:underline">
                 Sign in
               </Link>{" "}
               before checkout — your subscription links to your Shirwell account.
