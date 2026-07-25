@@ -35,7 +35,7 @@ export const STORE_PRODUCTS: StoreProduct[] = [
       "The greatest songs Shirwell wrote across 45 years — limited edition vinyl with full Black Horse artwork.",
     longDescription:
       `${BLACK_HORSE_ALBUM_SUBTITLE}. Pressed to vinyl in a limited run with the full Black Horse artwork — Shirwell on horseback, gold stage curtains, and the signature Shirwell Bancan sound fans have followed for decades. 45 years of original songs. One timeless album.`,
-    price: 100,
+    price: 18,
     currency: "AUD",
     image: BLACK_HORSE_VINYL_PROMO,
     imageAlt: "Black Horse limited edition vinyl album by Shirwell Bancan — promotional artwork",
