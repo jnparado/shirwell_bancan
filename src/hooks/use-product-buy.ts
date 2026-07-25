@@ -4,6 +4,11 @@ import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
 import type { StoreProduct } from "@/lib/products";
 
+type StripeConfig = {
+  paymentsEnabled?: boolean;
+  publishableKey?: string | null;
+};
+
 type UseProductBuyOptions = {
   product: StoreProduct;
   returnPath?: string;
@@ -15,10 +20,10 @@ export function useProductBuy({ product, returnPath }: UseProductBuyOptions) {
   const [error, setError] = useState<string | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [clientSecret, setClientSecret] = useState<string | null>(null);
+  const [publishableKey, setPublishableKey] = useState("");
 
   const productPath = returnPath ?? `/products/${product.slug}`;
   const loginUrl = `/auth/login?redirect=${encodeURIComponent(productPath)}`;
-  const publishableKey = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY?.trim() ?? "";
 
   const closeModal = useCallback(() => {
     setModalOpen(false);
@@ -47,17 +52,33 @@ export function useProductBuy({ product, returnPath }: UseProductBuyOptions) {
           return;
         }
 
+        const configRes = await fetch("/api/stripe/config");
+        const config = (await configRes.json().catch(() => null)) as StripeConfig | null;
+        const pk = config?.publishableKey?.trim() ?? "";
+        const useEmbedded = Boolean(pk);
+
+        if (!config?.paymentsEnabled) {
+          setModalOpen(true);
+          setError("Card payments are not configured on the server yet.");
+          return;
+        }
+
+        setPublishableKey(pk);
         setModalOpen(true);
         setClientSecret(null);
 
         const res = await fetch("/api/stripe/buy", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ slug: product.slug, uiMode: "embedded" }),
+          body: JSON.stringify({
+            slug: product.slug,
+            uiMode: useEmbedded ? "embedded" : "hosted",
+          }),
         });
 
         const data = (await res.json().catch(() => null)) as {
           clientSecret?: string;
+          url?: string;
           error?: string;
           signInUrl?: string;
         } | null;
@@ -68,7 +89,18 @@ export function useProductBuy({ product, returnPath }: UseProductBuyOptions) {
           return;
         }
 
-        if (!res.ok || !data?.clientSecret) {
+        if (!res.ok) {
+          setError(data?.error ?? "Could not start payment.");
+          return;
+        }
+
+        if (data?.url) {
+          closeModal();
+          window.location.href = data.url;
+          return;
+        }
+
+        if (!data?.clientSecret) {
           setError(data?.error ?? "Could not start payment.");
           return;
         }

@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { isStripeConfigured } from "@/config/stripe";
+import { isStripeServerConfigured } from "@/config/stripe";
 import { getStoreProduct } from "@/lib/products";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
 import { getOrCreateStripeCustomerId } from "@/lib/stripe/customer";
@@ -54,9 +54,9 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "This product is out of stock." }, { status: 409 });
   }
 
-  if (!isStripeConfigured()) {
+  if (!isStripeServerConfigured()) {
     return NextResponse.json(
-      { error: "Card payments are not configured yet. Try again later or contact support." },
+      { error: "Card payments are not configured yet. Add STRIPE_SECRET_KEY on the server." },
       { status: 503 },
     );
   }

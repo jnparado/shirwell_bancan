@@ -12,7 +12,9 @@
  */
 
 export const STRIPE_PUBLISHABLE_KEY =
-  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY?.trim() ?? "";
+  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY?.trim() ||
+  process.env.STRIPE_PUBLISHABLE_KEY?.trim() ||
+  "";
 
 export const STRIPE_PRICE_PREMIUM_MONTHLY =
   process.env.STRIPE_PRICE_PREMIUM_MONTHLY?.trim() ?? "";
@@ -54,15 +56,20 @@ export const STRIPE_PREMIUM_PLANS: StripePremiumPlan[] = [
   },
 ];
 
+export function getStripePublishableKey(): string {
+  return STRIPE_PUBLISHABLE_KEY;
+}
+
+export function isStripeServerConfigured(): boolean {
+  return Boolean(process.env.STRIPE_SECRET_KEY?.trim());
+}
+
 export function isStripeConfigured(): boolean {
-  return Boolean(
-    process.env.STRIPE_SECRET_KEY?.trim() &&
-      STRIPE_PUBLISHABLE_KEY.startsWith("pk_"),
-  );
+  return isStripeServerConfigured() && getStripePublishableKey().startsWith("pk_");
 }
 
 export function isStripePublishableConfigured(): boolean {
-  return STRIPE_PUBLISHABLE_KEY.startsWith("pk_");
+  return getStripePublishableKey().startsWith("pk_");
 }
 
 export function getStripePlanById(planId: string): StripePremiumPlan | undefined {
