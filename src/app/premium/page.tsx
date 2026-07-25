@@ -45,14 +45,14 @@ export default async function PremiumPage({ searchParams }: PremiumPageProps) {
       {swgPremium ? <SwgProductInit productId={SWG_PREMIUM_PRODUCT_ID} /> : null}
       <JsonLdScript data={getPremiumOfferJsonLd()} />
       <MarketingHeader />
-      <main className="mx-auto w-full max-w-4xl flex-1 px-4 py-10 sm:px-6 sm:py-14">
+      <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-10 sm:px-6 sm:py-14">
         <article className={`${glassCard} p-6 sm:p-8`}>
-          <header className="border-b border-white/[0.06] pb-6">
+          <header className="border-b border-white/[0.06] pb-6 text-center sm:text-left">
             <h1 className="font-serif text-2xl font-semibold text-[#FFC107] sm:text-3xl">
               Shirwell Premium
             </h1>
             <p className="mt-2 text-sm text-zinc-400">
-              Choose a plan, pay with card — subscription syncs to your Shirwell account.
+              Choose weekly, monthly, or yearly — pay with card and stream ad-free.
             </p>
           </header>
 

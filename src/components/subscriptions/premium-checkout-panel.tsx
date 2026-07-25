@@ -3,10 +3,10 @@
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { Check, CreditCard, Crown, Loader2, X } from "lucide-react";
-import type { StripePremiumPlan } from "@/config/stripe";
+import { Check, CreditCard, Crown, Loader2 } from "lucide-react";
+import type { PremiumPlanId, StripePremiumPlan } from "@/config/stripe";
 import type { PremiumPlanPublic } from "@/lib/premium/plans";
-import { PremiumStripeEmbeddedCheckout } from "@/components/subscriptions/premium-stripe-embedded";
+import { PremiumSubscriptionModal } from "@/components/subscriptions/premium-subscription-modal";
 
 type PremiumStatus = {
   premium: boolean;
@@ -27,6 +27,11 @@ type PremiumCheckoutPanelProps = {
   stripeReady: boolean;
 };
 
+function parsePlanId(value: string | null): PremiumPlanId {
+  if (value === "weekly" || value === "yearly") return value;
+  return "monthly";
+}
+
 export function PremiumCheckoutPanel({
   checkoutStatus,
   publishableKey,
@@ -40,12 +45,12 @@ export function PremiumCheckoutPanel({
   const [plans, setPlans] = useState(initialPlans);
   const [stripeConfigured, setStripeConfigured] = useState(stripeReady);
   const [status, setStatus] = useState<PremiumStatus | null>(null);
-  const [selectedPlanId, setSelectedPlanId] = useState<"monthly" | "yearly">(
-    planFromUrl === "yearly" ? "yearly" : "monthly",
-  );
+  const [selectedPlanId, setSelectedPlanId] = useState<PremiumPlanId>(parsePlanId(planFromUrl));
   const [busyPlan, setBusyPlan] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [clientSecret, setClientSecret] = useState<string | null>(null);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [runtimePublishableKey, setRuntimePublishableKey] = useState(publishableKey);
 
   const selectedPlan = useMemo(
     () => plans.find((plan) => plan.id === selectedPlanId) ?? plans[0] ?? null,
@@ -77,14 +82,28 @@ export function PremiumCheckoutPanel({
   useEffect(() => {
     void loadStatus();
     void loadPlans();
+    void fetch("/api/stripe/config")
+      .then((res) => res.json())
+      .then((data: { publishableKey?: string | null }) => {
+        if (data.publishableKey?.startsWith("pk_")) {
+          setRuntimePublishableKey(data.publishableKey);
+        }
+      })
+      .catch(() => {
+        /* ignore */
+      });
   }, [loadStatus, loadPlans, checkoutStatus]);
 
   function closeCheckout() {
+    setModalOpen(false);
     setClientSecret(null);
     setError(null);
   }
 
   async function startCheckout(plan: StripePremiumPlan) {
+    setSelectedPlanId(plan.id);
+    setModalOpen(true);
+
     if (!stripeConfigured) {
       setError("Card payments are not configured yet. Contact support or try again later.");
       return;
@@ -109,11 +128,13 @@ export function PremiumCheckoutPanel({
       } | null;
 
       if (res.status === 401 && data?.signInUrl) {
+        closeCheckout();
         router.push(data.signInUrl);
         return;
       }
 
       if (res.status === 409 && data?.manage) {
+        closeCheckout();
         await openPortal();
         return;
       }
@@ -124,7 +145,6 @@ export function PremiumCheckoutPanel({
       }
 
       setClientSecret(data.clientSecret);
-      document.getElementById("payment")?.scrollIntoView({ behavior: "smooth" });
     } catch {
       setError("Network error. Try again.");
     } finally {
@@ -163,7 +183,6 @@ export function PremiumCheckoutPanel({
   }
 
   const hasStripeSub = status?.premium && status?.source === "stripe";
-  const features = plans[0]?.features ?? [];
 
   return (
     <div id="subscribe" className="scroll-mt-24 space-y-6">
@@ -209,124 +228,102 @@ export function PremiumCheckoutPanel({
         </div>
       ) : (
         <>
-          {/* Plan details */}
-          <section className="rounded-xl border border-white/[0.08] bg-white/[0.03] p-5 sm:p-6">
-            <h2 className="font-serif text-lg font-semibold text-[#FFC107]">Plan details</h2>
-            <p className="mt-1 text-sm text-zinc-400">
-              Choose monthly or yearly. All plans include the same Premium benefits.
-            </p>
-
-            <ul className="mt-4 grid gap-2 sm:grid-cols-2">
-              {features.map((feature) => (
-                <li key={feature} className="flex items-start gap-2 text-sm text-zinc-300">
-                  <Check className="mt-0.5 h-4 w-4 shrink-0 text-[#FFC107]" />
-                  {feature}
-                </li>
-              ))}
-            </ul>
-          </section>
-
-          {/* Plan picker */}
-          <div className="grid gap-4 sm:grid-cols-2">
+          <div className="grid gap-4 lg:grid-cols-3 lg:gap-5">
             {plans.map((plan) => {
-              const selected = plan.id === selectedPlanId;
+              const isBusy = busyPlan === plan.id;
+              const isSelected = selectedPlanId === plan.id && Boolean(clientSecret);
+
               return (
-                <button
+                <article
                   key={plan.id}
-                  type="button"
-                  onClick={() => {
-                    setSelectedPlanId(plan.id);
-                    closeCheckout();
-                  }}
-                  className={`relative flex flex-col rounded-xl border p-5 text-left transition ${
-                    selected
-                      ? "border-[#FFC107]/50 bg-[rgba(255,193,7,0.08)] ring-1 ring-[#FFC107]/30"
-                      : "border-white/[0.08] bg-white/[0.03] hover:border-white/15"
-                  }`}
+                  className={`relative flex flex-col rounded-2xl border bg-[rgba(255,255,255,0.03)] p-5 sm:p-6 ${
+                    plan.highlighted
+                      ? "border-[#FFC107]/45 ring-1 ring-[#FFC107]/25"
+                      : "border-white/[0.08]"
+                  } ${isSelected ? "ring-1 ring-[#FFC107]/40" : ""}`}
                 >
-                  {plan.popular ? (
-                    <span className="absolute -top-2.5 right-4 rounded-full bg-[#FFC107] px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-stone-950">
-                      Best value
+                  {plan.badge ? (
+                    <span
+                      className={`absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full px-3 py-1 text-[11px] font-bold uppercase tracking-wide ${
+                        plan.highlighted
+                          ? "bg-[#FFC107] text-stone-950"
+                          : "bg-[#e91e8c] text-white"
+                      }`}
+                    >
+                      {plan.badge}
                     </span>
                   ) : null}
-                  <p className="text-xs font-medium uppercase tracking-wide text-zinc-500">
-                    {plan.label}
-                  </p>
-                  <p className="mt-2 font-serif text-3xl text-[#FFC107]">{plan.displayAmount}</p>
-                  <p className="mt-1 text-xs text-zinc-500">{plan.billingNote}</p>
-                  <p className="mt-3 text-sm text-zinc-400">{plan.description}</p>
-                </button>
+
+                  <div className="pt-1">
+                    <h2 className="text-lg font-semibold text-zinc-100">{plan.label}</h2>
+                    <div className="mt-3 flex flex-wrap items-end gap-x-2 gap-y-1">
+                      <p className="font-serif text-4xl font-semibold text-[#FFC107]">
+                        {plan.displayAmount}
+                      </p>
+                      <p className="pb-1 text-sm text-zinc-500">{plan.billingNote}</p>
+                    </div>
+                    {plan.savingsNote ? (
+                      <p className="mt-1 text-sm font-medium text-emerald-400">
+                        {plan.savingsNote}
+                      </p>
+                    ) : (
+                      <p className="mt-1 text-sm text-transparent select-none" aria-hidden>
+                        &nbsp;
+                      </p>
+                    )}
+                  </div>
+
+                  <ul className="mt-5 flex-1 space-y-2.5">
+                    {plan.features.map((feature) => (
+                      <li key={feature} className="flex items-start gap-2.5 text-sm text-zinc-300">
+                        <Check className="mt-0.5 h-4 w-4 shrink-0 text-[#e91e8c]" />
+                        {feature}
+                      </li>
+                    ))}
+                  </ul>
+
+                  <button
+                    type="button"
+                    disabled={Boolean(busyPlan)}
+                    onClick={() => void startCheckout(plan)}
+                    className={`mt-6 w-full rounded-xl px-4 py-3 text-sm font-semibold transition disabled:opacity-60 ${
+                      plan.highlighted
+                        ? "bg-[#FFC107] text-stone-950 hover:bg-[#e6ae06]"
+                        : "border border-white/15 bg-white/[0.04] text-zinc-100 hover:border-[#FFC107]/35 hover:text-[#FFC107]"
+                    }`}
+                  >
+                    {isBusy ? (
+                      <span className="inline-flex items-center justify-center gap-2">
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                        Starting…
+                      </span>
+                    ) : (
+                      plan.subscribeLabel
+                    )}
+                  </button>
+                </article>
               );
             })}
           </div>
 
-          {/* Payment — direct to backend API */}
-          <section
-            id="payment"
-            className="scroll-mt-24 rounded-xl border border-white/[0.08] bg-white/[0.03] p-5 sm:p-6"
-          >
-            <h2 className="font-serif text-lg font-semibold text-[#FFC107]">Payment method</h2>
-            <p className="mt-1 text-sm text-zinc-400">
-              Pay with card — processed securely by Stripe through our server (
-              <code className="text-zinc-500">/api/stripe/checkout</code>).
+          {!status?.signedIn ? (
+            <p className="text-center text-xs text-zinc-500">
+              <Link href="/auth/login?redirect=/premium" className="text-[#FFC107] hover:underline">
+                Sign in
+              </Link>{" "}
+              before checkout — your subscription links to your Shirwell account.
             </p>
+          ) : null}
 
-            {!stripeConfigured ? (
-              <p className="mt-4 rounded-lg border border-dashed border-white/15 bg-black/20 px-4 py-3 text-sm text-zinc-400">
-                Card checkout is being enabled on this site. Plan details are shown above;
-                payment will appear here once Stripe is connected on the server.
-              </p>
-            ) : clientSecret && selectedPlan && publishableKey ? (
-              <div className="mt-4 space-y-3">
-                <div className="flex items-center justify-between gap-3">
-                  <p className="text-sm text-zinc-300">
-                    {selectedPlan.label} · {selectedPlan.displayAmount}
-                  </p>
-                  <button
-                    type="button"
-                    onClick={closeCheckout}
-                    className="inline-flex items-center gap-1 rounded-lg border border-white/10 px-2 py-1 text-xs text-zinc-400 hover:text-white"
-                  >
-                    <X className="h-3.5 w-3.5" /> Change plan
-                  </button>
-                </div>
-                <PremiumStripeEmbeddedCheckout
-                  publishableKey={publishableKey}
-                  clientSecret={clientSecret}
-                />
-              </div>
-            ) : (
-              <div className="mt-4 space-y-3">
-                <div className="flex flex-wrap items-center gap-2 text-xs text-zinc-500">
-                  <span className="rounded-md border border-white/10 px-2 py-1">Visa</span>
-                  <span className="rounded-md border border-white/10 px-2 py-1">Mastercard</span>
-                  <span className="rounded-md border border-white/10 px-2 py-1">Amex</span>
-                </div>
-                <button
-                  type="button"
-                  disabled={!selectedPlan || Boolean(busyPlan)}
-                  onClick={() => selectedPlan && void startCheckout(selectedPlan)}
-                  className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-[#FFC107]/35 bg-[#FFC107] px-6 py-3 text-sm font-semibold text-stone-950 transition hover:bg-[#e6ae06] disabled:opacity-60 sm:w-auto"
-                >
-                  {busyPlan ? (
-                    <Loader2 className="h-4 w-4 animate-spin" />
-                  ) : (
-                    <CreditCard className="h-4 w-4" />
-                  )}
-                  Continue to payment
-                  {selectedPlan ? ` — ${selectedPlan.displayAmount}` : ""}
-                </button>
-                {!status?.signedIn ? (
-                  <p className="text-xs text-zinc-500">
-                    <Link href="/auth/login?next=/premium" className="text-[#FFC107] hover:underline">
-                      Sign in
-                    </Link>{" "}
-                    first — your subscription links to your Shirwell account.
-                  </p>
-                ) : null}
-              </div>
-            )}
-          </section>
+          <PremiumSubscriptionModal
+            open={modalOpen}
+            plan={selectedPlan}
+            clientSecret={clientSecret}
+            publishableKey={runtimePublishableKey}
+            busy={Boolean(busyPlan) && !clientSecret}
+            error={modalOpen ? error : null}
+            onClose={closeCheckout}
+          />
         </>
       )}
     </div>

@@ -1,32 +1,63 @@
-import { STRIPE_PREMIUM_PLANS, type StripePremiumPlan } from "@/config/stripe";
+import { STRIPE_PREMIUM_PLANS, type PremiumPlanId, type StripePremiumPlan } from "@/config/stripe";
 
-export const PREMIUM_FEATURES = [
-  "Unlimited streaming of premium songs",
-  "Early access to new releases",
-  "Member pricing on select flowers & bundles",
-  "Ad-light listening in the mobile app",
-  "Premium badge on your Shirwell profile",
-  "Cancel anytime — no lock-in",
+const BASE_FEATURES = [
+  "Unlimited music streaming",
+  "Ad-free listening",
+  "High quality audio",
+  "Unique products",
 ] as const;
+
+const PLAN_META: Record<
+  PremiumPlanId,
+  {
+    features: readonly string[];
+    billingNote: string;
+    subscribeLabel: string;
+    badge?: string;
+    savingsNote?: string;
+    highlighted?: boolean;
+  }
+> = {
+  weekly: {
+    features: BASE_FEATURES,
+    billingNote: "per week",
+    subscribeLabel: "Subscribe Weekly",
+  },
+  monthly: {
+    features: [...BASE_FEATURES, "Priority customer support"],
+    billingNote: "per month",
+    subscribeLabel: "Subscribe Monthly",
+    badge: "Most Popular",
+    highlighted: true,
+  },
+  yearly: {
+    features: [...BASE_FEATURES, "Priority customer support", "Exclusive content access"],
+    billingNote: "per year",
+    subscribeLabel: "Subscribe Yearly",
+    badge: "Best Value",
+    savingsNote: "Save $20",
+  },
+};
 
 export type PremiumPlanPublic = StripePremiumPlan & {
   features: readonly string[];
   billingNote: string;
-  popular?: boolean;
+  subscribeLabel: string;
+  badge?: string;
+  savingsNote?: string;
+  highlighted?: boolean;
 };
 
 export function getPremiumPlansPublic(): PremiumPlanPublic[] {
   return STRIPE_PREMIUM_PLANS.map((plan) => ({
     ...plan,
-    features: PREMIUM_FEATURES,
-    billingNote:
-      plan.id === "yearly"
-        ? "Billed once per year · save vs monthly"
-        : "Billed monthly · cancel anytime",
-    popular: plan.id === "yearly",
+    ...PLAN_META[plan.id],
   }));
 }
 
 export function getPremiumPlanById(planId: string): PremiumPlanPublic | undefined {
   return getPremiumPlansPublic().find((plan) => plan.id === planId);
 }
+
+/** @deprecated use plan-specific features on PremiumPlanPublic */
+export const PREMIUM_FEATURES = BASE_FEATURES;

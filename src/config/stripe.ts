@@ -7,6 +7,7 @@
  *   STRIPE_WEBHOOK_SECRET=whsec_...
  *
  * Optional — use pre-created Dashboard prices instead of dynamic price_data:
+ *   STRIPE_PRICE_PREMIUM_WEEKLY=price_...
  *   STRIPE_PRICE_PREMIUM_MONTHLY=price_...
  *   STRIPE_PRICE_PREMIUM_YEARLY=price_...
  */
@@ -16,41 +17,56 @@ export const STRIPE_PUBLISHABLE_KEY =
   process.env.STRIPE_PUBLISHABLE_KEY?.trim() ||
   "";
 
+export const STRIPE_PRICE_PREMIUM_WEEKLY =
+  process.env.STRIPE_PRICE_PREMIUM_WEEKLY?.trim() ?? "";
+
 export const STRIPE_PRICE_PREMIUM_MONTHLY =
   process.env.STRIPE_PRICE_PREMIUM_MONTHLY?.trim() ?? "";
 
 export const STRIPE_PRICE_PREMIUM_YEARLY =
   process.env.STRIPE_PRICE_PREMIUM_YEARLY?.trim() ?? "";
 
+export type PremiumPlanId = "weekly" | "monthly" | "yearly";
+
 export type StripePremiumPlan = {
-  id: "monthly" | "yearly";
+  id: PremiumPlanId;
   label: string;
   description: string;
   displayAmount: string;
   currency: "aud";
   unitAmountCents: number;
-  interval: "month" | "year";
+  interval: "week" | "month" | "year";
   priceId: string;
 };
 
 export const STRIPE_PREMIUM_PLANS: StripePremiumPlan[] = [
   {
+    id: "weekly",
+    label: "Weekly",
+    description: "Try Premium with flexible weekly billing.",
+    displayAmount: "$1.99",
+    currency: "aud",
+    unitAmountCents: 199,
+    interval: "week",
+    priceId: STRIPE_PRICE_PREMIUM_WEEKLY,
+  },
+  {
     id: "monthly",
     label: "Monthly",
-    description: "Billed every month. Cancel anytime.",
-    displayAmount: "A$9.99",
+    description: "Our most popular plan for everyday listening.",
+    displayAmount: "$3.00",
     currency: "aud",
-    unitAmountCents: 999,
+    unitAmountCents: 300,
     interval: "month",
     priceId: STRIPE_PRICE_PREMIUM_MONTHLY,
   },
   {
     id: "yearly",
     label: "Yearly",
-    description: "Best value — two months free vs monthly.",
-    displayAmount: "A$99.99",
+    description: "Best value — full year of Premium for less.",
+    displayAmount: "$5.00",
     currency: "aud",
-    unitAmountCents: 9999,
+    unitAmountCents: 500,
     interval: "year",
     priceId: STRIPE_PRICE_PREMIUM_YEARLY,
   },
@@ -88,7 +104,7 @@ export function stripeCheckoutLineItem(plan: StripePremiumPlan): {
     currency: string;
     unit_amount: number;
     product_data: { name: string; description?: string };
-    recurring: { interval: "month" | "year" };
+    recurring: { interval: "week" | "month" | "year" };
   };
 } {
   if (plan.priceId.startsWith("price_")) {
