@@ -17,7 +17,6 @@ import {
   GoogleTagManagerHead,
   GoogleTagManagerNoScript,
 } from "@/components/analytics/google-tag-manager";
-import { SiteMarks } from "@/components/legal/site-marks";
 import { LazyAiSupportChat } from "@/components/support/lazy-ai-support-chat";
 import { SwgHeadScript } from "@/components/subscriptions/swg-head-script";
 import { AppleMusicMiniPlayer } from "@/components/shirwell/apple-music-mini-player";
@@ -75,7 +74,6 @@ export default async function RootLayout({
         <PlayerProvider>
           <CartProvider>
           <div className="flex min-h-full min-w-0 flex-col overflow-x-clip">
-            <SiteMarks />
             <div className="flex-1">{children}</div>
             <SiteChrome>
               <SiteFooter />

@@ -5,7 +5,6 @@ import { useState } from "react";
 import { Heart, Play, Repeat, Shuffle } from "lucide-react";
 import type { Song } from "@/types/song";
 import { getPlayerArtworkSrc } from "@/lib/player-artwork";
-import { BrandLegalMarks } from "@/components/legal/brand-legal-marks";
 
 interface FeaturedSongCardProps {
   song: Song;
@@ -56,7 +55,6 @@ export function FeaturedSongCard({
           <span className="tabular-nums tracking-tight">{timeLabel}</span>
           <Repeat className="h-3.5 w-3.5 shrink-0 text-white/70" strokeWidth={2} />
         </div>
-        <BrandLegalMarks />
       </div>
 
       <h3 className="text-lg font-bold leading-snug text-white">{title}</h3>

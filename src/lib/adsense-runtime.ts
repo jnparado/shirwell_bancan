@@ -36,9 +36,9 @@ export function fillUnfilledAdSlots(root: ParentNode = document): number {
 
   let filled = 0;
   slots.forEach((ins) => {
-    if (ins.dataset.adFilled === "1") return;
+    if (ins.dataset.adRequested === "1") return;
     pushAdSlot();
-    ins.dataset.adFilled = "1";
+    ins.dataset.adRequested = "1";
     filled += 1;
   });
 

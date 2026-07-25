@@ -60,7 +60,7 @@ export function AdSenseUnit({
 }: AdSenseUnitProps) {
   return (
     <AdSenseUnitInner
-      slot={slotProp ?? ADSENSE_SLOT_BANNER}
+      slot={slotProp ?? (ADSENSE_SLOT_BANNER || ADSENSE_SLOT_ENTERPRISES)}
       className={className}
       format={format}
       minHeight={minHeight}

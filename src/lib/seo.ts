@@ -268,7 +268,7 @@ export function createRootMetadata(): Metadata {
       icon: [
         { url: SITE_FAVICON_PATH, sizes: "512x512", type: "image/png" },
         { url: "/favicon-48.png", sizes: "48x48", type: "image/png" },
-        { url: SITE_LOGO_PATH, sizes: "682x1024", type: "image/png" },
+        { url: SITE_LOGO_PATH, sizes: "560x860", type: "image/png" },
       ],
       apple: [{ url: SITE_FAVICON_PATH, sizes: "180x180", type: "image/png" }],
       shortcut: SITE_FAVICON_PATH,

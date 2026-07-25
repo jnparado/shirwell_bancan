@@ -23,19 +23,25 @@ export const DEFAULT_ADSENSE_CLIENT_ID = "ca-pub-2495432679632375";
 export const ADSENSE_CLIENT_ID =
   process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID?.trim() || DEFAULT_ADSENSE_CLIENT_ID;
 
-/** Display unit — "Enterprices" / Enterprises (auto, full-width responsive). */
+/** Primary display slot from env — other units fall back to this when unset. */
+export const ADSENSE_SLOT_BANNER =
+  process.env.NEXT_PUBLIC_ADSENSE_SLOT_BANNER?.trim() || "";
+
+/** Display unit — full-width responsive (Enterprises-style). */
 export const ADSENSE_SLOT_ENTERPRISES =
-  process.env.NEXT_PUBLIC_ADSENSE_SLOT_ENTERPRISES?.trim() || "1200415498";
+  process.env.NEXT_PUBLIC_ADSENSE_SLOT_ENTERPRISES?.trim() ||
+  ADSENSE_SLOT_BANNER ||
+  "1200415498";
 
 /** Fixed 360×300 display unit. */
 export const ADSENSE_SLOT_BOX =
-  process.env.NEXT_PUBLIC_ADSENSE_SLOT_BOX?.trim() || "1844130903";
+  process.env.NEXT_PUBLIC_ADSENSE_SLOT_BOX?.trim() ||
+  process.env.NEXT_PUBLIC_ADSENSE_SLOT_BOX_AD?.trim() ||
+  ADSENSE_SLOT_BANNER ||
+  "1844130903";
 
 export const ADSENSE_BOX_WIDTH = 360;
 export const ADSENSE_BOX_HEIGHT = 300;
-
-export const ADSENSE_SLOT_BANNER =
-  process.env.NEXT_PUBLIC_ADSENSE_SLOT_BANNER?.trim() || ADSENSE_SLOT_ENTERPRISES;
 
 export function isAdsenseConfigured(): boolean {
   return Boolean(
@@ -46,7 +52,10 @@ export function isAdsenseConfigured(): boolean {
 }
 
 export function isAdsenseUnitConfigured(): boolean {
-  return isAdsenseConfigured() && ADSENSE_SLOT_BANNER.length > 0;
+  return (
+    isAdsenseConfigured() &&
+    Boolean(ADSENSE_SLOT_BANNER || ADSENSE_SLOT_ENTERPRISES || ADSENSE_SLOT_BOX)
+  );
 }
 
 /** Test ads in dev, or when NEXT_PUBLIC_ADSENSE_TEST=true (use before site approval). */

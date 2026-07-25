@@ -5,7 +5,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Crown } from "lucide-react";
 import { hasBottomNav } from "@/lib/mobile-chrome";
-import { BrandLegalMarks } from "@/components/legal/brand-legal-marks";
 import { getPublicSocialLinks } from "@/lib/social-links";
 import { SITE_NAME } from "@/lib/seo";
 
@@ -101,7 +100,6 @@ export function SiteFooter() {
                   className="object-cover object-center"
                   sizes="220px"
                 />
-                <BrandLegalMarks />
               </div>
             </div>
 

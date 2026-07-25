@@ -5,7 +5,6 @@ import { MarketingHeader } from "@/components/shirwell/marketing-header";
 import { BottomNav } from "@/components/shirwell/bottom-nav";
 import { ContentPageAds } from "@/components/ads/content-page-ads";
 import { JsonLdScript } from "@/components/seo/json-ld-script";
-import { BrandLegalMarks } from "@/components/legal/brand-legal-marks";
 import { BUSINESS_LOCATION, SUPPORT_EMAIL } from "@/config/contact";
 import { absoluteUrl, getBrandFaqJsonLd, HOME_PATH, SITE_NAME } from "@/lib/seo";
 
@@ -40,12 +39,11 @@ export default function AboutPage() {
               <Image
                 src="/about/shirwell-bancan-poster.png"
                 alt={`${SITE_NAME} — Experience 45 years of original songs`}
-                width={682}
-                height={1024}
+                width={560}
+                height={860}
                 className="h-auto w-full rounded-lg shadow-[0_0_48px_rgba(255,193,7,0.12)]"
                 priority
               />
-              <BrandLegalMarks />
             </div>
             <div className="mt-8 text-center">
               <h1 className="font-serif text-2xl font-semibold text-[#FFC107] sm:text-3xl">
