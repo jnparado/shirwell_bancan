@@ -3,6 +3,7 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { PlayerProvider } from "@/contexts/player-context";
+import { CartProvider } from "@/contexts/cart-context";
 import { SiteChrome } from "@/components/layout/site-chrome";
 import { JsonLdScript } from "@/components/seo/json-ld-script";
 import { AdSenseHeadScript } from "@/components/ads/adsense-head-script";
@@ -72,6 +73,7 @@ export default async function RootLayout({
         <GoogleAdsPageViewConversion />
         <JsonLdScript data={getOrganizationWebsiteJsonLd(siteUrl)} />
         <PlayerProvider>
+          <CartProvider>
           <div className="flex min-h-full min-w-0 flex-col overflow-x-clip">
             <SiteMarks />
             <div className="flex-1">{children}</div>
@@ -81,6 +83,7 @@ export default async function RootLayout({
               <LazyAiSupportChat />
             </SiteChrome>
           </div>
+          </CartProvider>
         </PlayerProvider>
       </body>
     </html>

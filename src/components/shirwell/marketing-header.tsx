@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AuthModalLauncher } from "@/components/auth/auth-modal";
+import { CartLink } from "@/components/shirwell/cart-link";
 
 const glassCard =
   "rounded-xl border border-white/[0.06] bg-[rgba(255,255,255,0.05)] backdrop-blur-md";
@@ -58,7 +59,7 @@ export function MarketingHeader() {
           <Link href="/newsletter" className={linkClass(pathname === "/newsletter")}>
             Newsletter
           </Link>
-          <Link href="/products" className={linkClass(pathname === "/products")}>
+          <Link href="/products" className={linkClass(pathname.startsWith("/products"))}>
             Products
           </Link>
           <Link href="/cds" className={linkClass(pathname === "/cds")}>
@@ -69,7 +70,10 @@ export function MarketingHeader() {
           </Link>
         </nav>
 
-        <AuthModalLauncher />
+        <div className="flex items-center gap-2">
+          <CartLink />
+          <AuthModalLauncher />
+        </div>
       </div>
 
       {/* Mobile: glass nav strip */}

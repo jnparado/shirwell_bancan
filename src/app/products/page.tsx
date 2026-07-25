@@ -30,23 +30,32 @@ export default function ProductsPage() {
     <div className="page-shell relative">
       <JsonLdScript data={getProductsIndexJsonLd()} />
       <MarketingHeader />
-      <main className="mx-auto w-full max-w-5xl px-4 py-10 sm:px-6 sm:py-14">
-        <h1 className="font-serif text-3xl font-semibold tracking-tight text-[#FFC107]">
-          Products
-        </h1>
-        <p className="mt-4 max-w-2xl text-base leading-relaxed text-zinc-300 sm:text-lg">
-          Shirwell Bancan&apos;s official product line — sample items for the store
-          including honey, sunglasses, and chocolate, alongside music and special
-          releases.
-        </p>
+      <main className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 sm:py-10">
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <h1 className="font-serif text-2xl font-semibold tracking-tight text-[#FFC107] sm:text-3xl">
+              Products
+            </h1>
+            <p className="mt-2 max-w-2xl text-sm leading-relaxed text-zinc-400 sm:text-base">
+              Shop Shirwell Bancan — honey, sunglasses, chocolate, and more from the
+              official store.
+            </p>
+          </div>
+          <Link
+            href="/products/cart"
+            className="rounded-full border border-[#FFC107]/30 bg-[#FFC107]/10 px-4 py-2 text-sm font-medium text-[#FFC107] transition hover:bg-[#FFC107]/20"
+          >
+            View cart →
+          </Link>
+        </div>
 
-        <ContentPageAdTop className="mt-8 px-0 py-4" />
+        <ContentPageAdTop className="mt-6 px-0 py-4" />
 
-        <section className="mt-10">
-          <h2 className="font-serif text-xl font-semibold text-[#FFC107] sm:text-2xl">
-            Shop sample products
+        <section className="mt-8">
+          <h2 className="text-base font-semibold text-zinc-100 sm:text-lg">
+            Just for you
           </h2>
-          <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-4 grid grid-cols-2 gap-2.5 sm:grid-cols-3 sm:gap-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
             {STORE_PRODUCTS.map((product) => (
               <ProductCard key={product.slug} product={product} />
             ))}
