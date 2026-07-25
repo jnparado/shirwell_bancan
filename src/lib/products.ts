@@ -73,7 +73,7 @@ export const STORE_PRODUCTS: StoreProduct[] = [
       "Classic gold-frame sunglasses with UV protection — stage-ready style from Shirwell Bancan.",
     longDescription:
       "Shirwell Gold Frame Sunglasses pair a timeless aviator silhouette with gold metal accents that match the Shirwell Bancan brand. Polarized-style dark lenses, durable hinges, and a soft carry pouch make them ready for festivals, travel, and sunny afternoons. A sample lifestyle product from the official Shirwell store.",
-    price: 89,
+    price: 100,
     compareAtPrice: 120,
     currency: "AUD",
     image: "/products/shirwell-sunglasses.png",
