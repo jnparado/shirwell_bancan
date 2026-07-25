@@ -107,3 +107,42 @@ export async function handleSubscriptionDeleted(
     currentPeriodEnd: null,
   });
 }
+
+export async function handleProductCheckoutCompleted(
+  supabase: SupabaseClient,
+  session: Stripe.Checkout.Session,
+): Promise<void> {
+  if (session.mode !== "payment") return;
+
+  const userId =
+    session.client_reference_id?.trim() ||
+    session.metadata?.supabase_user_id?.trim() ||
+    null;
+
+  const productSlug = session.metadata?.product_slug?.trim();
+  if (!userId || !productSlug) return;
+
+  const paymentIntentId =
+    typeof session.payment_intent === "string"
+      ? session.payment_intent
+      : session.payment_intent?.id ?? null;
+
+  const amountCents = session.amount_total ?? null;
+  const currency = session.currency ?? "aud";
+
+  await supabase.from("store_orders").upsert(
+    {
+      user_id: userId,
+      product_slug: productSlug,
+      product_name: session.metadata?.product_name ?? null,
+      product_sku: session.metadata?.product_sku ?? null,
+      amount_cents: amountCents,
+      currency,
+      stripe_session_id: session.id,
+      stripe_payment_intent_id: paymentIntentId,
+      status: "paid",
+      updated_at: new Date().toISOString(),
+    },
+    { onConflict: "stripe_session_id" },
+  );
+}

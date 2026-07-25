@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { MarketingHeader } from "@/components/shirwell/marketing-header";
 import { BottomNav } from "@/components/shirwell/bottom-nav";
+import { ProductBuyButton } from "@/components/shirwell/product-buy-button";
 import { ContentPageAds } from "@/components/ads/content-page-ads";
 import { JsonLdScript } from "@/components/seo/json-ld-script";
 import {
@@ -19,6 +20,7 @@ const glassCard =
 
 type ProductDetailPageProps = {
   params: Promise<{ slug: string }>;
+  searchParams: Promise<{ purchase?: string }>;
 };
 
 export function generateStaticParams() {
@@ -47,8 +49,12 @@ export async function generateMetadata({
   };
 }
 
-export default async function ProductDetailPage({ params }: ProductDetailPageProps) {
+export default async function ProductDetailPage({
+  params,
+  searchParams,
+}: ProductDetailPageProps) {
   const { slug } = await params;
+  const { purchase } = await searchParams;
   const product = getStoreProduct(slug);
   if (!product) notFound();
 
@@ -95,13 +101,33 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
               </div>
               <div>
                 <dt className="font-medium text-zinc-500">Availability</dt>
-                <dd className="text-zinc-300">In stock</dd>
+                <dd className="text-zinc-300">
+                  {product.availability === "InStock"
+                    ? "In stock"
+                    : product.availability === "PreOrder"
+                      ? "Pre-order"
+                      : "Out of stock"}
+                </dd>
               </div>
             </dl>
+
+            {purchase === "success" ? (
+              <p className="rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-200">
+                Thank you — your order is confirmed. We&apos;ll email you when it ships.
+              </p>
+            ) : null}
+            {purchase === "cancel" ? (
+              <p className="rounded-lg border border-white/10 bg-white/[0.03] px-4 py-3 text-sm text-zinc-400">
+                Checkout cancelled. You can buy anytime using the button below.
+              </p>
+            ) : null}
+
+            <ProductBuyButton product={product} />
+
             <p className="text-xs text-zinc-500">
-              Sample listing for the Shirwell store. For orders, contact{" "}
+              Questions?{" "}
               <Link href="/contact" className="text-[#FFC107] hover:underline">
-                contact
+                Contact us
               </Link>{" "}
               or browse{" "}
               <Link href="/cds" className="text-[#FFC107] hover:underline">

@@ -4,6 +4,7 @@ import { createServiceRoleSupabaseClient } from "@/lib/supabase/server";
 import { getStripe } from "@/lib/stripe/server";
 import {
   handleCheckoutCompleted,
+  handleProductCheckoutCompleted,
   handleSubscriptionDeleted,
   syncStripeSubscription,
 } from "@/lib/stripe/webhook-handlers";
@@ -46,6 +47,8 @@ export async function POST(request: Request) {
           await handleCheckoutCompleted(supabase, session, (id) =>
             stripe.subscriptions.retrieve(id),
           );
+        } else if (session.mode === "payment") {
+          await handleProductCheckoutCompleted(supabase, session);
         }
         break;
       }
