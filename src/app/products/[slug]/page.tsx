@@ -12,6 +12,7 @@ import {
   formatProductPrice,
   getProductJsonLd,
   getStoreProduct,
+  isPortraitProduct,
 } from "@/lib/products";
 import { absoluteUrl, SITE_NAME } from "@/lib/seo";
 
@@ -58,6 +59,8 @@ export default async function ProductDetailPage({
   const product = getStoreProduct(slug);
   if (!product) notFound();
 
+  const portrait = isPortraitProduct(product);
+
   return (
     <div className="page-shell relative">
       <JsonLdScript data={getProductJsonLd(product)} />
@@ -71,12 +74,18 @@ export default async function ProductDetailPage({
         </Link>
 
         <article className={`${glassCard} mt-6 overflow-hidden`}>
-          <div className="relative aspect-square w-full max-h-[480px] bg-black/40 sm:aspect-[4/3]">
+          <div
+            className={`relative w-full bg-black/40 ${
+              portrait
+                ? "mx-auto aspect-[682/1024] max-w-md"
+                : "aspect-square max-h-[480px] sm:aspect-[4/3]"
+            }`}
+          >
             <Image
               src={product.image}
               alt={product.imageAlt}
               fill
-              className="object-cover"
+              className={portrait ? "object-contain" : "object-cover"}
               sizes="(max-width: 768px) 100vw, 672px"
               priority
             />

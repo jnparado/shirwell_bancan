@@ -5,6 +5,7 @@ import {
   formatProductPrice,
   getProductDiscountPercent,
   getProductPagePath,
+  isPortraitProduct,
 } from "@/lib/products";
 import { ProductCardActions } from "@/components/shirwell/product-card-actions";
 import { ProductRating } from "@/components/shirwell/product-rating";
@@ -17,17 +18,24 @@ export function ProductCard({ product }: ProductCardProps) {
   const href = getProductPagePath(product.slug);
   const discount = getProductDiscountPercent(product);
   const outOfStock = product.availability === "OutOfStock";
+  const portrait = isPortraitProduct(product);
 
   return (
     <article className="group flex h-full flex-col overflow-hidden rounded-lg bg-white/[0.04] transition hover:bg-white/[0.06] hover:shadow-[0_4px_24px_rgba(255,193,7,0.08)]">
       <div className="relative">
         <Link href={href} className="block">
-          <div className="relative aspect-square w-full overflow-hidden bg-black/30">
+          <div
+            className={`relative w-full overflow-hidden bg-black/30 ${
+              portrait ? "aspect-[682/1024]" : "aspect-square"
+            }`}
+          >
             <Image
               src={product.image}
               alt={product.imageAlt}
               fill
-              className="object-cover transition duration-300 group-hover:scale-[1.03]"
+              className={`transition duration-300 group-hover:scale-[1.02] ${
+                portrait ? "object-contain" : "object-cover group-hover:scale-[1.03]"
+              }`}
               sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 16vw"
             />
             {discount ? (

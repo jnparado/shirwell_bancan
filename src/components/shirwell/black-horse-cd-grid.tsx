@@ -13,64 +13,96 @@ const glassCard =
 export function BlackHorseCdGrid() {
   return (
     <section className="mt-12 space-y-8">
-      <div className="relative mx-auto aspect-[682/1024] w-full max-w-md overflow-hidden rounded-2xl border border-[#FFC107]/20 bg-black/40 shadow-[0_0_60px_rgba(255,193,7,0.12)]">
-        <Image
-          src={BLACK_HORSE_VINYL_PROMO}
-          alt={`Shirwell Bancan — ${BLACK_HORSE_ALBUM_TITLE} limited edition vinyl album`}
-          fill
-          className="object-cover object-center"
-          sizes="(max-width: 768px) 100vw, 448px"
-          priority
-        />
-      </div>
+      <article className={`${glassCard} overflow-hidden`}>
+        <div className="grid gap-0 lg:grid-cols-[minmax(0,300px)_1fr] xl:grid-cols-[minmax(0,340px)_1fr]">
+          <div className="relative mx-auto aspect-[682/1024] w-full max-w-[300px] bg-black/50 lg:mx-0 lg:max-w-none">
+            <Image
+              src={BLACK_HORSE_VINYL_PROMO}
+              alt={`Shirwell Bancan — ${BLACK_HORSE_ALBUM_TITLE} limited edition vinyl album`}
+              fill
+              className="object-contain"
+              sizes="(max-width: 1024px) 300px, 340px"
+              priority
+            />
+          </div>
 
-      <div className={`${glassCard} p-6 sm:p-8`}>
-        <h2 className="font-serif text-2xl font-semibold text-[#FFC107] sm:text-3xl">
-          {BLACK_HORSE_ALBUM_TITLE} — album on CD
-        </h2>
-        <p className="mt-2 text-sm text-zinc-400">{BLACK_HORSE_ALBUM_SUBTITLE}</p>
-        <p className="mt-4 text-sm leading-relaxed text-zinc-300 sm:text-[15px]">
-          Each track from the <em>Black Horse</em> collection has its own CD artwork —
-          gold-and-black limited edition design matching the vinyl release. Stream any
-          song on the{" "}
-          <Link href="/music" className="font-semibold text-[#FFC107] hover:underline">
-            music player
-          </Link>
-          .
-        </p>
-      </div>
-
-      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-5 lg:grid-cols-4">
-        {BLACK_HORSE_TRACKS.map((track) => (
-          <Link
-            key={track.slug}
-            href="/music"
-            className={`${glassCard} group overflow-hidden transition hover:border-[#FFC107]/30 hover:bg-[rgba(255,255,255,0.07)]`}
-          >
-            <div className="relative aspect-square w-full bg-black/50 p-2">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={track.image}
-                alt={`${track.title} — Black Horse CD ${track.trackNumber}`}
-                className="h-full w-full rounded-lg object-cover transition duration-300 group-hover:scale-[1.02]"
-                loading="lazy"
-                width={512}
-                height={512}
-              />
-            </div>
-            <div className="space-y-1 p-3 sm:p-4">
-              <p className="text-[10px] font-semibold uppercase tracking-wider text-zinc-500">
-                Track {String(track.trackNumber).padStart(2, "0")}
+          <div className="flex flex-col justify-center space-y-4 p-6 sm:p-8 lg:p-10">
+            <div>
+              <p className="text-xs font-medium uppercase tracking-widest text-zinc-500">
+                Shirwell Bancan
               </p>
-              <h3 className="font-serif text-sm font-semibold leading-snug text-[#FFC107] sm:text-[15px]">
-                {track.title}
-              </h3>
-              {track.year ? (
-                <p className="text-xs text-zinc-500">{track.year}</p>
-              ) : null}
+              <h2 className="mt-1 font-serif text-3xl font-semibold text-[#FFC107] sm:text-4xl">
+                {BLACK_HORSE_ALBUM_TITLE}
+              </h2>
+              <p className="mt-2 text-sm text-zinc-400 sm:text-base">
+                {BLACK_HORSE_ALBUM_SUBTITLE}
+              </p>
             </div>
-          </Link>
-        ))}
+
+            <p className="text-sm leading-relaxed text-zinc-300 sm:text-[15px]">
+              Limited edition vinyl and CD — gold-and-black artwork with Shirwell on
+              horseback and gold stage curtains. Each track below has its own CD cover
+              design from the same release.
+            </p>
+
+            <div className="flex flex-wrap gap-3 pt-1">
+              <Link
+                href="/products/black-horse-vinyl"
+                className="inline-flex items-center rounded-full border border-[#FFC107]/35 bg-[#FFC107] px-5 py-2.5 text-sm font-semibold text-stone-950 transition hover:bg-[#e6ae06]"
+              >
+                Buy vinyl — A$100
+              </Link>
+              <Link
+                href="/music"
+                className="inline-flex items-center rounded-full border border-white/15 px-5 py-2.5 text-sm font-semibold text-zinc-200 transition hover:border-[#FFC107]/30 hover:text-[#FFC107]"
+              >
+                Stream album
+              </Link>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <div>
+        <h3 className="font-serif text-xl font-semibold text-[#FFC107] sm:text-2xl">
+          Album tracks
+        </h3>
+        <p className="mt-1 text-sm text-zinc-400">
+          {BLACK_HORSE_TRACKS.length} songs — tap a track to open the music player.
+        </p>
+
+        <div className="mt-5 grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-5 lg:grid-cols-4">
+          {BLACK_HORSE_TRACKS.map((track) => (
+            <Link
+              key={track.slug}
+              href="/music"
+              className={`${glassCard} group overflow-hidden transition hover:border-[#FFC107]/30 hover:bg-[rgba(255,255,255,0.07)]`}
+            >
+              <div className="relative aspect-square w-full bg-black/50 p-2">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={track.image}
+                  alt={`${track.title} — Black Horse CD ${track.trackNumber}`}
+                  className="h-full w-full rounded-lg object-cover transition duration-300 group-hover:scale-[1.02]"
+                  loading="lazy"
+                  width={512}
+                  height={512}
+                />
+              </div>
+              <div className="space-y-1 p-3 sm:p-4">
+                <p className="text-[10px] font-semibold uppercase tracking-wider text-zinc-500">
+                  Track {String(track.trackNumber).padStart(2, "0")}
+                </p>
+                <h3 className="font-serif text-sm font-semibold leading-snug text-[#FFC107] sm:text-[15px]">
+                  {track.title}
+                </h3>
+                {track.year ? (
+                  <p className="text-xs text-zinc-500">{track.year}</p>
+                ) : null}
+              </div>
+            </Link>
+          ))}
+        </div>
       </div>
     </section>
   );

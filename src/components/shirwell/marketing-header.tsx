@@ -50,8 +50,8 @@ export function MarketingHeader() {
           <Link href="/home" className={linkClass(isHome)}>
             Home
           </Link>
-          <Link href="/music" className={linkClass(pathname === "/music")} title="Shirwell Music">
-            Shirwell Music
+          <Link href="/music" className={linkClass(pathname === "/music")} title="Music">
+            Music
           </Link>
           <Link href="/flowers" className={linkClass(pathname === "/flowers")}>
             Flowers
@@ -84,8 +84,8 @@ export function MarketingHeader() {
         <Link href="/home" className={`${linkClass(isHome)} shrink-0`}>
           Home
         </Link>
-        <Link href="/music" className={`${linkClass(pathname === "/music")} shrink-0`} title="Shirwell Music">
-          Shirwell Music
+        <Link href="/music" className={`${linkClass(pathname === "/music")} shrink-0`} title="Music">
+          Music
         </Link>
         <Link
           href="/flowers"

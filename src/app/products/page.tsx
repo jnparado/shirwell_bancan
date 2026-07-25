@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { MarketingHeader } from "@/components/shirwell/marketing-header";
 import { BottomNav } from "@/components/shirwell/bottom-nav";
@@ -61,39 +60,6 @@ export default function ProductsPage() {
             ))}
           </div>
         </section>
-
-        <article className={`${glassCard} mt-12 overflow-hidden`}>
-          <div className="relative aspect-[682/1024] w-full max-h-[420px] bg-black/40">
-            <Image
-              src="/cds/black-horse-vinyl-promo.png"
-              alt="Black Horse — limited edition vinyl album by Shirwell Bancan"
-              fill
-              className="object-cover object-top"
-              sizes="(max-width: 768px) 100vw, 672px"
-            />
-          </div>
-          <div className="space-y-4 p-6 sm:p-8">
-            <h2 className="font-serif text-2xl font-semibold text-[#FFC107]">
-              Black Horse — limited edition vinyl
-            </h2>
-            <p className="text-sm leading-relaxed text-zinc-300 sm:text-[15px]">
-              The greatest songs Shirwell wrote across 45 years, pressed to vinyl in a
-              limited run. Each album features the full Black Horse artwork — Shirwell
-              on horseback, gold stage curtains, and the signature Shirwell Bancan sound
-              that fans have followed for decades.
-            </p>
-            <p className="text-sm leading-relaxed text-zinc-300 sm:text-[15px]">
-              See full details and artwork on the{" "}
-              <Link
-                href="/cds"
-                className="font-semibold text-[#FFC107] underline-offset-2 hover:underline"
-              >
-                CD&apos;s &amp; vinyl page
-              </Link>
-              .
-            </p>
-          </div>
-        </article>
 
         <section className={`${glassCard} mt-8 p-6 sm:p-8`}>
           <h2 className="font-serif text-xl font-semibold text-[#FFC107]">

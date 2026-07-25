@@ -1,4 +1,9 @@
 import { absoluteUrl, SITE_NAME } from "@/lib/seo";
+import {
+  BLACK_HORSE_ALBUM_SUBTITLE,
+  BLACK_HORSE_ALBUM_TITLE,
+  BLACK_HORSE_VINYL_PROMO,
+} from "@/lib/black-horse-album";
 
 export type StoreProduct = {
   slug: string;
@@ -17,9 +22,30 @@ export type StoreProduct = {
   sku: string;
   rating?: number;
   reviewCount?: number;
+  /** Portrait promo art (e.g. vinyl poster) — uses contain instead of square crop */
+  imageLayout?: "square" | "portrait";
 };
 
 export const STORE_PRODUCTS: StoreProduct[] = [
+  {
+    slug: "black-horse-vinyl",
+    name: `${BLACK_HORSE_ALBUM_TITLE} — Limited Edition Vinyl`,
+    shortName: `${BLACK_HORSE_ALBUM_TITLE} Vinyl`,
+    description:
+      "The greatest songs Shirwell wrote across 45 years — limited edition vinyl with full Black Horse artwork.",
+    longDescription:
+      `${BLACK_HORSE_ALBUM_SUBTITLE}. Pressed to vinyl in a limited run with the full Black Horse artwork — Shirwell on horseback, gold stage curtains, and the signature Shirwell Bancan sound fans have followed for decades. 45 years of original songs. One timeless album.`,
+    price: 100,
+    currency: "AUD",
+    image: BLACK_HORSE_VINYL_PROMO,
+    imageAlt: "Black Horse limited edition vinyl album by Shirwell Bancan — promotional artwork",
+    category: "Music & Vinyl",
+    availability: "InStock",
+    sku: "SHIR-BH-VINYL-01",
+    rating: 5,
+    reviewCount: 56,
+    imageLayout: "portrait",
+  },
   {
     slug: "honey",
     name: "Shirwell Wildflower Honey",
@@ -95,6 +121,10 @@ export function getProductDiscountPercent(product: StoreProduct): number | null 
     return null;
   }
   return Math.round((1 - product.price / product.compareAtPrice) * 100);
+}
+
+export function isPortraitProduct(product: StoreProduct): boolean {
+  return product.imageLayout === "portrait";
 }
 
 export function getProductPagePath(slug: string): string {

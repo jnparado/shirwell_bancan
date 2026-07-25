@@ -9,22 +9,12 @@ import { absoluteUrl } from "@/lib/seo";
 
 type BuyBody = {
   slug?: string;
+  /** `embedded` = card form in modal; `hosted` = redirect to Stripe (default). */
+  uiMode?: "embedded" | "hosted";
 };
 
 /** One-time product purchase — requires signed-in user. */
 export async function POST(request: Request) {
-  if (!isStripeConfigured()) {
-    return NextResponse.json(
-      { error: "Online checkout is not available yet. Contact us to order." },
-      { status: 503 },
-    );
-  }
-
-  const stripe = getStripe();
-  if (!stripe) {
-    return NextResponse.json({ error: "Payment service unavailable." }, { status: 503 });
-  }
-
   const supabase = await createServerSupabaseClient();
   if (!supabase) {
     return NextResponse.json({ error: "Sign-in is not configured." }, { status: 503 });
@@ -64,6 +54,18 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "This product is out of stock." }, { status: 409 });
   }
 
+  if (!isStripeConfigured()) {
+    return NextResponse.json(
+      { error: "Card payments are not configured yet. Try again later or contact support." },
+      { status: 503 },
+    );
+  }
+
+  const stripe = getStripe();
+  if (!stripe) {
+    return NextResponse.json({ error: "Payment service unavailable." }, { status: 503 });
+  }
+
   const customerId = await getOrCreateStripeCustomerId(
     stripe,
     supabase,
@@ -71,16 +73,27 @@ export async function POST(request: Request) {
     user.email,
   );
 
+  const embedded = body.uiMode === "embedded";
+
   const session = await stripe.checkout.sessions.create({
     mode: "payment",
+    ui_mode: embedded ? "embedded" : undefined,
     customer: customerId,
     client_reference_id: user.id,
     line_items: [stripeProductLineItem(product)],
     payment_method_types: ["card"],
     billing_address_collection: "required",
     shipping_address_collection: { allowed_countries: ["AU", "NZ", "US", "GB"] },
-    success_url: absoluteUrl(`${productPath}?purchase=success`),
-    cancel_url: absoluteUrl(`${productPath}?purchase=cancel`),
+    ...(embedded
+      ? {
+          return_url: absoluteUrl(
+            `${productPath}?purchase=success&session_id={CHECKOUT_SESSION_ID}`,
+          ),
+        }
+      : {
+          success_url: absoluteUrl(`${productPath}?purchase=success`),
+          cancel_url: absoluteUrl(`${productPath}?purchase=cancel`),
+        }),
     metadata: {
       supabase_user_id: user.id,
       product_slug: product.slug,
@@ -88,6 +101,13 @@ export async function POST(request: Request) {
       product_name: product.name,
     },
   });
+
+  if (embedded) {
+    if (!session.client_secret) {
+      return NextResponse.json({ error: "Could not start payment." }, { status: 500 });
+    }
+    return NextResponse.json({ clientSecret: session.client_secret });
+  }
 
   if (!session.url) {
     return NextResponse.json({ error: "Could not start checkout." }, { status: 500 });
