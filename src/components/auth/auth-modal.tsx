@@ -38,6 +38,7 @@ export function AuthModalLauncher() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [info, setInfo] = useState<string | null>(null);
   const [userChip, setUserChip] = useState<ReturnType<typeof userToAccountMenuUser>>(null);
 
   const [supabase, setSupabase] = useState<Awaited<
@@ -70,6 +71,7 @@ export function AuthModalLauncher() {
     setMode(nextMode);
     setOpen(true);
     setError(null);
+    setInfo(null);
     setShowPassword(false);
     setShowConfirmPassword(false);
   }
@@ -77,6 +79,7 @@ export function AuthModalLauncher() {
   function switchAuthMode(nextMode: AuthMode) {
     setMode(nextMode);
     setError(null);
+    setInfo(null);
     setShowPassword(false);
     setShowConfirmPassword(false);
     panelRef.current?.scrollTo({ top: 0, behavior: "smooth" });
@@ -216,6 +219,7 @@ export function AuthModalLauncher() {
 
                     setBusy(true);
                     setError(null);
+                    setInfo(null);
 
                     try {
                       if (!email || !password) {
@@ -246,24 +250,28 @@ export function AuthModalLauncher() {
                           return;
                         }
 
-                        // Save profile row (optional but recommended for app completeness).
-                        if (signUpData.user && supabase) {
+                        if (signUpData.session && signUpData.user) {
                           const { error: profileErr } = await upsertPublicProfile(supabase, {
                             userId: signUpData.user.id,
                             email: signUpData.user.email,
                             fullName: name,
                           });
                           if (profileErr) {
-                            setError(
-                              `${profileErr} If the table uses extra columns, add defaults or relax RLS for insert.`,
-                            );
-                            return;
+                            /* Profile is also created by DB trigger on auth.users insert. */
                           }
+
+                          setOpen(false);
+                          form.reset();
+                          router.refresh();
+                          return;
                         }
 
-                        setOpen(false);
+                        setMode("login");
+                        setError(null);
                         form.reset();
-                        router.refresh();
+                        setInfo(
+                          "Account created. Check your email to confirm if required, then sign in.",
+                        );
                         return;
                       }
 
@@ -302,6 +310,12 @@ export function AuthModalLauncher() {
                       role="alert"
                     >
                       {error}
+                    </p>
+                  ) : null}
+
+                  {info ? (
+                    <p className="rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-200">
+                      {info}
                     </p>
                   ) : null}
 
