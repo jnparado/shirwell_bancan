@@ -3,17 +3,18 @@ import Link from "next/link";
 import { headers } from "next/headers";
 import { MarketingHeader } from "@/components/shirwell/marketing-header";
 import { BottomNav } from "@/components/shirwell/bottom-nav";
-import { PremiumStripePlans } from "@/components/subscriptions/premium-stripe-plans";
+import { PremiumCheckoutSection } from "@/components/subscriptions/premium-checkout-section";
 import { SwgProductInit } from "@/components/subscriptions/swg-product-init";
 import {
   APPLE_APP_STORE_URL,
   SWG_PREMIUM_PRODUCT_ID,
-  isSwgPremiumConfigured,
   isSwgPremiumEnabled,
 } from "@/config/premium";
-import { isStripeConfigured, STRIPE_PREMIUM_PLANS, STRIPE_PUBLISHABLE_KEY } from "@/config/stripe";
+import { STRIPE_PUBLISHABLE_KEY } from "@/config/stripe";
 import { JsonLdScript } from "@/components/seo/json-ld-script";
+import { getPremiumPlansPublic } from "@/lib/premium/plans";
 import { getPremiumOfferJsonLd } from "@/lib/swg-jsonld";
+import { isStripeConfigured } from "@/config/stripe";
 import { SITE_NAME } from "@/lib/seo";
 
 const glassCard =
@@ -21,7 +22,7 @@ const glassCard =
 
 export const metadata: Metadata = {
   title: "Premium",
-  description: `Shirwell Premium — unlimited streaming and member benefits. Subscribe with card (Stripe), Google, or Apple In-App Purchase.`,
+  description: `Shirwell Premium — plan details and secure card checkout. Unlimited streaming and member benefits.`,
   alternates: { canonical: "/premium" },
 };
 
@@ -34,7 +35,7 @@ export default async function PremiumPage({ searchParams }: PremiumPageProps) {
   const host = headerStore.get("host");
   const swgPremium = isSwgPremiumEnabled(host);
   const stripeReady = isStripeConfigured();
-  const stripePlans = STRIPE_PREMIUM_PLANS;
+  const plans = getPremiumPlansPublic();
   const { checkout } = await searchParams;
   const checkoutStatus =
     checkout === "success" ? "success" : checkout === "cancel" ? "cancel" : null;
@@ -44,119 +45,84 @@ export default async function PremiumPage({ searchParams }: PremiumPageProps) {
       {swgPremium ? <SwgProductInit productId={SWG_PREMIUM_PRODUCT_ID} /> : null}
       <JsonLdScript data={getPremiumOfferJsonLd()} />
       <MarketingHeader />
-      <main className="mx-auto w-full max-w-3xl flex-1 px-4 py-10 sm:px-6 sm:py-14">
+      <main className="mx-auto w-full max-w-4xl flex-1 px-4 py-10 sm:px-6 sm:py-14">
         <article className={`${glassCard} p-6 sm:p-8`}>
-          <h1 className="font-serif text-2xl font-semibold text-[#FFC107] sm:text-3xl">
-            Shirwell Premium
-          </h1>
-          <p className="mt-2 text-sm text-zinc-400">
-            Unlimited streaming, early releases, and member perks
-          </p>
-
-          <div className="mt-8 space-y-4 text-sm leading-relaxed text-zinc-300 sm:text-[15px]">
-            <p>
-              <strong className="text-zinc-200">Premium</strong> unlocks the full {SITE_NAME}{" "}
-              listening experience — including premium tracks, early releases, and special
-              member offers.
+          <header className="border-b border-white/[0.06] pb-6">
+            <h1 className="font-serif text-2xl font-semibold text-[#FFC107] sm:text-3xl">
+              Shirwell Premium
+            </h1>
+            <p className="mt-2 text-sm text-zinc-400">
+              Choose a plan, pay with card — subscription syncs to your Shirwell account.
             </p>
+          </header>
 
-            <h2 className="mt-8 font-serif text-lg font-semibold text-[#FFC107]">
-              What you get
-            </h2>
-            <ul className="list-disc space-y-2 pl-5">
-              <li>Unlimited streaming of premium songs</li>
-              <li>Early access to new releases</li>
-              <li>Member pricing on select flowers and bundles (where offered)</li>
-              <li>Ad-light listening in the mobile app (where enabled)</li>
-            </ul>
-
-            <h2 className="mt-8 font-serif text-lg font-semibold text-[#FFC107]">
-              Subscribe with card
-            </h2>
-            <p>
-              Pay securely with <strong className="text-zinc-200">Visa, Mastercard, or Amex</strong>{" "}
-              via Stripe. Choose monthly or yearly — cancel anytime from your billing portal.
-            </p>
-            <PremiumStripePlans
+          <div className="mt-8 space-y-10 text-sm leading-relaxed text-zinc-300 sm:text-[15px]">
+            <PremiumCheckoutSection
               checkoutStatus={checkoutStatus}
-              stripeReady={stripeReady}
               publishableKey={STRIPE_PUBLISHABLE_KEY}
-              plans={stripePlans}
+              initialPlans={plans}
+              stripeReady={stripeReady}
             />
 
-            {swgPremium ? (
-              <>
-                <h2 className="mt-8 font-serif text-lg font-semibold text-[#FFC107]">
-                  Subscribe with Google
-                </h2>
-                <p>
-                  On desktop and Android, you can also subscribe with{" "}
-                  <strong className="text-zinc-200">Subscribe with Google</strong> (Reader
-                  Revenue Manager). A subscription prompt may appear when your paywall is live
-                  in Publisher Center.
-                </p>
-                <p className="font-mono text-xs text-zinc-500">
-                  Product ID: {SWG_PREMIUM_PRODUCT_ID}
-                </p>
-              </>
-            ) : null}
+            <details className="rounded-xl border border-white/[0.06] bg-white/[0.02] p-4 sm:p-5">
+              <summary className="cursor-pointer font-serif text-base font-semibold text-zinc-200">
+                Other ways to subscribe
+              </summary>
+              <div className="mt-4 space-y-6 border-t border-white/[0.06] pt-4">
+                {swgPremium ? (
+                  <div>
+                    <h3 className="font-medium text-[#FFC107]">Subscribe with Google</h3>
+                    <p className="mt-2 text-sm text-zinc-400">
+                      On desktop and Android, use{" "}
+                      <strong className="text-zinc-300">Subscribe with Google</strong> when the
+                      paywall prompt is live in Publisher Center.
+                    </p>
+                  </div>
+                ) : null}
 
-            <h2 className="mt-8 font-serif text-lg font-semibold text-[#FFC107]">
-              Subscribe on Apple (iOS)
-            </h2>
-            <p>
-              On iPhone and iPad, subscriptions are sold through{" "}
-              <strong className="text-zinc-200">Apple In-App Purchase</strong> (StoreKit) in
-              the Shirwell Music app, as required by Apple for digital subscriptions. Open the{" "}
-              <strong className="text-zinc-200">Shirwell Music</strong> app, sign in with the
-              same account you use on this website, then choose Premium. Payment is handled
-              securely by Apple. Your subscription renews automatically until you cancel in{" "}
-              <strong className="text-zinc-200">Settings → Apple ID → Subscriptions</strong>.
-            </p>
+                <div>
+                  <h3 className="font-medium text-[#FFC107]">Apple (iOS app)</h3>
+                  <p className="mt-2 text-sm text-zinc-400">
+                    iPhone and iPad subscriptions use{" "}
+                    <strong className="text-zinc-300">Apple In-App Purchase</strong> in the
+                    Shirwell Music app. Sign in with the same account as this website.
+                  </p>
+                  {APPLE_APP_STORE_URL ? (
+                    <a
+                      href={APPLE_APP_STORE_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-3 inline-flex rounded-full border border-[#FFC107]/35 px-5 py-2 text-sm font-semibold text-[#FFC107] transition hover:bg-[rgba(255,193,7,0.08)]"
+                    >
+                      App Store
+                    </a>
+                  ) : null}
+                </div>
 
-            {APPLE_APP_STORE_URL ? (
-              <p>
-                <a
-                  href={APPLE_APP_STORE_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex rounded-full border border-[#FFC107]/35 bg-[#FFC107] px-5 py-2.5 text-sm font-semibold text-stone-950 transition hover:bg-[#e6ae06]"
-                >
-                  Get the app on the App Store
-                </a>
-              </p>
-            ) : (
-              <p className="text-zinc-300">
-                Open the <strong className="text-zinc-200">App Store</strong> on your
-                iPhone or iPad and search for{" "}
-                <strong className="text-zinc-200">Shirwell Music</strong> to subscribe with
-                Apple In-App Purchase.
-              </p>
-            )}
+                <div>
+                  <h3 className="font-medium text-[#FFC107]">Restore purchases</h3>
+                  <p className="mt-2 text-sm text-zinc-400">
+                    Subscribed on iOS? In the Shirwell Music app, tap{" "}
+                    <strong className="text-zinc-300">Restore purchases</strong> while signed in.
+                  </p>
+                </div>
+              </div>
+            </details>
 
-            <h2 className="mt-8 font-serif text-lg font-semibold text-[#FFC107]">
-              Restore purchases
-            </h2>
-            <p>
-              Already subscribed on iOS? In the Shirwell Music app, tap{" "}
-              <strong className="text-zinc-200">Restore purchases</strong> while signed in. We
-              sync your Apple subscription to your Shirwell account automatically.
-            </p>
-
-            <p className="mt-8 text-xs text-zinc-500">
-              Questions? See{" "}
-              <Link href="/legal" className="text-[#FFC107] hover:underline">
-                Legal
-              </Link>
-              ,{" "}
-              <Link href="/privacy" className="text-[#FFC107] hover:underline">
-                Privacy
-              </Link>
-              , or{" "}
+            <p className="text-xs text-zinc-500">
+              Questions?{" "}
               <Link href="/support" className="text-[#FFC107] hover:underline">
                 Support
               </Link>
-              .
+              {" · "}
+              <Link href="/terms" className="text-[#FFC107] hover:underline">
+                Terms
+              </Link>
+              {" · "}
+              <Link href="/privacy" className="text-[#FFC107] hover:underline">
+                Privacy
+              </Link>
+              . {SITE_NAME} Premium — cancel anytime from your billing portal.
             </p>
           </div>
         </article>
