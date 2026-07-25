@@ -40,8 +40,8 @@ export default function AboutPage() {
               <Image
                 src="/about/shirwell-bancan-poster.png"
                 alt={`${SITE_NAME} — Experience 45 years of original songs`}
-                width={800}
-                height={800}
+                width={682}
+                height={1024}
                 className="h-auto w-full rounded-lg shadow-[0_0_48px_rgba(255,193,7,0.12)]"
                 priority
               />
