@@ -41,8 +41,8 @@ export function BlackHorseCdGrid() {
 
             <p className="text-sm leading-relaxed text-zinc-300 sm:text-[15px]">
               Limited edition vinyl and CD — gold-and-black artwork with Shirwell on
-              horseback and gold stage curtains. Each track below has its own CD cover
-              design from the same release.
+              horseback and gold stage curtains. Every track shares the same Black Horse
+              album artwork from the release.
             </p>
 
             <div className="flex flex-wrap gap-3 pt-1">
@@ -78,16 +78,17 @@ export function BlackHorseCdGrid() {
               href="/music"
               className={`${glassCard} group overflow-hidden transition hover:border-[#FFC107]/30 hover:bg-[rgba(255,255,255,0.07)]`}
             >
-              <div className="relative aspect-square w-full bg-black/50 p-2">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={track.image}
-                  alt={`${track.title} — Black Horse CD ${track.trackNumber}`}
-                  className="h-full w-full rounded-lg object-cover transition duration-300 group-hover:scale-[1.02]"
-                  loading="lazy"
-                  width={512}
-                  height={512}
+              <div className="relative aspect-square w-full overflow-hidden bg-black/60">
+                <Image
+                  src={BLACK_HORSE_VINYL_PROMO}
+                  alt={`${track.title} — ${BLACK_HORSE_ALBUM_TITLE} album artwork`}
+                  fill
+                  className="object-contain p-1 transition duration-300 group-hover:scale-[1.02]"
+                  sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                 />
+                <span className="absolute left-2 top-2 rounded bg-black/75 px-1.5 py-0.5 text-[10px] font-bold text-[#FFC107]">
+                  {String(track.trackNumber).padStart(2, "0")}
+                </span>
               </div>
               <div className="space-y-1 p-3 sm:p-4">
                 <p className="text-[10px] font-semibold uppercase tracking-wider text-zinc-500">
