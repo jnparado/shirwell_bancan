@@ -299,7 +299,7 @@ export function PremiumCheckoutPanel({
                   <div className="flex flex-1 flex-col px-6 pb-6 pt-8">
                     <div className="text-center">
                       <h3 className="text-xl font-bold text-white">{plan.label}</h3>
-                      <p className="mt-4 text-5xl font-bold leading-none text-[#b148ff]">
+                      <p className="mt-4 text-5xl font-bold leading-none text-[#FFC107]">
                         {plan.displayAmount}
                       </p>
                       <p className="mt-2 text-sm text-[#8e8e93]">{plan.billingNote}</p>
@@ -355,7 +355,7 @@ export function PremiumCheckoutPanel({
 
           {!status?.signedIn ? (
             <p className="text-center text-xs text-zinc-500">
-              <Link href="/auth/login?redirect=/premium" className="text-[#b148ff] hover:underline">
+              <Link href="/auth/login?redirect=/premium" className="text-[#FFC107] hover:underline">
                 Sign in
               </Link>{" "}
               before checkout — your subscription links to your Shirwell account.

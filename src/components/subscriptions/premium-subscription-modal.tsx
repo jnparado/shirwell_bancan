@@ -47,7 +47,7 @@ export function PremiumSubscriptionModal({
         <div className="flex items-start justify-between gap-3 p-5 pb-4">
           <h2
             id="premium-subscription-title"
-            className="font-serif text-xl font-semibold text-[#a855f7] sm:text-2xl"
+            className="font-serif text-xl font-semibold text-[#FFC107] sm:text-2xl"
           >
             Complete Your Subscription
           </h2>
@@ -85,7 +85,7 @@ export function PremiumSubscriptionModal({
 
           {busy && !clientSecret ? (
             <div className="flex flex-col items-center justify-center gap-3 py-8 text-zinc-400">
-              <Loader2 className="h-8 w-8 animate-spin text-[#a855f7]" />
+              <Loader2 className="h-8 w-8 animate-spin text-[#FFC107]" />
               <p className="text-sm">Preparing secure checkout…</p>
             </div>
           ) : clientSecret && publishableKey.startsWith("pk_") ? (
