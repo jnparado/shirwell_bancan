@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { MarketingHeader } from "@/components/shirwell/marketing-header";
 import { BottomNav } from "@/components/shirwell/bottom-nav";
 import { ContentPageAds } from "@/components/ads/content-page-ads";
+import { JsonLdScript } from "@/components/seo/json-ld-script";
 import {
   STORE_PRODUCTS,
   formatProductPrice,
@@ -53,12 +54,7 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
 
   return (
     <div className="page-shell relative">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(getProductJsonLd(product)),
-        }}
-      />
+      <JsonLdScript data={getProductJsonLd(product)} />
       <MarketingHeader />
       <main className="mx-auto w-full max-w-3xl px-4 py-10 sm:px-6 sm:py-14">
         <Link

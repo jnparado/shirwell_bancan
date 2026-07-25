@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { JsonLdScript } from "@/components/seo/json-ld-script";
 import { BrandSeoSection } from "@/components/seo/brand-seo-section";
 import { HomeContent } from "@/components/shirwell/home-content";
 import { getSongs } from "@/lib/songs";
@@ -31,12 +32,7 @@ export default async function HomePage() {
   const songs = await getSongs();
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(getHomePageJsonLd(songs)),
-        }}
-      />
+      <JsonLdScript data={getHomePageJsonLd(songs)} />
       <HomeContent songs={songs}>
         <BrandSeoSection />
       </HomeContent>

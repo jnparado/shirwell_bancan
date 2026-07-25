@@ -4,6 +4,7 @@ import Link from "next/link";
 import { MarketingHeader } from "@/components/shirwell/marketing-header";
 import { BottomNav } from "@/components/shirwell/bottom-nav";
 import { ContentPageAds } from "@/components/ads/content-page-ads";
+import { JsonLdScript } from "@/components/seo/json-ld-script";
 import { BrandLegalMarks } from "@/components/legal/brand-legal-marks";
 import { BUSINESS_LOCATION, SUPPORT_EMAIL } from "@/config/contact";
 import { absoluteUrl, getBrandFaqJsonLd, HOME_PATH, SITE_NAME } from "@/lib/seo";
@@ -29,12 +30,7 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(getBrandFaqJsonLd(absoluteUrl(HOME_PATH))),
-        }}
-      />
+      <JsonLdScript data={getBrandFaqJsonLd(absoluteUrl(HOME_PATH))} />
       <div className="page-shell">
       <MarketingHeader />
       <main className="mx-auto w-full max-w-4xl flex-1 px-4 py-10 sm:px-6 sm:py-14">

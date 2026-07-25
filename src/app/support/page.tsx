@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { MarketingHeader } from "@/components/shirwell/marketing-header";
 import { BottomNav } from "@/components/shirwell/bottom-nav";
+import { JsonLdScript } from "@/components/seo/json-ld-script";
 import {
   CustomerSupportBlock,
   getCustomerSupportJsonLd,
@@ -27,12 +28,7 @@ export const metadata: Metadata = {
 export default function SupportPage() {
   return (
     <div className="page-shell">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(getCustomerSupportJsonLd()),
-        }}
-      />
+      <JsonLdScript data={getCustomerSupportJsonLd()} />
       <MarketingHeader />
       <main className="mx-auto w-full max-w-3xl flex-1 px-4 py-10 sm:px-6 sm:py-14">
         <article className={`${glassCard} p-6 sm:p-8`}>

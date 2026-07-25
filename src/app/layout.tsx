@@ -1,8 +1,10 @@
+import { headers } from "next/headers";
 import type { Metadata, Viewport } from "next";
 import { Geist, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { PlayerProvider } from "@/contexts/player-context";
-import { SiteFooter } from "@/components/shirwell/site-footer";
+import { SiteChrome } from "@/components/layout/site-chrome";
+import { JsonLdScript } from "@/components/seo/json-ld-script";
 import { AdSenseHeadScript } from "@/components/ads/adsense-head-script";
 import { AdSenseRouteFill } from "@/components/ads/adsense-route-fill";
 import { AdSenseScriptWatcher } from "@/components/ads/adsense-script-watcher";
@@ -18,9 +20,11 @@ import { SiteMarks } from "@/components/legal/site-marks";
 import { LazyAiSupportChat } from "@/components/support/lazy-ai-support-chat";
 import { SwgHeadScript } from "@/components/subscriptions/swg-head-script";
 import { AppleMusicMiniPlayer } from "@/components/shirwell/apple-music-mini-player";
+import { SiteFooter } from "@/components/shirwell/site-footer";
 import {
   createRootMetadata,
   getOrganizationWebsiteJsonLd,
+  getSiteUrl,
 } from "@/lib/seo";
 
 const geistSans = Geist({
@@ -47,37 +51,35 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const headerStore = await headers();
+  const siteUrl = getSiteUrl({ host: headerStore.get("host") });
+
   return (
     <html
       lang="en-AU"
       className={`${geistSans.variable} ${playfair.variable} h-full antialiased`}
     >
-      <head>
+      <body className="min-h-full font-sans">
+        <AdSenseHeadScript />
+        {(await SwgHeadScript()) ?? null}
         <GoogleAdsTag />
         <GoogleTagManagerHead />
         <GoogleAnalyticsScripts />
-        <AdSenseHeadScript />
-        <SwgHeadScript />
-      </head>
-      <body className="min-h-full font-sans">
         <AdSenseScriptWatcher />
         <AdSenseRouteFill />
         <GoogleTagManagerNoScript />
         <GoogleAnalyticsPageViews />
         <GoogleAdsPageViewConversion />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(getOrganizationWebsiteJsonLd()),
-          }}
-        />
+        <JsonLdScript data={getOrganizationWebsiteJsonLd(siteUrl)} />
         <PlayerProvider>
           <div className="flex min-h-full min-w-0 flex-col overflow-x-clip">
             <SiteMarks />
             <div className="flex-1">{children}</div>
-            <SiteFooter />
-            <AppleMusicMiniPlayer />
-            <LazyAiSupportChat />
+            <SiteChrome>
+              <SiteFooter />
+              <AppleMusicMiniPlayer />
+              <LazyAiSupportChat />
+            </SiteChrome>
           </div>
         </PlayerProvider>
       </body>

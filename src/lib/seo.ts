@@ -134,7 +134,18 @@ function tryParseSiteUrl(value: string): URL | null {
   }
 }
 
-export function getSiteUrl(): URL {
+export function getSiteUrl(options?: { host?: string | null }): URL {
+  const host = options?.host?.trim();
+  if (host) {
+    const isLocal =
+      host.startsWith("localhost") ||
+      host.startsWith("127.0.0.1") ||
+      host.endsWith(".local");
+    if (isLocal) {
+      return new URL(`http://${host}`);
+    }
+  }
+
   const explicit = process.env.NEXT_PUBLIC_SITE_URL?.trim();
   if (explicit) {
     const u = tryParseSiteUrl(explicit);
@@ -168,8 +179,8 @@ export function getSitemapOrigin(): string {
   return origin;
 }
 
-export function absoluteUrl(path: string): string {
-  const origin = getSiteUrl().origin;
+export function absoluteUrl(path: string, siteUrl?: URL): string {
+  const origin = (siteUrl ?? getSiteUrl()).origin;
   const p = path.startsWith("/") ? path : `/${path}`;
   return `${origin}${p}`;
 }
@@ -286,11 +297,11 @@ function parseSameAsEnv(): string[] {
 }
 
 /** JSON-LD: MusicGroup + WebSite + WebPage + SearchAction (helps Google connect brand ↔ URL). */
-export function getOrganizationWebsiteJsonLd(): Record<string, unknown> {
-  const origin = getSiteUrl().origin;
-  const logo = absoluteUrl(SITE_LOGO_PATH);
-  const favicon = absoluteUrl(SITE_FAVICON_PATH);
-  const hero = absoluteUrl(DEFAULT_OG_IMAGE);
+export function getOrganizationWebsiteJsonLd(siteUrl?: URL): Record<string, unknown> {
+  const origin = (siteUrl ?? getSiteUrl()).origin;
+  const logo = absoluteUrl(SITE_LOGO_PATH, siteUrl);
+  const favicon = absoluteUrl(SITE_FAVICON_PATH, siteUrl);
+  const hero = absoluteUrl(DEFAULT_OG_IMAGE, siteUrl);
   const artistId = `${origin}/#shirwell-bancan`;
   const websiteId = `${origin}/#website`;
   const webPageId = `${origin}${HOME_PATH}#home`;

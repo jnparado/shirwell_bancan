@@ -1,3 +1,4 @@
+import Script from "next/script";
 import { ADSENSE_CLIENT_ID, isAdsenseConfigured } from "@/config/ads";
 
 /**
@@ -8,9 +9,10 @@ export function AdSenseHeadScript() {
   if (!isAdsenseConfigured()) return null;
 
   return (
-    <script
-      async
+    <Script
+      id="adsense-js"
       src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT_ID}`}
+      strategy="beforeInteractive"
       crossOrigin="anonymous"
       data-ad-client={ADSENSE_CLIENT_ID}
     />

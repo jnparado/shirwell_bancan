@@ -75,7 +75,7 @@ export function SiteFooter() {
             </div>
           </div>
           <Link
-            href="/premium"
+            href="/premium#subscribe"
             className={`${glassCard} shrink-0 rounded-full border-[#FFC107]/35 px-6 py-3.5 text-center text-sm font-semibold text-[#FFC107] transition hover:border-[#FFC107]/55 hover:bg-[rgba(255,255,255,0.08)] sm:self-center`}
           >
             Explore Plans

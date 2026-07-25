@@ -220,3 +220,12 @@ body {
     radial-gradient(1px 1px at 96% 52%, rgba(255, 210, 130, 0.4), transparent);
   background-size: 100% 100%;
 }
+
+/* Admin dashboard — full viewport, no consumer bottom padding */
+.admin-shell {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.admin-sidebar {
+  padding-top: env(safe-area-inset-top);
+}

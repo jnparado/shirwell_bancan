@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { JsonLdScript } from "@/components/seo/json-ld-script";
 import { MusicPageContent } from "@/components/shirwell/music-page-content";
 import { getSongs } from "@/lib/songs";
 import {
@@ -40,12 +41,7 @@ export default async function MusicPage() {
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(getMusicPageJsonLd(songs)),
-        }}
-      />
+      <JsonLdScript data={getMusicPageJsonLd(songs)} />
       <MusicPageContent songs={songs} />
     </>
   );

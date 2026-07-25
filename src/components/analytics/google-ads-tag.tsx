@@ -1,3 +1,4 @@
+import Script from "next/script";
 import {
   GOOGLE_ADS_CONVERSION_ID,
   GOOGLE_ADS_PAGE_VIEW_CURRENCY,
@@ -7,7 +8,7 @@ import {
   isGoogleAdsPageViewConversionConfigured,
 } from "@/config/google-ads";
 
-/** Google Ads conversion tag + page view event — exact snippets in `<head>`. */
+/** Google Ads conversion tag + page view event — load in `<body>` via next/script. */
 export function GoogleAdsTag() {
   if (!isGoogleAdsConfigured()) return null;
 
@@ -22,20 +23,18 @@ gtag('event', 'conversion', {
 
   return (
     <>
-      <script
-        async
+      <Script
         src={`https://www.googletagmanager.com/gtag/js?id=${GOOGLE_ADS_CONVERSION_ID}`}
+        strategy="afterInteractive"
       />
-      <script
-        dangerouslySetInnerHTML={{
-          __html: `
+      <Script id="google-ads-gtag" strategy="afterInteractive">
+        {`
 window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', '${GOOGLE_ADS_CONVERSION_ID}');${conversionSnippet}
-          `.trim(),
-        }}
-      />
+        `.trim()}
+      </Script>
     </>
   );
 }

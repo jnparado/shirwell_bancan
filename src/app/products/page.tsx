@@ -4,6 +4,7 @@ import Link from "next/link";
 import { MarketingHeader } from "@/components/shirwell/marketing-header";
 import { BottomNav } from "@/components/shirwell/bottom-nav";
 import { ContentPageAdTop, ContentPageAds } from "@/components/ads/content-page-ads";
+import { JsonLdScript } from "@/components/seo/json-ld-script";
 import { ProductCard } from "@/components/shirwell/product-card";
 import { getProductsIndexJsonLd, STORE_PRODUCTS } from "@/lib/products";
 import { SITE_NAME } from "@/lib/seo";
@@ -27,12 +28,7 @@ export const metadata: Metadata = {
 export default function ProductsPage() {
   return (
     <div className="page-shell relative">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(getProductsIndexJsonLd()),
-        }}
-      />
+      <JsonLdScript data={getProductsIndexJsonLd()} />
       <MarketingHeader />
       <main className="mx-auto w-full max-w-5xl px-4 py-10 sm:px-6 sm:py-14">
         <h1 className="font-serif text-3xl font-semibold tracking-tight text-[#FFC107]">

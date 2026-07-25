@@ -6,6 +6,7 @@ import { MarketingHeader } from "@/components/shirwell/marketing-header";
 import { BottomNav } from "@/components/shirwell/bottom-nav";
 import { ContentPageAds } from "@/components/ads/content-page-ads";
 import { BUSINESS_NAME, SUPPORT_EMAIL } from "@/config/contact";
+import { JsonLdScript } from "@/components/seo/json-ld-script";
 import {
   getNewsletterIssue,
   NEWSLETTER_ISSUES,
@@ -53,12 +54,7 @@ export default async function NewsletterIssuePage({ params }: Props) {
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(getNewsArticleJsonLd(issue, path)),
-        }}
-      />
+      <JsonLdScript data={getNewsArticleJsonLd(issue, path)} />
       <div className="page-shell">
         <MarketingHeader />
         <main className="mx-auto w-full max-w-3xl flex-1 px-4 py-10 sm:px-6 sm:py-14">

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { MarketingHeader } from "@/components/shirwell/marketing-header";
 import { BottomNav } from "@/components/shirwell/bottom-nav";
+import { JsonLdScript } from "@/components/seo/json-ld-script";
 import { NewsletterPageContent } from "@/components/shirwell/newsletter-page-content";
 import { getNewsletterIndexJsonLd } from "@/lib/swg-jsonld";
 import { SITE_NAME } from "@/lib/seo";
@@ -19,12 +20,7 @@ export const metadata: Metadata = {
 export default function NewsletterPage() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(getNewsletterIndexJsonLd()),
-        }}
-      />
+      <JsonLdScript data={getNewsletterIndexJsonLd()} />
       <div className="page-shell">
         <MarketingHeader />
         <NewsletterPageContent />

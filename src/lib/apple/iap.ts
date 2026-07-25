@@ -58,8 +58,4 @@ export type AppleEntitlementRow = {
   updated_at: string | null;
 };
 
-export function isPremiumActive(row: AppleEntitlementRow | null | undefined): boolean {
-  if (!row?.premium) return false;
-  if (!row.apple_expires_at) return true;
-  return new Date(row.apple_expires_at).getTime() > Date.now();
-}
+export { isPremiumActive, type UserEntitlementRow } from "@/lib/entitlements";
