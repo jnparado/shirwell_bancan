@@ -59,8 +59,10 @@ export default async function RootLayout({
       lang="en-AU"
       className={`${geistSans.variable} ${playfair.variable} h-full antialiased`}
     >
-      <body className="min-h-full font-sans">
+      <head>
         <AdSenseHeadScript />
+      </head>
+      <body className="min-h-full font-sans">
         {(await SwgHeadScript()) ?? null}
         <GoogleAdsTag />
         <GoogleTagManagerHead />
