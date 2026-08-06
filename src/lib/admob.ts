@@ -9,6 +9,7 @@
  * @see https://developers.google.com/admob/ios/quick-start
  *
  * Web verification: `/app-ads.txt` on your developer website (already deployed).
+ * Native UMP SDK: see docs/admob-ump-native.md
  */
 
 export const ADMOB_WEB_NOTE =

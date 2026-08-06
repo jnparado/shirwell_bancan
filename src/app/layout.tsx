@@ -7,6 +7,7 @@ import { CartProvider } from "@/contexts/cart-context";
 import { SiteChrome } from "@/components/layout/site-chrome";
 import { JsonLdScript } from "@/components/seo/json-ld-script";
 import { AdSenseHeadScript } from "@/components/ads/adsense-head-script";
+import { GoogleUmpHead } from "@/components/consent/google-ump-head";
 import { AdSenseRouteFill } from "@/components/ads/adsense-route-fill";
 import { AdSenseScriptWatcher } from "@/components/ads/adsense-script-watcher";
 import { GoogleAdsPageViewConversion } from "@/components/analytics/google-ads-page-view-conversion";
@@ -60,6 +61,7 @@ export default async function RootLayout({
       className={`${geistSans.variable} ${playfair.variable} h-full antialiased`}
     >
       <head>
+        <GoogleUmpHead />
         <AdSenseHeadScript />
       </head>
       <body className="min-h-full font-sans">

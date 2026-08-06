@@ -1,6 +1,13 @@
+import {
+  GOOGLE_CONSENT_READY_EVENT,
+  isGoogleUmpWebEnabled,
+} from "@/config/google-consent";
+import { isGoogleConsentReady, whenGoogleConsentReady } from "@/lib/google-consent-runtime";
+
 declare global {
   interface Window {
     adsbygoogle?: unknown[];
+    __shirwellGoogleConsentReady?: boolean;
   }
 }
 
@@ -59,48 +66,47 @@ export function scheduleAdFillRetries(
 }
 
 /**
- * Run `fill` once the AdSense script is available (handles race on first paint).
- * Returns a cleanup function.
+ * Run `fill` once AdSense is loaded and (when enabled) Funding Choices consent is ready.
  */
 export function whenAdSenseReady(fill: () => void): () => void {
   if (typeof window === "undefined") return () => {};
 
-  if (isAdSenseScriptReady()) {
-    fill();
-    return () => {};
-  }
-
   let cancelled = false;
-  const run = () => {
-    if (!cancelled) fill();
+  const tryFill = () => {
+    if (cancelled) return;
+    if (!isAdSenseScriptReady()) return;
+    if (isGoogleUmpWebEnabled() && !isGoogleConsentReady()) return;
+    fill();
   };
 
+  const stopConsent = whenGoogleConsentReady(tryFill);
+
+  if (isAdSenseScriptReady()) {
+    tryFill();
+  }
+
+  const run = () => tryFill();
+
   window.addEventListener(ADSENSE_LOADED_EVENT, run, { once: true });
+  window.addEventListener(GOOGLE_CONSENT_READY_EVENT, run);
 
   let attempts = 0;
   const poll = window.setInterval(() => {
     attempts += 1;
-    if (isAdSenseScriptReady()) {
-      window.clearInterval(poll);
-      run();
-    } else if (attempts >= 80) {
-      window.clearInterval(poll);
-    }
+    tryFill();
+    if (attempts >= 80) window.clearInterval(poll);
   }, 150);
 
-  const observer = new MutationObserver(() => {
-    if (isAdSenseScriptReady()) {
-      observer.disconnect();
-      run();
-    }
-  });
+  const observer = new MutationObserver(() => tryFill());
   observer.observe(document.documentElement, { childList: true, subtree: true });
 
   return () => {
     cancelled = true;
+    stopConsent();
     window.clearInterval(poll);
     observer.disconnect();
     window.removeEventListener(ADSENSE_LOADED_EVENT, run);
+    window.removeEventListener(GOOGLE_CONSENT_READY_EVENT, run);
   };
 }
 
