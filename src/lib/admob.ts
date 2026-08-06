@@ -19,7 +19,7 @@ export const DEFAULT_ADMOB_APP_ID = "ca-app-pub-2495432679632375~1624956947";
 
 /** Banner ad unit — from AdMob → Ad units. */
 export const DEFAULT_ADMOB_BANNER_AD_UNIT_ID =
-  "ca-app-pub-2495432679632375/2861130889";
+  "ca-app-pub-2495432679632375/5537125026";
 
 export const ADMOB_APP_ID =
   process.env.ADMOB_APP_ID?.trim() || DEFAULT_ADMOB_APP_ID;
