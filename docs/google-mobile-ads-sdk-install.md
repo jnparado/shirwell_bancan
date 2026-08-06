@@ -8,6 +8,7 @@ Use the IDs from `src/lib/admob.ts` / `.env`:
 |--------|--------|
 | App ID | `ca-app-pub-2495432679632375~1624956947` |
 | Banner ad unit | `ca-app-pub-2495432679632375/5537125026` |
+| Mediation / deployment ad unit | `ca-app-pub-2495432679632375/4899465892` |
 
 **Latest SDK versions (Aug 2026)** — also defined in `src/lib/admob.ts` as `GOOGLE_MOBILE_ADS_SDK`:
 

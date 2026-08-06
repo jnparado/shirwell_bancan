@@ -23,6 +23,10 @@ export const DEFAULT_ADMOB_APP_ID = "ca-app-pub-2495432679632375~1624956947";
 export const DEFAULT_ADMOB_BANNER_AD_UNIT_ID =
   "ca-app-pub-2495432679632375/5537125026";
 
+/** Ad unit for mediation / ad unit deployment (AdMob console). */
+export const DEFAULT_ADMOB_MEDIATION_AD_UNIT_ID =
+  "ca-app-pub-2495432679632375/4899465892";
+
 /**
  * Latest Google Mobile Ads SDK versions for native apps (AdMob ad unit deployment).
  * Update when AdMob console prompts for a newer SDK.
@@ -54,6 +58,11 @@ export const ADMOB_BANNER_AD_UNIT_ID =
   process.env.ADMOB_AD_UNIT_ID?.trim() ||
   DEFAULT_ADMOB_BANNER_AD_UNIT_ID;
 
+/** Map this ID on third-party mediation platforms (AdMob → Implementation instructions). */
+export const ADMOB_MEDIATION_AD_UNIT_ID =
+  process.env.ADMOB_MEDIATION_AD_UNIT_ID?.trim() ||
+  DEFAULT_ADMOB_MEDIATION_AD_UNIT_ID;
+
 /** @deprecated Prefer ADMOB_BANNER_AD_UNIT_ID */
 export const ADMOB_AD_UNIT_ID = ADMOB_BANNER_AD_UNIT_ID;
 
@@ -64,7 +73,9 @@ export function isAdmobConfigured(): boolean {
   return Boolean(
     ADMOB_APP_ID &&
       ADMOB_APP_ID.includes("~") &&
-      (ADMOB_BANNER_AD_UNIT_ID || ADMOB_APP_OPEN_AD_UNIT_ID),
+      (ADMOB_BANNER_AD_UNIT_ID ||
+        ADMOB_MEDIATION_AD_UNIT_ID ||
+        ADMOB_APP_OPEN_AD_UNIT_ID),
   );
 }
 
@@ -77,6 +88,7 @@ export const ADMOB_NATIVE_SETUP = {
     infoPlistKey: "GADApplicationIdentifier",
     infoPlistValue: ADMOB_APP_ID,
     bannerAdUnitId: ADMOB_BANNER_AD_UNIT_ID,
+    mediationAdUnitId: ADMOB_MEDIATION_AD_UNIT_ID,
     podfileLines: IOS_ADMOB_PODFILE_LINES,
     sdk: GOOGLE_MOBILE_ADS_SDK.ios,
   },
@@ -84,6 +96,7 @@ export const ADMOB_NATIVE_SETUP = {
     manifestMetaDataName: "com.google.android.gms.ads.APPLICATION_ID",
     manifestMetaDataValue: ADMOB_APP_ID,
     bannerAdUnitId: ADMOB_BANNER_AD_UNIT_ID,
+    mediationAdUnitId: ADMOB_MEDIATION_AD_UNIT_ID,
     gradleDependencies: ANDROID_ADMOB_GRADLE_DEPENDENCIES,
     sdk: GOOGLE_MOBILE_ADS_SDK.android,
   },
