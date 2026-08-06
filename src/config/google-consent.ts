@@ -26,3 +26,14 @@ export function isGoogleUmpWebEnabled(): boolean {
 export function getFundingChoicesScriptUrl(): string {
   return `https://fundingchoicesmessages.google.com/i/pub-${getGooglePublisherId()}?ers=1`;
 }
+
+/** Path for consent revocation page (AdMob / Funding Choices). */
+export const ADMOB_CONSENT_REVOCATION_PATH = "/privacy/cookie-settings";
+
+export function getAdmobConsentRevocationUrl(siteOrigin?: string): string {
+  const base =
+    siteOrigin?.replace(/\/$/, "") ||
+    process.env.NEXT_PUBLIC_SITE_URL?.trim().replace(/\/$/, "") ||
+    "https://shirwell-bancan.vercel.app";
+  return `${base}${ADMOB_CONSENT_REVOCATION_PATH}`;
+}

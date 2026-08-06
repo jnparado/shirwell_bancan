@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { Crown } from "lucide-react";
 import { hasBottomNav } from "@/lib/mobile-chrome";
 import { getPublicSocialLinks } from "@/lib/social-links";
+import { PrivacyCookieSettingsControl } from "@/components/consent/privacy-cookie-settings-control";
 import { SITE_NAME } from "@/lib/seo";
 
 /** Matches marketing header — Shirwell gold luxury */
@@ -335,6 +336,10 @@ export function SiteFooter() {
               >
                 Support
               </Link>
+              <span className="text-zinc-600" aria-hidden>
+                ·
+              </span>
+              <PrivacyCookieSettingsControl className="text-zinc-400 transition hover:text-[#FFC107]" />
             </nav>
           </div>
         </div>

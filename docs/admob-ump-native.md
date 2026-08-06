@@ -15,8 +15,8 @@ Create the GDPR / EEA message in **AdMob → Privacy & messaging → European re
 
 ```gradle
 dependencies {
-  implementation 'com.google.android.gms:play-services-ads:24.0.0'
-  implementation 'com.google.android.ump:user-messaging-platform:3.1.0'
+  implementation 'com.google.android.gms:play-services-ads:25.4.0'
+  implementation 'com.google.android.ump:user-messaging-platform:3.2.0'
 }
 ```
 
@@ -58,7 +58,7 @@ Call `requestConsent` on launch, then initialize Mobile Ads and show banners wit
 **Podfile:**
 
 ```ruby
-pod 'Google-Mobile-Ads-SDK'
+pod 'Google-Mobile-Ads-SDK', '~> 13.7.0'
 pod 'GoogleUserMessagingPlatform'
 ```
 
@@ -85,6 +85,28 @@ func requestConsent(from vc: UIViewController, completion: @escaping () -> Void)
   }
 }
 ```
+
+## Revocation link (AdMob ad unit deployment)
+
+Google requires a **revocation link** titled **“Privacy and cookie settings”**.
+
+**Website (this repo):**
+
+- Page: `/privacy/cookie-settings`
+- Paste in AdMob: `https://YOUR-DOMAIN/privacy/cookie-settings` (e.g. `https://shirwell-bancan.vercel.app/privacy/cookie-settings`)
+- Footer + Privacy Policy include the same control (`googlefc.showRevocationMessage`).
+
+**Native app:** add a menu item **Privacy and cookie settings** that calls UMP:
+
+```kotlin
+UserMessagingPlatform.showPrivacyOptionsForm(activity) { /* ... */ }
+```
+
+```swift
+ConsentForm.presentPrivacyOptionsForm(from: viewController) { _ in }
+```
+
+Then click **I understand** in AdMob when prompted about the revocation link requirement.
 
 ## Web verification
 

@@ -10,6 +10,7 @@
  *
  * Web verification: `/app-ads.txt` on your developer website (already deployed).
  * Native UMP SDK: see docs/admob-ump-native.md
+ * Mobile Ads SDK install: see docs/google-mobile-ads-sdk-install.md
  */
 
 export const ADMOB_WEB_NOTE =
@@ -21,6 +22,29 @@ export const DEFAULT_ADMOB_APP_ID = "ca-app-pub-2495432679632375~1624956947";
 /** Banner ad unit — from AdMob → Ad units. */
 export const DEFAULT_ADMOB_BANNER_AD_UNIT_ID =
   "ca-app-pub-2495432679632375/5537125026";
+
+/**
+ * Latest Google Mobile Ads SDK versions for native apps (AdMob ad unit deployment).
+ * Update when AdMob console prompts for a newer SDK.
+ * @see docs/google-mobile-ads-sdk-install.md
+ */
+export const GOOGLE_MOBILE_ADS_SDK = {
+  android: {
+    playServicesAds: "25.4.0",
+    userMessagingPlatform: "3.2.0",
+  },
+  ios: {
+    googleMobileAdsSdk: "13.7.0",
+  },
+} as const;
+
+/** Gradle dependencies block for Android app module. */
+export const ANDROID_ADMOB_GRADLE_DEPENDENCIES = `implementation 'com.google.android.gms:play-services-ads:${GOOGLE_MOBILE_ADS_SDK.android.playServicesAds}'
+implementation 'com.google.android.ump:user-messaging-platform:${GOOGLE_MOBILE_ADS_SDK.android.userMessagingPlatform}'`;
+
+/** CocoaPods lines for iOS. */
+export const IOS_ADMOB_PODFILE_LINES = `pod 'Google-Mobile-Ads-SDK', '~> ${GOOGLE_MOBILE_ADS_SDK.ios.googleMobileAdsSdk}'
+pod 'GoogleUserMessagingPlatform'`;
 
 export const ADMOB_APP_ID =
   process.env.ADMOB_APP_ID?.trim() || DEFAULT_ADMOB_APP_ID;
@@ -44,16 +68,23 @@ export function isAdmobConfigured(): boolean {
   );
 }
 
+/** Web URL for AdMob “revocation link” (Privacy & messaging → ad unit deployment). */
+export { ADMOB_CONSENT_REVOCATION_PATH, getAdmobConsentRevocationUrl } from "@/config/google-consent";
+
 /** Copy-paste blocks for native project setup. */
 export const ADMOB_NATIVE_SETUP = {
   ios: {
     infoPlistKey: "GADApplicationIdentifier",
     infoPlistValue: ADMOB_APP_ID,
     bannerAdUnitId: ADMOB_BANNER_AD_UNIT_ID,
+    podfileLines: IOS_ADMOB_PODFILE_LINES,
+    sdk: GOOGLE_MOBILE_ADS_SDK.ios,
   },
   android: {
     manifestMetaDataName: "com.google.android.gms.ads.APPLICATION_ID",
     manifestMetaDataValue: ADMOB_APP_ID,
     bannerAdUnitId: ADMOB_BANNER_AD_UNIT_ID,
+    gradleDependencies: ANDROID_ADMOB_GRADLE_DEPENDENCIES,
+    sdk: GOOGLE_MOBILE_ADS_SDK.android,
   },
 } as const;

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { MarketingHeader } from "@/components/shirwell/marketing-header";
 import { BottomNav } from "@/components/shirwell/bottom-nav";
+import { PrivacyCookieSettingsControl } from "@/components/consent/privacy-cookie-settings-control";
 import { SITE_NAME } from "@/lib/seo";
 
 const glassCard =
@@ -101,6 +102,10 @@ export default function PrivacyPage() {
                 Google Ads Settings
               </a>
               .
+            </p>
+            <p className="mt-3">
+              To withdraw or change ad consent on this website, use{" "}
+              <PrivacyCookieSettingsControl className="text-[#FFC107] hover:underline" />.
             </p>
             <p>
               The Shirwell Music app may use <strong className="text-zinc-200">Google AdMob</strong>{" "}
