@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { createBrowserSupabaseClientAsync } from "@/lib/supabase/client";
+import { loginUrl } from "@/config/auth-routes";
 
 type ConsentDetails = {
   authorization_id: string;
@@ -70,9 +71,7 @@ export function ConsentClient() {
         if (cancelled) return;
 
         if (!session) {
-          router.replace(
-            `/auth/login?redirect=${encodeURIComponent(returnPath)}`,
-          );
+          router.replace(loginUrl({ redirect: returnPath }));
           return;
         }
 

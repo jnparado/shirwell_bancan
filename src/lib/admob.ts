@@ -19,9 +19,17 @@ export const ADMOB_WEB_NOTE =
 /** AdMob app ID — from AdMob → Apps → App settings. */
 export const DEFAULT_ADMOB_APP_ID = "ca-app-pub-2495432679632375~1624956947";
 
-/** Banner ad unit — from AdMob → Ad units. */
-export const DEFAULT_ADMOB_BANNER_AD_UNIT_ID =
+/** Android banner — AdMob → Shirwell Music (Android) → Banner ad unit. */
+export const DEFAULT_ADMOB_ANDROID_BANNER_AD_UNIT_ID =
+  "ca-app-pub-2495432679632375/1240791400";
+
+/** iOS banner — update when you create the iOS banner unit in AdMob. */
+export const DEFAULT_ADMOB_IOS_BANNER_AD_UNIT_ID =
   "ca-app-pub-2495432679632375/5537125026";
+
+/** @deprecated Use platform-specific defaults; kept for env fallback. */
+export const DEFAULT_ADMOB_BANNER_AD_UNIT_ID =
+  DEFAULT_ADMOB_ANDROID_BANNER_AD_UNIT_ID;
 
 /** Ad unit for mediation / ad unit deployment (AdMob console). */
 export const DEFAULT_ADMOB_MEDIATION_AD_UNIT_ID =
@@ -53,10 +61,23 @@ pod 'GoogleUserMessagingPlatform'`;
 export const ADMOB_APP_ID =
   process.env.ADMOB_APP_ID?.trim() || DEFAULT_ADMOB_APP_ID;
 
-export const ADMOB_BANNER_AD_UNIT_ID =
+const legacyBannerAdUnitId =
   process.env.ADMOB_BANNER_AD_UNIT_ID?.trim() ||
   process.env.ADMOB_AD_UNIT_ID?.trim() ||
-  DEFAULT_ADMOB_BANNER_AD_UNIT_ID;
+  "";
+
+export const ADMOB_ANDROID_BANNER_AD_UNIT_ID =
+  process.env.ADMOB_ANDROID_BANNER_AD_UNIT_ID?.trim() ||
+  legacyBannerAdUnitId ||
+  DEFAULT_ADMOB_ANDROID_BANNER_AD_UNIT_ID;
+
+export const ADMOB_IOS_BANNER_AD_UNIT_ID =
+  process.env.ADMOB_IOS_BANNER_AD_UNIT_ID?.trim() ||
+  legacyBannerAdUnitId ||
+  DEFAULT_ADMOB_IOS_BANNER_AD_UNIT_ID;
+
+/** Primary banner ID (Android); prefer `ADMOB_ANDROID_BANNER_AD_UNIT_ID` in native code. */
+export const ADMOB_BANNER_AD_UNIT_ID = ADMOB_ANDROID_BANNER_AD_UNIT_ID;
 
 /** Map this ID on third-party mediation platforms (AdMob → Implementation instructions). */
 export const ADMOB_MEDIATION_AD_UNIT_ID =
@@ -73,7 +94,8 @@ export function isAdmobConfigured(): boolean {
   return Boolean(
     ADMOB_APP_ID &&
       ADMOB_APP_ID.includes("~") &&
-      (ADMOB_BANNER_AD_UNIT_ID ||
+      (ADMOB_ANDROID_BANNER_AD_UNIT_ID ||
+        ADMOB_IOS_BANNER_AD_UNIT_ID ||
         ADMOB_MEDIATION_AD_UNIT_ID ||
         ADMOB_APP_OPEN_AD_UNIT_ID),
   );
@@ -87,7 +109,7 @@ export const ADMOB_NATIVE_SETUP = {
   ios: {
     infoPlistKey: "GADApplicationIdentifier",
     infoPlistValue: ADMOB_APP_ID,
-    bannerAdUnitId: ADMOB_BANNER_AD_UNIT_ID,
+    bannerAdUnitId: ADMOB_IOS_BANNER_AD_UNIT_ID,
     mediationAdUnitId: ADMOB_MEDIATION_AD_UNIT_ID,
     podfileLines: IOS_ADMOB_PODFILE_LINES,
     sdk: GOOGLE_MOBILE_ADS_SDK.ios,
@@ -95,7 +117,7 @@ export const ADMOB_NATIVE_SETUP = {
   android: {
     manifestMetaDataName: "com.google.android.gms.ads.APPLICATION_ID",
     manifestMetaDataValue: ADMOB_APP_ID,
-    bannerAdUnitId: ADMOB_BANNER_AD_UNIT_ID,
+    bannerAdUnitId: ADMOB_ANDROID_BANNER_AD_UNIT_ID,
     mediationAdUnitId: ADMOB_MEDIATION_AD_UNIT_ID,
     gradleDependencies: ANDROID_ADMOB_GRADLE_DEPENDENCIES,
     sdk: GOOGLE_MOBILE_ADS_SDK.android,

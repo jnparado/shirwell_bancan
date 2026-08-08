@@ -6,6 +6,7 @@ import { MarketingHeader } from "@/components/shirwell/marketing-header";
 import { BottomNav } from "@/components/shirwell/bottom-nav";
 import { ProfileContent } from "@/components/profile/profile-content";
 import type { ProfileRecord } from "@/lib/auth/profile";
+import { loginUrl } from "@/config/auth-routes";
 
 function profileShell(children: ReactNode) {
   return (
@@ -46,7 +47,7 @@ export default async function ProfilePage() {
         </p>
         <p className="mt-3 flex flex-wrap gap-4 text-sm">
           <Link
-            href={`/auth/login?redirect=${encodeURIComponent("/profile")}`}
+            href={loginUrl({ redirect: "/profile" })}
             className="text-[#FFC107] underline underline-offset-2"
           >
             Sign in

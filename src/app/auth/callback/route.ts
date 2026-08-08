@@ -1,12 +1,13 @@
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
+import { loginUrl } from "@/config/auth-routes";
 import { safeNextPath } from "@/lib/auth/safe-next-path";
 import { getSupabasePublicApiKey, getSupabaseUrl } from "@/lib/supabase/env";
 import { supabaseEdgeClientOptions } from "@/lib/supabase/edge-client-options";
 
 function loginWithError(origin: string, message: string): NextResponse {
-  const url = new URL("/auth/login", origin);
+  const url = new URL(loginUrl(), origin);
   url.searchParams.set("error", message);
   return NextResponse.redirect(url);
 }

@@ -6,6 +6,7 @@ import { getOrCreateStripeCustomerId } from "@/lib/stripe/customer";
 import { stripeProductLineItem } from "@/lib/stripe/product-checkout";
 import { getStripe } from "@/lib/stripe/server";
 import { absoluteUrl } from "@/lib/seo";
+import { loginUrl } from "@/config/auth-routes";
 
 type CartCheckoutBody = {
   items?: { slug: string; quantity: number }[];
@@ -35,7 +36,7 @@ export async function POST(request: Request) {
     return NextResponse.json(
       {
         error: "Sign in to checkout.",
-        signInUrl: `/auth/login?redirect=${encodeURIComponent("/products/cart")}`,
+        signInUrl: loginUrl({ redirect: "/products/cart" }),
       },
       { status: 401 },
     );

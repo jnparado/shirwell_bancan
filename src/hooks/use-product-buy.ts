@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
 import type { StoreProduct } from "@/lib/products";
+import { loginUrl as buildLoginUrl } from "@/config/auth-routes";
 
 type StripeConfig = {
   paymentsEnabled?: boolean;
@@ -23,7 +24,7 @@ export function useProductBuy({ product, returnPath }: UseProductBuyOptions) {
   const [publishableKey, setPublishableKey] = useState("");
 
   const productPath = returnPath ?? `/products/${product.slug}`;
-  const loginUrl = `/auth/login?redirect=${encodeURIComponent(productPath)}`;
+  const signInUrl = buildLoginUrl({ redirect: productPath });
 
   const closeModal = useCallback(() => {
     setModalOpen(false);
@@ -48,7 +49,7 @@ export function useProductBuy({ product, returnPath }: UseProductBuyOptions) {
         } | null;
 
         if (!session?.signedIn) {
-          router.push(loginUrl);
+          router.push(signInUrl);
           return;
         }
 
@@ -85,7 +86,7 @@ export function useProductBuy({ product, returnPath }: UseProductBuyOptions) {
 
         if (res.status === 401) {
           closeModal();
-          router.push(data?.signInUrl ?? loginUrl);
+          router.push(data?.signInUrl ?? signInUrl);
           return;
         }
 
@@ -112,7 +113,7 @@ export function useProductBuy({ product, returnPath }: UseProductBuyOptions) {
         setBusy(false);
       }
     },
-    [closeModal, loginUrl, product.availability, product.slug, router],
+    [closeModal, signInUrl, product.availability, product.slug, router],
   );
 
   return {

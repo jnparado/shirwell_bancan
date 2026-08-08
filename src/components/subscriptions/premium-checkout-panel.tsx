@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { loginUrl } from "@/config/auth-routes";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Check, CreditCard, Crown, Loader2 } from "lucide-react";
@@ -355,7 +356,7 @@ export function PremiumCheckoutPanel({
 
           {!status?.signedIn ? (
             <p className="text-center text-xs text-zinc-500">
-              <Link href="/auth/login?redirect=/premium" className="text-[#FFC107] hover:underline">
+              <Link href={loginUrl({ redirect: "/premium" })} className="text-[#FFC107] hover:underline">
                 Sign in
               </Link>{" "}
               before checkout — your subscription links to your Shirwell account.

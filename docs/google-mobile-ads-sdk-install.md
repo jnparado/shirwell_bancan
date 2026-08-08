@@ -7,7 +7,8 @@ Use the IDs from `src/lib/admob.ts` / `.env`:
 | Setting | Value |
 |--------|--------|
 | App ID | `ca-app-pub-2495432679632375~1624956947` |
-| Banner ad unit | `ca-app-pub-2495432679632375/5537125026` |
+| Android banner ad unit | `ca-app-pub-2495432679632375/1240791400` |
+| iOS banner ad unit | `ca-app-pub-2495432679632375/5537125026` (replace when you add iOS banner in AdMob) |
 | Mediation / deployment ad unit | `ca-app-pub-2495432679632375/4899465892` |
 
 **Latest SDK versions (Aug 2026)** — also defined in `src/lib/admob.ts` as `GOOGLE_MOBILE_ADS_SDK`:
@@ -51,7 +52,7 @@ import com.google.android.gms.ads.AdRequest
 // After UMP consent (see admob-ump-native.md):
 MobileAds.initialize(this) {}
 val adView = AdView(this)
-adView.adUnitId = "ca-app-pub-2495432679632375/5537125026"
+adView.adUnitId = "ca-app-pub-2495432679632375/1240791400"
 adView.loadAd(AdRequest.Builder().build())
 ```
 

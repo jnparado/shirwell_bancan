@@ -5,7 +5,8 @@ The **User Messaging Platform (UMP) SDK** runs in your **Shirwell Music native a
 IDs are in `src/lib/admob.ts` and `.env`:
 
 - `ADMOB_APP_ID=ca-app-pub-2495432679632375~1624956947`
-- `ADMOB_BANNER_AD_UNIT_ID=ca-app-pub-2495432679632375/5537125026`
+- `ADMOB_ANDROID_BANNER_AD_UNIT_ID=ca-app-pub-2495432679632375/1240791400`
+- `ADMOB_IOS_BANNER_AD_UNIT_ID=ca-app-pub-2495432679632375/5537125026` (when iOS unit exists)
 
 Create the GDPR / EEA message in **AdMob → Privacy & messaging → European regulations**, then wire the SDK below.
 
@@ -51,7 +52,7 @@ fun requestConsent(activity: Activity, onReady: () -> Unit) {
 }
 ```
 
-Call `requestConsent` on launch, then initialize Mobile Ads and show banners with unit `ca-app-pub-2495432679632375/5537125026`.
+Call `requestConsent` on launch, then initialize Mobile Ads and show banners with the platform unit (`1240791400` on Android).
 
 ## iOS (Swift)
 

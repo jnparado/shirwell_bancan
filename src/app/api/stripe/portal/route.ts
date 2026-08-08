@@ -5,6 +5,7 @@ import { createServiceRoleSupabaseClient } from "@/lib/supabase/server";
 import { getUserPremiumStatus } from "@/lib/auth/premium";
 import { getStripe } from "@/lib/stripe/server";
 import { absoluteUrl } from "@/lib/seo";
+import { loginUrl } from "@/config/auth-routes";
 
 export async function POST() {
   if (!isStripeServerConfigured()) {
@@ -27,7 +28,7 @@ export async function POST() {
 
   if (!user) {
     return NextResponse.json(
-      { error: "Sign in required.", signInUrl: "/auth/login?redirect=/premium" },
+      { error: "Sign in required.", signInUrl: loginUrl({ redirect: "/premium" }) },
       { status: 401 },
     );
   }

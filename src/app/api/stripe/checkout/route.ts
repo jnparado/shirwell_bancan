@@ -9,6 +9,7 @@ import { createServerSupabaseClient, createServiceRoleSupabaseClient } from "@/l
 import { getUserPremiumStatus } from "@/lib/auth/premium";
 import { getStripe } from "@/lib/stripe/server";
 import { absoluteUrl } from "@/lib/seo";
+import { loginUrl } from "@/config/auth-routes";
 
 type CheckoutBody = {
   planId?: string;
@@ -40,7 +41,7 @@ export async function POST(request: Request) {
 
   if (!user) {
     return NextResponse.json(
-      { error: "Sign in to subscribe.", signInUrl: "/auth/login?redirect=/premium" },
+      { error: "Sign in to subscribe.", signInUrl: loginUrl({ redirect: "/premium" }) },
       { status: 401 },
     );
   }

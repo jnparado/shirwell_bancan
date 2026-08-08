@@ -8,6 +8,7 @@ import type { StoreProduct } from "@/lib/products";
 import { formatProductPrice } from "@/lib/products";
 import { ProductPaymentModal } from "@/components/shirwell/product-payment-modal";
 import { useProductBuy } from "@/hooks/use-product-buy";
+import { loginUrl } from "@/config/auth-routes";
 
 type ProductBuyButtonProps = {
   product: StoreProduct;
@@ -21,8 +22,8 @@ export function ProductBuyButton({ product }: ProductBuyButtonProps) {
 
   const productPath = `/products/${product.slug}`;
   const outOfStock = product.availability === "OutOfStock";
-  const loginUrl = `/auth/login?redirect=${encodeURIComponent(productPath)}`;
-  const signUpUrl = `/auth/login?mode=signup&redirect=${encodeURIComponent(productPath)}`;
+  const signInHref = loginUrl({ redirect: productPath });
+  const signUpHref = loginUrl({ redirect: productPath, mode: "signup" });
 
   function handleAddToCart() {
     if (outOfStock) return;
@@ -64,11 +65,11 @@ export function ProductBuyButton({ product }: ProductBuyButtonProps) {
             View cart
           </Link>
           {" · "}
-          <Link href={loginUrl} className="text-[#FFC107] hover:underline">
+          <Link href={signInHref} className="text-[#FFC107] hover:underline">
             Log in
           </Link>{" "}
           or{" "}
-          <Link href={signUpUrl} className="text-[#FFC107] hover:underline">
+          <Link href={signUpHref} className="text-[#FFC107] hover:underline">
             sign up
           </Link>{" "}
           before checkout.

@@ -6,6 +6,7 @@ import { getOrCreateStripeCustomerId } from "@/lib/stripe/customer";
 import { stripeProductLineItem } from "@/lib/stripe/product-checkout";
 import { getStripe } from "@/lib/stripe/server";
 import { absoluteUrl } from "@/lib/seo";
+import { loginUrl } from "@/config/auth-routes";
 
 type BuyBody = {
   slug?: string;
@@ -43,8 +44,8 @@ export async function POST(request: Request) {
     return NextResponse.json(
       {
         error: "Sign in or create an account to buy.",
-        signInUrl: `/auth/login?redirect=${encodeURIComponent(productPath)}`,
-        signUpUrl: `/auth/login?mode=signup&redirect=${encodeURIComponent(productPath)}`,
+        signInUrl: loginUrl({ redirect: productPath }),
+        signUpUrl: loginUrl({ redirect: productPath, mode: "signup" }),
       },
       { status: 401 },
     );

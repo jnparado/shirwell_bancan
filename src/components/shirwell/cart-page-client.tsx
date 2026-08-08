@@ -7,6 +7,7 @@ import { Suspense, useEffect, useMemo, useState } from "react";
 import { Loader2, ShoppingBag, Trash2 } from "lucide-react";
 import { useCart } from "@/contexts/cart-context";
 import { STORE_PRODUCTS, formatProductPrice, getStoreProduct } from "@/lib/products";
+import { loginUrl } from "@/config/auth-routes";
 
 function CartPageContent() {
   const router = useRouter();
@@ -183,7 +184,7 @@ function CartPageContent() {
           ) : null}
 
           <p className="text-xs text-zinc-500">
-            <Link href="/auth/login?redirect=%2Fproducts%2Fcart" className="text-[#FFC107] hover:underline">
+            <Link href={loginUrl({ redirect: "/products/cart" })} className="text-[#FFC107] hover:underline">
               Log in
             </Link>{" "}
             or sign up before checkout. Card payment via Stripe.

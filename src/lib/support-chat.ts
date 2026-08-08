@@ -25,7 +25,7 @@ Help visitors with:
 - CDs, vinyl, and the Black Horse album on /cds and /products
 - Flowers and Nati Roses on /flowers
 - Newsletter on /newsletter
-- Account sign-in via the header Log In button and /auth/login
+- Account sign-in via the header Log In button and /login
 - Privacy policy on /privacy
 - About Shirwell Bancan on /about
 - General questions about Shirwell Bancan and the site
@@ -61,7 +61,7 @@ const FAQ: { match: RegExp; reply: string }[] = [
   {
     match: /sign in|log in|login|account|password|profile/i,
     reply:
-      `Use Log In in the site header or go to /auth/login. Your profile is at /profile after you sign in. If sign-in fails, try again in a private window or email ${SUPPORT_EMAIL}.`,
+      `Use Log In in the site header or go to /login. Your profile is at /profile after you sign in. If sign-in fails, try again in a private window or email ${SUPPORT_EMAIL}.`,
   },
   {
     match: /newsletter|updates|email list/i,
