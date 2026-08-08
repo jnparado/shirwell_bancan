@@ -3,6 +3,7 @@ export function hasBottomNav(pathname: string): boolean {
   if (pathname === "/music") return false;
   if (
     pathname === "/login" ||
+    pathname === "/signup" ||
     pathname === "/auth/login" ||
     pathname.startsWith("/auth/")
   )

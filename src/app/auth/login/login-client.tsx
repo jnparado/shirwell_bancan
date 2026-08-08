@@ -17,10 +17,15 @@ import {
 import { createBrowserSupabaseClient } from "@/lib/supabase/client";
 import { SUPABASE_AUTH_SETUP_MESSAGE } from "@/lib/supabase/env";
 import { safeNextPath } from "@/lib/auth/safe-next-path";
+import { loginUrl, signupUrl } from "@/config/auth-routes";
 
 type AuthMode = "login" | "signup";
 
-export function LoginClient() {
+type LoginClientProps = {
+  defaultMode?: AuthMode;
+};
+
+export function LoginClient({ defaultMode = "login" }: LoginClientProps) {
   const router = useRouter();
   const params = useSearchParams();
   const titleId = useId();
@@ -33,7 +38,7 @@ export function LoginClient() {
     [redirectRaw],
   );
 
-  const [mode, setMode] = useState<AuthMode>("login");
+  const [mode, setMode] = useState<AuthMode>(defaultMode);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [busy, setBusy] = useState(false);
@@ -51,8 +56,12 @@ export function LoginClient() {
   }, []);
 
   useEffect(() => {
-    if (modeParam === "signup") setMode("signup");
-  }, [modeParam]);
+    if (defaultMode === "signup" || modeParam === "signup") {
+      setMode("signup");
+    } else {
+      setMode("login");
+    }
+  }, [defaultMode, modeParam]);
 
   useEffect(() => {
     if (oauthError?.trim()) {
@@ -61,13 +70,15 @@ export function LoginClient() {
   }, [oauthError]);
 
   function switchAuthMode(nextMode: AuthMode) {
-    setMode(nextMode);
     setError(null);
     setInfo(null);
     setShowPassword(false);
     setShowConfirmPassword(false);
-    cardRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    const redirect =
+      redirectTarget && redirectTarget !== "/" ? redirectTarget : undefined;
+    router.push(
+      nextMode === "signup" ? signupUrl({ redirect }) : loginUrl({ redirect }),
+    );
   }
 
   const heading = mode === "signup" ? "Create your account" : "Sign in";

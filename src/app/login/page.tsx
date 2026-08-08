@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import { LoginClient } from "@/app/auth/login/login-client";
 
@@ -7,7 +8,19 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-export default function LoginPage() {
+type PageProps = {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+};
+
+export default async function LoginPage({ searchParams }: PageProps) {
+  const params = await searchParams;
+  if (params.mode === "signup") {
+    const query = new URLSearchParams();
+    if (typeof params.redirect === "string") query.set("redirect", params.redirect);
+    const qs = query.toString();
+    redirect(qs ? `/signup?${qs}` : "/signup");
+  }
+
   return (
     <Suspense
       fallback={
