@@ -8,6 +8,8 @@ import { Loader2, ShoppingBag, Trash2 } from "lucide-react";
 import { useCart } from "@/contexts/cart-context";
 import { STORE_PRODUCTS, formatProductPrice, getStoreProduct } from "@/lib/products";
 import { loginUrl } from "@/config/auth-routes";
+import { isStoreComingSoon } from "@/config/store";
+import { StoreComingSoonNotice } from "@/components/shirwell/store-coming-soon-notice";
 
 function CartPageContent() {
   const router = useRouter();
@@ -43,6 +45,10 @@ function CartPageContent() {
   }, [purchase, clearCart]);
 
   async function checkout() {
+    if (isStoreComingSoon()) {
+      setError("The shop is coming soon — checkout is not available yet.");
+      return;
+    }
     if (cartLines.length === 0) return;
     setBusy(true);
     setError(null);
@@ -82,6 +88,8 @@ function CartPageContent() {
 
   return (
     <div className="space-y-6">
+      <StoreComingSoonNotice variant="compact" />
+
       {purchase === "success" ? (
         <p className="rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-200">
           Order confirmed — thank you! Your cart has been cleared.
@@ -169,11 +177,11 @@ function CartPageContent() {
             <button
               type="button"
               onClick={() => void checkout()}
-              disabled={busy}
-              className="inline-flex items-center justify-center gap-2 rounded-full border border-[#FFC107]/35 bg-[#FFC107] px-6 py-3 text-sm font-semibold text-stone-950 hover:bg-[#e6ae06] disabled:opacity-60"
+              disabled={busy || isStoreComingSoon()}
+              className="inline-flex items-center justify-center gap-2 rounded-full border border-[#FFC107]/35 bg-[#FFC107] px-6 py-3 text-sm font-semibold text-stone-950 hover:bg-[#e6ae06] disabled:cursor-not-allowed disabled:opacity-60"
             >
               {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <ShoppingBag className="h-4 w-4" />}
-              Checkout
+              {isStoreComingSoon() ? "Coming soon" : "Checkout"}
             </button>
           </div>
 

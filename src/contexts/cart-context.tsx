@@ -17,6 +17,7 @@ import {
   writeCartToStorage,
   type CartItem,
 } from "@/lib/cart/storage";
+import { isStoreComingSoon } from "@/config/store";
 
 type CartContextValue = {
   items: CartItem[];
@@ -44,6 +45,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   }, [items, ready]);
 
   const addItem = useCallback((slug: string) => {
+    if (isStoreComingSoon()) return;
     setItems((current) => addToCartItems(current, slug));
   }, []);
 

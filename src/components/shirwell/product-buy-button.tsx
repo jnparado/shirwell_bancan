@@ -9,6 +9,11 @@ import { formatProductPrice } from "@/lib/products";
 import { ProductPaymentModal } from "@/components/shirwell/product-payment-modal";
 import { useProductBuy } from "@/hooks/use-product-buy";
 import { loginUrl } from "@/config/auth-routes";
+import {
+  STORE_COMING_SOON_LABEL,
+  STORE_PRICE_ESTIMATE_NOTE,
+  isStoreComingSoon,
+} from "@/config/store";
 
 type ProductBuyButtonProps = {
   product: StoreProduct;
@@ -22,14 +27,32 @@ export function ProductBuyButton({ product }: ProductBuyButtonProps) {
 
   const productPath = `/products/${product.slug}`;
   const outOfStock = product.availability === "OutOfStock";
+  const comingSoon = isStoreComingSoon();
   const signInHref = loginUrl({ redirect: productPath });
   const signUpHref = loginUrl({ redirect: productPath, mode: "signup" });
 
   function handleAddToCart() {
-    if (outOfStock) return;
+    if (outOfStock || comingSoon) return;
     addItem(product.slug);
     setAdded(true);
     setTimeout(() => setAdded(false), 2000);
+  }
+
+  if (comingSoon) {
+    return (
+      <div className="space-y-3 border-t border-white/[0.06] pt-5">
+        <div
+          className="rounded-lg border border-[#FFC107]/25 bg-[rgba(255,193,7,0.06)] px-4 py-4"
+          role="status"
+        >
+          <p className="font-semibold text-[#FFC107]">{STORE_COMING_SOON_LABEL}</p>
+          <p className="mt-2 text-sm leading-relaxed text-zinc-300">
+            You can preview this product now. Online ordering will open later.
+          </p>
+          <p className="mt-2 text-sm text-zinc-400">{STORE_PRICE_ESTIMATE_NOTE}</p>
+        </div>
+      </div>
+    );
   }
 
   return (

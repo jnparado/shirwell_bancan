@@ -5,7 +5,9 @@ import { BottomNav } from "@/components/shirwell/bottom-nav";
 import { ContentPageAdTop, ContentPageAds } from "@/components/ads/content-page-ads";
 import { JsonLdScript } from "@/components/seo/json-ld-script";
 import { ProductCard } from "@/components/shirwell/product-card";
+import { StoreComingSoonNotice } from "@/components/shirwell/store-coming-soon-notice";
 import { getProductsIndexJsonLd, STORE_PRODUCTS } from "@/lib/products";
+import { isStoreComingSoon } from "@/config/store";
 import { SITE_NAME } from "@/lib/seo";
 
 const glassCard =
@@ -36,17 +38,21 @@ export default function ProductsPage() {
               Products
             </h1>
             <p className="mt-2 max-w-2xl text-sm leading-relaxed text-zinc-400 sm:text-base">
-              Shop Shirwell Bancan — honey, sunglasses, chocolate, and more from the
-              official store.
+              Browse Shirwell Bancan products — photos and sample pricing while the shop
+              opens soon.
             </p>
           </div>
-          <Link
-            href="/products/cart"
-            className="rounded-full border border-[#FFC107]/30 bg-[#FFC107]/10 px-4 py-2 text-sm font-medium text-[#FFC107] transition hover:bg-[#FFC107]/20"
-          >
-            View cart →
-          </Link>
+          {!isStoreComingSoon() ? (
+            <Link
+              href="/products/cart"
+              className="rounded-full border border-[#FFC107]/30 bg-[#FFC107]/10 px-4 py-2 text-sm font-medium text-[#FFC107] transition hover:bg-[#FFC107]/20"
+            >
+              View cart →
+            </Link>
+          ) : null}
         </div>
+
+        <StoreComingSoonNotice className="mt-6" />
 
         <ContentPageAdTop className="mt-6 px-0 py-4" />
 

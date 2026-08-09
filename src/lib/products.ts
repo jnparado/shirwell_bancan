@@ -1,4 +1,5 @@
 import { absoluteUrl, SITE_NAME } from "@/lib/seo";
+import { isStoreComingSoon } from "@/config/store";
 import {
   BLACK_HORSE_ALBUM_SUBTITLE,
   BLACK_HORSE_ALBUM_TITLE,
@@ -109,10 +110,11 @@ export function getStoreProduct(slug: string): StoreProduct | undefined {
 }
 
 export function formatProductPrice(product: StoreProduct): string {
-  return new Intl.NumberFormat("en-AU", {
+  const formatted = new Intl.NumberFormat("en-AU", {
     style: "currency",
     currency: product.currency,
   }).format(product.price);
+  return isStoreComingSoon() ? `${formatted} est.` : formatted;
 }
 
 export function getProductDiscountPercent(product: StoreProduct): number | null {
@@ -149,7 +151,9 @@ export function getProductJsonLd(product: StoreProduct): Record<string, unknown>
       url,
       priceCurrency: product.currency,
       price: product.price.toFixed(2),
-      availability: `https://schema.org/${product.availability}`,
+      availability: isStoreComingSoon()
+        ? "https://schema.org/PreOrder"
+        : `https://schema.org/${product.availability}`,
       seller: {
         "@type": "Organization",
         name: SITE_NAME,

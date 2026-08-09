@@ -6,20 +6,13 @@ import { PlayerProvider } from "@/contexts/player-context";
 import { CartProvider } from "@/contexts/cart-context";
 import { SiteChrome } from "@/components/layout/site-chrome";
 import { JsonLdScript } from "@/components/seo/json-ld-script";
-import { AdSenseHeadScript } from "@/components/ads/adsense-head-script";
-import { GoogleUmpHead } from "@/components/consent/google-ump-head";
 import { AdSenseRouteFill } from "@/components/ads/adsense-route-fill";
 import { AdSenseScriptWatcher } from "@/components/ads/adsense-script-watcher";
 import { GoogleAdsPageViewConversion } from "@/components/analytics/google-ads-page-view-conversion";
-import { GoogleAdsTag } from "@/components/analytics/google-ads-tag";
-import { GoogleAnalyticsScripts } from "@/components/analytics/google-analytics";
 import { GoogleAnalyticsPageViews } from "@/components/analytics/google-analytics-page-views";
-import {
-  GoogleTagManagerHead,
-  GoogleTagManagerNoScript,
-} from "@/components/analytics/google-tag-manager";
+import { GoogleTagManagerNoScript } from "@/components/analytics/google-tag-manager";
+import { ThirdPartyScripts } from "@/components/third-party/third-party-scripts";
 import { LazyAiSupportChat } from "@/components/support/lazy-ai-support-chat";
-import { SwgHeadScript } from "@/components/subscriptions/swg-head-script";
 import { AppleMusicMiniPlayer } from "@/components/shirwell/apple-music-mini-player";
 import { SiteFooter } from "@/components/shirwell/site-footer";
 import {
@@ -60,15 +53,8 @@ export default async function RootLayout({
       lang="en-AU"
       className={`${geistSans.variable} ${playfair.variable} h-full antialiased`}
     >
-      <head>
-        <GoogleUmpHead />
-        <AdSenseHeadScript />
-      </head>
       <body className="min-h-full font-sans">
-        {(await SwgHeadScript()) ?? null}
-        <GoogleAdsTag />
-        <GoogleTagManagerHead />
-        <GoogleAnalyticsScripts />
+        <ThirdPartyScripts />
         <AdSenseScriptWatcher />
         <AdSenseRouteFill />
         <GoogleTagManagerNoScript />

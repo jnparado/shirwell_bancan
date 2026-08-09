@@ -6,6 +6,7 @@ import { MarketingHeader } from "@/components/shirwell/marketing-header";
 import { BottomNav } from "@/components/shirwell/bottom-nav";
 import { ProductBuyButton } from "@/components/shirwell/product-buy-button";
 import { ContentPageAds } from "@/components/ads/content-page-ads";
+import { isStoreComingSoon } from "@/config/store";
 import { JsonLdScript } from "@/components/seo/json-ld-script";
 import {
   STORE_PRODUCTS,
@@ -100,6 +101,11 @@ export default async function ProductDetailPage({
             <p className="text-2xl font-semibold text-zinc-100">
               {formatProductPrice(product)}
             </p>
+            {isStoreComingSoon() ? (
+              <p className="text-xs leading-relaxed text-zinc-500">
+                Estimated price — final amount depends on product quality.
+              </p>
+            ) : null}
             <p className="text-sm leading-relaxed text-zinc-300 sm:text-[15px]">
               {product.longDescription}
             </p>
@@ -111,11 +117,13 @@ export default async function ProductDetailPage({
               <div>
                 <dt className="font-medium text-zinc-500">Availability</dt>
                 <dd className="text-zinc-300">
-                  {product.availability === "InStock"
-                    ? "In stock"
-                    : product.availability === "PreOrder"
-                      ? "Pre-order"
-                      : "Out of stock"}
+                  {isStoreComingSoon()
+                    ? "Coming soon"
+                    : product.availability === "InStock"
+                      ? "In stock"
+                      : product.availability === "PreOrder"
+                        ? "Pre-order"
+                        : "Out of stock"}
                 </dd>
               </div>
             </dl>

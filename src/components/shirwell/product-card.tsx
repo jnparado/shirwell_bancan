@@ -7,6 +7,7 @@ import {
   getProductPagePath,
   isPortraitProduct,
 } from "@/lib/products";
+import { isStoreComingSoon } from "@/config/store";
 import { ProductCardActions } from "@/components/shirwell/product-card-actions";
 import { ProductRating } from "@/components/shirwell/product-rating";
 
@@ -18,7 +19,9 @@ export function ProductCard({ product }: ProductCardProps) {
   const href = getProductPagePath(product.slug);
   const discount = getProductDiscountPercent(product);
   const outOfStock = product.availability === "OutOfStock";
+  const comingSoon = isStoreComingSoon();
   const portrait = isPortraitProduct(product);
+  const purchaseBlocked = outOfStock || comingSoon;
 
   return (
     <article className="group flex h-full flex-col overflow-hidden rounded-lg bg-white/[0.04] transition hover:bg-white/[0.06] hover:shadow-[0_4px_24px_rgba(255,193,7,0.08)]">
@@ -43,7 +46,11 @@ export function ProductCard({ product }: ProductCardProps) {
                 -{discount}%
               </span>
             ) : null}
-            {outOfStock ? (
+            {comingSoon ? (
+              <span className="absolute right-1.5 top-1.5 rounded bg-[#FFC107] px-1.5 py-0.5 text-[10px] font-bold text-stone-950">
+                Coming soon
+              </span>
+            ) : outOfStock ? (
               <span className="absolute right-1.5 top-1.5 rounded bg-black/70 px-1.5 py-0.5 text-[10px] font-medium text-zinc-300">
                 Sold out
               </span>
@@ -52,7 +59,7 @@ export function ProductCard({ product }: ProductCardProps) {
         </Link>
 
         {/* Hover overlay — Buy / Add to cart (desktop) */}
-        {!outOfStock ? (
+        {!purchaseBlocked ? (
           <div className="pointer-events-none absolute inset-x-0 bottom-0 hidden bg-gradient-to-t from-black/90 via-black/60 to-transparent p-2 pt-8 opacity-0 transition-opacity duration-200 group-hover:pointer-events-auto group-hover:opacity-100 md:block">
             <ProductCardActions product={product} variant="overlay" />
           </div>
@@ -93,7 +100,7 @@ export function ProductCard({ product }: ProductCardProps) {
 
         {/* Touch-friendly actions on mobile / tablet */}
         <div className="mt-auto pt-1 md:hidden">
-          {!outOfStock ? (
+          {!purchaseBlocked ? (
             <ProductCardActions product={product} variant="compact" />
           ) : null}
         </div>

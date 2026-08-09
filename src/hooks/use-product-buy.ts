@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
 import type { StoreProduct } from "@/lib/products";
 import { loginUrl as buildLoginUrl } from "@/config/auth-routes";
+import { isStoreComingSoon } from "@/config/store";
 
 type StripeConfig = {
   paymentsEnabled?: boolean;
@@ -38,6 +39,10 @@ export function useProductBuy({ product, returnPath }: UseProductBuyOptions) {
       e?.stopPropagation();
 
       if (product.availability === "OutOfStock") return;
+      if (isStoreComingSoon()) {
+        setError("The shop is coming soon — purchasing is not available yet.");
+        return;
+      }
 
       setBusy(true);
       setError(null);

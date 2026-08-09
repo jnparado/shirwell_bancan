@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { isStripeServerConfigured } from "@/config/stripe";
+import { isStoreComingSoon } from "@/config/store";
 import { getStoreProduct } from "@/lib/products";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
 import { getOrCreateStripeCustomerId } from "@/lib/stripe/customer";
@@ -14,6 +15,13 @@ type CartCheckoutBody = {
 
 /** Checkout cart items — requires signed-in user. */
 export async function POST(request: Request) {
+  if (isStoreComingSoon()) {
+    return NextResponse.json(
+      { error: "The shop is coming soon — checkout is not available yet." },
+      { status: 503 },
+    );
+  }
+
   if (!isStripeServerConfigured()) {
     return NextResponse.json({ error: "Checkout is not available yet." }, { status: 503 });
   }

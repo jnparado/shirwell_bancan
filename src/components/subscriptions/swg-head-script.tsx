@@ -22,9 +22,13 @@ export async function SwgHeadScript() {
         src={SWG_BASIC_SCRIPT_URL}
         strategy="beforeInteractive"
       />
-      <Script id="swg-basic-init" strategy="beforeInteractive">
-        {buildSwgBasicInitScript({ theme: "light", lang: "en" })}
-      </Script>
+      <Script
+        id="swg-basic-init"
+        strategy="beforeInteractive"
+        dangerouslySetInnerHTML={{
+          __html: buildSwgBasicInitScript({ theme: "light", lang: "en" }),
+        }}
+      />
     </>
   );
 }

@@ -6,6 +6,7 @@ import { useCart } from "@/contexts/cart-context";
 import type { StoreProduct } from "@/lib/products";
 import { ProductPaymentModal } from "@/components/shirwell/product-payment-modal";
 import { useProductBuy } from "@/hooks/use-product-buy";
+import { isStoreComingSoon } from "@/config/store";
 
 type ProductCardActionsProps = {
   product: StoreProduct;
@@ -25,11 +26,13 @@ export function ProductCardActions({
     useProductBuy({ product, returnPath });
 
   const outOfStock = product.availability === "OutOfStock";
+  const comingSoon = isStoreComingSoon();
+  const purchaseBlocked = outOfStock || comingSoon;
 
   function handleAddToCart(e?: React.MouseEvent) {
     e?.preventDefault();
     e?.stopPropagation();
-    if (outOfStock) return;
+    if (purchaseBlocked) return;
     addItem(product.slug);
     setAdded(true);
     setTimeout(() => setAdded(false), 2000);
@@ -47,6 +50,12 @@ export function ProductCardActions({
     />
   );
 
+  if (comingSoon) {
+    return (
+      <p className="text-center text-[11px] font-medium text-zinc-400">Coming soon</p>
+    );
+  }
+
   if (variant === "overlay") {
     return (
       <>
@@ -54,7 +63,7 @@ export function ProductCardActions({
           <button
             type="button"
             onClick={(e) => void handleBuy(e)}
-            disabled={busy || outOfStock}
+            disabled={busy || purchaseBlocked}
             className="inline-flex flex-1 items-center justify-center gap-1 rounded-md bg-[#FFC107] px-2 py-1.5 text-[11px] font-semibold text-stone-950 transition hover:bg-[#e6ae06] disabled:opacity-50"
           >
             {busy ? (
@@ -67,7 +76,7 @@ export function ProductCardActions({
           <button
             type="button"
             onClick={handleAddToCart}
-            disabled={outOfStock}
+            disabled={purchaseBlocked}
             className="inline-flex flex-1 items-center justify-center gap-1 rounded-md border border-white/25 bg-black/40 px-2 py-1.5 text-[11px] font-semibold text-white transition hover:border-[#FFC107]/50 hover:text-[#FFC107] disabled:opacity-50"
           >
             <ShoppingCart className="h-3 w-3" />
@@ -86,7 +95,7 @@ export function ProductCardActions({
           <button
             type="button"
             onClick={(e) => void handleBuy(e)}
-            disabled={busy || outOfStock}
+            disabled={busy || purchaseBlocked}
             className="inline-flex flex-1 items-center justify-center gap-1 rounded-md bg-[#FFC107] px-2 py-1.5 text-[11px] font-semibold text-stone-950 disabled:opacity-50"
           >
             {busy ? <Loader2 className="h-3 w-3 animate-spin" /> : "Buy"}
@@ -94,7 +103,7 @@ export function ProductCardActions({
           <button
             type="button"
             onClick={handleAddToCart}
-            disabled={outOfStock}
+            disabled={purchaseBlocked}
             className="inline-flex flex-1 items-center justify-center gap-1 rounded-md border border-white/15 px-2 py-1.5 text-[11px] font-semibold text-zinc-200"
           >
             {added ? "Added!" : "Cart"}

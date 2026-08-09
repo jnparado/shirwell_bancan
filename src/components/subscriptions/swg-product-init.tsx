@@ -1,9 +1,6 @@
-import Script from "next/script";
 import { headers } from "next/headers";
-import {
-  buildSwgBasicInitScript,
-  isSwgEnabled,
-} from "@/config/swg";
+import { isSwgEnabled } from "@/config/swg";
+import { SwgProductInitClient } from "@/components/subscriptions/swg-product-init-client";
 
 type SwgProductInitProps = {
   productId: string;
@@ -11,10 +8,6 @@ type SwgProductInitProps = {
   lang?: string;
 };
 
-/**
- * Page-level SwG CMS sync for a specific product (e.g. premium paywall).
- * Assumes `swg-basic.js` is already loaded site-wide via `SwgHeadScript`.
- */
 export async function SwgProductInit({
   productId,
   theme = "light",
@@ -23,11 +16,7 @@ export async function SwgProductInit({
   const headerStore = await headers();
   if (!isSwgEnabled(headerStore.get("host")) || !productId.trim()) return null;
 
-  const safeId = productId.replace(/[^a-zA-Z0-9_-]/g, "-");
-
   return (
-    <Script id={`swg-product-${safeId}`} strategy="afterInteractive">
-      {buildSwgBasicInitScript({ productId, theme, lang })}
-    </Script>
+    <SwgProductInitClient productId={productId} theme={theme} lang={lang} />
   );
 }

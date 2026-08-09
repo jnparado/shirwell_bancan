@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { isStripeServerConfigured } from "@/config/stripe";
+import { isStoreComingSoon } from "@/config/store";
 import { getStoreProduct } from "@/lib/products";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
 import { getOrCreateStripeCustomerId } from "@/lib/stripe/customer";
@@ -16,6 +17,13 @@ type BuyBody = {
 
 /** One-time product purchase — requires signed-in user. */
 export async function POST(request: Request) {
+  if (isStoreComingSoon()) {
+    return NextResponse.json(
+      { error: "The shop is coming soon — purchasing is not available yet." },
+      { status: 503 },
+    );
+  }
+
   const supabase = await createServerSupabaseClient();
   if (!supabase) {
     return NextResponse.json({ error: "Sign-in is not configured." }, { status: 503 });
