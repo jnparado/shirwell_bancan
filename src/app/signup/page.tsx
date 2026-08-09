@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
-import { LoginClient } from "@/app/auth/login/login-client";
+import { SignupFormClient } from "@/app/signup/signup-form-client";
 
 export const metadata: Metadata = {
   title: "Sign up",
@@ -16,7 +16,7 @@ export default function SignupPage() {
         </div>
       }
     >
-      <LoginClient defaultMode="signup" />
+      <SignupFormClient />
     </Suspense>
   );
 }

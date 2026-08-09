@@ -4,8 +4,9 @@ import { useEffect, useId, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Eye, EyeOff, Lock, Mail, User, X } from "lucide-react";
+import { Eye, EyeOff, Lock, Mail, User } from "lucide-react";
 import type { SupabaseClient } from "@supabase/supabase-js";
+import { AuthCloseButton } from "@/components/auth/auth-close-button";
 import {
   AuthFieldShell,
   authCardClass,
@@ -111,14 +112,10 @@ export function LoginClient({ defaultMode = "login" }: LoginClientProps) {
         </Link>
 
         <div ref={cardRef} className={`relative ${authCardClass} px-6 py-8 sm:px-8 sm:py-10`}>
-          <button
-            type="button"
+          <AuthCloseButton
             onClick={closeAuth}
-            className="absolute right-3 top-3 z-10 inline-flex h-9 w-9 items-center justify-center rounded-full text-[#5f6368] transition hover:bg-[#f1f3f4] hover:text-[#202124]"
-            aria-label="Close"
-          >
-            <X className="h-5 w-5" />
-          </button>
+            label={mode === "signup" ? "Close sign up" : "Close sign in"}
+          />
           <div key={mode}>
             <div className="flex items-center justify-center gap-2.5">
               <span className="relative h-10 w-10 shrink-0 overflow-hidden rounded-full bg-[#f1f3f4] ring-1 ring-[#dadce0]">
