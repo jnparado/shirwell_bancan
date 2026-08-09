@@ -6,6 +6,7 @@ import { getSongs } from "@/lib/songs";
 import {
   createSocialMetadata,
   getHomePageJsonLd,
+  GOOGLE_SITE_VERIFICATION_TOKEN,
   HOME_DESCRIPTION,
   HOME_TITLE,
   DEFAULT_TITLE,
@@ -21,6 +22,9 @@ export const metadata: Metadata = {
   description: HOME_DESCRIPTION,
   keywords: [...PRIMARY_SEARCH_TERMS, "Shirwell songs", "Shirwell official"],
   alternates: { canonical: "/home" },
+  verification: {
+    google: GOOGLE_SITE_VERIFICATION_TOKEN,
+  },
   ...createSocialMetadata({
     title: DEFAULT_TITLE,
     description: HOME_DESCRIPTION,

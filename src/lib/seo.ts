@@ -6,6 +6,21 @@ export const SITE_NAME = "Shirwell Bancan";
 /** Short alternate brand form for keywords / alternateName. */
 export const SITE_NAME_SHORT = "Shirwell";
 
+/** Application name (Google OAuth consent screen — must match home page prominently). */
+export const APP_NAME = "Shirwell";
+
+/** Plain-language app purpose for home page / OAuth verification. */
+export const APP_PURPOSE_DESCRIPTION =
+  "Shirwell is the official web application for Shirwell Bancan. It lets you stream original music, create a free account to manage your profile and purchases, subscribe to Premium releases, read the newsletter, and browse the official store.";
+
+export const APP_PURPOSE_FEATURES = [
+  "Stream Shirwell Bancan songs and playlists in your browser",
+  "Sign in to save your session, profile, and checkout (email and password)",
+  "Subscribe to Premium for exclusive tracks and supporter benefits",
+  "Shop official merchandise and music products when available",
+  "Read news, contact support, and manage privacy and cookie settings",
+] as const;
+
 /** Top three Google Search targets — use in titles, H1s, and meta descriptions. */
 export const PRIMARY_SEARCH_TERMS = [
   "shirwell bancan",
@@ -38,7 +53,7 @@ export const MUSIC_PAGE_TITLE =
   "Shirwell Music — Stream Shirwell Bancan Songs Online";
 
 export const DEFAULT_DESCRIPTION =
-  "Shirwell Bancan — singer, songwriter, and producer. Official Shirwell music site with 45 years of original songs. Stream Shirwell Bancan online.";
+  "Shirwell is the official web app for Shirwell Bancan — stream music, sign in for your account, Premium subscriptions, and the official store. 45 years of original songs.";
 
 /** Home page meta description — brand first for Google snippets. */
 export const HOME_DESCRIPTION = DEFAULT_DESCRIPTION;
@@ -59,6 +74,11 @@ export const DEFAULT_OG_IMAGE_ALT =
 
 /** FAQ copy — reused in visible home content and FAQPage JSON-LD. */
 export const BRAND_FAQ = [
+  {
+    question: "What is the Shirwell app?",
+    answer:
+      "Shirwell is the official web application for Shirwell Bancan. It lets you stream music, sign in with an account, subscribe to Premium, read the newsletter, and browse the official store at shirwell-bancan.vercel.app.",
+  },
   {
     question: "Who is Shirwell Bancan?",
     answer:
@@ -235,9 +255,9 @@ export function createRootMetadata(): Metadata {
       template: `%s | ${SITE_NAME}`,
     },
     description: DEFAULT_DESCRIPTION,
-    applicationName: SITE_NAME,
+    applicationName: APP_NAME,
     appleWebApp: {
-      title: SITE_NAME,
+      title: APP_NAME,
     },
     keywords: [...SEO_KEYWORDS],
     authors: [{ name: SITE_NAME, url: base.href }],

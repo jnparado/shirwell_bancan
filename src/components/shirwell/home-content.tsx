@@ -11,7 +11,9 @@ import { HomePromo } from "./home-promo";
 import { BottomNav } from "./bottom-nav";
 import { AdSenseBoxUnit, AdSenseEnterprisesUnit, AdSenseLabel } from "@/components/ads/adsense-unit";
 import { ContentPageAdTop } from "@/components/ads/content-page-ads";
+import { AppPurposeSection } from "@/components/shirwell/app-purpose-section";
 import { BrandPhotoFrame } from "@/components/legal/brand-photo-frame";
+import { APP_NAME, SITE_NAME } from "@/lib/seo";
 
 
 
@@ -39,18 +41,22 @@ export function HomeContent({ songs, children }: HomeContentProps) {
         <section className="border-b border-white/[0.06] px-4 py-12 sm:px-6 sm:py-16">
           <div className="mx-auto max-w-6xl overflow-hidden rounded-3xl border border-[#FFC107]/15 bg-gradient-to-br from-[#1a1510] via-[#2a2218] to-[#14110e] p-[1px] shadow-[0_0_80px_rgba(255,193,7,0.08)]">
             <div className="rounded-[22px] bg-black/40 px-6 py-14 text-center backdrop-blur-md sm:px-12 sm:py-20">
-              <h1 className="mx-auto max-w-4xl font-serif text-3xl font-bold leading-[1.15] tracking-tight sm:text-4xl md:text-5xl">
-                <span className="block text-[#FFC107]">Shirwell Bancan</span>
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#FFC107]/90">
+                {APP_NAME}
+              </p>
+              <h1 className="mx-auto mt-3 max-w-4xl font-serif text-3xl font-bold leading-[1.15] tracking-tight sm:text-4xl md:text-5xl">
+                <span className="block text-[#FFC107]">{APP_NAME}</span>
                 <span className="mt-2 block text-2xl text-white sm:mt-3 sm:text-3xl md:text-4xl">
-                  Official Shirwell Music
+                  Official app for {SITE_NAME}
                 </span>
                 <span className="mt-3 block text-xl font-semibold text-zinc-300 sm:mt-4 sm:text-2xl">
-                  45 years of songwriting and talent
+                  Stream music · accounts · Premium · store
                 </span>
               </h1>
               <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-zinc-400 sm:text-lg">
-                Stream Shirwell music by Shirwell Bancan — the official home for Shirwell
-                songs. Explore featured tracks and the full player.
+                {APP_NAME} is the official website and web application for {SITE_NAME}.
+                Listen to original songs, sign in to manage your profile, and explore
+                Premium and products from one place.
               </p>
               <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
               <Link
@@ -60,15 +66,17 @@ export function HomeContent({ songs, children }: HomeContentProps) {
                 Stream Shirwell Music
               </Link>
               <a
-                href="#about-shirwell"
+                href="#app-purpose"
                 className="inline-flex rounded-full border border-[#FFC107]/40 px-8 py-3.5 text-base font-semibold text-[#FFC107] transition hover:border-[#FFC107]/60 hover:bg-[#FFC107]/10"
               >
-                About Shirwell Bancan
+                About the {APP_NAME} app
               </a>
               </div>
             </div>
           </div>
         </section>
+
+        <AppPurposeSection />
 
         <ContentPageAdTop />
 

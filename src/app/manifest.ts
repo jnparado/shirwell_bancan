@@ -1,16 +1,16 @@
 import type { MetadataRoute } from "next";
 import {
+  APP_NAME,
   DEFAULT_DESCRIPTION,
   HOME_PATH,
   SITE_FAVICON_PATH,
-  SITE_NAME,
   SITE_NAME_SHORT,
 } from "@/lib/seo";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: SITE_NAME,
-    short_name: SITE_NAME_SHORT,
+    name: `${APP_NAME} — ${SITE_NAME_SHORT} music`,
+    short_name: APP_NAME,
     description: DEFAULT_DESCRIPTION,
     start_url: HOME_PATH,
     display: "standalone",

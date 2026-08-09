@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { BRAND_FAQ, HOME_PATH, SITE_NAME } from "@/lib/seo";
+import { APP_NAME, BRAND_FAQ, HOME_PATH, SITE_NAME } from "@/lib/seo";
 
 const glassCard =
   "rounded-xl border border-white/[0.06] bg-[rgba(255,255,255,0.05)] backdrop-blur-md";
@@ -18,13 +18,14 @@ export function BrandSeoSection() {
             id="brand-seo-heading"
             className="font-serif text-2xl font-bold tracking-tight text-[#FFC107] sm:text-3xl"
           >
-            About {SITE_NAME}
+            About {APP_NAME} &amp; {SITE_NAME}
           </h2>
           <p className="mt-5 text-base leading-relaxed text-zinc-300 sm:text-lg">
-            {SITE_NAME} is an Australian singer-songwriter with more than 45 years of
-            original music. This site is the official place to stream his catalogue, read
-            news, browse physical releases like the <em>Black Horse</em> vinyl, and
-            connect with Shirwell Entertainment.
+            <strong className="font-semibold text-zinc-100">{APP_NAME}</strong> is the
+            official application for {SITE_NAME}, an Australian singer-songwriter with more
+            than 45 years of original music. This site is the official place to stream his
+            catalogue, read news, browse physical releases like the <em>Black Horse</em> vinyl,
+            and connect with Shirwell Entertainment.
           </p>
           <p className="mt-4 text-base leading-relaxed text-zinc-300 sm:text-lg">
             Press play on the{" "}

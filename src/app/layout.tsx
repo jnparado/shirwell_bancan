@@ -6,6 +6,7 @@ import { PlayerProvider } from "@/contexts/player-context";
 import { CartProvider } from "@/contexts/cart-context";
 import { SiteChrome } from "@/components/layout/site-chrome";
 import { JsonLdScript } from "@/components/seo/json-ld-script";
+import { GoogleSiteVerificationMeta } from "@/components/seo/google-site-verification-meta";
 import { AdSenseRouteFill } from "@/components/ads/adsense-route-fill";
 import { AdSenseScriptWatcher } from "@/components/ads/adsense-script-watcher";
 import { GoogleAdsPageViewConversion } from "@/components/analytics/google-ads-page-view-conversion";
@@ -53,6 +54,9 @@ export default async function RootLayout({
       lang="en-AU"
       className={`${geistSans.variable} ${playfair.variable} h-full antialiased`}
     >
+      <head>
+        <GoogleSiteVerificationMeta />
+      </head>
       <body className="min-h-full font-sans">
         <ThirdPartyScripts />
         <AdSenseScriptWatcher />
