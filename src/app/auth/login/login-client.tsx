@@ -4,9 +4,8 @@ import { useEffect, useId, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Eye, EyeOff, Lock, Mail, User } from "lucide-react";
+import { Eye, EyeOff, Lock, Mail, User, X } from "lucide-react";
 import type { SupabaseClient } from "@supabase/supabase-js";
-import { SocialAuthButtons, SocialAuthPrivacyNote } from "@/components/auth/social-auth-buttons";
 import {
   AuthFieldShell,
   authCardClass,
@@ -83,6 +82,14 @@ export function LoginClient({ defaultMode = "login" }: LoginClientProps) {
 
   const heading = mode === "signup" ? "Create your account" : "Sign in";
 
+  function closeAuth() {
+    if (typeof window !== "undefined" && window.history.length > 1) {
+      router.back();
+      return;
+    }
+    router.push("/home");
+  }
+
   return (
     <div className={`page-shell--compact relative min-h-[100dvh] px-4 py-8 sm:py-12 ${authPageBgClass}`}>
       <div className="relative mx-auto w-full max-w-md">
@@ -103,7 +110,15 @@ export function LoginClient({ defaultMode = "login" }: LoginClientProps) {
           <span className="text-base font-medium text-[#202124]">Shirwell Bancan</span>
         </Link>
 
-        <div ref={cardRef} className={`${authCardClass} px-6 py-8 sm:px-8 sm:py-10`}>
+        <div ref={cardRef} className={`relative ${authCardClass} px-6 py-8 sm:px-8 sm:py-10`}>
+          <button
+            type="button"
+            onClick={closeAuth}
+            className="absolute right-3 top-3 z-10 inline-flex h-9 w-9 items-center justify-center rounded-full text-[#5f6368] transition hover:bg-[#f1f3f4] hover:text-[#202124]"
+            aria-label="Close"
+          >
+            <X className="h-5 w-5" />
+          </button>
           <div key={mode}>
             <div className="flex items-center justify-center gap-2.5">
               <span className="relative h-10 w-10 shrink-0 overflow-hidden rounded-full bg-[#f1f3f4] ring-1 ring-[#dadce0]">
@@ -303,28 +318,31 @@ export function LoginClient({ defaultMode = "login" }: LoginClientProps) {
             ) : null}
           </form>
 
-            <div className="my-6 flex items-center gap-3 text-xs text-[#5f6368]">
-              <span className="h-px flex-1 bg-[#dadce0]" />
-              <span className="shrink-0 text-center">Or</span>
-              <span className="h-px flex-1 bg-[#dadce0]" />
-            </div>
-
-            <SocialAuthButtons
-              supabase={supabase}
-              nextAfterAuth={redirectTarget}
-              busy={busy}
-              setBusy={setBusy}
-              setError={setError}
-              onMissingSupabase={() => setError(SUPABASE_AUTH_SETUP_MESSAGE)}
-              mode={mode}
-              onSwitchMode={() =>
-                switchAuthMode(mode === "signup" ? "login" : "signup")
-              }
-            />
-
-            <div className="mt-4">
-              <SocialAuthPrivacyNote />
-            </div>
+            <p className="mt-6 text-center text-sm text-[#5f6368]">
+              {mode === "signup" ? (
+                <>
+                  Already have an account?{" "}
+                  <button
+                    type="button"
+                    onClick={() => switchAuthMode("login")}
+                    className="font-medium text-[#1a73e8] hover:underline"
+                  >
+                    Log in
+                  </button>
+                </>
+              ) : (
+                <>
+                  New here?{" "}
+                  <button
+                    type="button"
+                    onClick={() => switchAuthMode("signup")}
+                    className="font-medium text-[#1a73e8] hover:underline"
+                  >
+                    Sign up
+                  </button>
+                </>
+              )}
+            </p>
           </div>
         </div>
       </div>
