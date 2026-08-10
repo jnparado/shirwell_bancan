@@ -19,6 +19,7 @@ const RETRY_DELAYS_MS = [400, 1200, 3000, 6000, 12000];
 export function notifyAdSenseLoaded(): void {
   if (typeof window === "undefined") return;
   window.dispatchEvent(new Event(ADSENSE_LOADED_EVENT));
+  fillUnfilledAdSlots(document);
 }
 
 export function isAdSenseScriptReady(): boolean {

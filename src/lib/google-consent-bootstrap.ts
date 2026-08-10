@@ -27,7 +27,23 @@ export function getGoogleConsentBootstrapScript(): string {
   window.googlefc.callbackQueue.push({
     'CONSENT_DATA_READY': function(){ window.__shirwellMarkConsentReady(); }
   });
-  window.setTimeout(function(){ window.__shirwellMarkConsentReady(); }, 4000);
+  window.__shirwellFundingChoicesScriptScheduled = true;
+  window.setTimeout(function(){
+    if (window.__shirwellGoogleConsentReady) return;
+    var fcLoaded = window.__shirwellFundingChoicesLoaded === true;
+    var fcFailed = window.__shirwellFundingChoicesFailed === true;
+    if (!fcLoaded || fcFailed) {
+      try {
+        gtag('consent', 'update', {
+          'ad_storage': 'granted',
+          'ad_user_data': 'granted',
+          'ad_personalization': 'granted',
+          'analytics_storage': 'denied'
+        });
+      } catch (e) {}
+    }
+    window.__shirwellMarkConsentReady();
+  }, 4000);
 })();
 `.trim();
 }

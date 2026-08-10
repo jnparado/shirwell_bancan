@@ -1,7 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
-import { ADSENSE_CLIENT_ID, isAdsenseConfigured } from "@/config/ads";
+import { useEffect, useLayoutEffect } from "react";
 import {
   GA_MEASUREMENT_ID,
   isGoogleAnalyticsConfigured,
@@ -25,7 +24,13 @@ import {
   isSwgEnabled,
 } from "@/config/swg";
 import { getGoogleConsentBootstrapScript } from "@/lib/google-consent-bootstrap";
-import { notifyAdSenseLoaded } from "@/lib/adsense-runtime";
+
+declare global {
+  interface Window {
+    __shirwellFundingChoicesLoaded?: boolean;
+    __shirwellFundingChoicesFailed?: boolean;
+  }
+}
 
 function injectInlineScript(id: string, code: string) {
   if (document.getElementById(id)) return;
@@ -38,7 +43,11 @@ function injectInlineScript(id: string, code: string) {
 function injectExternalScript(
   id: string,
   src: string,
-  options?: { crossOrigin?: string; onLoad?: () => void },
+  options?: {
+    crossOrigin?: string;
+    onLoad?: () => void;
+    onError?: () => void;
+  },
 ) {
   if (document.getElementById(id)) {
     options?.onLoad?.();
@@ -50,33 +59,31 @@ function injectExternalScript(
   script.async = true;
   if (options?.crossOrigin) script.crossOrigin = options.crossOrigin;
   if (options?.onLoad) script.addEventListener("load", options.onLoad, { once: true });
+  if (options?.onError) script.addEventListener("error", options.onError, { once: true });
   document.head.appendChild(script);
 }
 
-/**
- * Loads Google consent, AdSense, GTM, GA, Ads, and SwG after mount only —
- * avoids Next.js `Script` SSR/client `dangerouslySetInnerHTML` hydration mismatches.
- */
-export function ThirdPartyScripts() {
+/** Consent bootstrap + Funding Choices — before AdSense (`AdSenseScriptTag`). */
+function useGoogleConsentScripts() {
+  useLayoutEffect(() => {
+    if (!isGoogleUmpWebEnabled()) return;
+
+    injectInlineScript("google-consent-bootstrap", getGoogleConsentBootstrapScript());
+    injectExternalScript("google-funding-choices", getFundingChoicesScriptUrl(), {
+      crossOrigin: "anonymous",
+      onLoad: () => {
+        window.__shirwellFundingChoicesLoaded = true;
+      },
+      onError: () => {
+        window.__shirwellFundingChoicesFailed = true;
+      },
+    });
+  }, []);
+}
+
+/** GTM, GA, Ads conversion, SwG — non-blocking. */
+function useSecondaryAnalyticsScripts() {
   useEffect(() => {
-    if (isGoogleUmpWebEnabled()) {
-      injectInlineScript("google-consent-bootstrap", getGoogleConsentBootstrapScript());
-      injectExternalScript("google-funding-choices", getFundingChoicesScriptUrl(), {
-        crossOrigin: "anonymous",
-      });
-    }
-
-    if (isAdsenseConfigured()) {
-      injectExternalScript(
-        "adsense-lib",
-        `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${encodeURIComponent(ADSENSE_CLIENT_ID)}`,
-        {
-          crossOrigin: "anonymous",
-          onLoad: () => notifyAdSenseLoaded(),
-        },
-      );
-    }
-
     if (isGtmConfigured()) {
       injectInlineScript(
         "gtm-init",
@@ -141,6 +148,10 @@ gtag('config', '${GOOGLE_ADS_CONVERSION_ID}');${conversionSnippet}
       });
     }
   }, []);
+}
 
+export function ThirdPartyScripts() {
+  useGoogleConsentScripts();
+  useSecondaryAnalyticsScripts();
   return null;
 }

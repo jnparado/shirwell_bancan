@@ -8,6 +8,7 @@ import { SiteChrome } from "@/components/layout/site-chrome";
 import { JsonLdScript } from "@/components/seo/json-ld-script";
 import { GoogleSiteVerificationMeta } from "@/components/seo/google-site-verification-meta";
 import { AdSenseRouteFill } from "@/components/ads/adsense-route-fill";
+import { AdSenseScriptTag } from "@/components/ads/adsense-script-tag";
 import { AdSenseScriptWatcher } from "@/components/ads/adsense-script-watcher";
 import { GoogleAdsPageViewConversion } from "@/components/analytics/google-ads-page-view-conversion";
 import { GoogleAnalyticsPageViews } from "@/components/analytics/google-analytics-page-views";
@@ -59,6 +60,7 @@ export default async function RootLayout({
       </head>
       <body className="min-h-full font-sans">
         <ThirdPartyScripts />
+        <AdSenseScriptTag />
         <AdSenseScriptWatcher />
         <AdSenseRouteFill />
         <GoogleTagManagerNoScript />
