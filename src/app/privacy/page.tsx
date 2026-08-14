@@ -3,6 +3,7 @@ import Link from "next/link";
 import { MarketingHeader } from "@/components/shirwell/marketing-header";
 import { BottomNav } from "@/components/shirwell/bottom-nav";
 import { PrivacyCookieSettingsControl } from "@/components/consent/privacy-cookie-settings-control";
+import { MOBILE_ADVERTISING_ID_DISCLOSURE, MOBILE_APP_STORE_NAME } from "@/config/mobile-app";
 import { SITE_NAME } from "@/lib/seo";
 
 const glassCard =
@@ -108,9 +109,10 @@ export default function PrivacyPage() {
               <PrivacyCookieSettingsControl className="text-[#FFC107] hover:underline" />.
             </p>
             <p>
-              The Shirwell Music app may use <strong className="text-zinc-200">Google AdMob</strong>{" "}
-              or other ad partners. Those partners may collect device and advertising
-              identifiers to deliver and measure ads. See{" "}
+              The {MOBILE_APP_STORE_NAME} app may use{" "}
+              <strong className="text-zinc-200">Google AdMob</strong> or other ad partners.
+              Those partners may collect device and advertising identifiers to deliver and
+              measure ads. See{" "}
               <a
                 href="https://policies.google.com/privacy"
                 target="_blank"
@@ -120,6 +122,10 @@ export default function PrivacyPage() {
                 Google’s Privacy Policy
               </a>{" "}
               for more on how Google handles data in ads products.
+            </p>
+            <p className="mt-3">
+              <strong className="text-zinc-200">Advertising ID / IDFA:</strong>{" "}
+              {MOBILE_ADVERTISING_ID_DISCLOSURE}
             </p>
 
             <h2 className="mt-10 font-serif text-lg font-semibold text-[#FFC107]">

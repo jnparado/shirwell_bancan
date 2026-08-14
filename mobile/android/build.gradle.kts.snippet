@@ -1,0 +1,17 @@
+// app/build.gradle.kts (dependencies block)
+// SDK versions from src/lib/admob.ts → GOOGLE_MOBILE_ADS_SDK
+
+dependencies {
+    implementation("com.google.android.gms:play-services-ads:25.4.0")
+    implementation("com.google.android.ump:user-messaging-platform:3.2.0")
+}
+
+// applicationId must match ANDROID_PACKAGE_NAME (default com.shirwell.music)
+android {
+    namespace = "com.shirwell.music"
+    defaultConfig {
+        applicationId = "com.shirwell.music"
+        minSdk = 24
+        targetSdk = 35
+    }
+}

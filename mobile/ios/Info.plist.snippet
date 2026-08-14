@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Merge into ios/Shirwell/Info.plist
+  Values from src/config/mobile-app.ts and src/lib/admob.ts
+-->
+<plist version="1.0">
+<dict>
+  <key>CFBundleDisplayName</key>
+  <string>Shirwell Music</string>
+  <key>CFBundleIdentifier</key>
+  <string>com.shirwell.music</string>
+
+  <!-- AdMob (GADApplicationIdentifier = ADMOB_APP_ID) -->
+  <key>GADApplicationIdentifier</key>
+  <string>ca-app-pub-2495432679632375~1624956947</string>
+
+  <!-- App Tracking Transparency — required for IDFA / personalized ads -->
+  <key>NSUserTrackingUsageDescription</key>
+  <string>Shirwell uses your device advertising identifier to show relevant ads and measure ad performance. You can change this anytime in Settings.</string>
+
+  <!-- OAuth custom URL scheme: shirwell://auth/callback -->
+  <key>CFBundleURLTypes</key>
+  <array>
+    <dict>
+      <key>CFBundleURLSchemes</key>
+      <array>
+        <string>shirwell</string>
+      </array>
+      <key>CFBundleURLName</key>
+      <string>com.shirwell.music.auth</string>
+    </dict>
+  </array>
+
+  <!-- Associated Domains capability (Xcode) — one entry per line in entitlements:
+       applinks:shirwell-bancan.vercel.app -->
+</dict>
+</plist>
