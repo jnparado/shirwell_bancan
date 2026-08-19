@@ -11,7 +11,7 @@ import {
   ADSENSE_SLOT_RECTANGLE,
   isAdSenseAllowedPath,
   isAdsenseConfigured,
-  isAdsenseTestMode,
+  getAdsenseTestAttribute,
 } from "@/config/ads";
 import {
   fillUnfilledAdSlots,
@@ -167,7 +167,7 @@ function AdSenseDisplayInner({
         }
         data-ad-client={ADSENSE_CLIENT_ID}
         data-ad-slot={slot}
-        {...(isAdsenseTestMode() ? { "data-adtest": "on" } : {})}
+        {...getAdsenseTestAttribute()}
         {...(isFixed
           ? {}
           : {

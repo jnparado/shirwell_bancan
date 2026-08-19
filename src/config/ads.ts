@@ -88,8 +88,14 @@ export function isAdsenseTestMode(): boolean {
   const testFlag = process.env.NEXT_PUBLIC_ADSENSE_TEST?.trim();
   if (testFlag === "true") return true;
   if (testFlag === "false") return false;
+  // Default: test ads on any build until explicitly approved (AdSense blocks live ads otherwise).
   if (!isAdsenseSiteApproved()) return true;
   return process.env.NODE_ENV === "development";
+}
+
+/** HTML attribute for `<ins class="adsbygoogle">` — visible in page source for debugging. */
+export function getAdsenseTestAttribute(): { "data-adtest"?: "on" } {
+  return isAdsenseTestMode() ? { "data-adtest": "on" as const } : {};
 }
 
 /**

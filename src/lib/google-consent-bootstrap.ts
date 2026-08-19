@@ -30,20 +30,16 @@ export function getGoogleConsentBootstrapScript(): string {
   window.__shirwellFundingChoicesScriptScheduled = true;
   window.setTimeout(function(){
     if (window.__shirwellGoogleConsentReady) return;
-    var fcLoaded = window.__shirwellFundingChoicesLoaded === true;
-    var fcFailed = window.__shirwellFundingChoicesFailed === true;
-    if (!fcLoaded || fcFailed) {
-      try {
-        gtag('consent', 'update', {
-          'ad_storage': 'granted',
-          'ad_user_data': 'granted',
-          'ad_personalization': 'granted',
-          'analytics_storage': 'denied'
-        });
-      } catch (e) {}
-    }
+    try {
+      gtag('consent', 'update', {
+        'ad_storage': 'granted',
+        'ad_user_data': 'granted',
+        'ad_personalization': 'granted',
+        'analytics_storage': 'denied'
+      });
+    } catch (e) {}
     window.__shirwellMarkConsentReady();
-  }, 4000);
+  }, 2000);
 })();
 `.trim();
 }

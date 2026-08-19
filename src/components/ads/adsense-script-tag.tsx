@@ -2,7 +2,7 @@
 
 import Script from "next/script";
 import { ADSENSE_CLIENT_ID, isAdsenseConfigured, isAdsenseUnitConfigured } from "@/config/ads";
-import { fillUnfilledAdSlots, notifyAdSenseLoaded } from "@/lib/adsense-runtime";
+import { notifyAdSenseLoaded } from "@/lib/adsense-runtime";
 
 /** AdSense display ads library — loads when publisher id + slot are configured. */
 export function AdSenseScriptTag() {
@@ -17,7 +17,6 @@ export function AdSenseScriptTag() {
       strategy="afterInteractive"
       onLoad={() => {
         notifyAdSenseLoaded();
-        fillUnfilledAdSlots(document);
       }}
       onError={() => {
         if (typeof window !== "undefined") {

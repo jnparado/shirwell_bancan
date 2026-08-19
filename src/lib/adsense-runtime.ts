@@ -2,6 +2,7 @@ import {
   GOOGLE_CONSENT_READY_EVENT,
   isGoogleUmpWebEnabled,
 } from "@/config/google-consent";
+import { isAdsenseTestMode } from "@/config/ads";
 import { isGoogleConsentReady, whenGoogleConsentReady } from "@/lib/google-consent-runtime";
 
 declare global {
@@ -13,13 +14,20 @@ declare global {
 
 export const ADSENSE_LOADED_EVENT = "shirwell:adsense-loaded";
 
-const RETRY_DELAYS_MS = [400, 1200, 3000, 6000, 12000];
+const RETRY_DELAYS_MS = [400, 1200, 3000, 6000, 12000, 20000];
+const SLOT_RETRY_MS = 2500;
+
+function canRequestAdsNow(): boolean {
+  if (!isGoogleUmpWebEnabled()) return true;
+  if (isGoogleConsentReady()) return true;
+  if (isAdsenseTestMode()) return true;
+  return false;
+}
 
 /** Fired when the AdSense library finishes loading. */
 export function notifyAdSenseLoaded(): void {
   if (typeof window === "undefined") return;
   window.dispatchEvent(new Event(ADSENSE_LOADED_EVENT));
-  fillUnfilledAdSlots(document);
 }
 
 export function isAdSenseScriptReady(): boolean {
@@ -37,23 +45,30 @@ export function pushAdSlot(): void {
 /** Push once for every `<ins.adsbygoogle>` that has not been filled yet. */
 export function fillUnfilledAdSlots(root: ParentNode = document): number {
   if (typeof window === "undefined" || !isAdSenseScriptReady()) return 0;
+  if (!canRequestAdsNow()) return 0;
 
   const slots = root.querySelectorAll<HTMLElement>(
     "ins.adsbygoogle:not([data-ad-status])",
   );
 
   let filled = 0;
+  const now = Date.now();
   slots.forEach((ins) => {
-    if (ins.dataset.adRequested === "1") return;
+    if (ins.dataset.adRequested === "1") {
+      const requestedAt = Number(ins.dataset.adRequestedAt || 0);
+      if (now - requestedAt < SLOT_RETRY_MS) return;
+      ins.dataset.adRequested = "0";
+    }
     pushAdSlot();
     ins.dataset.adRequested = "1";
+    ins.dataset.adRequestedAt = String(now);
     filled += 1;
   });
 
   return filled;
 }
 
-/** Schedule several fill attempts — helps slow networks and post-hydration routes. */
+/** Schedule several fill attempts — helps slow networks and post-consent routes. */
 export function scheduleAdFillRetries(
   fill: () => void,
   delaysMs: number[] = RETRY_DELAYS_MS,
@@ -76,7 +91,7 @@ export function whenAdSenseReady(fill: () => void): () => void {
   const tryFill = () => {
     if (cancelled) return;
     if (!isAdSenseScriptReady()) return;
-    if (isGoogleUmpWebEnabled() && !isGoogleConsentReady()) return;
+    if (!canRequestAdsNow()) return;
     fill();
   };
 
@@ -95,7 +110,7 @@ export function whenAdSenseReady(fill: () => void): () => void {
   const poll = window.setInterval(() => {
     attempts += 1;
     tryFill();
-    if (attempts >= 80) window.clearInterval(poll);
+    if (attempts >= 100) window.clearInterval(poll);
   }, 150);
 
   const observer = new MutationObserver(() => tryFill());
