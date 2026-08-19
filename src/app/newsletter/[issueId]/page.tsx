@@ -79,6 +79,11 @@ export default async function NewsletterIssuePage({ params }: Props) {
               <p className="mt-4 text-sm leading-relaxed text-zinc-300 sm:text-[15px]">
                 {issue.summary}
               </p>
+              <div className="mt-6 space-y-4 text-sm leading-relaxed text-zinc-300 sm:text-[15px]">
+                {issue.body.map((paragraph) => (
+                  <p key={paragraph.slice(0, 48)}>{paragraph}</p>
+                ))}
+              </div>
               <p className="mt-3 text-xs text-zinc-500">
                 By {SITE_NAME} · {BUSINESS_NAME} · Open access
               </p>

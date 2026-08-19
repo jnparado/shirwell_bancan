@@ -28,6 +28,18 @@ export const SEARCHABLE_PAGES: SiteSearchPage[] = [
     keywords: ["about", "biography", "story", "artist"],
   },
   {
+    href: "/discography",
+    title: "Discography",
+    description: "Track-by-track guide to Black Horse and the Shirwell catalogue.",
+    keywords: ["discography", "album", "tracks", "black horse", "songs"],
+  },
+  {
+    href: "/faq",
+    title: "FAQ",
+    description: "Frequently asked questions about Shirwell music and this site.",
+    keywords: ["faq", "questions", "help", "ads", "premium"],
+  },
+  {
     href: "/cds",
     title: "CD's & vinyl",
     description: "Black Horse and physical releases.",

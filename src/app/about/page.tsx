@@ -96,8 +96,40 @@ export default function AboutPage() {
           </section>
 
           <section className={`${glassCard} p-6 sm:p-8`}>
+            <h2 className="font-serif text-lg font-semibold text-[#FFC107]">Career timeline</h2>
+            <div className="mt-4 space-y-4 text-sm leading-relaxed text-zinc-300 sm:text-[15px]">
+              <p>
+                <strong className="text-zinc-200">1970s–1980s:</strong> Early rock and ballad
+                writing, club dates, and the first studio demos that would later surface on
+                releases such as Come on Babe and Baby Gonna Rock.
+              </p>
+              <p>
+                <strong className="text-zinc-200">1990s–2000s:</strong> Stage-focused years —
+                larger venues, expanded backing bands, and songs like Black Horse that tied
+                visual showmanship to the music.
+              </p>
+              <p>
+                <strong className="text-zinc-200">2010s–present:</strong> Digital masters,
+                the Lily the Dancing Machine rock and club mixes, and the Black Horse anthology
+                documenting 45 years of originals. The official player on this site streams
+                approved masters; the{" "}
+                <Link href="/discography" className="text-[#FFC107] underline-offset-2 hover:underline">
+                  Discography
+                </Link>{" "}
+                page explains each track.
+              </p>
+            </div>
+          </section>
+
+          <section className={`${glassCard} p-6 sm:p-8`}>
             <h2 className="font-serif text-lg font-semibold text-[#FFC107]">What you will find here</h2>
             <ul className="mt-4 list-disc space-y-2 pl-5 text-sm leading-relaxed text-zinc-300 sm:text-[15px]">
+              <li>
+                <Link href="/discography" className="text-[#FFC107] underline-offset-2 hover:underline">
+                  Discography
+                </Link>{" "}
+                — track-by-track notes for the Black Horse album and streaming catalogue.
+              </li>
               <li>
                 <Link href="/music" className="text-[#FFC107] underline-offset-2 hover:underline">
                   Stream music

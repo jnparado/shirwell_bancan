@@ -163,6 +163,14 @@ export function SiteFooter() {
                 </li>
                 <li>
                   <Link
+                    href="/discography"
+                    className={`${glassCard} block rounded-lg px-3 py-2 text-zinc-300 transition hover:border-[#FFC107]/30 hover:text-[#FFC107]`}
+                  >
+                    Discography
+                  </Link>
+                </li>
+                <li>
+                  <Link
                     href="/about"
                     className={`${glassCard} block rounded-lg px-3 py-2 text-zinc-300 transition hover:border-[#FFC107]/30 hover:text-[#FFC107]`}
                   >
@@ -197,6 +205,14 @@ export function SiteFooter() {
                 Support
               </h3>
               <ul className="mt-4 space-y-2 text-sm">
+                <li>
+                  <Link
+                    href="/faq"
+                    className={`${glassCard} block rounded-lg px-3 py-2 text-zinc-300 transition hover:border-[#FFC107]/30 hover:text-[#FFC107]`}
+                  >
+                    FAQ
+                  </Link>
+                </li>
                 <li>
                   <Link
                     href="/support"

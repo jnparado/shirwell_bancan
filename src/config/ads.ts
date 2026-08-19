@@ -58,9 +58,16 @@ export function isAdsenseUnitConfigured(): boolean {
   );
 }
 
-/** Test ads in dev, or when NEXT_PUBLIC_ADSENSE_TEST=true (use before site approval). */
+/** Test ads in dev, when NEXT_PUBLIC_ADSENSE_TEST=true, or until the site is approved in AdSense. */
+export function isAdsenseSiteApproved(): boolean {
+  return process.env.NEXT_PUBLIC_ADSENSE_APPROVED?.trim() === "true";
+}
+
 export function isAdsenseTestMode(): boolean {
-  if (process.env.NEXT_PUBLIC_ADSENSE_TEST?.trim() === "true") return true;
+  const testFlag = process.env.NEXT_PUBLIC_ADSENSE_TEST?.trim();
+  if (testFlag === "true") return true;
+  if (testFlag === "false") return false;
+  if (!isAdsenseSiteApproved()) return true;
   return process.env.NODE_ENV === "development";
 }
 
@@ -74,6 +81,8 @@ const ADSENSE_ALLOWED_EXACT = new Set([
   "/home",
   "/music",
   "/about",
+  "/discography",
+  "/faq",
   "/music-owner",
   "/products",
   "/cds",

@@ -123,6 +123,8 @@ export const SITEMAP_PUBLIC_PATHS = [
   { path: "/home", changeFrequency: "weekly" as const, priority: 1 },
   { path: "/music", changeFrequency: "weekly" as const, priority: 0.9 },
   { path: "/about", changeFrequency: "yearly" as const, priority: 0.5 },
+  { path: "/discography", changeFrequency: "monthly" as const, priority: 0.55 },
+  { path: "/faq", changeFrequency: "yearly" as const, priority: 0.45 },
   { path: "/music-owner", changeFrequency: "yearly" as const, priority: 0.4 },
   { path: "/cds", changeFrequency: "monthly" as const, priority: 0.5 },
   { path: "/products", changeFrequency: "monthly" as const, priority: 0.5 },
