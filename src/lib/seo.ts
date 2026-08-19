@@ -53,13 +53,13 @@ export const MUSIC_PAGE_TITLE =
   "Shirwell Music — Stream Shirwell Bancan Songs Online";
 
 export const DEFAULT_DESCRIPTION =
-  "Shirwell is the official web app for Shirwell Bancan — stream music, sign in for your account, Premium subscriptions, and the official store. 45 years of original songs.";
+  "Official Shirwell Bancan website — stream 45 years of original music, read newsletters and discography notes, browse CDs and vinyl, and shop Shirwell Entertainment products.";
 
 /** Home page meta description — brand first for Google snippets. */
 export const HOME_DESCRIPTION = DEFAULT_DESCRIPTION;
 
 export const MUSIC_PAGE_DESCRIPTION =
-  "Shirwell music — stream Shirwell Bancan songs online. Listen to the full Shirwell catalogue with the official Shirwell music player.";
+  "Stream the full Shirwell Bancan catalogue — original songs, discography notes, and the official music player. Rock, ballads, and Black Horse anthology tracks.";
 
 /** Logo / favicon — Shirwell Bancan poster (Google search icon + JSON-LD). */
 export const SITE_LOGO_PATH = "/about/shirwell-bancan-poster.png";
@@ -77,27 +77,32 @@ export const BRAND_FAQ = [
   {
     question: "What is the Shirwell app?",
     answer:
-      "Shirwell is the official web application for Shirwell Bancan. It lets you stream music, sign in with an account, subscribe to Premium, read the newsletter, and browse the official store at shirwell-bancan.vercel.app.",
+      "Shirwell is the official web application for Shirwell Bancan — an independent Australian singer-songwriter with more than 45 years of original music. The app lets you stream songs in your browser, create a free account for your profile, subscribe to Premium for extra releases, read full newsletter articles, and browse the official store. It is published by Shirwell Entertainment, not a third-party streaming platform.",
   },
   {
     question: "Who is Shirwell Bancan?",
     answer:
-      "Shirwell Bancan is a singer, songwriter, and producer with more than 45 years of original music. This website is the official home for Shirwell Bancan — stream songs, explore releases, and learn about Shirwell music.",
+      "Shirwell Bancan is a singer, songwriter, and producer based in Australia. He writes and owns every song streamed on this site. His catalogue includes rock, ballads, and dance mixes — from early demos such as Come on Babe to recent singles like Kissing and Never Be The Same. The About and Discography pages provide biography and track-by-track notes.",
   },
   {
     question: "What is Shirwell music?",
     answer:
-      "Shirwell music is the original song catalogue written and performed by Shirwell Bancan. Listen on the Shirwell music player at /music, browse featured tracks on the home page, or stream the full catalogue online.",
+      "Shirwell music is the original song catalogue written and performed by Shirwell Bancan. It is not a playlist of other artists' work. Listen on the Music player, browse the Black Horse anthology on the CD's page, or read the Discography for release context. Physical vinyl and CD runs are limited; streaming masters stay available here as they are approved.",
   },
   {
     question: "Where can I listen to Shirwell Bancan songs online?",
     answer:
-      "Stream Shirwell Bancan songs free on the official Shirwell music player at /music. Featured Shirwell tracks are also on the home page — press play on any song card.",
+      "Stream free on the official Music player at /music. Featured tracks also appear on the home page. Each song includes artwork and queue controls. Premium members may receive early access to selected masters. For ownership and copyright information, see the Music Owner page.",
   },
   {
     question: "Is this the official Shirwell website?",
     answer:
-      "Yes. This is the official Shirwell Bancan website for Shirwell music — original songs, news, CDs, and the full streaming player.",
+      "Yes. This is the official Shirwell Bancan website operated by Shirwell Entertainment — original songs, newsletter articles, product photos, CD artwork, and account tools. Contact shirwellentertainment@gmail.com for bookings, orders, or licensing questions.",
+  },
+  {
+    question: "Does Shirwell sell flowers and products too?",
+    answer:
+      "Yes. Shirwell Entertainment also lists flowers through a long-standing Nati Roses partnership, plus lifestyle products such as honey and vinyl when inventory is available. The Flowers and Products pages explain each offering; the newsletter covers how touring and local businesses connect.",
   },
 ] as const;
 

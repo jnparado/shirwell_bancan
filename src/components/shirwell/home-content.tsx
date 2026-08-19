@@ -135,7 +135,6 @@ export function HomeContent({ songs, children }: HomeContentProps) {
           <AdSenseEnterprisesUnit
             instanceId="home-mid"
             className="rounded-xl border border-white/[0.06] bg-black/20 p-2"
-            format="horizontal"
           />
         </div>
 
@@ -190,7 +189,6 @@ export function HomeContent({ songs, children }: HomeContentProps) {
           <AdSenseEnterprisesUnit
             instanceId="home-bottom-enterprises"
             className="rounded-xl border border-white/[0.06] bg-black/20 p-2"
-            format="horizontal"
           />
           <div className="mt-3">
             <AdSenseBoxUnit instanceId="home-bottom-box" />

@@ -5,6 +5,7 @@ import { MarketingHeader } from "@/components/shirwell/marketing-header";
 import { BottomNav } from "@/components/shirwell/bottom-nav";
 import { ContentPageAds } from "@/components/ads/content-page-ads";
 import { JsonLdScript } from "@/components/seo/json-ld-script";
+import { ARTIST_STORY, RECORDING_PHILOSOPHY } from "@/lib/editorial-content";
 import { BUSINESS_LOCATION, SUPPORT_EMAIL } from "@/config/contact";
 import { absoluteUrl, getBrandFaqJsonLd, HOME_PATH, SITE_NAME } from "@/lib/seo";
 
@@ -92,6 +93,28 @@ export default function AboutPage() {
                 limited-edition vinyl — a collection of standout songs from decades on the road —{" "}
                 alongside singles and albums streamed here on the official Shirwell music player.
               </p>
+            </div>
+          </section>
+
+          <section className={`${glassCard} p-6 sm:p-8`}>
+            <h2 className="font-serif text-lg font-semibold text-[#FFC107]">
+              {ARTIST_STORY.title}
+            </h2>
+            <div className="mt-4 space-y-4 text-sm leading-relaxed text-zinc-300 sm:text-[15px]">
+              {ARTIST_STORY.paragraphs.map((p) => (
+                <p key={p.slice(0, 48)}>{p}</p>
+              ))}
+            </div>
+          </section>
+
+          <section className={`${glassCard} p-6 sm:p-8`}>
+            <h2 className="font-serif text-lg font-semibold text-[#FFC107]">
+              {RECORDING_PHILOSOPHY.title}
+            </h2>
+            <div className="mt-4 space-y-4 text-sm leading-relaxed text-zinc-300 sm:text-[15px]">
+              {RECORDING_PHILOSOPHY.paragraphs.map((p) => (
+                <p key={p.slice(0, 48)}>{p}</p>
+              ))}
             </div>
           </section>
 

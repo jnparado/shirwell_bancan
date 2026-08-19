@@ -3,6 +3,7 @@ import Link from "next/link";
 import { MarketingHeader } from "./marketing-header";
 import { BottomNav } from "./bottom-nav";
 import { AdSenseBoxUnit, AdSenseEnterprisesUnit } from "@/components/ads/adsense-unit";
+import { FLOWERS_EDITORIAL } from "@/lib/editorial-content";
 
 const cardClass =
   "overflow-hidden rounded-xl border border-white/[0.1] bg-[rgba(255,255,255,0.05)] shadow-[0_0_40px_rgba(0,0,0,0.35)] backdrop-blur-md";
@@ -16,9 +17,24 @@ export function FlowershopContent() {
       <MarketingHeader />
 
       <main className="relative mx-auto w-full max-w-lg flex-1 px-4 py-8">
-        <h1 className="mb-8 text-center font-serif text-3xl font-bold tracking-tight text-[#FFC107] sm:text-4xl md:text-5xl">
+        <h1 className="mb-4 text-center font-serif text-3xl font-bold tracking-tight text-[#FFC107] sm:text-4xl md:text-5xl">
           Flowers
         </h1>
+        <p className="mx-auto mb-8 max-w-lg text-center text-sm leading-relaxed text-zinc-400 sm:text-base">
+          Nati Roses and Shirwell Bancan — weddings, memorials, and pop-up rose bunches
+          across Sydney. Original editorial content from Shirwell Entertainment.
+        </p>
+
+        <article className={`${cardClass} mb-8 p-6 sm:p-8`}>
+          <h2 className="font-serif text-xl font-semibold text-[#FFC107]">
+            {FLOWERS_EDITORIAL.title}
+          </h2>
+          <div className="mt-4 space-y-4 text-sm leading-relaxed text-zinc-300 sm:text-[15px]">
+            {FLOWERS_EDITORIAL.paragraphs.map((p) => (
+              <p key={p.slice(0, 48)}>{p}</p>
+            ))}
+          </div>
+        </article>
 
         <article className={cardClass}>
           <div className="relative aspect-[4/5] w-full bg-black/50">
@@ -84,6 +100,19 @@ export function FlowershopContent() {
             </div>
           </div>
         </article>
+
+        <div className={`${cardClass} mt-8 space-y-6 p-6 sm:p-8`}>
+          {FLOWERS_EDITORIAL.sections.map((section) => (
+            <section key={section.heading}>
+              <h2 className="font-serif text-lg font-semibold text-[#FFC107]">
+                {section.heading}
+              </h2>
+              <p className="mt-3 text-sm leading-relaxed text-zinc-300 sm:text-[15px]">
+                {section.text}
+              </p>
+            </section>
+          ))}
+        </div>
 
         <div className="mt-8">
           <p className="mb-2 text-center text-[10px] font-medium uppercase tracking-wider text-[#FFC107]/50">

@@ -6,6 +6,7 @@ import { ContentPageAdTop, ContentPageAds } from "@/components/ads/content-page-
 import { JsonLdScript } from "@/components/seo/json-ld-script";
 import { ProductCard } from "@/components/shirwell/product-card";
 import { StoreComingSoonNotice } from "@/components/shirwell/store-coming-soon-notice";
+import { STORE_EDITORIAL } from "@/lib/editorial-content";
 import { getProductsIndexJsonLd, STORE_PRODUCTS } from "@/lib/products";
 import { isStoreComingSoon } from "@/config/store";
 import { SITE_NAME } from "@/lib/seo";
@@ -54,6 +55,17 @@ export default function ProductsPage() {
 
         <StoreComingSoonNotice className="mt-6" />
 
+        <article className={`${glassCard} mt-8 p-6 sm:p-8`}>
+          <h2 className="font-serif text-xl font-semibold text-[#FFC107]">
+            {STORE_EDITORIAL.title}
+          </h2>
+          <div className="mt-4 space-y-4 text-sm leading-relaxed text-zinc-300 sm:text-[15px]">
+            {STORE_EDITORIAL.paragraphs.map((p) => (
+              <p key={p.slice(0, 48)}>{p}</p>
+            ))}
+          </div>
+        </article>
+
         <ContentPageAdTop className="mt-6 px-0 py-4" />
 
         <section className="mt-8">
@@ -65,6 +77,27 @@ export default function ProductsPage() {
               <ProductCard key={product.slug} product={product} />
             ))}
           </div>
+        </section>
+
+        <section className="mt-10 space-y-6">
+          <h2 className="text-base font-semibold text-zinc-100 sm:text-lg">
+            Product stories
+          </h2>
+          {STORE_PRODUCTS.map((product) => (
+            <article key={product.slug} className={`${glassCard} p-6 sm:p-8`}>
+              <h3 className="font-serif text-lg font-semibold text-[#FFC107]">
+                <Link
+                  href={`/products/${product.slug}`}
+                  className="hover:underline"
+                >
+                  {product.shortName}
+                </Link>
+              </h3>
+              <p className="mt-3 text-sm leading-relaxed text-zinc-300 sm:text-[15px]">
+                {product.longDescription}
+              </p>
+            </article>
+          ))}
         </section>
 
         <section className={`${glassCard} mt-8 p-6 sm:p-8`}>

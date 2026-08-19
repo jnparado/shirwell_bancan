@@ -1,64 +1,85 @@
 /**
- * Google AdSense (this Next.js site — web, including mobile browsers)
+ * Google AdSense display ad slots (web).
  *
- * Env:
- *   NEXT_PUBLIC_ADSENSE_CLIENT_ID=ca-pub-XXXXXXXXXXXXXXXX
- *   NEXT_PUBLIC_ADSENSE_SLOT_ENTERPRISES=1200415498   (Enterprises display unit)
- *   NEXT_PUBLIC_ADSENSE_SLOT_BOX=1844130903   (360×300 display unit)
- *   NEXT_PUBLIC_ADSENSE_SLOT_BANNER=1234567890   (optional override)
+ * Create units in AdSense → Ads → By ad unit → **Display ads**.
+ * Env (all optional — defaults use your live unit 4465041934):
  *
- * Create units in AdSense → Ads → By ad unit → Display. Approve your site first.
+ *   NEXT_PUBLIC_ADSENSE_CLIENT_ID=ca-pub-2495432679632375
+ *   NEXT_PUBLIC_ADSENSE_SLOT_DISPLAY=4465041934      # responsive display
+ *   NEXT_PUBLIC_ADSENSE_SLOT_RECTANGLE=4465041934    # 300×250 rectangle
+ *   NEXT_PUBLIC_ADSENSE_SLOT_HORIZONTAL=4465041934   # horizontal banner
  *
- * ---
- * Google AdMob is for native iOS/Android apps (or WebView shells with the Mobile Ads SDK).
- * It does not run inside a normal Next.js page. Options:
- *   • Use AdSense here for all web traffic (including phone browsers).
- *   • If you wrap this site in Capacitor/React Native, add @capacitor-community/admob
- *     or the native AdMob SDK there — separate from this codebase.
+ * Legacy env names (still supported): ADSENSE_SLOT_BANNER, _ENTERPRISES, _BOX
  */
 
 /** Shirwell Bancan publisher id — public in the AdSense snippet. */
 export const DEFAULT_ADSENSE_CLIENT_ID = "ca-pub-2495432679632375";
 
+/** Default display ad unit from AdSense console. */
+export const DEFAULT_ADSENSE_DISPLAY_SLOT = "4465041934";
+
 export const ADSENSE_CLIENT_ID =
   process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID?.trim() || DEFAULT_ADSENSE_CLIENT_ID;
 
-/** Primary display slot from env — other units fall back to this when unset. */
-export const ADSENSE_SLOT_BANNER =
-  process.env.NEXT_PUBLIC_ADSENSE_SLOT_BANNER?.trim() || "";
+const legacyBanner =
+  process.env.NEXT_PUBLIC_ADSENSE_SLOT_BANNER?.trim() ||
+  process.env.NEXT_PUBLIC_ADSENSE_SLOT_BANNER_AD?.trim() ||
+  "";
 
-/** Display unit — full-width responsive (Enterprises-style). */
-export const ADSENSE_SLOT_ENTERPRISES =
-  process.env.NEXT_PUBLIC_ADSENSE_SLOT_ENTERPRISES?.trim() ||
-  ADSENSE_SLOT_BANNER ||
-  "1200415498";
+/** Full-width responsive display ad. */
+export const ADSENSE_SLOT_DISPLAY =
+  process.env.NEXT_PUBLIC_ADSENSE_SLOT_DISPLAY?.trim() ||
+  legacyBanner ||
+  DEFAULT_ADSENSE_DISPLAY_SLOT;
 
-/** Fixed 360×300 display unit. */
-export const ADSENSE_SLOT_BOX =
+/** 300×250 medium rectangle display ad. */
+export const ADSENSE_SLOT_RECTANGLE =
+  process.env.NEXT_PUBLIC_ADSENSE_SLOT_RECTANGLE?.trim() ||
   process.env.NEXT_PUBLIC_ADSENSE_SLOT_BOX?.trim() ||
   process.env.NEXT_PUBLIC_ADSENSE_SLOT_BOX_AD?.trim() ||
-  ADSENSE_SLOT_BANNER ||
-  "1844130903";
+  legacyBanner ||
+  DEFAULT_ADSENSE_DISPLAY_SLOT;
 
-export const ADSENSE_BOX_WIDTH = 360;
-export const ADSENSE_BOX_HEIGHT = 300;
+/** Horizontal display banner (leaderboard-style). */
+export const ADSENSE_SLOT_HORIZONTAL =
+  process.env.NEXT_PUBLIC_ADSENSE_SLOT_HORIZONTAL?.trim() ||
+  process.env.NEXT_PUBLIC_ADSENSE_SLOT_ENTERPRISES?.trim() ||
+  legacyBanner ||
+  DEFAULT_ADSENSE_DISPLAY_SLOT;
+
+/** @deprecated Use ADSENSE_SLOT_DISPLAY */
+export const ADSENSE_SLOT_BANNER = legacyBanner || ADSENSE_SLOT_DISPLAY;
+
+/** @deprecated Use ADSENSE_SLOT_HORIZONTAL */
+export const ADSENSE_SLOT_ENTERPRISES = ADSENSE_SLOT_HORIZONTAL;
+
+/** @deprecated Use ADSENSE_SLOT_RECTANGLE */
+export const ADSENSE_SLOT_BOX = ADSENSE_SLOT_RECTANGLE;
+
+/** IAB medium rectangle — standard display size. */
+export const ADSENSE_RECTANGLE_WIDTH = 300;
+export const ADSENSE_RECTANGLE_HEIGHT = 250;
+
+/** @deprecated Use ADSENSE_RECTANGLE_* */
+export const ADSENSE_BOX_WIDTH = ADSENSE_RECTANGLE_WIDTH;
+export const ADSENSE_BOX_HEIGHT = ADSENSE_RECTANGLE_HEIGHT;
 
 export function isAdsenseConfigured(): boolean {
   return Boolean(
     ADSENSE_CLIENT_ID &&
       ADSENSE_CLIENT_ID.startsWith("ca-pub-") &&
-      ADSENSE_CLIENT_ID.length > 12
+      ADSENSE_CLIENT_ID.length > 12,
   );
 }
 
 export function isAdsenseUnitConfigured(): boolean {
   return (
     isAdsenseConfigured() &&
-    Boolean(ADSENSE_SLOT_BANNER || ADSENSE_SLOT_ENTERPRISES || ADSENSE_SLOT_BOX)
+    Boolean(ADSENSE_SLOT_DISPLAY || ADSENSE_SLOT_RECTANGLE || ADSENSE_SLOT_HORIZONTAL)
   );
 }
 
-/** Test ads in dev, when NEXT_PUBLIC_ADSENSE_TEST=true, or until the site is approved in AdSense. */
+/** Test ads until AdSense approves the site (`NEXT_PUBLIC_ADSENSE_APPROVED=true`). */
 export function isAdsenseSiteApproved(): boolean {
   return process.env.NEXT_PUBLIC_ADSENSE_APPROVED?.trim() === "true";
 }
@@ -72,8 +93,7 @@ export function isAdsenseTestMode(): boolean {
 }
 
 /**
- * AdSense Program Policies: do not serve ads on screens without publisher content,
- * under construction, or used mainly for navigation / alerts / auth.
+ * AdSense Program Policies: do not serve ads on screens without publisher content.
  * @see https://support.google.com/adsense/answer/1346295
  */
 const ADSENSE_ALLOWED_EXACT = new Set([
@@ -92,7 +112,6 @@ const ADSENSE_ALLOWED_EXACT = new Set([
   "/search",
 ]);
 
-/** Content sections under these paths may show ads (e.g. /products/honey, /newsletter/2024-05-22). */
 const ADSENSE_ALLOWED_PREFIXES = ["/newsletter", "/products"];
 
 export function normalizePathname(pathname: string): string {

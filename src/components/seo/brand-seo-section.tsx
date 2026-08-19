@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ARTIST_STORY, BLACK_HORSE_DEEP_DIVE } from "@/lib/editorial-content";
 import { APP_NAME, BRAND_FAQ, HOME_PATH, SITE_NAME } from "@/lib/seo";
 
 const glassCard =
@@ -32,6 +33,10 @@ export function BrandSeoSection() {
             <Link href="/music" className="text-[#FFC107] underline-offset-2 hover:underline">
               music player
             </Link>
+            , read track notes on{" "}
+            <Link href="/discography" className="text-[#FFC107] underline-offset-2 hover:underline">
+              Discography
+            </Link>
             , learn more on{" "}
             <Link href="/about" className="text-[#FFC107] underline-offset-2 hover:underline">
               About
@@ -41,6 +46,37 @@ export function BrandSeoSection() {
               home page
             </Link>
             .
+          </p>
+        </div>
+
+        <div className={`${glassCard} p-6 sm:p-8`}>
+          <h2 className="font-serif text-xl font-semibold text-[#FFC107] sm:text-2xl">
+            {ARTIST_STORY.title}
+          </h2>
+          <div className="mt-4 space-y-4 text-sm leading-relaxed text-zinc-300 sm:text-[15px]">
+            {ARTIST_STORY.paragraphs.map((p) => (
+              <p key={p.slice(0, 48)}>{p}</p>
+            ))}
+          </div>
+        </div>
+
+        <div className={`${glassCard} p-6 sm:p-8`}>
+          <h2 className="font-serif text-xl font-semibold text-[#FFC107] sm:text-2xl">
+            {BLACK_HORSE_DEEP_DIVE.title}
+          </h2>
+          <div className="mt-4 space-y-4 text-sm leading-relaxed text-zinc-300 sm:text-[15px]">
+            {BLACK_HORSE_DEEP_DIVE.paragraphs.map((p) => (
+              <p key={p.slice(0, 48)}>{p}</p>
+            ))}
+          </div>
+          <p className="mt-4 text-sm">
+            <Link href="/faq" className="text-[#FFC107] hover:underline">
+              Read the FAQ
+            </Link>
+            {" · "}
+            <Link href="/newsletter" className="text-[#FFC107] hover:underline">
+              Newsletter articles
+            </Link>
           </p>
         </div>
 

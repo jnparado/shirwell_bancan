@@ -21,6 +21,7 @@ import { usePlayer } from "@/contexts/player-context";
 import { getPlayerArtworkSrc } from "@/lib/player-artwork";
 import { formatTime } from "@/lib/player/format-time";
 import { BottomNav } from "./bottom-nav";
+import { MusicEditorialArticle } from "./music-editorial-article";
 import { AdSenseBoxUnit, AdSenseEnterprisesUnit, AdSenseLabel } from "@/components/ads/adsense-unit";
 import { ContentPageAdTop } from "@/components/ads/content-page-ads";
 
@@ -394,13 +395,14 @@ export function MusicPageContent({ songs }: MusicPageContentProps) {
           <AdSenseEnterprisesUnit
             instanceId="music-bottom-enterprises"
             className="rounded-xl border border-white/10 bg-black/30 p-2"
-            format="horizontal"
           />
           <div className="mt-3">
             <AdSenseBoxUnit instanceId="music-bottom-box" className="rounded-xl border border-white/10 bg-black/30 p-2" />
           </div>
         </div>
       ) : null}
+
+      <MusicEditorialArticle songCount={songs.length} />
 
       <BottomNav />
     </div>

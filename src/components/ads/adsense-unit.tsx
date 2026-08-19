@@ -3,12 +3,12 @@
 import { useEffect, useLayoutEffect, useId } from "react";
 import { usePathname } from "next/navigation";
 import {
-  ADSENSE_BOX_HEIGHT,
-  ADSENSE_BOX_WIDTH,
   ADSENSE_CLIENT_ID,
-  ADSENSE_SLOT_BANNER,
-  ADSENSE_SLOT_BOX,
-  ADSENSE_SLOT_ENTERPRISES,
+  ADSENSE_RECTANGLE_HEIGHT,
+  ADSENSE_RECTANGLE_WIDTH,
+  ADSENSE_SLOT_DISPLAY,
+  ADSENSE_SLOT_HORIZONTAL,
+  ADSENSE_SLOT_RECTANGLE,
   isAdSenseAllowedPath,
   isAdsenseConfigured,
   isAdsenseTestMode,
@@ -19,23 +19,15 @@ import {
   whenAdSenseReady,
 } from "@/lib/adsense-runtime";
 
-type AdFormat = "auto" | "horizontal" | "rectangle" | "vertical";
+type DisplayFormat = "auto" | "horizontal" | "rectangle" | "vertical";
 
-interface AdSenseUnitProps {
-  /** Defaults to `NEXT_PUBLIC_ADSENSE_SLOT_BANNER` */
-  slot?: string;
-  className?: string;
-  format?: AdFormat;
-  minHeight?: number;
-  /** Distinguish multiple units with the same slot on one page */
-  instanceId?: string;
-}
-
-type FixedSize = { width: number; height: number };
-
-interface AdSenseUnitInnerProps extends Omit<AdSenseUnitProps, "slot"> {
+interface DisplayAdProps {
   slot: string;
-  fixedSize?: FixedSize;
+  className?: string;
+  format?: DisplayFormat;
+  minHeight?: number;
+  instanceId?: string;
+  fixedSize?: { width: number; height: number };
 }
 
 export function AdSenseLabel({ className = "" }: { className?: string }) {
@@ -48,54 +40,88 @@ export function AdSenseLabel({ className = "" }: { className?: string }) {
   );
 }
 
-/**
- * Responsive display unit. Set `NEXT_PUBLIC_ADSENSE_SLOT_BANNER` or pass `slot`.
- */
-export function AdSenseUnit({
-  slot: slotProp,
-  className = "",
-  format = "auto",
-  minHeight = 100,
-  instanceId,
-}: AdSenseUnitProps) {
-  return (
-    <AdSenseUnitInner
-      slot={slotProp ?? (ADSENSE_SLOT_BANNER || ADSENSE_SLOT_ENTERPRISES)}
-      className={className}
-      format={format}
-      minHeight={minHeight}
-      instanceId={instanceId}
-    />
-  );
-}
-
-/** Enterprises display unit — slot 1200415498, auto, full-width responsive. */
-export function AdSenseEnterprisesUnit(
-  props: Omit<AdSenseUnitProps, "slot">,
+/** Full-width responsive display ad (AdSense → Display ads → Responsive). */
+export function AdSenseDisplayResponsive(
+  props: Omit<DisplayAdProps, "slot" | "format" | "fixedSize">,
 ) {
-  return <AdSenseUnitInner slot={ADSENSE_SLOT_ENTERPRISES} {...props} />;
-}
-
-/** Fixed 360×300 display unit — slot 1844130903. */
-export function AdSenseBoxUnit(props: Omit<AdSenseUnitProps, "slot">) {
   return (
-    <AdSenseUnitInner
-      slot={ADSENSE_SLOT_BOX}
-      fixedSize={{ width: ADSENSE_BOX_WIDTH, height: ADSENSE_BOX_HEIGHT }}
-      minHeight={ADSENSE_BOX_HEIGHT}
+    <AdSenseDisplayInner
+      slot={ADSENSE_SLOT_DISPLAY}
+      format="auto"
+      minHeight={props.minHeight ?? 90}
       {...props}
     />
   );
 }
 
-function AdSenseUnitInner({
+/** Horizontal display banner — leaderboard-style strip. */
+export function AdSenseDisplayHorizontal(
+  props: Omit<DisplayAdProps, "slot" | "format" | "fixedSize">,
+) {
+  return (
+    <AdSenseDisplayInner
+      slot={ADSENSE_SLOT_HORIZONTAL}
+      format="horizontal"
+      minHeight={props.minHeight ?? 90}
+      {...props}
+    />
+  );
+}
+
+/** Fixed 300×250 medium rectangle display ad. */
+export function AdSenseDisplayRectangle(
+  props: Omit<DisplayAdProps, "slot" | "format" | "fixedSize">,
+) {
+  return (
+    <AdSenseDisplayInner
+      slot={ADSENSE_SLOT_RECTANGLE}
+      format="rectangle"
+      fixedSize={{
+        width: ADSENSE_RECTANGLE_WIDTH,
+        height: ADSENSE_RECTANGLE_HEIGHT,
+      }}
+      minHeight={ADSENSE_RECTANGLE_HEIGHT}
+      {...props}
+    />
+  );
+}
+
+/** @deprecated Use AdSenseDisplayResponsive */
+export function AdSenseUnit({
+  slot,
+  format = "auto",
+  ...props
+}: {
+  slot?: string;
+  format?: DisplayFormat;
+  className?: string;
+  minHeight?: number;
+  instanceId?: string;
+}) {
+  return (
+    <AdSenseDisplayInner
+      slot={slot ?? ADSENSE_SLOT_DISPLAY}
+      format={format}
+      minHeight={props.minHeight ?? 90}
+      {...props}
+    />
+  );
+}
+
+/** @deprecated Use AdSenseDisplayHorizontal */
+export const AdSenseEnterprisesUnit = AdSenseDisplayHorizontal;
+
+/** @deprecated Use AdSenseDisplayRectangle */
+export const AdSenseBoxUnit = AdSenseDisplayRectangle;
+
+function AdSenseDisplayInner({
   slot,
   className = "",
   format = "auto",
-  minHeight = 100,
+  minHeight = 90,
   fixedSize,
   instanceId,
-}: AdSenseUnitInnerProps) {
+}: DisplayAdProps) {
   const pathname = usePathname();
   const reactId = useId();
   const unitKey = `${pathname}-${slot}-${instanceId ?? reactId}`;
@@ -105,7 +131,6 @@ function AdSenseUnitInner({
     if (!adsAllowed || !slot || !isAdsenseConfigured()) return;
 
     const fill = () => fillUnfilledAdSlots(document);
-
     const stopReady = whenAdSenseReady(fill);
     const stopRetries = scheduleAdFillRetries(fill);
 
@@ -122,7 +147,8 @@ function AdSenseUnitInner({
 
   if (!adsAllowed || !isAdsenseConfigured() || !slot) return null;
 
-  const wrapperClass = fixedSize
+  const isFixed = Boolean(fixedSize);
+  const wrapperClass = isFixed
     ? `mx-auto flex justify-center overflow-hidden ${className}`
     : `mx-auto w-full max-w-4xl overflow-hidden ${className}`;
 
@@ -131,21 +157,21 @@ function AdSenseUnitInner({
       <ins
         className="adsbygoogle"
         style={
-          fixedSize
+          isFixed
             ? {
                 display: "inline-block",
-                width: fixedSize.width,
-                height: fixedSize.height,
+                width: fixedSize!.width,
+                height: fixedSize!.height,
               }
             : { display: "block", minHeight }
         }
         data-ad-client={ADSENSE_CLIENT_ID}
         data-ad-slot={slot}
         {...(isAdsenseTestMode() ? { "data-adtest": "on" } : {})}
-        {...(fixedSize
+        {...(isFixed
           ? {}
           : {
-              "data-ad-format": format,
+              "data-ad-format": format === "rectangle" ? "auto" : format,
               "data-full-width-responsive": "true",
             })}
       />

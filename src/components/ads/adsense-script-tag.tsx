@@ -1,12 +1,12 @@
 "use client";
 
 import Script from "next/script";
-import { ADSENSE_CLIENT_ID, isAdsenseConfigured } from "@/config/ads";
+import { ADSENSE_CLIENT_ID, isAdsenseConfigured, isAdsenseUnitConfigured } from "@/config/ads";
 import { fillUnfilledAdSlots, notifyAdSenseLoaded } from "@/lib/adsense-runtime";
 
-/** AdSense library — external `src` only (no inline body → no hydration mismatch). */
+/** AdSense display ads library — loads when publisher id + slot are configured. */
 export function AdSenseScriptTag() {
-  if (!isAdsenseConfigured()) return null;
+  if (!isAdsenseConfigured() || !isAdsenseUnitConfigured()) return null;
 
   return (
     <Script

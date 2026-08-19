@@ -6,7 +6,22 @@ Google AdSense rejected **shirwell-bancan.vercel.app** for **Low value content**
 
 Until the site status is **Ready**, Google will not serve **live** paid ads on your domain.
 
-## What we fixed in the repo
+## Content quality updates (for reviewers)
+
+| Page | What was added |
+|------|----------------|
+| `/music` | Full editorial article below the player — catalogue intro, listening guide, Black Horse overview, eight track highlights |
+| `/home` | Expanded FAQ, artist story, and Black Horse deep-dive sections |
+| `/about` | Artist story, recording philosophy, career timeline |
+| `/discography` | Longer per-track notes (15 entries) |
+| `/newsletter/*` | Multi-paragraph articles (not image-only) |
+| `/products` | Store editorial + full product stories |
+| `/flowers` | History, weddings, memorials, pop-up bunches |
+| `/faq` | Ten detailed Q&A items |
+
+Shared copy lives in `src/lib/editorial-content.ts`.
+
+## What we fixed in the repo (ads)
 
 1. **Full newsletter articles** — each `/newsletter/[date]` issue now has multiple paragraphs of original text (not just an image + one-line summary).
 2. **`/discography`** — track-by-track notes for the Black Horse album (15 entries).
@@ -18,12 +33,17 @@ Until the site status is **Ready**, Google will not serve **live** paid ads on y
 
 ```bash
 NEXT_PUBLIC_ADSENSE_CLIENT_ID=ca-pub-2495432679632375
-NEXT_PUBLIC_ADSENSE_SLOT_BANNER=4465041934
-NEXT_PUBLIC_ADSENSE_SLOT_ENTERPRISES=4465041934
-NEXT_PUBLIC_ADSENSE_SLOT_BOX=4465041934
+NEXT_PUBLIC_ADSENSE_SLOT_DISPLAY=4465041934
+NEXT_PUBLIC_ADSENSE_SLOT_RECTANGLE=4465041934
+NEXT_PUBLIC_ADSENSE_SLOT_HORIZONTAL=4465041934
 # Leave unset or false until AdSense shows Ready:
 # NEXT_PUBLIC_ADSENSE_APPROVED=true
 ```
+
+Display formats on each content page:
+- **Horizontal** — leaderboard-style banner strip
+- **Rectangle** — 300×250 medium rectangle
+- **Responsive** — optional full-width unit (`showResponsive` on `ContentPageAds`)
 
 Redeploy after changing env vars.
 
