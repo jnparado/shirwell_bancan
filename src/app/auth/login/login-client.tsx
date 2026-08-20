@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Eye, EyeOff, Lock, Mail, User } from "lucide-react";
+import { ShirwellWordmark } from "@/components/shirwell/shirwell-wordmark";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { AuthCloseButton } from "@/components/auth/auth-close-button";
 import {
@@ -108,7 +109,7 @@ export function LoginClient({ defaultMode = "login" }: LoginClientProps) {
               sizes="36px"
             />
           </span>
-          <span className="text-base font-medium text-[#202124]">Shirwell Bancan</span>
+          <ShirwellWordmark className="h-7 w-[7.5rem]" />
         </Link>
 
         <div ref={cardRef} className={`relative ${authCardClass} px-6 py-8 sm:px-8 sm:py-10`}>
@@ -118,17 +119,7 @@ export function LoginClient({ defaultMode = "login" }: LoginClientProps) {
           />
           <div key={mode}>
             <div className="flex items-center justify-center gap-2.5">
-              <span className="relative h-10 w-10 shrink-0 overflow-hidden rounded-full bg-[#f1f3f4] ring-1 ring-[#dadce0]">
-                <Image
-                  src="/shirwell-logo-emblem.png"
-                  alt=""
-                  fill
-                  className="object-cover object-[center_32%] scale-[1.08]"
-                  sizes="40px"
-                  priority
-                />
-              </span>
-              <p className="text-sm font-medium text-[#5f6368]">Shirwell</p>
+              <ShirwellWordmark className="h-8 w-[8.5rem]" />
             </div>
             <h1
               id={titleId}

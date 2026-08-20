@@ -229,3 +229,14 @@ body {
 .admin-sidebar {
   padding-top: env(safe-area-inset-top);
 }
+
+/* AdSense auto-placed in-page search — center within page layout */
+.google-auto-placed {
+  display: flex !important;
+  justify-content: center !important;
+  width: 100% !important;
+  max-width: 48rem !important;
+  margin-inline: auto !important;
+  padding-inline: 1rem !important;
+  box-sizing: border-box !important;
+}

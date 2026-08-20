@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AuthModalLauncher } from "@/components/auth/auth-modal";
 import { CartLink } from "@/components/shirwell/cart-link";
+import { ShirwellWordmark } from "@/components/shirwell/shirwell-wordmark";
 
 const glassCard =
   "rounded-xl border border-white/[0.06] bg-[rgba(255,255,255,0.05)] backdrop-blur-md";
@@ -31,16 +32,14 @@ export function MarketingHeader() {
           <span className="relative flex h-11 w-11 shrink-0 overflow-hidden rounded-full bg-black/60 ring-2 ring-[#FFC107]/40 shadow-[0_0_20px_rgba(255,193,7,0.15)] sm:h-12 sm:w-12">
             <Image
               src="/shirwell-logo-emblem.png"
-              alt="Shirwell Bancan — Shirwell music logo"
+              alt=""
               fill
               className="object-cover object-[center_32%] scale-[1.08]"
               sizes="48px"
               priority
             />
           </span>
-          <span className="truncate font-serif text-lg font-semibold tracking-tight text-[#FFC107] sm:text-xl">
-            Shirwell Bancan
-          </span>
+          <ShirwellWordmark className="h-8 w-auto min-w-0 shrink sm:h-9" showSubtitle />
         </Link>
 
         <nav
