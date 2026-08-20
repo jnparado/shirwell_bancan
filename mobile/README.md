@@ -8,6 +8,7 @@ Reference templates for **Google Play Console**, **App Store Connect**, **AdMob*
 |-------|-----|
 | Play / App Store / AdMob / OAuth form values | [docs/mobile-store-compliance.md](../docs/mobile-store-compliance.md) |
 | AdMob UMP (consent before ads) | [docs/admob-ump-native.md](../docs/admob-ump-native.md) |
+| AdMob paid banners (Capacitor) | [docs/admob-paid-ads.md](../docs/admob-paid-ads.md) |
 | Mobile Ads SDK versions | [docs/google-mobile-ads-sdk-install.md](../docs/google-mobile-ads-sdk-install.md) |
 
 ## Directory layout

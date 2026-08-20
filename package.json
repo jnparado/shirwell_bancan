@@ -6,9 +6,14 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "cap:sync": "cap sync",
+    "cap:android": "cap open android",
+    "cap:ios": "cap open ios"
   },
   "dependencies": {
+    "@capacitor-community/admob": "^7.2.0",
+    "@capacitor/core": "^7.6.8",
     "@stripe/react-stripe-js": "^6.8.0",
     "@stripe/stripe-js": "^9.12.0",
     "@supabase/ssr": "^0.10.2",
@@ -21,6 +26,9 @@
     "stripe": "^17.7.0"
   },
   "devDependencies": {
+    "@capacitor/android": "^7.6.0",
+    "@capacitor/cli": "^7.6.0",
+    "@capacitor/ios": "^7.6.0",
     "@tailwindcss/postcss": "^4",
     "@types/howler": "^2.2.12",
     "@types/node": "^20",

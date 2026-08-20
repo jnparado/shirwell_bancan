@@ -13,6 +13,7 @@ import {
   isAdsenseConfigured,
   getAdsenseTestAttribute,
 } from "@/config/ads";
+import { shouldShowAdSenseOnWeb } from "@/lib/admob-capacitor";
 import {
   fillUnfilledAdSlots,
   scheduleAdFillRetries,
@@ -125,7 +126,8 @@ function AdSenseDisplayInner({
   const pathname = usePathname();
   const reactId = useId();
   const unitKey = `${pathname}-${slot}-${instanceId ?? reactId}`;
-  const adsAllowed = isAdSenseAllowedPath(pathname);
+  const adsAllowed =
+    isAdSenseAllowedPath(pathname) && shouldShowAdSenseOnWeb();
 
   useLayoutEffect(() => {
     if (!adsAllowed || !slot || !isAdsenseConfigured()) return;

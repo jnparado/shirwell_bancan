@@ -33,7 +33,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `${issue.headline} | Newsletter`,
     description: issue.summary,
-    alternates: { canonical: `/newsletter/${issue.id}` },
+    alternates: {
+      canonical: `/newsletter/${issue.id}`,
+      types: {
+        "application/amp+html": `/newsletter/${issue.id}/amp`,
+      },
+    },
     openGraph: {
       title: `${issue.headline} | ${SITE_NAME}`,
       description: issue.summary,

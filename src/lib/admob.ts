@@ -101,6 +101,37 @@ export function isAdmobConfigured(): boolean {
   );
 }
 
+/** When false (default), native Capacitor app requests real paid AdMob ads. */
+export function isAdmobTestMode(): boolean {
+  const flag = process.env.ADMOB_TEST_MODE?.trim()?.toLowerCase();
+  if (flag === "true") return true;
+  if (flag === "false") return false;
+  return process.env.NODE_ENV === "development";
+}
+
+/** Paid AdMob on native — independent of AdSense site approval. */
+export function isAdmobPaidAdsEnabled(): boolean {
+  if (isAdmobTestMode()) return false;
+  const flag = process.env.ADMOB_PAID_ADS?.trim()?.toLowerCase();
+  if (flag === "false") return false;
+  return isAdmobConfigured();
+}
+
+/** Comma-separated device IDs for AdMob.initialize({ testingDevices }). */
+export function getAdmobTestingDevices(): string[] {
+  const raw =
+    process.env.ADMOB_TESTING_DEVICES?.trim() ||
+    process.env.NEXT_PUBLIC_ADMOB_TESTING_DEVICES?.trim() ||
+    "";
+  if (!raw) return [];
+  return raw.split(",").map((id) => id.trim()).filter(Boolean);
+}
+
+export function getAdmobBannerUnitIdForPlatform(platform: "android" | "ios" | "web"): string {
+  if (platform === "ios") return ADMOB_IOS_BANNER_AD_UNIT_ID;
+  return ADMOB_ANDROID_BANNER_AD_UNIT_ID;
+}
+
 /** Web URL for AdMob “revocation link” (Privacy & messaging → ad unit deployment). */
 export { ADMOB_CONSENT_REVOCATION_PATH, getAdmobConsentRevocationUrl } from "@/config/google-consent";
 
