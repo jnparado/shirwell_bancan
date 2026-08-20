@@ -6,6 +6,7 @@ import {
 } from "@/lib/editorial-content";
 import { DISCOGRAPHY_ENTRIES } from "@/lib/discography";
 import { ContentPageAds } from "@/components/ads/content-page-ads";
+import { ArticleParagraphsWithInArticleAd } from "@/components/ads/article-paragraphs-with-in-article-ad";
 
 const glassCard =
   "rounded-xl border border-white/[0.06] bg-[rgba(255,255,255,0.05)] backdrop-blur-md";
@@ -33,9 +34,10 @@ export function MusicEditorialArticle({ songCount }: Props) {
             {songCount} tracks in the public catalogue · updated as new masters are approved
           </p>
           <div className="mt-5 space-y-4 text-sm leading-relaxed text-zinc-300 sm:text-[15px]">
-            {MUSIC_PLAYER_INTRO.paragraphs.map((p) => (
-              <p key={p.slice(0, 40)}>{p}</p>
-            ))}
+            <ArticleParagraphsWithInArticleAd
+              paragraphs={MUSIC_PLAYER_INTRO.paragraphs}
+              instanceId="music-intro"
+            />
           </div>
         </article>
 
@@ -55,9 +57,10 @@ export function MusicEditorialArticle({ songCount }: Props) {
             {BLACK_HORSE_DEEP_DIVE.title}
           </h2>
           <div className="mt-4 space-y-4 text-sm leading-relaxed text-zinc-300 sm:text-[15px]">
-            {BLACK_HORSE_DEEP_DIVE.paragraphs.map((p) => (
-              <p key={p.slice(0, 40)}>{p}</p>
-            ))}
+            <ArticleParagraphsWithInArticleAd
+              paragraphs={BLACK_HORSE_DEEP_DIVE.paragraphs}
+              instanceId="music-black-horse"
+            />
           </div>
           <p className="mt-5 text-sm text-zinc-400">
             <Link href="/discography" className="text-[#FFC107] hover:underline">

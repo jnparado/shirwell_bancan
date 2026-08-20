@@ -8,6 +8,7 @@
  *   NEXT_PUBLIC_ADSENSE_SLOT_DISPLAY=4465041934      # responsive display
  *   NEXT_PUBLIC_ADSENSE_SLOT_RECTANGLE=4465041934    # 300×250 rectangle
  *   NEXT_PUBLIC_ADSENSE_SLOT_HORIZONTAL=4465041934   # horizontal banner
+ *   NEXT_PUBLIC_ADSENSE_SLOT_IN_ARTICLE=6607155384   # in-article native ad
  *
  * Legacy env names (still supported): ADSENSE_SLOT_BANNER, _ENTERPRISES, _BOX
  */
@@ -40,12 +41,20 @@ export const ADSENSE_SLOT_RECTANGLE =
   legacyBanner ||
   DEFAULT_ADSENSE_DISPLAY_SLOT;
 
+/** Default in-article ad unit from AdSense console. */
+export const DEFAULT_ADSENSE_IN_ARTICLE_SLOT = "6607155384";
+
 /** Horizontal display banner (leaderboard-style). */
 export const ADSENSE_SLOT_HORIZONTAL =
   process.env.NEXT_PUBLIC_ADSENSE_SLOT_HORIZONTAL?.trim() ||
   process.env.NEXT_PUBLIC_ADSENSE_SLOT_ENTERPRISES?.trim() ||
   legacyBanner ||
   DEFAULT_ADSENSE_DISPLAY_SLOT;
+
+/** In-article native ad — place ~2 paragraphs into text content. */
+export const ADSENSE_SLOT_IN_ARTICLE =
+  process.env.NEXT_PUBLIC_ADSENSE_SLOT_IN_ARTICLE?.trim() ||
+  DEFAULT_ADSENSE_IN_ARTICLE_SLOT;
 
 /** @deprecated Use ADSENSE_SLOT_DISPLAY */
 export const ADSENSE_SLOT_BANNER = legacyBanner || ADSENSE_SLOT_DISPLAY;
@@ -75,7 +84,12 @@ export function isAdsenseConfigured(): boolean {
 export function isAdsenseUnitConfigured(): boolean {
   return (
     isAdsenseConfigured() &&
-    Boolean(ADSENSE_SLOT_DISPLAY || ADSENSE_SLOT_RECTANGLE || ADSENSE_SLOT_HORIZONTAL)
+    Boolean(
+      ADSENSE_SLOT_DISPLAY ||
+        ADSENSE_SLOT_RECTANGLE ||
+        ADSENSE_SLOT_HORIZONTAL ||
+        ADSENSE_SLOT_IN_ARTICLE,
+    )
   );
 }
 

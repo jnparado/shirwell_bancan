@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { MarketingHeader } from "@/components/shirwell/marketing-header";
 import { BottomNav } from "@/components/shirwell/bottom-nav";
 import { ContentPageAds } from "@/components/ads/content-page-ads";
+import { ArticleParagraphsWithInArticleAd } from "@/components/ads/article-paragraphs-with-in-article-ad";
 import { BUSINESS_NAME, SUPPORT_EMAIL } from "@/config/contact";
 import { JsonLdScript } from "@/components/seo/json-ld-script";
 import {
@@ -85,9 +86,11 @@ export default async function NewsletterIssuePage({ params }: Props) {
                 {issue.summary}
               </p>
               <div className="mt-6 space-y-4 text-sm leading-relaxed text-zinc-300 sm:text-[15px]">
-                {issue.body.map((paragraph) => (
-                  <p key={paragraph.slice(0, 48)}>{paragraph}</p>
-                ))}
+                <ArticleParagraphsWithInArticleAd
+                  paragraphs={issue.body}
+                  instanceId={`newsletter-${issue.id}`}
+                  paragraphClassName=""
+                />
               </div>
               <p className="mt-3 text-xs text-zinc-500">
                 By {SITE_NAME} · {BUSINESS_NAME} · Open access

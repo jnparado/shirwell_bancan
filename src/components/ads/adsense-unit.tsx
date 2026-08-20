@@ -8,6 +8,7 @@ import {
   ADSENSE_RECTANGLE_WIDTH,
   ADSENSE_SLOT_DISPLAY,
   ADSENSE_SLOT_HORIZONTAL,
+  ADSENSE_SLOT_IN_ARTICLE,
   ADSENSE_SLOT_RECTANGLE,
   isAdSenseAllowedPath,
   isAdsenseConfigured,
@@ -83,6 +84,26 @@ export function AdSenseDisplayRectangle(
       }}
       minHeight={ADSENSE_RECTANGLE_HEIGHT}
       {...props}
+    />
+  );
+}
+
+/** In-article native ad — AdSense → By ad unit → In-article ads. */
+export function AdSenseInArticle({
+  className = "",
+  minHeight = 120,
+  instanceId,
+}: {
+  className?: string;
+  minHeight?: number;
+  instanceId?: string;
+}) {
+  return (
+    <AdSenseInArticleInner
+      slot={ADSENSE_SLOT_IN_ARTICLE}
+      className={className}
+      minHeight={minHeight}
+      instanceId={instanceId}
     />
   );
 }
@@ -176,6 +197,62 @@ function AdSenseDisplayInner({
               "data-ad-format": format === "rectangle" ? "auto" : format,
               "data-full-width-responsive": "true",
             })}
+      />
+    </div>
+  );
+}
+
+function AdSenseInArticleInner({
+  slot,
+  className = "",
+  minHeight = 120,
+  instanceId,
+}: {
+  slot: string;
+  className?: string;
+  minHeight?: number;
+  instanceId?: string;
+}) {
+  const pathname = usePathname();
+  const reactId = useId();
+  const unitKey = `${pathname}-${slot}-in-article-${instanceId ?? reactId}`;
+  const adsAllowed =
+    isAdSenseAllowedPath(pathname) && shouldShowAdSenseOnWeb();
+
+  useLayoutEffect(() => {
+    if (!adsAllowed || !slot || !isAdsenseConfigured()) return;
+
+    const fill = () => fillUnfilledAdSlots(document);
+    const stopReady = whenAdSenseReady(fill);
+    const stopRetries = scheduleAdFillRetries(fill);
+
+    return () => {
+      stopReady();
+      stopRetries();
+    };
+  }, [adsAllowed, slot, unitKey]);
+
+  useEffect(() => {
+    if (!adsAllowed || !slot || !isAdsenseConfigured()) return;
+    return scheduleAdFillRetries(() => fillUnfilledAdSlots(document));
+  }, [adsAllowed, slot, unitKey]);
+
+  if (!adsAllowed || !isAdsenseConfigured() || !slot) return null;
+
+  return (
+    <div
+      key={unitKey}
+      className={`mx-auto w-full max-w-3xl overflow-hidden ${className}`}
+      style={{ minHeight }}
+    >
+      <ins
+        className="adsbygoogle"
+        style={{ display: "block", textAlign: "center" }}
+        data-ad-client={ADSENSE_CLIENT_ID}
+        data-ad-slot={slot}
+        data-ad-layout="in-article"
+        data-ad-format="fluid"
+        {...getAdsenseTestAttribute()}
       />
     </div>
   );
