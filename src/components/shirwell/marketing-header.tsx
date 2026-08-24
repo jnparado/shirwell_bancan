@@ -11,7 +11,9 @@ import { CartLink } from "@/components/shirwell/cart-link";
 const glassCard =
   "rounded-xl border border-white/[0.06] bg-[rgba(255,255,255,0.05)] backdrop-blur-md";
 
-const navLinkClass = `${glassCard} px-3 py-2 text-sm font-medium text-[#FFC107] transition hover:border-[#FFC107]/25 hover:bg-[rgba(255,255,255,0.08)]`;
+/** Compact pills so all links stay on one row. */
+const navLinkClass =
+  "whitespace-nowrap rounded-lg border border-white/[0.06] bg-[rgba(255,255,255,0.05)] px-2 py-1.5 text-xs font-medium text-[#FFC107] backdrop-blur-md transition hover:border-[#FFC107]/25 hover:bg-[rgba(255,255,255,0.08)] 2xl:px-2.5 2xl:text-sm";
 
 /** Full site nav — Flowers omitted for now. */
 const NAV_LINKS = [
@@ -64,29 +66,29 @@ export function MarketingHeader() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-[#FFC107]/15 bg-black/50 shadow-[0_8px_32px_rgba(0,0,0,0.45)] backdrop-blur-2xl">
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3 sm:px-6 sm:py-3.5">
+      <div className="mx-auto flex max-w-7xl items-center gap-2 px-3 py-3 sm:gap-3 sm:px-5 sm:py-3.5 lg:px-6">
         <Link
           href="/home"
-          className="flex min-w-0 shrink-0 items-center gap-2.5"
+          className="flex min-w-0 shrink-0 items-center gap-2"
           aria-label="Shirwell Bancan — home"
         >
-          <span className="relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full bg-black ring-1 ring-[#FFC107]/50 sm:h-11 sm:w-11">
+          <span className="relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full bg-black ring-1 ring-[#FFC107]/50">
             <Image
               src="/shirwell-logo-emblem.png"
               alt=""
               fill
               className="object-cover object-center"
-              sizes="44px"
+              sizes="40px"
               priority
             />
           </span>
-          <span className="truncate font-serif text-lg font-semibold tracking-tight text-[#FFC107] sm:text-xl">
+          <span className="truncate font-serif text-lg font-semibold tracking-tight text-[#FFC107] sm:inline lg:hidden">
             Shirwell
           </span>
         </Link>
 
         <nav
-          className="hidden flex-1 flex-wrap items-center justify-center gap-1.5 xl:flex xl:gap-2"
+          className="hidden min-w-0 flex-1 flex-nowrap items-center justify-center gap-1 lg:flex"
           aria-label="Main"
         >
           {NAV_LINKS.map(({ href, label }) => (
@@ -96,14 +98,14 @@ export function MarketingHeader() {
           ))}
         </nav>
 
-        <div className="flex shrink-0 items-center gap-2">
+        <div className="ml-auto flex shrink-0 items-center gap-2">
           <CartLink />
           <div className="hidden sm:block">
             <AuthModalLauncher />
           </div>
           <button
             type="button"
-            className={`${glassCard} flex h-10 w-10 items-center justify-center text-[#FFC107] xl:hidden`}
+            className={`${glassCard} flex h-10 w-10 items-center justify-center text-[#FFC107] lg:hidden`}
             aria-expanded={menuOpen}
             aria-controls="mobile-nav-panel"
             aria-label={menuOpen ? "Close menu" : "Open menu"}
@@ -118,13 +120,13 @@ export function MarketingHeader() {
         <>
           <button
             type="button"
-            className="fixed inset-0 z-40 bg-black/60 xl:hidden"
+            className="fixed inset-0 z-40 bg-black/60 lg:hidden"
             aria-label="Close menu overlay"
             onClick={() => setMenuOpen(false)}
           />
           <div
             id="mobile-nav-panel"
-            className="absolute inset-x-0 top-full z-50 border-b border-[#FFC107]/15 bg-black/95 px-4 py-4 shadow-2xl backdrop-blur-xl xl:hidden"
+            className="absolute inset-x-0 top-full z-50 border-b border-[#FFC107]/15 bg-black/95 px-4 py-4 shadow-2xl backdrop-blur-xl lg:hidden"
           >
             <nav className="mx-auto flex max-w-6xl flex-col gap-1.5" aria-label="Main mobile">
               {NAV_LINKS.map(({ href, label }) => (
