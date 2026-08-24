@@ -13,7 +13,7 @@ const glassCard =
 
 /** Compact pills so all links stay on one row. */
 const navLinkClass =
-  "whitespace-nowrap rounded-lg border border-white/[0.06] bg-[rgba(255,255,255,0.05)] px-2 py-1.5 text-xs font-medium text-[#FFC107] backdrop-blur-md transition hover:border-[#FFC107]/25 hover:bg-[rgba(255,255,255,0.08)] 2xl:px-2.5 2xl:text-sm";
+  "whitespace-nowrap rounded-lg border border-white/[0.06] bg-[rgba(255,255,255,0.05)] px-2.5 py-2 text-sm font-medium text-[#FFC107] backdrop-blur-md transition hover:border-[#FFC107]/25 hover:bg-[rgba(255,255,255,0.08)]";
 
 /** Full site nav — Flowers omitted for now. */
 const NAV_LINKS = [
@@ -66,29 +66,29 @@ export function MarketingHeader() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-[#FFC107]/15 bg-black/50 shadow-[0_8px_32px_rgba(0,0,0,0.45)] backdrop-blur-2xl">
-      <div className="mx-auto flex max-w-7xl items-center gap-2 px-3 py-3 sm:gap-3 sm:px-5 sm:py-3.5 lg:px-6">
+      <div className="mx-auto flex max-w-[90rem] items-center gap-2 px-3 py-3 sm:gap-3 sm:px-5 sm:py-3.5 lg:gap-3 lg:px-5 xl:px-6">
         <Link
           href="/home"
-          className="flex min-w-0 shrink-0 items-center gap-2"
+          className="flex min-w-0 shrink-0 items-center gap-2.5"
           aria-label="Shirwell Bancan — home"
         >
-          <span className="relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full bg-black ring-1 ring-[#FFC107]/50">
+          <span className="relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full bg-black ring-1 ring-[#FFC107]/50 sm:h-11 sm:w-11">
             <Image
               src="/shirwell-logo-emblem.png"
               alt=""
               fill
               className="object-cover object-center"
-              sizes="40px"
+              sizes="44px"
               priority
             />
           </span>
-          <span className="truncate font-serif text-lg font-semibold tracking-tight text-[#FFC107] sm:inline lg:hidden">
+          <span className="font-serif text-xl font-semibold tracking-tight text-[#FFC107] sm:text-2xl">
             Shirwell
           </span>
         </Link>
 
         <nav
-          className="hidden min-w-0 flex-1 flex-nowrap items-center justify-center gap-1 lg:flex"
+          className="hidden min-w-0 flex-1 flex-nowrap items-center justify-center gap-1.5 lg:flex xl:gap-2"
           aria-label="Main"
         >
           {NAV_LINKS.map(({ href, label }) => (
