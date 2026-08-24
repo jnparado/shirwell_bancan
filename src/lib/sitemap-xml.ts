@@ -1,3 +1,4 @@
+import { JOURNAL_ARTICLES } from "@/lib/journal-articles";
 import { NEWSLETTER_ISSUES } from "@/lib/newsletter-issues";
 import { STORE_PRODUCTS } from "@/lib/products";
 import { getSitemapOrigin, SITEMAP_PUBLIC_PATHS } from "@/lib/seo";
@@ -15,6 +16,15 @@ function escapeXml(value: string): string {
 export function buildSitemapXml(): string {
   const origin = getSitemapOrigin();
   const lastmod = new Date().toISOString();
+
+  const journalUrls = JOURNAL_ARTICLES.map(
+    (article) => `  <url>
+    <loc>${escapeXml(`${origin}/journal/${article.slug}`)}</loc>
+    <lastmod>${lastmod}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.55</priority>
+  </url>`,
+  );
 
   const newsletterUrls = NEWSLETTER_ISSUES.map(
     (issue) => `  <url>
@@ -44,6 +54,7 @@ export function buildSitemapXml(): string {
   </url>`,
     ),
     ...newsletterUrls,
+    ...journalUrls,
     ...productUrls,
   ].join("\n");
 

@@ -1,7 +1,6 @@
 "use client";
 
-import { Fragment, useEffect } from "react";
-import Image from "next/image";
+import { useEffect } from "react";
 import Link from "next/link";
 import type { Song } from "@/types/song";
 import { usePlayer } from "@/contexts/player-context";
@@ -9,7 +8,6 @@ import { MarketingHeader } from "./marketing-header";
 import { FeaturedSongCard } from "./featured-song-card";
 import { HomePromo } from "./home-promo";
 import { BottomNav } from "./bottom-nav";
-import { AdSenseBoxUnit, AdSenseEnterprisesUnit, AdSenseLabel } from "@/components/ads/adsense-unit";
 import { ContentPageAdTop } from "@/components/ads/content-page-ads";
 import { AppPurposeSection } from "@/components/shirwell/app-purpose-section";
 import { BrandPhotoFrame } from "@/components/legal/brand-photo-frame";
@@ -132,14 +130,6 @@ export function HomeContent({ songs, children }: HomeContentProps) {
           </div>
         </section>
 
-        <div className="px-4 py-6 sm:px-6">
-          <AdSenseLabel />
-          <AdSenseEnterprisesUnit
-            instanceId="home-mid"
-            className="rounded-xl border border-white/[0.06] bg-black/20 p-2"
-          />
-        </div>
-
         {/* Featured Songs — gold title, glass cards */}
         <section
           id="featured"
@@ -168,34 +158,16 @@ export function HomeContent({ songs, children }: HomeContentProps) {
 
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
               {songs.map((song, i) => (
-                <Fragment key={song.id}>
-                  <FeaturedSongCard
-                    song={song}
-                    onPlay={playSong}
-                    timeLabel={timeLabels[i % timeLabels.length]}
-                  />
-                  {i === 2 ? (
-                    <div className="flex flex-col justify-center rounded-xl border border-white/[0.06] bg-black/20 p-4 sm:col-span-2 lg:col-span-1">
-                      <AdSenseLabel />
-                      <AdSenseBoxUnit instanceId="home-infeed" />
-                    </div>
-                  ) : null}
-                </Fragment>
+                <FeaturedSongCard
+                  key={song.id}
+                  song={song}
+                  onPlay={playSong}
+                  timeLabel={timeLabels[i % timeLabels.length]}
+                />
               ))}
             </div>
           </div>
         </section>
-
-        <div className="px-4 py-6 sm:px-6">
-          <AdSenseLabel className="text-white/35" />
-          <AdSenseEnterprisesUnit
-            instanceId="home-bottom-enterprises"
-            className="rounded-xl border border-white/[0.06] bg-black/20 p-2"
-          />
-          <div className="mt-3">
-            <AdSenseBoxUnit instanceId="home-bottom-box" />
-          </div>
-        </div>
 
         <HomePromo />
       </main>

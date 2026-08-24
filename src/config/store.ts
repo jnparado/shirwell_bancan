@@ -10,10 +10,10 @@ export function isStorePurchasingEnabled(): boolean {
   return !isStoreComingSoon();
 }
 
-export const STORE_COMING_SOON_LABEL = "Coming soon";
+export const STORE_COMING_SOON_LABEL = "Catalogue preview";
 
 export const STORE_COMING_SOON_HEADLINE =
-  "Our product shop is coming soon. You can browse photos and sample pricing below — ordering is not open yet.";
+  "Browse official Shirwell products, photography, and estimated pricing. Checkout opens when each batch is ready to ship. This page is a permanent catalogue with product stories — not an empty shop under construction.";
 
 export const STORE_PRICE_ESTIMATE_NOTE =
   "Prices shown are rough estimates only. Final prices will change according to the quality of each product.";

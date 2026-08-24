@@ -123,6 +123,7 @@ const ADSENSE_ALLOWED_EXACT = new Set([
   "/about",
   "/discography",
   "/listening-guide",
+  "/journal",
   "/faq",
   "/music-owner",
   "/products",
@@ -130,10 +131,9 @@ const ADSENSE_ALLOWED_EXACT = new Set([
   "/flowers",
   "/flower",
   "/newsletter",
-  "/search",
 ]);
 
-const ADSENSE_ALLOWED_PREFIXES = ["/newsletter", "/products"];
+const ADSENSE_ALLOWED_PREFIXES = ["/newsletter", "/journal"];
 
 export function normalizePathname(pathname: string): string {
   const path = pathname.split("?")[0]?.split("#")[0] ?? "/";
@@ -144,6 +144,7 @@ export function normalizePathname(pathname: string): string {
 export function isAdSenseAllowedPath(pathname: string): boolean {
   const path = normalizePathname(pathname);
   if (ADSENSE_ALLOWED_EXACT.has(path)) return true;
+  if (path.startsWith("/products/") && path !== "/products/cart") return true;
   return ADSENSE_ALLOWED_PREFIXES.some(
     (prefix) => path === prefix || path.startsWith(`${prefix}/`),
   );

@@ -178,6 +178,12 @@ export default function AboutPage() {
                 — track-by-track notes for the Black Horse album and streaming catalogue.
               </li>
               <li>
+                <Link href="/journal" className="text-[#FFC107] underline-offset-2 hover:underline">
+                  Journal
+                </Link>{" "}
+                — original essays on songwriting, touring, vinyl, and the catalogue.
+              </li>
+              <li>
                 <Link href="/listening-guide" className="text-[#FFC107] underline-offset-2 hover:underline">
                   Listening guide
                 </Link>{" "}

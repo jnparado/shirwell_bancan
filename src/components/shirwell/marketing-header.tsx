@@ -64,6 +64,9 @@ export function MarketingHeader() {
           <Link href="/newsletter" className={linkClass(pathname === "/newsletter")}>
             Newsletter
           </Link>
+          <Link href="/journal" className={linkClass(pathname.startsWith("/journal"))}>
+            Journal
+          </Link>
           <Link href="/products" className={linkClass(pathname.startsWith("/products"))}>
             Products
           </Link>
@@ -112,6 +115,12 @@ export function MarketingHeader() {
           className={`${linkClass(pathname === "/newsletter")} shrink-0`}
         >
           Newsletter
+        </Link>
+        <Link
+          href="/journal"
+          className={`${linkClass(pathname.startsWith("/journal"))} shrink-0`}
+        >
+          Journal
         </Link>
         <Link
           href="/products"

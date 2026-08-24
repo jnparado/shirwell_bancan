@@ -1,4 +1,5 @@
 import type { Song } from "@/types/song";
+import { JOURNAL_ARTICLES } from "@/lib/journal-articles";
 
 export type SiteSearchPage = {
   href: string;
@@ -38,6 +39,12 @@ export const SEARCHABLE_PAGES: SiteSearchPage[] = [
     title: "Listening guide",
     description: "Where to start with Shirwell Bancan music — curated listening path.",
     keywords: ["listening", "guide", "start", "catalogue", "black horse"],
+  },
+  {
+    href: "/journal",
+    title: "Journal",
+    description: "Original long-form essays on songwriting, touring, vinyl, and the catalogue.",
+    keywords: ["journal", "essays", "articles", "writing", "studio"],
   },
   {
     href: "/faq",
@@ -139,12 +146,25 @@ export function searchSite(query: string, songs: Song[]) {
     return { pages: [] as SiteSearchPage[], songs: [] as Song[] };
   }
 
-  const pages = SEARCHABLE_PAGES.filter(
-    (page) =>
-      matchesQuery(page.title, q) ||
-      matchesQuery(page.description, q) ||
-      page.keywords.some((k) => matchesQuery(k, q)),
-  );
+  const pages = [
+    ...SEARCHABLE_PAGES.filter(
+      (page) =>
+        matchesQuery(page.title, q) ||
+        matchesQuery(page.description, q) ||
+        page.keywords.some((k) => matchesQuery(k, q)),
+    ),
+    ...JOURNAL_ARTICLES.filter(
+      (article) =>
+        matchesQuery(article.title, q) ||
+        matchesQuery(article.summary, q) ||
+        article.body.some((p) => matchesQuery(p, q)),
+    ).map((article) => ({
+      href: `/journal/${article.slug}`,
+      title: article.title,
+      description: article.summary,
+      keywords: [] as string[],
+    })),
+  ];
 
   const matchedSongs = songs.filter((song) => {
     const title = song.title ?? "";

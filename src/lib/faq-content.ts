@@ -76,8 +76,8 @@ export const FAQ_ITEMS: FaqItem[] = [
       "Original masters are owned by Shirwell Entertainment. Read Music Owner for copyright statements, then email Contact with your project type — sync, cover, or public performance — for licensing guidance.",
   },
   {
-    question: "Why was my AdSense review delayed?",
+    question: "Where can I read long-form writing?",
     answer:
-      "Google reviews sites for unique, useful content. This site publishes discography notes, newsletter articles, FAQ, about pages, and product stories maintained by the artist team — not scraped or auto-generated pages. If you are a reviewer, start at /about, /discography, and /newsletter/2024-05-22.",
+      "The Journal publishes original essays on songwriting, mixing, vinyl, touring, and the Black Horse catalogue. Newsletter issues are dated studio and community articles. Discography has track-by-track notes. Start at /journal, /newsletter, and /discography.",
   },
 ];

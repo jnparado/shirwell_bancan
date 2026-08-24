@@ -177,6 +177,14 @@ export function SiteFooter() {
                     About Shirwell Bancan
                   </Link>
                 </li>
+                <li>
+                  <Link
+                    href="/journal"
+                    className={`${glassCard} block rounded-lg px-3 py-2 text-zinc-300 transition hover:border-[#FFC107]/30 hover:text-[#FFC107]`}
+                  >
+                    Journal
+                  </Link>
+                </li>
               </ul>
             </div>
             <div className={`${glassCard} p-5 sm:p-6`}>

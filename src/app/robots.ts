@@ -9,7 +9,24 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: "*",
         allow: "/",
-        disallow: ["/library", "/auth/", "/oauth/", "/profile"],
+        disallow: [
+          "/library",
+          "/auth/",
+          "/oauth/",
+          "/profile",
+          "/admin",
+          "/products/cart",
+          "/login",
+          "/signup",
+        ],
+      },
+      {
+        userAgent: "Mediapartners-Google",
+        allow: "/",
+      },
+      {
+        userAgent: "AdsBot-Google",
+        allow: "/",
       },
     ],
     sitemap: `${origin}/sitemap.xml`,

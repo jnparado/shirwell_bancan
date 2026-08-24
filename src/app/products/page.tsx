@@ -39,8 +39,8 @@ export default function ProductsPage() {
               Products
             </h1>
             <p className="mt-2 max-w-2xl text-sm leading-relaxed text-zinc-400 sm:text-base">
-              Browse Shirwell Bancan products — photos and sample pricing while the shop
-              opens soon.
+              Official Shirwell catalogue — vinyl, tour-life products, photography, and
+              written product stories from Shirwell Entertainment.
             </p>
           </div>
           {!isStoreComingSoon() ? (
@@ -132,7 +132,7 @@ export default function ProductsPage() {
             </li>
           </ul>
         </section>
-        <ContentPageAds className="px-0 py-6" placement="both" />
+        <ContentPageAds className="px-0 py-6" />
       </main>
       <BottomNav />
     </div>
