@@ -65,6 +65,40 @@ export const NEWSLETTER_ISSUES: NewsletterIssue[] = [
     src: "/newsletters/2024-05-24.png",
     alt: "Shirwell Newsletter — May 24, 2024",
   },
+  {
+    id: "2024-05-25",
+    dateLabel: "May 25, 2024",
+    headline: "Studio diary — mixing and mastering",
+    summary:
+      "Behind the scenes on vocal stacks, live drums, and why Shirwell still prints lyric sheets before every session.",
+    body: [
+      "A good week in the studio starts with lyrics on paper. Shirwell Bancan still prints sheets before every session — not because the technology demands it, but because the physical page slows the voice down enough to hear whether a line earns its rhyme. This issue walks through two masters nearing release: one is a refreshed vocal on a catalogue favourite; the other is a new arrangement built around live drums and a choir overdub recorded in a single afternoon.",
+      "Mixing is where the showmanship meets the science. Shirwell pushes rock tracks like Baby Gonna Rock louder than the first demos — Version 2 is literally named for that decision — while ballads such as Without YourLove keep space around the vocal so the story stays intelligible on phone speakers. When AI tools assisted a mix, the credit appears on the track; transparency matters for listeners comparing old and new masters.",
+      "Mastering for vinyl is a separate pass from streaming. The Black Horse LP was cut with the rearing-horse poster in mind — gold tones in the artwork inspired warmer mid-range choices on the lacquer. CD and digital masters share the same song sequence but not always the same limiter settings; that is why collectors and streamers are both served without pretending one file fits every format.",
+      "If you are learning production by listening, compare the three Glorious Days mixes on Discography. Echoes of the Don emphasises folk-rock width; Girls Singing Two highlights backing vocals; Male Vocal strips to a simpler band picture. Same lyric theme, three emotional colours — a mini-lesson in arrangement without leaving the Shirwell catalogue.",
+      "Studio time is funded by listeners — streaming, vinyl, live tickets, and Premium subscriptions. Thank you to everyone who emailed feedback after the last issue. The next newsletter will cover set-list planning for theatre dates and how Princess coordinates travel logistics while Shirwell is on stage.",
+      "Until then, stream on Music, read track notes on Discography, and reply to this series via Contact if you have a question about a specific song’s history.",
+    ],
+    src: "/about/shirwell-bancan-poster.png",
+    alt: "Shirwell studio diary — May 25, 2024",
+  },
+  {
+    id: "2024-05-26",
+    dateLabel: "May 26, 2024",
+    headline: "Listening guide — where to start",
+    summary:
+      "A curated path through 45 years of originals for first-time listeners and returning fans.",
+    body: [
+      "People ask where to start with Shirwell Bancan because the catalogue spans decades, not because the music is scattered across unrelated projects. Everything on this site is published by Shirwell Entertainment — one songwriter, one team, one official player. This issue is a listening guide you can follow in an afternoon.",
+      "Step one: open Music and play Kissing, then Never Be The Same. You will hear contemporary production and stacked vocals that represent the current studio direction. Step two: jump to Come on Babe (Version 2 — louder) and Baby Gonna Rock for the rock show that built the live reputation. Step three: finish with I Want to Run Away if you want a ballad that works at home or in a theatre seat.",
+      "Step four — optional deep dive — is the Glorious Days trio on Discography. Listen to Echoes of the Don, then Girls Singing Two, then Male Vocal in that order. Notice how the lyric stays constant while instrumentation and vocal casting change the mood. That exercise is free on the web player and documented in writing on the Listening guide page.",
+      "Physical collectors should pair streaming with the CD's page. Each track has its own artwork tile; the vinyl poster ties the whole sequence together with the Black Horse photograph. Neither format is ‘more official’ — they are different doors into the same songwriting.",
+      "Premium subscribers will see early masters when cleared; everyone else still has the full public queue described on the Premium page. Ads on content pages help fund hosting; they never appear on login or checkout screens.",
+      "Share this issue with someone who has not heard Shirwell yet. Independent music survives through word of mouth as much as algorithms — and the official site is the place where context and music stay together.",
+    ],
+    src: "/newsletters/2024-05-22.png",
+    alt: "Shirwell listening guide — May 26, 2024",
+  },
 ];
 
 export function getNewsletterIssue(id: string): NewsletterIssue | undefined {

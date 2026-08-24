@@ -67,6 +67,10 @@ export function MusicEditorialArticle({ songCount }: Props) {
               Full discography with track notes
             </Link>
             {" · "}
+            <Link href="/listening-guide" className="text-[#FFC107] hover:underline">
+              Listening guide
+            </Link>
+            {" · "}
             <Link href="/cds" className="text-[#FFC107] hover:underline">
               CD &amp; vinyl artwork
             </Link>

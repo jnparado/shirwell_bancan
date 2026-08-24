@@ -2,7 +2,7 @@
 
 ## What happened
 
-Google AdSense rejected **shirwell-bancan.vercel.app** for **Low value content**. Review is rate-limited — you can request again from **25 Aug 2026** (per the AdSense console).
+Google AdSense rejected **shirwell-bancan.vercel.app** for **Low value content**. Review is rate-limited — request again from **25 Aug 2026** (per the AdSense console).
 
 Until the site status is **Ready**, Google will not serve **live** paid ads on your domain.
 
@@ -10,24 +10,39 @@ Until the site status is **Ready**, Google will not serve **live** paid ads on y
 
 | Page | What was added |
 |------|----------------|
-| `/music` | Full editorial article below the player — catalogue intro, listening guide, Black Horse overview, eight track highlights |
-| `/home` | Expanded FAQ, artist story, and Black Horse deep-dive sections |
-| `/about` | Artist story, recording philosophy, career timeline |
+| `/home` | Editorial block moved **above** ad slots — About, FAQ, artist story, Black Horse deep-dive |
+| `/music` | Full editorial article below the player — catalogue intro, listening guide, Black Horse overview |
+| `/listening-guide` | **New** — curated path through the catalogue (first listens, vinyl vs stream) |
+| `/about` | Artist story, recording philosophy, career timeline, links to discography |
 | `/discography` | Longer per-track notes (15 entries) |
-| `/newsletter/*` | Multi-paragraph articles (not image-only) |
+| `/newsletter` | Index with article excerpts + **5 full issues** (multi-paragraph bodies) |
+| `/newsletter/*` | Full article pages + AMP mirrors |
 | `/products` | Store editorial + full product stories |
 | `/flowers` | History, weddings, memorials, pop-up bunches |
-| `/faq` | Ten detailed Q&A items |
+| `/faq` | **16** detailed Q&A items with FAQ schema |
+| `/premium` | Editorial explaining benefits (not checkout-only) |
+| `/support` | Topic guides (playback, accounts, billing, ads) |
+| `/contact` | Bookings, licensing, press guidance |
+| `/cds` | Vinyl/CD collecting guide + release story |
 
 Shared copy lives in `src/lib/editorial-content.ts`.
 
-## What we fixed in the repo (ads)
+## What AdSense reviewers should see
 
-1. **Full newsletter articles** — each `/newsletter/[date]` issue now has multiple paragraphs of original text (not just an image + one-line summary).
-2. **`/discography`** — track-by-track notes for the Black Horse album (15 entries).
-3. **`/faq`** — ten Q&A sections with FAQ schema for crawlers.
-4. **Expanded `/about`** — career timeline and links to discography.
-5. **Test ads on production** — until `NEXT_PUBLIC_ADSENSE_APPROVED=true`, ad units use `data-adtest="on"` so you can verify placement (Google sample ads).
+1. **Original text** — every content URL has multiple paragraphs written for this site.
+2. **No image-only articles** — newsletter issues include full bodies, not just PNG cards.
+3. **No ad-only screens** — ads on `/home`, `/music`, `/discography`, etc.; never on `/login`, `/profile`, `/products/cart`.
+4. **Clear navigation** — header links to Discography, FAQ, Newsletter; footer links to editorial pages.
+5. **Sitemap** — `/sitemap.xml` lists public editorial URLs including `/listening-guide`.
+
+### Recommended reviewer path
+
+1. `/about` — artist story and timeline  
+2. `/discography` — 15 track notes  
+3. `/newsletter/2024-05-22` — full studio article  
+4. `/listening-guide` — catalogue guide  
+5. `/faq` — policies and ads disclosure  
+6. `/music` — scroll to editorial below player  
 
 ## Env (Vercel)
 
@@ -36,30 +51,26 @@ NEXT_PUBLIC_ADSENSE_CLIENT_ID=ca-pub-2495432679632375
 NEXT_PUBLIC_ADSENSE_SLOT_DISPLAY=4465041934
 NEXT_PUBLIC_ADSENSE_SLOT_RECTANGLE=4465041934
 NEXT_PUBLIC_ADSENSE_SLOT_HORIZONTAL=4465041934
+NEXT_PUBLIC_ADSENSE_SLOT_IN_ARTICLE=6607155384
 # Leave unset or false until AdSense shows Ready:
 # NEXT_PUBLIC_ADSENSE_APPROVED=true
 ```
-
-Display formats on each content page:
-- **Horizontal** — leaderboard-style banner strip
-- **Rectangle** — 300×250 medium rectangle
-- **Responsive** — optional full-width unit (`showResponsive` on `ContentPageAds`)
 
 Redeploy after changing env vars.
 
 ## Verify ads after deploy
 
-1. Open **https://shirwell-bancan.vercel.app/music** or **/discography** (content pages with ad units).
+1. Open **https://shirwell-bancan.vercel.app/discography** or **/listening-guide**.
 2. Accept the cookie/consent banner if shown.
-3. You should see **Google test ads** (labelled as test) in the “Advertisement” slots.
+3. You should see **Google test ads** (`data-adtest="on"`) in “Advertisement” slots.
 4. Confirm **https://shirwell-bancan.vercel.app/ads.txt** returns your publisher line.
 
 ## Before re-applying (25 Aug 2026)
 
-- [ ] Deploy the content updates above.
-- [ ] AdSense → **Sites** → confirm ownership still verified.
-- [ ] Browse as a reviewer would: `/home`, `/about`, `/discography`, `/newsletter`, `/newsletter/2024-05-22`, `/faq`, `/music`, `/cds`.
-- [ ] Ensure each page has **substantial original text**, not only players, login, or “coming soon” placeholders.
+- [ ] Deploy the latest content updates and `pnpm-lock.yaml` fix.
+- [ ] AdSense → **Sites** → confirm ownership still verified (ads.txt **Authorized**).
+- [ ] Browse as a reviewer: `/home`, `/about`, `/discography`, `/listening-guide`, `/newsletter`, `/newsletter/2024-05-22`, `/faq`, `/music`.
+- [ ] Each page has **substantial original text**, not only players, login, or “coming soon” placeholders.
 - [ ] Complete **Payments** profile in AdSense if not done.
 - [ ] Request review only after deploy is live (not localhost).
 

@@ -78,6 +78,8 @@ export function HomeContent({ songs, children }: HomeContentProps) {
 
         <AppPurposeSection />
 
+        {children}
+
         <ContentPageAdTop />
 
         {/* Shirwell talent */}
@@ -196,7 +198,6 @@ export function HomeContent({ songs, children }: HomeContentProps) {
         </div>
 
         <HomePromo />
-        {children}
       </main>
 
       <BottomNav />

@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ContentPageAds } from "@/components/ads/content-page-ads";
+import { NEWSLETTER_INDEX_INTRO } from "@/lib/editorial-content";
 import { NEWSLETTER_ISSUES } from "@/lib/newsletter-issues";
 
 const glassCard =
@@ -20,8 +21,14 @@ export function NewsletterPageContent() {
         </h1>
         <p className="mt-4 text-sm leading-relaxed text-zinc-300 sm:text-base">
           Read recent newsletter issues from Shirwell Bancan — news, releases, and stories
-          from 45 years of original music. Each issue opens as a full article page.
+          from 45 years of original music. Each issue opens as a full article page with
+          multiple paragraphs of original text.
         </p>
+        <div className="mt-5 space-y-3 text-left text-sm leading-relaxed text-zinc-400 sm:text-[15px]">
+          {NEWSLETTER_INDEX_INTRO.paragraphs.map((p) => (
+            <p key={p.slice(0, 48)}>{p}</p>
+          ))}
+        </div>
       </header>
 
       <section className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -50,6 +57,34 @@ export function NewsletterPageContent() {
               </div>
             </div>
           </Link>
+        ))}
+      </section>
+
+      <section className="mx-auto mt-10 max-w-3xl space-y-6">
+        <h2 className="font-serif text-lg font-semibold text-[#FFC107]">Latest articles</h2>
+        {NEWSLETTER_ISSUES.map((issue) => (
+          <article key={issue.id} className={`${glassCard} p-6 sm:p-8`}>
+            <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">
+              {issue.dateLabel}
+            </p>
+            <h3 className="mt-2 font-serif text-lg font-semibold text-zinc-100">
+              <Link href={`/newsletter/${issue.id}`} className="hover:text-[#FFC107] hover:underline">
+                {issue.headline}
+              </Link>
+            </h3>
+            <p className="mt-3 text-sm leading-relaxed text-zinc-300 sm:text-[15px]">
+              {issue.summary}
+            </p>
+            <p className="mt-3 text-sm leading-relaxed text-zinc-400 sm:text-[15px]">
+              {issue.body[0]}
+            </p>
+            <Link
+              href={`/newsletter/${issue.id}`}
+              className="mt-4 inline-flex text-sm font-semibold text-[#FFC107] hover:underline"
+            >
+              Read full issue →
+            </Link>
+          </article>
         ))}
       </section>
 

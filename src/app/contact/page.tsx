@@ -12,6 +12,7 @@ import {
   supportTelHref,
 } from "@/config/contact";
 import { CustomerSupportBlock } from "@/components/shirwell/customer-support-block";
+import { CONTACT_EDITORIAL } from "@/lib/editorial-content";
 import { SITE_NAME } from "@/lib/seo";
 
 const glassCard =
@@ -90,6 +91,15 @@ export default function ContactPage() {
           <div className="mt-8">
             <CustomerSupportBlock />
           </div>
+
+          <section className="mt-8 space-y-4 text-sm leading-relaxed text-zinc-300 sm:text-[15px]">
+            <h2 className="font-serif text-lg font-semibold text-[#FFC107]">
+              {CONTACT_EDITORIAL.title}
+            </h2>
+            {CONTACT_EDITORIAL.paragraphs.map((p) => (
+              <p key={p.slice(0, 48)}>{p}</p>
+            ))}
+          </section>
 
           <section className="mt-8 space-y-3 text-sm text-zinc-300 sm:text-[15px]">
             <h2 className="font-serif text-lg font-semibold text-[#FFC107]">

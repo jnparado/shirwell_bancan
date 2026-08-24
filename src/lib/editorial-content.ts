@@ -78,5 +78,102 @@ export const BLACK_HORSE_DEEP_DIVE = {
   paragraphs: [
     "Black Horse is both a song and a visual symbol: Shirwell on a rearing horse, guitar raised, gold curtains behind him. The limited-edition vinyl and CD package uses that image as a statement — 45 years of originals collected for listeners who want a physical artefact, not only a stream.",
     "The fifteen-track sequence moves from recent radio-friendly cuts to deep-catalogue rock. Collectors use the CD's page to view per-track artwork; streamers use the player and Discography for context. Neither format replaces the other — they serve different ways of enjoying the same songwriting.",
+    "If you are new to Shirwell Bancan, start with Kissing and Never Be The Same for contemporary production, then step back to Come on Babe (Version 2 — louder) and Baby Gonna Rock for the live-band energy that built the stage reputation. The Discography page explains each track in plain language.",
+  ],
+} as const;
+
+export const LISTENING_GUIDE = {
+  title: "How to explore the Shirwell catalogue",
+  intro: `This guide helps first-time listeners and long-time fans navigate ${SITE_NAME}'s original music — where to start, how the Black Horse anthology fits together, and which pages on this site add context behind the songs.`,
+  sections: [
+    {
+      heading: "Start on the Music player",
+      paragraphs: [
+        "Open the Music page and press play on any track in the queue. Every song is an original master published by Shirwell Entertainment — not a syndicated feed or third-party playlist. Shuffle works for discovery; repeat is useful when you are learning lyrics or comparing mixes.",
+        "Featured cards on the Home page sample the same catalogue. They are entry points, not a separate service. When you hear something you like, open Discography for release years, themes, and notes on how the song fits the Black Horse sequence.",
+      ],
+    },
+    {
+      heading: "Recommended first listens",
+      paragraphs: [
+        "For contemporary ballads: Kissing and I Want to Run Away. For rock energy: Baby Gonna Rock and Come on Babe (Version 2 — louder). For narrative songwriting: Glorious Days (Echoes of the Don). For dance and club mixes: Lily the Dancing Machine and the Dancing Machine Turbo Club Mix.",
+        "The three Glorious Days vocal arrangements — Echoes of the Don, Girls Singing Two, and Male Vocal — are deliberately included so you can compare how arrangement and voice change the same theme. That kind of detail is documented on Discography, not hidden in metadata.",
+      ],
+    },
+    {
+      heading: "Physical releases vs streaming",
+      paragraphs: [
+        "Black Horse exists as a limited vinyl run and as a CD package with per-track artwork panels. Streaming is the everyday format; vinyl and CD are for collectors who want the poster art and a permanent copy of the fifteen-song sequence.",
+        "Read the CD's page for jacket photography and individual disc art. Read the Newsletter issues from May 2024 for studio and pressing notes written at release time.",
+      ],
+    },
+    {
+      heading: "Going deeper",
+      paragraphs: [
+        "About covers Shirwell's career timeline and recording philosophy. FAQ answers common questions about Premium, ads on this site, and how to contact the team. Newsletter articles are full text — shareable URLs with photography, not image-only posts.",
+        "Questions about copyright or licensing belong on Music Owner. Booking and press enquiries go to Contact. This site is maintained by the artist and team; every article is written for listeners who want context, not keyword filler.",
+      ],
+    },
+  ],
+} as const;
+
+export const PREMIUM_EDITORIAL = {
+  title: "What Shirwell Premium includes",
+  paragraphs: [
+    `${SITE_NAME} Premium supports independent music production — studio time, mastering, and keeping this official site online. Subscribers get unlimited streaming on the web player, early access to selected masters as they are cleared, and member pricing on bundled offers when tours pass through New South Wales.`,
+    "Web checkout on this page uses Stripe when configured. iPhone and iPad subscriptions may use Apple In-App Purchase inside the Shirwell Music app; Android and desktop may use Subscribe with Google when Publisher Center paywall products are live. One account works across web and mobile when you sign in with the same email.",
+    "Premium is optional. Every public track on the Music page remains free to stream without a subscription. We describe ads on content pages in FAQ and Privacy — login, checkout, and account screens never show AdSense units.",
+    "Cancel anytime from the Stripe customer portal or your app store subscription settings. If you subscribed on iOS, use Restore purchases in the app while signed in. Billing questions go to Support or Contact.",
+  ],
+} as const;
+
+export const CDS_VINYL_GUIDE = {
+  title: "Collecting Black Horse on vinyl and CD",
+  paragraphs: [
+    "The Black Horse package is a one-time anthology — fifteen songs chosen to represent 45 years of writing, not a chronological box set. The cover photograph shows Shirwell on a rearing horse against gold curtains; that image also appears on posters and stage backdrops fans recognise from live shows.",
+    "Each CD panel on this page matches a track on the album. Collectors often frame the poster; streamers use the same art as player thumbnails. When a vinyl batch sells out, the digital masters and artwork remain here as part of the permanent catalogue record.",
+    "Jungle coffee, honey, and sunglasses on the Products page are lifestyle items inspired by tour travel — separate from the music release but part of the same Shirwell Entertainment brand. Wholesale or regional shipping questions should email the address on Contact.",
+  ],
+} as const;
+
+export const CONTACT_EDITORIAL = {
+  title: "Bookings, licensing, and press",
+  paragraphs: [
+    "Shirwell Bancan accepts theatre shows, private events, and smaller club dates when the calendar allows. Include your venue, proposed date, expected audience size, and whether you need a full band or an acoustic set. We reply from shirwellentertainment@gmail.com within a few business days.",
+    "Licensing and sync requests for original masters are handled by Shirwell Entertainment. Start with Music Owner for ownership statements, then email with the project type — film, advertisement, cover recording, or public performance outside normal venue licences.",
+    "Press and photography enquiries should note your publication and deadline. High-resolution poster art from the About page may be approved for review copies when credited to Shirwell Bancan and linked to this official site.",
+  ],
+} as const;
+
+export const SUPPORT_GUIDES = {
+  title: "Common help topics",
+  sections: [
+    {
+      heading: "Music will not play",
+      text: "Confirm you accepted cookie consent if prompted — streaming does not require it, but some browsers block autoplay until interaction. Tap play on a song card, check volume, and try Wi‑Fi if mobile data is unstable. Clear the tab and reload /music if the queue looks empty.",
+    },
+    {
+      heading: "Sign-in and accounts",
+      text: "Use the same email for web and mobile. Password reset flows through Supabase Auth — check spam for the reset message. OAuth with Google or Apple must return to this domain; mobile apps use shirwell://auth/callback as configured in Supabase.",
+    },
+    {
+      heading: "Premium and billing",
+      text: "Web subscriptions: open Premium and use Manage billing when Stripe portal is enabled. Apple subscriptions: Settings → Subscriptions on your iPhone, or Restore purchases in the app. Charge questions should include the email on your account and the approximate purchase date.",
+    },
+    {
+      heading: "Store and flowers",
+      text: "When the store shows coming soon, browse photos and estimated prices but checkout may be disabled. Flower orders for weddings and events go through Nati Roses — see Flowers and Flower orders for phone numbers and varietal notes.",
+    },
+    {
+      heading: "Advertising and privacy",
+      text: "We show Google AdSense on content pages with substantial editorial text — music articles, discography, newsletter, about. Manage cookies from Privacy and cookie settings in the footer. Account, cart, and login pages do not carry ad tags.",
+    },
+  ],
+} as const;
+
+export const NEWSLETTER_INDEX_INTRO = {
+  paragraphs: [
+    "Each issue below opens as a full article with multiple paragraphs of original reporting — studio news, release notes, tour updates, and community stories from Shirwell Bancan and Shirwell Entertainment. Photography accompanies the text; nothing here is syndicated from third-party feeds or auto-generated summaries.",
+    "Bookmark individual issues or share their URLs. AMP versions exist for readers on accelerated mobile pages. For track context behind the songs mentioned in these articles, use Discography and the Music player.",
   ],
 } as const;

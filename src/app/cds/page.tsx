@@ -8,6 +8,7 @@ import {
   BLACK_HORSE_ALBUM_TITLE,
   BLACK_HORSE_VINYL_PROMO,
 } from "@/lib/black-horse-album";
+import { CDS_VINYL_GUIDE } from "@/lib/editorial-content";
 import { SITE_NAME } from "@/lib/seo";
 
 export const metadata: Metadata = {
@@ -43,6 +44,15 @@ export default function CdsPage() {
         <BlackHorseCdGrid />
 
         <article className="mt-12 space-y-5 text-sm leading-relaxed text-zinc-300 sm:text-[15px]">
+          <h2 className="font-serif text-2xl font-semibold text-[#FFC107]">
+            {CDS_VINYL_GUIDE.title}
+          </h2>
+          {CDS_VINYL_GUIDE.paragraphs.map((p) => (
+            <p key={p.slice(0, 48)}>{p}</p>
+          ))}
+        </article>
+
+        <article className="mt-10 space-y-5 text-sm leading-relaxed text-zinc-300 sm:text-[15px]">
           <h2 className="font-serif text-2xl font-semibold text-[#FFC107]">
             About the release
           </h2>

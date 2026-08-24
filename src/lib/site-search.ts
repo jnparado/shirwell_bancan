@@ -34,6 +34,12 @@ export const SEARCHABLE_PAGES: SiteSearchPage[] = [
     keywords: ["discography", "album", "tracks", "black horse", "songs"],
   },
   {
+    href: "/listening-guide",
+    title: "Listening guide",
+    description: "Where to start with Shirwell Bancan music — curated listening path.",
+    keywords: ["listening", "guide", "start", "catalogue", "black horse"],
+  },
+  {
     href: "/faq",
     title: "FAQ",
     description: "Frequently asked questions about Shirwell music and this site.",

@@ -4,6 +4,8 @@ import { headers } from "next/headers";
 import { MarketingHeader } from "@/components/shirwell/marketing-header";
 import { BottomNav } from "@/components/shirwell/bottom-nav";
 import { PremiumCheckoutSection } from "@/components/subscriptions/premium-checkout-section";
+import { ContentPageAdTop } from "@/components/ads/content-page-ads";
+import { PREMIUM_EDITORIAL } from "@/lib/editorial-content";
 import { SwgProductInit } from "@/components/subscriptions/swg-product-init";
 import {
   APPLE_APP_STORE_URL,
@@ -16,6 +18,9 @@ import { getPremiumPlansPublic } from "@/lib/premium/plans";
 import { getPremiumOfferJsonLd } from "@/lib/swg-jsonld";
 import { isStripeServerConfigured } from "@/config/stripe";
 import { SITE_NAME } from "@/lib/seo";
+
+const glassCard =
+  "rounded-xl border border-white/[0.06] bg-[rgba(255,255,255,0.05)] backdrop-blur-md";
 
 export const metadata: Metadata = {
   title: "Premium",
@@ -43,6 +48,30 @@ export default async function PremiumPage({ searchParams }: PremiumPageProps) {
       <JsonLdScript data={getPremiumOfferJsonLd()} />
       <MarketingHeader />
       <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-10 sm:px-6 sm:py-14">
+        <article className={`${glassCard} mb-8 p-6 sm:p-8`}>
+          <h1 className="font-serif text-2xl font-semibold text-[#FFC107] sm:text-3xl">
+            {PREMIUM_EDITORIAL.title}
+          </h1>
+          <div className="mt-5 space-y-4 text-sm leading-relaxed text-zinc-300 sm:text-[15px]">
+            {PREMIUM_EDITORIAL.paragraphs.map((p) => (
+              <p key={p.slice(0, 48)}>{p}</p>
+            ))}
+          </div>
+          <p className="mt-5 text-sm text-zinc-400">
+            Public tracks remain free on{" "}
+            <Link href="/music" className="text-[#FFC107] hover:underline">
+              Music
+            </Link>
+            . Read{" "}
+            <Link href="/faq" className="text-[#FFC107] hover:underline">
+              FAQ
+            </Link>{" "}
+            for ads and account questions.
+          </p>
+        </article>
+
+        <ContentPageAdTop className="mb-8 px-0 py-4" />
+
         <div className="space-y-10 text-sm leading-relaxed text-zinc-300 sm:text-[15px]">
           <PremiumCheckoutSection
             checkoutStatus={checkoutStatus}

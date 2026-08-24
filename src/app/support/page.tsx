@@ -7,6 +7,7 @@ import {
   CustomerSupportBlock,
   getCustomerSupportJsonLd,
 } from "@/components/shirwell/customer-support-block";
+import { SUPPORT_GUIDES } from "@/lib/editorial-content";
 import { SUPPORT_EMAIL } from "@/config/contact";
 import { SITE_NAME } from "@/lib/seo";
 
@@ -67,6 +68,20 @@ export default function SupportPage() {
               <li>Check your network connection (Wi‑Fi / mobile data).</li>
               <li>Try again later if you see a temporary loading error.</li>
             </ul>
+          </div>
+
+          <div className={`${glassCard} mt-6 p-5`}>
+            <h2 className="font-serif text-lg font-semibold text-[#FFC107]">
+              {SUPPORT_GUIDES.title}
+            </h2>
+            <div className="mt-4 space-y-5">
+              {SUPPORT_GUIDES.sections.map((section) => (
+                <div key={section.heading}>
+                  <h3 className="text-sm font-semibold text-zinc-200">{section.heading}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-zinc-300">{section.text}</p>
+                </div>
+              ))}
+            </div>
           </div>
 
           <div className="mt-8 space-y-3 text-sm text-zinc-300 sm:text-[15px]">

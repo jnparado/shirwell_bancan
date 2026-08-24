@@ -172,6 +172,18 @@ export default function AboutPage() {
                 — Nati Roses and special bunches from a long-standing partnership.
               </li>
               <li>
+                <Link href="/discography" className="text-[#FFC107] underline-offset-2 hover:underline">
+                  Discography
+                </Link>{" "}
+                — track-by-track notes for the Black Horse album and streaming catalogue.
+              </li>
+              <li>
+                <Link href="/listening-guide" className="text-[#FFC107] underline-offset-2 hover:underline">
+                  Listening guide
+                </Link>{" "}
+                — curated path for first-time listeners.
+              </li>
+              <li>
                 <Link href="/newsletter" className="text-[#FFC107] underline-offset-2 hover:underline">
                   Newsletter
                 </Link>{" "}

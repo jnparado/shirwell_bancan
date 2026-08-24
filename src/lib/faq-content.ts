@@ -55,4 +55,29 @@ export const FAQ_ITEMS: FaqItem[] = [
     answer:
       "The Newsletter section publishes full articles with text and images — studio news, release notes, and tour updates. Each issue is a standalone page you can bookmark or share.",
   },
+  {
+    question: "What is on the Listening guide page?",
+    answer:
+      "The Listening guide explains how to explore the catalogue — recommended first tracks, how Black Horse fits together, and links to Discography, Music, and Newsletter articles. It is written for new listeners and returning fans.",
+  },
+  {
+    question: "Does Shirwell perform live?",
+    answer:
+      "Yes. Shirwell Bancan books theatre shows, private events, and club dates when the calendar allows. Send venue, date, and audience details through Contact for booking enquiries.",
+  },
+  {
+    question: "How are ads chosen on this site?",
+    answer:
+      "Google AdSense serves ads on pages with substantial editorial content. We do not place ads on login, profile, cart, or checkout. You can manage cookie consent from Privacy and cookie settings.",
+  },
+  {
+    question: "Can I use Shirwell music in my project?",
+    answer:
+      "Original masters are owned by Shirwell Entertainment. Read Music Owner for copyright statements, then email Contact with your project type — sync, cover, or public performance — for licensing guidance.",
+  },
+  {
+    question: "Why was my AdSense review delayed?",
+    answer:
+      "Google reviews sites for unique, useful content. This site publishes discography notes, newsletter articles, FAQ, about pages, and product stories maintained by the artist team — not scraped or auto-generated pages. If you are a reviewer, start at /about, /discography, and /newsletter/2024-05-22.",
+  },
 ];

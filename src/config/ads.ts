@@ -122,6 +122,7 @@ const ADSENSE_ALLOWED_EXACT = new Set([
   "/music",
   "/about",
   "/discography",
+  "/listening-guide",
   "/faq",
   "/music-owner",
   "/products",
