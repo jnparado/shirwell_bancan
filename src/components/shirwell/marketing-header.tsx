@@ -1,25 +1,33 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { Menu, X } from "lucide-react";
 import { AuthModalLauncher } from "@/components/auth/auth-modal";
 import { CartLink } from "@/components/shirwell/cart-link";
 
-const navLinkClass =
-  "rounded-lg px-2.5 py-1.5 text-sm font-medium text-[#FFC107]/90 transition hover:bg-white/[0.06] hover:text-[#FFC107]";
+const glassCard =
+  "rounded-xl border border-white/[0.06] bg-[rgba(255,255,255,0.05)] backdrop-blur-md";
 
-const PRIMARY_LINKS = [
+const navLinkClass = `${glassCard} px-3 py-2 text-sm font-medium text-[#FFC107] transition hover:border-[#FFC107]/25 hover:bg-[rgba(255,255,255,0.08)]`;
+
+/** Full site nav — Flowers omitted for now. */
+const NAV_LINKS = [
+  { href: "/home", label: "Home" },
   { href: "/music", label: "Music" },
   { href: "/discography", label: "Discography" },
-  { href: "/journal", label: "Journal" },
+  { href: "/faq", label: "FAQ" },
   { href: "/newsletter", label: "Newsletter" },
+  { href: "/journal", label: "Journal" },
   { href: "/products", label: "Products" },
   { href: "/cds", label: "CD's" },
   { href: "/premium", label: "Premium" },
 ] as const;
 
 function linkIsActive(pathname: string, href: string): boolean {
+  if (href === "/home") return pathname === "/" || pathname === "/home";
   if (pathname === href) return true;
   if (href === "/products") return pathname.startsWith("/products");
   if (href === "/journal") return pathname.startsWith("/journal");
@@ -30,61 +38,112 @@ function linkIsActive(pathname: string, href: string): boolean {
 
 export function MarketingHeader() {
   const pathname = usePathname();
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
+    if (!menuOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setMenuOpen(false);
+    };
+    document.addEventListener("keydown", onKey);
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = "";
+    };
+  }, [menuOpen]);
 
   const linkClass = (href: string) =>
     `${navLinkClass} ${
-      linkIsActive(pathname, href)
-        ? "bg-white/[0.08] text-[#FFC107] ring-1 ring-[#FFC107]/35"
-        : ""
+      linkIsActive(pathname, href) ? "ring-1 ring-[#FFC107]/35 border-[#FFC107]/40" : ""
     }`;
 
   return (
     <header className="sticky top-0 z-50 border-b border-[#FFC107]/15 bg-black/50 shadow-[0_8px_32px_rgba(0,0,0,0.45)] backdrop-blur-2xl">
-      <div className="mx-auto flex max-w-6xl items-center gap-3 px-4 py-3 sm:gap-4 sm:px-6 sm:py-3.5">
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3 sm:px-6 sm:py-3.5">
         <Link
           href="/home"
-          className="relative z-10 shrink-0 rounded-full focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FFC107]"
+          className="flex min-w-0 shrink-0 items-center gap-2.5"
           aria-label="Shirwell Bancan — home"
         >
-          <span className="relative block h-11 w-11 overflow-hidden rounded-full bg-black ring-1 ring-[#FFC107]/50 sm:h-12 sm:w-12">
+          <span className="relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full bg-black ring-1 ring-[#FFC107]/50 sm:h-11 sm:w-11">
             <Image
               src="/shirwell-logo-emblem.png"
-              alt="Shirwell"
+              alt=""
               fill
               className="object-cover object-center"
-              sizes="48px"
+              sizes="44px"
               priority
             />
+          </span>
+          <span className="truncate font-serif text-lg font-semibold tracking-tight text-[#FFC107] sm:text-xl">
+            Shirwell
           </span>
         </Link>
 
         <nav
-          className="hidden min-w-0 flex-1 items-center justify-center gap-1 lg:flex"
+          className="hidden flex-1 flex-wrap items-center justify-center gap-1.5 xl:flex xl:gap-2"
           aria-label="Main"
         >
-          {PRIMARY_LINKS.map(({ href, label }) => (
+          {NAV_LINKS.map(({ href, label }) => (
             <Link key={href} href={href} className={linkClass(href)}>
               {label}
             </Link>
           ))}
         </nav>
 
-        <div className="ml-auto flex shrink-0 items-center gap-2">
+        <div className="flex shrink-0 items-center gap-2">
           <CartLink />
-          <AuthModalLauncher />
+          <div className="hidden sm:block">
+            <AuthModalLauncher />
+          </div>
+          <button
+            type="button"
+            className={`${glassCard} flex h-10 w-10 items-center justify-center text-[#FFC107] xl:hidden`}
+            aria-expanded={menuOpen}
+            aria-controls="mobile-nav-panel"
+            aria-label={menuOpen ? "Close menu" : "Open menu"}
+            onClick={() => setMenuOpen((open) => !open)}
+          >
+            {menuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
         </div>
       </div>
 
-      <nav
-        className="flex gap-1.5 overflow-x-auto border-t border-[#FFC107]/10 bg-[rgba(255,255,255,0.03)] px-4 py-2 backdrop-blur-md lg:hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-        aria-label="Main mobile"
-      >
-        {PRIMARY_LINKS.map(({ href, label }) => (
-          <Link key={href} href={href} className={`${linkClass(href)} shrink-0`}>
-            {label}
-          </Link>
-        ))}
-      </nav>
+      {menuOpen ? (
+        <>
+          <button
+            type="button"
+            className="fixed inset-0 z-40 bg-black/60 xl:hidden"
+            aria-label="Close menu overlay"
+            onClick={() => setMenuOpen(false)}
+          />
+          <div
+            id="mobile-nav-panel"
+            className="absolute inset-x-0 top-full z-50 border-b border-[#FFC107]/15 bg-black/95 px-4 py-4 shadow-2xl backdrop-blur-xl xl:hidden"
+          >
+            <nav className="mx-auto flex max-w-6xl flex-col gap-1.5" aria-label="Main mobile">
+              {NAV_LINKS.map(({ href, label }) => (
+                <Link
+                  key={href}
+                  href={href}
+                  className={`${linkClass(href)} block w-full text-left`}
+                  onClick={() => setMenuOpen(false)}
+                >
+                  {label}
+                </Link>
+              ))}
+              <div className="mt-3 border-t border-white/[0.08] pt-3 sm:hidden">
+                <AuthModalLauncher />
+              </div>
+            </nav>
+          </div>
+        </>
+      ) : null}
     </header>
   );
 }
