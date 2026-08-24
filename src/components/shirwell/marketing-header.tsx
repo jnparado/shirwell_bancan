@@ -5,126 +5,85 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AuthModalLauncher } from "@/components/auth/auth-modal";
 import { CartLink } from "@/components/shirwell/cart-link";
-import { ShirwellWordmark } from "@/components/shirwell/shirwell-wordmark";
 
-const glassCard =
-  "rounded-xl border border-white/[0.06] bg-[rgba(255,255,255,0.05)] backdrop-blur-md";
+const navLinkClass =
+  "rounded-lg px-2.5 py-1.5 text-sm font-medium text-[#FFC107]/90 transition hover:bg-white/[0.06] hover:text-[#FFC107]";
 
-const navLinkClass = `${glassCard} px-3 py-2 text-sm font-medium text-[#FFC107] transition hover:border-[#FFC107]/25 hover:bg-[rgba(255,255,255,0.08)]`;
+const PRIMARY_LINKS = [
+  { href: "/music", label: "Music" },
+  { href: "/discography", label: "Discography" },
+  { href: "/journal", label: "Journal" },
+  { href: "/newsletter", label: "Newsletter" },
+  { href: "/products", label: "Products" },
+  { href: "/cds", label: "CD's" },
+  { href: "/premium", label: "Premium" },
+] as const;
 
-const navDisabledClass = `${glassCard} cursor-not-allowed px-3 py-2 text-sm font-medium text-[#FFC107]/35`;
+function linkIsActive(pathname: string, href: string): boolean {
+  if (pathname === href) return true;
+  if (href === "/products") return pathname.startsWith("/products");
+  if (href === "/journal") return pathname.startsWith("/journal");
+  if (href === "/newsletter") return pathname.startsWith("/newsletter");
+  if (href === "/music") return pathname.startsWith("/music");
+  return false;
+}
 
 export function MarketingHeader() {
   const pathname = usePathname();
-  const isHome = pathname === "/" || pathname === "/home";
 
-  const linkClass = (active: boolean) =>
-    `${navLinkClass} ${active ? "ring-1 ring-[#FFC107]/35 border-[#FFC107]/40" : ""}`;
+  const linkClass = (href: string) =>
+    `${navLinkClass} ${
+      linkIsActive(pathname, href)
+        ? "bg-white/[0.08] text-[#FFC107] ring-1 ring-[#FFC107]/35"
+        : ""
+    }`;
 
   return (
     <header className="sticky top-0 z-50 border-b border-[#FFC107]/15 bg-black/50 shadow-[0_8px_32px_rgba(0,0,0,0.45)] backdrop-blur-2xl">
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3.5 sm:gap-4 sm:px-6 sm:py-4">
+      <div className="mx-auto flex max-w-6xl items-center gap-3 px-4 py-3 sm:gap-4 sm:px-6 sm:py-3.5">
         <Link
           href="/home"
-          className={`flex min-w-0 items-center gap-3 ${glassCard} px-2.5 py-2 pr-4`}
+          className="relative z-10 shrink-0 rounded-full focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FFC107]"
           aria-label="Shirwell Bancan — home"
         >
-          <span className="relative flex h-11 w-11 shrink-0 overflow-hidden rounded-full bg-black/60 ring-2 ring-[#FFC107]/40 shadow-[0_0_20px_rgba(255,193,7,0.15)] sm:h-12 sm:w-12">
+          <span className="relative block h-11 w-11 overflow-hidden rounded-full bg-black ring-1 ring-[#FFC107]/50 sm:h-12 sm:w-12">
             <Image
               src="/shirwell-logo-emblem.png"
-              alt=""
+              alt="Shirwell"
               fill
-              className="object-cover object-[center_32%] scale-[1.08]"
+              className="object-cover object-center"
               sizes="48px"
               priority
             />
           </span>
-          <ShirwellWordmark className="h-8 w-auto min-w-0 shrink sm:h-9" showSubtitle />
         </Link>
 
         <nav
-          className="hidden items-center gap-2 md:flex md:gap-2.5 lg:gap-3"
+          className="hidden min-w-0 flex-1 items-center justify-center gap-1 lg:flex"
           aria-label="Main"
         >
-          <Link href="/home" className={linkClass(isHome)}>
-            Home
-          </Link>
-          <Link href="/music" className={linkClass(pathname === "/music")} title="Music">
-            Music
-          </Link>
-          <Link href="/discography" className={linkClass(pathname === "/discography")}>
-            Discography
-          </Link>
-          <Link href="/faq" className={linkClass(pathname === "/faq")}>
-            FAQ
-          </Link>
-          <Link href="/newsletter" className={linkClass(pathname === "/newsletter")}>
-            Newsletter
-          </Link>
-          <Link href="/journal" className={linkClass(pathname.startsWith("/journal"))}>
-            Journal
-          </Link>
-          <Link href="/products" className={linkClass(pathname.startsWith("/products"))}>
-            Products
-          </Link>
-          <Link href="/cds" className={linkClass(pathname === "/cds")}>
-            CD&apos;s
-          </Link>
-          <Link href="/premium" className={linkClass(pathname === "/premium")}>
-            Premium
-          </Link>
+          {PRIMARY_LINKS.map(({ href, label }) => (
+            <Link key={href} href={href} className={linkClass(href)}>
+              {label}
+            </Link>
+          ))}
         </nav>
 
-        <div className="flex items-center gap-2">
+        <div className="ml-auto flex shrink-0 items-center gap-2">
           <CartLink />
           <AuthModalLauncher />
         </div>
       </div>
 
-      {/* Mobile: glass nav strip */}
       <nav
-        className="flex gap-2 overflow-x-auto border-t border-[#FFC107]/10 bg-[rgba(255,255,255,0.03)] px-4 py-2.5 backdrop-blur-md md:hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        className="flex gap-1.5 overflow-x-auto border-t border-[#FFC107]/10 bg-[rgba(255,255,255,0.03)] px-4 py-2 backdrop-blur-md lg:hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         aria-label="Main mobile"
       >
-        <Link href="/home" className={`${linkClass(isHome)} shrink-0`}>
-          Home
-        </Link>
-        <Link href="/music" className={`${linkClass(pathname === "/music")} shrink-0`} title="Music">
-          Music
-        </Link>
-        <Link
-          href="/discography"
-          className={`${linkClass(pathname === "/discography")} shrink-0`}
-        >
-          Discography
-        </Link>
-        <Link href="/faq" className={`${linkClass(pathname === "/faq")} shrink-0`}>
-          FAQ
-        </Link>
-        <Link
-          href="/newsletter"
-          className={`${linkClass(pathname === "/newsletter")} shrink-0`}
-        >
-          Newsletter
-        </Link>
-        <Link
-          href="/journal"
-          className={`${linkClass(pathname.startsWith("/journal"))} shrink-0`}
-        >
-          Journal
-        </Link>
-        <Link
-          href="/products"
-          className={`${linkClass(pathname === "/products")} shrink-0`}
-        >
-          Products
-        </Link>
-        <Link href="/cds" className={`${linkClass(pathname === "/cds")} shrink-0`}>
-          CD&apos;s
-        </Link>
-        <Link href="/premium" className={`${linkClass(pathname === "/premium")} shrink-0`}>
-          Premium
-        </Link>
+        {PRIMARY_LINKS.map(({ href, label }) => (
+          <Link key={href} href={href} className={`${linkClass(href)} shrink-0`}>
+            {label}
+          </Link>
+        ))}
       </nav>
     </header>
   );
