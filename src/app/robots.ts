@@ -8,7 +8,8 @@ export default function robots(): MetadataRoute.Robots {
     rules: [
       {
         userAgent: "*",
-        allow: "/",
+        // Explicit allows so ads.txt is never blocked by a broader Disallow.
+        allow: ["/", "/ads.txt", "/app-ads.txt"],
         disallow: [
           "/library",
           "/auth/",
@@ -22,11 +23,11 @@ export default function robots(): MetadataRoute.Robots {
       },
       {
         userAgent: "Mediapartners-Google",
-        allow: "/",
+        allow: ["/", "/ads.txt", "/app-ads.txt"],
       },
       {
         userAgent: "AdsBot-Google",
-        allow: "/",
+        allow: ["/", "/ads.txt", "/app-ads.txt"],
       },
     ],
     sitemap: `${origin}/sitemap.xml`,
