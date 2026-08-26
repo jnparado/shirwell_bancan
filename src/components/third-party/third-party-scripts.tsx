@@ -63,7 +63,7 @@ function injectExternalScript(
   document.head.appendChild(script);
 }
 
-/** Consent bootstrap + Funding Choices — before AdSense (`AdSenseScriptTag`). */
+/** Consent bootstrap + Funding Choices — before AdSense (`AdSenseHeadScript`). */
 function useGoogleConsentScripts() {
   useLayoutEffect(() => {
     if (!isGoogleUmpWebEnabled()) return;

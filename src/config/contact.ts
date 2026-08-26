@@ -8,7 +8,7 @@ export const BUSINESS_LOCATION = "New South Wales, Australia";
 
 /** Main public website — paste into Google Publisher Center “Your business's website”. */
 export const BUSINESS_WEBSITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL?.trim() || "https://shirwell-bancan.vercel.app";
+  process.env.NEXT_PUBLIC_SITE_URL?.trim() || "https://shirwel.com";
 
 /** Customer support page path — full URL is used in Publisher Center. */
 export const SUPPORT_PAGE_PATH = "/support";

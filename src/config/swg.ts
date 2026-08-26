@@ -29,6 +29,8 @@ export const SWG_BASIC_SCRIPT_URL =
 
 /** Production hosts where SwG / RRM is registered in Publisher Center. */
 const SWG_ALLOWED_HOSTS = new Set([
+  "shirwel.com",
+  "www.shirwel.com",
   "shirwell-bancan.vercel.app",
   "www.shirwell-bancan.vercel.app",
 ]);

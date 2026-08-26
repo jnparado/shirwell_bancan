@@ -120,14 +120,13 @@ export const GOOGLE_SITE_VERIFICATION_TOKEN =
   process.env.GOOGLE_SITE_VERIFICATION?.trim() ||
   "YXnOZtZE3DI66I3y8cSj8Eu3iBGccXzKSN2PggjeESI";
 
-/** Stable production origin — used when env vars are missing at build/runtime. */
-export const PRODUCTION_SITE_URL = "https://shirwell-bancan.vercel.app";
+/** Stable production origin — custom domain registered in AdSense. */
+export const PRODUCTION_SITE_URL = "https://shirwel.com";
 
 /**
- * Hosts that must never be used in robots/sitemap/canonicals (typos or unfinished DNS).
- * Production currently had `NEXT_PUBLIC_SITE_URL=https://shirwel.com` which broke crawlers.
+ * Hosts that must never be used in robots/sitemap/canonicals (unfinished placeholders).
  */
-const UNUSABLE_PUBLIC_HOSTS = new Set(["shirwel.com", "www.shirwel.com"]);
+const UNUSABLE_PUBLIC_HOSTS = new Set<string>([]);
 
 function isUsablePublicSiteOrigin(origin: string): boolean {
   try {

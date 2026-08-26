@@ -22,8 +22,8 @@ Use the same origin as in **Search Console** / **AdMob app settings** (e.g. prod
 
 | Field | Example value |
 | --- | --- |
-| **Restricted directory or URL** | `https://shirwell-bancan.vercel.app/profile` |
-| **Login URL** | `https://shirwell-bancan.vercel.app/adsense/crawler-login` |
+| **Restricted directory or URL** | `https://shirwel.com/profile` |
+| **Login URL** | `https://shirwel.com/adsense/crawler-login` |
 | **Login method** | **POST** |
 | **Login parameter** `username` | Same as `ADSENSE_CRAWLER_EMAIL` |
 | **Login parameter** `password` | Same as `ADSENSE_CRAWLER_PASSWORD` |
@@ -43,8 +43,8 @@ Shirwell serves AdSense on **public** routes only (`src/config/ads.ts`). If you 
 
 After deploy, open:
 
-`https://shirwell-bancan.vercel.app/adsense/crawl`
+`https://shirwel.com/adsense/crawl`
 
 Confirm `crawl.adsTxt.ok` is `true`, then in AdSense → Sites → **Check for updates**.
 
-Also set `NEXT_PUBLIC_SITE_URL=https://shirwell-bancan.vercel.app` on Vercel so `robots.txt` does not point crawlers at a dead custom domain.
+Also set `NEXT_PUBLIC_SITE_URL=https://shirwel.com` on Vercel to match AdSense Sites.
