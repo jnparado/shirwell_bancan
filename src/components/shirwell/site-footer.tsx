@@ -345,6 +345,15 @@ export function SiteFooter() {
               <span className="text-zinc-600" aria-hidden>
                 ·
               </span>
+              <a
+                href="/ads.txt"
+                className="text-zinc-400 transition hover:text-[#FFC107]"
+              >
+                ads.txt
+              </a>
+              <span className="text-zinc-600" aria-hidden>
+                ·
+              </span>
               <Link
                 href="/premium"
                 className="text-zinc-400 transition hover:text-[#FFC107]"

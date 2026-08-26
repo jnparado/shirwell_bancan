@@ -123,6 +123,25 @@ export const GOOGLE_SITE_VERIFICATION_TOKEN =
 /** Stable production origin — used when env vars are missing at build/runtime. */
 export const PRODUCTION_SITE_URL = "https://shirwell-bancan.vercel.app";
 
+/**
+ * Hosts that must never be used in robots/sitemap/canonicals (typos or unfinished DNS).
+ * Production currently had `NEXT_PUBLIC_SITE_URL=https://shirwel.com` which broke crawlers.
+ */
+const UNUSABLE_PUBLIC_HOSTS = new Set(["shirwel.com", "www.shirwel.com"]);
+
+function isUsablePublicSiteOrigin(origin: string): boolean {
+  try {
+    const host = new URL(origin).hostname.toLowerCase();
+    if (host === "localhost" || host === "127.0.0.1" || host.endsWith(".local")) {
+      return false;
+    }
+    if (UNUSABLE_PUBLIC_HOSTS.has(host)) return false;
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 /** Public pages listed in `/sitemap.xml` (XML route — not HTML). */
 export const SITEMAP_PUBLIC_PATHS = [
   { path: "/home", changeFrequency: "weekly" as const, priority: 1 },
@@ -146,6 +165,9 @@ export const SITEMAP_PUBLIC_PATHS = [
   { path: "/terms", changeFrequency: "yearly" as const, priority: 0.3 },
   { path: "/legal", changeFrequency: "yearly" as const, priority: 0.3 },
   { path: "/privacy", changeFrequency: "yearly" as const, priority: 0.3 },
+  // Help AdsBot / Search discover authorization files quickly
+  { path: "/ads.txt", changeFrequency: "weekly" as const, priority: 0.2 },
+  { path: "/app-ads.txt", changeFrequency: "weekly" as const, priority: 0.15 },
 ] as const;
 
 function tryParseSiteUrl(value: string): URL | null {
@@ -178,13 +200,13 @@ export function getSiteUrl(options?: { host?: string | null }): URL {
   const explicit = process.env.NEXT_PUBLIC_SITE_URL?.trim();
   if (explicit) {
     const u = tryParseSiteUrl(explicit);
-    if (u) return u;
+    if (u && isUsablePublicSiteOrigin(u.origin)) return u;
   }
 
   const vercelProduction = process.env.VERCEL_PROJECT_PRODUCTION_URL?.trim();
   if (vercelProduction) {
     const u = tryParseSiteUrl(vercelProduction);
-    if (u) return u;
+    if (u && isUsablePublicSiteOrigin(u.origin)) return u;
   }
 
   if (process.env.VERCEL_URL) {
@@ -199,10 +221,10 @@ export function getSiteUrl(options?: { host?: string | null }): URL {
   return new URL("http://localhost:3000");
 }
 
-/** Origin for sitemap/robots — never emits localhost on production. */
+/** Origin for sitemap/robots — never emits localhost or broken custom domains. */
 export function getSitemapOrigin(): string {
   const origin = getSiteUrl().origin;
-  if (origin.includes("localhost") || origin.includes("127.0.0.1")) {
+  if (!isUsablePublicSiteOrigin(origin)) {
     return PRODUCTION_SITE_URL;
   }
   return origin;

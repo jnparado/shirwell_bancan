@@ -38,3 +38,13 @@ Config helpers: `src/config/adsense-crawler.ts`.
 ## Do you need this?
 
 Shirwell serves AdSense on **public** routes only (`src/config/ads.ts`). If you are not placing ad tags behind login, you can **leave crawler access empty** in AdMob. Add crawler login only if Google asks for access to a password-protected URL that contains ad code.
+
+## Crawl check (ads.txt / robots / sitemap)
+
+After deploy, open:
+
+`https://shirwell-bancan.vercel.app/adsense/crawl`
+
+Confirm `crawl.adsTxt.ok` is `true`, then in AdSense → Sites → **Check for updates**.
+
+Also set `NEXT_PUBLIC_SITE_URL=https://shirwell-bancan.vercel.app` on Vercel so `robots.txt` does not point crawlers at a dead custom domain.

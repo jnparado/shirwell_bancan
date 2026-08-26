@@ -8,6 +8,7 @@ import { SiteChrome } from "@/components/layout/site-chrome";
 import { JsonLdScript } from "@/components/seo/json-ld-script";
 import { GoogleSiteVerificationMeta } from "@/components/seo/google-site-verification-meta";
 import { AdMobNativeProvider } from "@/components/ads/admob-native-provider";
+import { AdSenseAccountMeta } from "@/components/ads/adsense-account-meta";
 import { AdSenseRouteFill } from "@/components/ads/adsense-route-fill";
 import { AdSenseScriptTag } from "@/components/ads/adsense-script-tag";
 import { AdSenseScriptWatcher } from "@/components/ads/adsense-script-watcher";
@@ -58,6 +59,7 @@ export default async function RootLayout({
     >
       <head>
         <GoogleSiteVerificationMeta />
+        <AdSenseAccountMeta />
       </head>
       <body className="min-h-full font-sans">
         <ThirdPartyScripts />
