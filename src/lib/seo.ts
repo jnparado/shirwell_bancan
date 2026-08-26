@@ -120,13 +120,22 @@ export const GOOGLE_SITE_VERIFICATION_TOKEN =
   process.env.GOOGLE_SITE_VERIFICATION?.trim() ||
   "YXnOZtZE3DI66I3y8cSj8Eu3iBGccXzKSN2PggjeESI";
 
-/** Stable production origin — custom domain registered in AdSense. */
-export const PRODUCTION_SITE_URL = "https://shirwel.com";
+/** Stable production origin for this AdSense property (Vercel). */
+export const PRODUCTION_SITE_URL = "https://shirwell-bancan.vercel.app";
 
 /**
  * Hosts that must never be used in robots/sitemap/canonicals (unfinished placeholders).
  */
 const UNUSABLE_PUBLIC_HOSTS = new Set<string>([]);
+
+/** Fix common env typos that produce garbage origins like `https://ttps`. */
+function normalizeSiteUrlInput(value: string): string {
+  let v = value.trim();
+  if (v.startsWith("ttps://")) v = `h${v}`;
+  if (v.startsWith("ttp://")) v = `h${v}`;
+  v = v.replace(/^https?:\/\/https?:\/\//i, "https://");
+  return v;
+}
 
 function isUsablePublicSiteOrigin(origin: string): boolean {
   try {
@@ -134,6 +143,8 @@ function isUsablePublicSiteOrigin(origin: string): boolean {
     if (host === "localhost" || host === "127.0.0.1" || host.endsWith(".local")) {
       return false;
     }
+    // Reject garbage from bad env (e.g. hostname "ttps" from `ttps://…`)
+    if (!host.includes(".")) return false;
     if (UNUSABLE_PUBLIC_HOSTS.has(host)) return false;
     return true;
   } catch {
@@ -170,7 +181,7 @@ export const SITEMAP_PUBLIC_PATHS = [
 ] as const;
 
 function tryParseSiteUrl(value: string): URL | null {
-  const v = value.trim();
+  const v = normalizeSiteUrlInput(value);
   if (!v) return null;
   try {
     const withProtocol =
@@ -178,6 +189,7 @@ function tryParseSiteUrl(value: string): URL | null {
         ? v
         : `https://${v.replace(/^\/+/, "").replace(/\/$/, "")}`;
     const u = new URL(withProtocol);
+    if (!isUsablePublicSiteOrigin(u.origin)) return null;
     return new URL(u.origin);
   } catch {
     return null;
@@ -185,7 +197,7 @@ function tryParseSiteUrl(value: string): URL | null {
 }
 
 export function getSiteUrl(options?: { host?: string | null }): URL {
-  const host = options?.host?.trim();
+  const host = options?.host?.trim().toLowerCase().split(":")[0];
   if (host) {
     const isLocal =
       host.startsWith("localhost") ||
@@ -194,35 +206,43 @@ export function getSiteUrl(options?: { host?: string | null }): URL {
     if (isLocal) {
       return new URL(`http://${host}`);
     }
+    // Prefer the Host this response is served on (each AdSense site URL must self-match).
+    if (host.includes(".")) {
+      return new URL(`https://${host}`);
+    }
   }
 
   const explicit = process.env.NEXT_PUBLIC_SITE_URL?.trim();
   if (explicit) {
     const u = tryParseSiteUrl(explicit);
-    if (u && isUsablePublicSiteOrigin(u.origin)) return u;
+    if (u) return u;
   }
 
   const vercelProduction = process.env.VERCEL_PROJECT_PRODUCTION_URL?.trim();
   if (vercelProduction) {
     const u = tryParseSiteUrl(vercelProduction);
-    if (u && isUsablePublicSiteOrigin(u.origin)) return u;
+    if (u) return u;
   }
 
   if (process.env.VERCEL_URL) {
-    return new URL(`https://${process.env.VERCEL_URL}`);
+    const vercelHost = process.env.VERCEL_URL.trim().toLowerCase().split(":")[0];
+    if (vercelHost.includes(".")) {
+      return new URL(`https://${vercelHost}`);
+    }
   }
 
   if (process.env.NODE_ENV === "production" || process.env.VERCEL === "1") {
     const fallback = tryParseSiteUrl(PRODUCTION_SITE_URL);
     if (fallback) return fallback;
+    return new URL(PRODUCTION_SITE_URL);
   }
 
   return new URL("http://localhost:3000");
 }
 
 /** Origin for sitemap/robots — never emits localhost or broken custom domains. */
-export function getSitemapOrigin(): string {
-  const origin = getSiteUrl().origin;
+export function getSitemapOrigin(options?: { host?: string | null }): string {
+  const origin = getSiteUrl(options).origin;
   if (!isUsablePublicSiteOrigin(origin)) {
     return PRODUCTION_SITE_URL;
   }

@@ -34,6 +34,6 @@ export function getAdmobConsentRevocationUrl(siteOrigin?: string): string {
   const base =
     siteOrigin?.replace(/\/$/, "") ||
     process.env.NEXT_PUBLIC_SITE_URL?.trim().replace(/\/$/, "") ||
-    "https://shirwel.com";
+    "https://shirwell-bancan.vercel.app";
   return `${base}${ADMOB_CONSENT_REVOCATION_PATH}`;
 }

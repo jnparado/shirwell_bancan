@@ -13,8 +13,8 @@ function escapeXml(value: string): string {
 }
 
 /** Build a standards-compliant XML sitemap (never HTML). */
-export function buildSitemapXml(): string {
-  const origin = getSitemapOrigin();
+export function buildSitemapXml(options?: { host?: string | null }): string {
+  const origin = getSitemapOrigin(options);
   const lastmod = new Date().toISOString();
 
   const journalUrls = JOURNAL_ARTICLES.map(
@@ -65,11 +65,11 @@ ${urls}
 `;
 }
 
-export function sitemapXmlResponse(): Response {
-  return new Response(buildSitemapXml(), {
+export function sitemapXmlResponse(options?: { host?: string | null }): Response {
+  return new Response(buildSitemapXml(options), {
     headers: {
       "Content-Type": "application/xml; charset=utf-8",
-      "Cache-Control": "public, max-age=3600, s-maxage=86400",
+      "Cache-Control": "public, max-age=300, s-maxage=3600",
     },
   });
 }

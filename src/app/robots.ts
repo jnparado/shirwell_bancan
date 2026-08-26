@@ -1,8 +1,15 @@
 import type { MetadataRoute } from "next";
+import { headers } from "next/headers";
 import { getSitemapOrigin } from "@/lib/seo";
 
 /** Paths Google must always be allowed to fetch for ads + indexing. */
-const CRAWLER_ALWAYS_ALLOW = ["/", "/ads.txt", "/app-ads.txt", "/robots.txt", "/sitemap.xml"];
+const CRAWLER_ALWAYS_ALLOW = [
+  "/",
+  "/ads.txt",
+  "/app-ads.txt",
+  "/robots.txt",
+  "/sitemap.xml",
+];
 
 const PRIVATE_DISALLOW = [
   "/library",
@@ -16,8 +23,9 @@ const PRIVATE_DISALLOW = [
   "/adsense/",
 ];
 
-export default function robots(): MetadataRoute.Robots {
-  const origin = getSitemapOrigin();
+export default async function robots(): Promise<MetadataRoute.Robots> {
+  const headerStore = await headers();
+  const origin = getSitemapOrigin({ host: headerStore.get("host") });
 
   return {
     rules: [
@@ -26,7 +34,6 @@ export default function robots(): MetadataRoute.Robots {
         allow: CRAWLER_ALWAYS_ALLOW,
         disallow: PRIVATE_DISALLOW,
       },
-      // AdSense / AdMob ad crawlers — full public access, never block ads.txt
       {
         userAgent: "Mediapartners-Google",
         allow: CRAWLER_ALWAYS_ALLOW,
@@ -45,7 +52,7 @@ export default function robots(): MetadataRoute.Robots {
         disallow: PRIVATE_DISALLOW,
       },
     ],
+    // Do not set `host` — a bad Host line previously broke AdSense crawls (`Host: ttps`).
     sitemap: `${origin}/sitemap.xml`,
-    host: origin.replace(/^https?:\/\//, ""),
   };
 }

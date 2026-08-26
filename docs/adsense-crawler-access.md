@@ -47,4 +47,6 @@ After deploy, open:
 
 Confirm `crawl.adsTxt.ok` is `true`, then in AdSense → Sites → **Check for updates**.
 
-Also set `NEXT_PUBLIC_SITE_URL=https://shirwel.com` on Vercel to match AdSense Sites.
+Also set `NEXT_PUBLIC_SITE_URL=https://shirwell-bancan.vercel.app` on Vercel
+(must be valid `https://…` — a typo like `ttps://` previously broke robots/sitemap to `Host: ttps`).
+
