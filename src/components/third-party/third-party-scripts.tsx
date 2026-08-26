@@ -13,10 +13,7 @@ import {
   isGoogleAdsConfigured,
   isGoogleAdsPageViewConversionConfigured,
 } from "@/config/google-ads";
-import {
-  getFundingChoicesScriptUrl,
-  isGoogleUmpWebEnabled,
-} from "@/config/google-consent";
+import { isGoogleUmpWebEnabled } from "@/config/google-consent";
 import { GTM_ID, isGtmConfigured } from "@/config/gtm";
 import {
   SWG_BASIC_SCRIPT_URL,
@@ -24,13 +21,6 @@ import {
   isSwgEnabled,
 } from "@/config/swg";
 import { getGoogleConsentBootstrapScript } from "@/lib/google-consent-bootstrap";
-
-declare global {
-  interface Window {
-    __shirwellFundingChoicesLoaded?: boolean;
-    __shirwellFundingChoicesFailed?: boolean;
-  }
-}
 
 function injectInlineScript(id: string, code: string) {
   if (document.getElementById(id)) return;
@@ -63,21 +53,11 @@ function injectExternalScript(
   document.head.appendChild(script);
 }
 
-/** Consent bootstrap + Funding Choices — before AdSense (`AdSenseHeadScript`). */
+/** Consent Mode bootstrap only — Funding Choices tag lives in `<head>` (`AdBlockingRecoveryHead`). */
 function useGoogleConsentScripts() {
   useLayoutEffect(() => {
     if (!isGoogleUmpWebEnabled()) return;
-
     injectInlineScript("google-consent-bootstrap", getGoogleConsentBootstrapScript());
-    injectExternalScript("google-funding-choices", getFundingChoicesScriptUrl(), {
-      crossOrigin: "anonymous",
-      onLoad: () => {
-        window.__shirwellFundingChoicesLoaded = true;
-      },
-      onError: () => {
-        window.__shirwellFundingChoicesFailed = true;
-      },
-    });
   }, []);
 }
 
