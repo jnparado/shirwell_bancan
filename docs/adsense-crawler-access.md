@@ -22,8 +22,8 @@ Use the same origin as in **Search Console** / **AdMob app settings** (e.g. prod
 
 | Field | Example value |
 | --- | --- |
-| **Restricted directory or URL** | `https://shirwel.com/profile` |
-| **Login URL** | `https://shirwel.com/adsense/crawler-login` |
+| **Restricted directory or URL** | `https://shirwell-bancan.vercel.app/profile` |
+| **Login URL** | `https://shirwell-bancan.vercel.app/adsense/crawler-login` |
 | **Login method** | **POST** |
 | **Login parameter** `username` | Same as `ADSENSE_CRAWLER_EMAIL` |
 | **Login parameter** `password` | Same as `ADSENSE_CRAWLER_PASSWORD` |
@@ -43,10 +43,23 @@ Shirwell serves AdSense on **public** routes only (`src/config/ads.ts`). If you 
 
 After deploy, open:
 
-`https://shirwel.com/adsense/crawl`
+`https://shirwell-bancan.vercel.app/adsense/crawl`
 
 Confirm `crawl.adsTxt.ok` is `true`, then in AdSense → Sites → **Check for updates**.
 
 Also set `NEXT_PUBLIC_SITE_URL=https://shirwell-bancan.vercel.app` on Vercel
 (must be valid `https://…` — a typo like `ttps://` previously broke robots/sitemap to `Host: ttps`).
 
+## app-ads.txt / AdMob (shirwel.com)
+
+Google crawls **whatever domain is set as the app developer website**.
+
+Live and crawlable today:
+
+- `https://shirwell-bancan.vercel.app/app-ads.txt`
+- `https://shirwell-bancan.vercel.app/robots.txt` (allows `/app-ads.txt`)
+
+If AdMob reports “robots.txt prevented us from crawling” for **`shirwel.com`**, that domain is still on **Hostinger parking** (`User-agent: *` / `Disallow: /`) and HTTPS is not serving this app. Fix by either:
+
+1. **Point `shirwel.com` DNS to Vercel** (add domain in Vercel → Project → Domains; remove Hostinger parking A record `2.57.91.91`), wait for SSL, then **Check for updates** in AdMob, **or**
+2. Set the Play / AdMob developer website to `https://shirwell-bancan.vercel.app` until the custom domain is live.

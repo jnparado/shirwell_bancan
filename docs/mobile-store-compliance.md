@@ -168,6 +168,8 @@ Set `APPLE_TEAM_ID` in Vercel; verify `/.well-known/apple-app-site-association`.
 
 Already served at `https://shirwell-bancan.vercel.app/app-ads.txt`. AdMob crawls your **developer website** domain — keep `NEXT_PUBLIC_SITE_URL` aligned.
 
+If the developer website is `shirwel.com` but that domain is still Hostinger-parked (`robots.txt` = `Disallow: /`), AdMob will report “robots.txt prevented us from crawling.” Point DNS to Vercel first, or temporarily use `https://shirwell-bancan.vercel.app` as the developer website.
+
 ### Privacy & messaging (UMP)
 
 1. AdMob → **Privacy & messaging** → **European regulations** → create message for your app
